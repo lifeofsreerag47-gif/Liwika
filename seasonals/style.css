@@ -1,0 +1,1949 @@
+/* =========================================
+   CUSTOM FONTS
+========================================= */
+
+@font-face {
+    font-family: "Font";
+    src: url("../OrangeAvenue.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Font1";
+    src: url("../Outfit-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+/* =========================================
+   BASIC RESET & BODY
+========================================= */
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+    background: #050505;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #050505;
+    color: #ffffff;
+    font-family: "Font";
+    overflow-x: hidden;
+}
+
+
+/* =========================================
+   PAGE ENTRANCE ANIMATION
+========================================= */
+
+@keyframes pageAppear {
+    from {
+        opacity: 0;
+        transform: translateY(28px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.seasonals-page,
+.occasion-page,
+.shop-page {
+    animation: pageAppear 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.seasonals-intro,
+.occasion-hero,
+.shop-hero {
+    animation: pageAppear 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+
+/* =========================================
+   GOLDEN GRADIENT ACCENTS
+========================================= */
+
+.seasonals-intro h1 span,
+.occasion-hero h1 span,
+.shop-hero h1 span,
+.gifting-heading h2 span,
+.occasion-section-heading h2 span,
+.shop-gifting-content h2 span {
+    display: inline-block;
+    background: repeating-linear-gradient(
+        180deg,
+        #83641b 0px,
+        #f7ef8a 8px,
+        #46370c 16px,
+        #a9882b 24px,
+        #83641b 32px
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-style: normal;
+    filter:
+        drop-shadow(0 1px 0 rgba(255, 220, 130, 0.4))
+        drop-shadow(0 3px 3px rgba(0, 0, 0, 0.55));
+}
+
+
+/* =========================================
+   NAVBAR
+========================================= */
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 90px;
+    padding: 0 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: "Font1";
+    z-index: 1000;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.85),
+        rgba(0, 0, 0, 0)
+    );
+    transition: transform 0.4s ease;
+}
+
+.navbar.navbar-hidden {
+    transform: translateY(-100%);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    width: 170px;
+}
+
+.logo img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.nav-links {
+    display: flex;
+    gap: 35px;
+    align-items: center;
+}
+
+.nav-links a {
+    color: #ffffff;
+    text-decoration: none;
+    font-family: "Font1";
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -7px;
+    width: 0;
+    height: 1px;
+    background: repeating-linear-gradient(
+        90deg,
+        #83641b 0px,
+        #f7ef8a 8px,
+        #e3bf5c 16px,
+        #a9882b 24px,
+        #83641b 32px
+    );
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: #d9a441;
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+    width: 100%;
+}
+
+.nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.nav-icons button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 21px;
+    cursor: pointer;
+    transition:
+        color 0.3s ease,
+        transform 0.3s ease;
+}
+
+.nav-icons button:hover {
+    color: #d9a441;
+    transform: translateY(-2px);
+}
+
+
+/* =========================================
+   SEASONALS MAIN PAGE
+========================================= */
+
+.seasonals-page {
+    background: #080706;
+    color: #f5f0e8;
+    min-height: 100vh;
+    padding-top: 120px;
+}
+
+.seasonals-intro {
+    text-align: center;
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 40px 20px 60px;
+}
+
+.seasonals-label {
+    font-family: "Font1";
+    font-size: 12px;
+    letter-spacing: 5px;
+    color: #d9a441;
+    margin-bottom: 22px;
+}
+
+.seasonals-intro h1 {
+    font-family: "Font";
+    font-size: clamp(45px, 6vw, 75px);
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: 22px;
+    text-shadow:
+        0 1px 0 rgba(255, 210, 110, 0.35),
+        0 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+.seasonals-intro h1 span {
+    font-size: clamp(48px, 6.5vw, 82px);
+    display: block;
+    margin-top: 5px;
+}
+
+.seasonals-description {
+    font-family: "Font1";
+    font-size: 15px;
+    color: #aaa39a;
+    letter-spacing: 1px;
+    margin-bottom: 35px;
+}
+
+.choose-label {
+    font-family: "Font1";
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: #d5a74a;
+    text-transform: uppercase;
+}
+
+
+/* =========================================
+   OCCASION GRID & CARDS
+========================================= */
+
+.occasion-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 25px 110px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    perspective: 1200px;
+    position: relative;
+}
+
+/* Sibling Blur layer on card hover */
+.occasion-grid::before {
+    content: "";
+    position: absolute;
+    top: -60px;
+    left: -60px;
+    right: -60px;
+    bottom: -60px;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    z-index: 5;
+}
+
+.occasion-grid:has(.occasion-card:hover)::before {
+    opacity: 1;
+}
+
+.occasion-card {
+    min-height: 290px;
+    background: #11100e;
+    border: 1px solid rgba(201, 154, 61, 0.18);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 35px 25px;
+    text-decoration: none;
+    color: #f5f0e8;
+    position: relative;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    will-change: transform;
+    z-index: 1;
+    transition:
+        transform 0.15s ease,
+        border-color 0.4s ease,
+        box-shadow 0.4s ease,
+        background 0.4s ease;
+}
+
+/* Gold line at top of occasion card */
+.occasion-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: repeating-linear-gradient(
+        90deg,
+        #83641b 0px,
+        #f7ef8a 8px,
+        #e3bf5c 16px,
+        #a9882b 24px,
+        #83641b 32px
+    );
+    opacity: 0;
+    transform: scaleX(0);
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.occasion-card:hover {
+    z-index: 10;
+    border-color: rgba(201, 154, 61, 0.6);
+    box-shadow:
+        0 25px 60px rgba(0, 0, 0, 0.55),
+        0 0 25px rgba(217, 164, 65, 0.12);
+}
+
+.occasion-card:hover::before {
+    opacity: 1;
+    transform: scaleX(1);
+}
+
+.occasion-icon {
+    font-size: 46px;
+    margin-bottom: 22px;
+    transition: transform 0.4s ease;
+}
+
+.occasion-card:hover .occasion-icon {
+    transform: translateY(-6px) scale(1.1);
+}
+
+.occasion-card h2 {
+    font-family: "Font";
+    font-size: 24px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    color: #f5f0e8;
+    margin-bottom: 12px;
+}
+
+.occasion-card p {
+    font-family: "Font1";
+    font-size: 13px;
+    line-height: 1.6;
+    color: #969087;
+    max-width: 220px;
+}
+
+
+/* =========================================
+   GIFTING SECTION
+========================================= */
+
+.gifting-section {
+    background: #050505;
+    border-top: 1px solid rgba(201, 154, 61, 0.15);
+    border-bottom: 1px solid rgba(201, 154, 61, 0.15);
+    padding: 100px 25px;
+    text-align: center;
+}
+
+.gifting-heading {
+    margin-bottom: 45px;
+}
+
+.gifting-heading p {
+    font-family: "Font1";
+    font-size: 12px;
+    letter-spacing: 4px;
+    color: #c99a3d;
+    margin-bottom: 18px;
+    text-transform: uppercase;
+}
+
+.gifting-heading h2 {
+    font-family: "Font";
+    font-size: clamp(38px, 5vw, 60px);
+    font-weight: 400;
+    line-height: 1.1;
+}
+
+.gift-box {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 55px 35px;
+    border: 1px solid rgba(201, 154, 61, 0.3);
+    background: #0b0a08;
+    position: relative;
+    transition:
+        border-color 0.4s ease,
+        box-shadow 0.4s ease,
+        transform 0.15s ease;
+}
+
+.gift-box:hover {
+    border-color: rgba(201, 154, 61, 0.6);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55);
+}
+
+/* Ornate decorative corners */
+.gift-box::before,
+.gift-box::after {
+    content: "";
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    border-color: #c99a3d;
+    border-style: solid;
+}
+
+.gift-box::before {
+    top: 12px;
+    left: 12px;
+    border-width: 1px 0 0 1px;
+}
+
+.gift-box::after {
+    bottom: 12px;
+    right: 12px;
+    border-width: 0 1px 1px 0;
+}
+
+.gift-icon {
+    font-size: 44px;
+    margin-bottom: 20px;
+}
+
+.gift-box h3 {
+    font-family: "Font";
+    font-size: 28px;
+    font-weight: 400;
+    letter-spacing: 1.5px;
+    margin-bottom: 15px;
+    color: #f5f0e8;
+}
+
+.gift-box p {
+    font-family: "Font1";
+    color: #969087;
+    font-size: 14px;
+    line-height: 1.8;
+    margin-bottom: 30px;
+}
+
+
+/* =========================================
+   LUXURY GOLD BUTTONS
+========================================= */
+
+.gift-button,
+.shop-button,
+.occasion-add-button,
+.shop-add,
+.back-to-seasonals,
+.shop-gifting-button {
+    display: inline-block;
+    padding: 14px 32px;
+    border: 1px solid #d9a441;
+    color: #ffffff;
+    text-decoration: none;
+    font-family: "Font1";
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.4s ease;
+}
+
+.gift-button:hover,
+.shop-button:hover,
+.occasion-add-button:hover,
+.shop-add:hover,
+.back-to-seasonals:hover,
+.shop-gifting-button:hover {
+    background: linear-gradient(
+        90deg,
+        #83641b 0%,
+        #f7ef8a 25%,
+        #765f21 50%,
+        #a9882b 75%,
+        #83641b 100%
+    );
+    background-size: 200% 100%;
+    background-position: 80% 40%;
+    color: #080706;
+    border-color: #c99a3d;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(217, 164, 65, 0.28);
+}
+
+
+/* =========================================
+   MOMENT FLOW SECTION
+========================================= */
+
+.moment-flow {
+    background: #080706;
+    text-align: center;
+    padding: 100px 25px 110px;
+}
+
+.flow-label {
+    font-family: "Font1";
+    font-size: 12px;
+    letter-spacing: 4px;
+    color: #c99a3d;
+    margin-bottom: 18px;
+    text-transform: uppercase;
+}
+
+.moment-flow h2 {
+    font-family: "Font";
+    font-size: clamp(36px, 5vw, 55px);
+    font-weight: 400;
+    margin-bottom: 65px;
+    color: #f5f0e8;
+}
+
+.flow-steps {
+    max-width: 1050px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flow-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 120px;
+}
+
+.flow-step span {
+    width: 44px;
+    height: 44px;
+    border: 1px solid #c99a3d;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #d5a74a;
+    font-family: "Font1";
+    font-size: 11px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    background: rgba(201, 154, 61, 0.06);
+    transition: all 0.3s ease;
+}
+
+.flow-step:hover span {
+    background: #c99a3d;
+    color: #050505;
+    transform: scale(1.08);
+}
+
+.flow-step p {
+    font-family: "Font1";
+    font-size: 12px;
+    letter-spacing: 0.8px;
+    color: #aaa39a;
+    white-space: nowrap;
+}
+
+.flow-line {
+    width: 70px;
+    height: 1px;
+    background: rgba(201, 154, 61, 0.35);
+    margin: 0 5px 35px;
+}
+
+
+/* =========================================
+   OCCASION DETAIL PAGES
+========================================= */
+
+.occasion-page {
+    background: #080706;
+    color: #f5f0e8;
+    min-height: 100vh;
+    padding-top: 90px;
+}
+
+.occasion-hero {
+    text-align: center;
+    padding: 80px 25px 90px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.occasion-label {
+    font-family: "Font1";
+    font-size: 12px;
+    letter-spacing: 5px;
+    color: #c99a3d;
+    margin-bottom: 22px;
+    text-transform: uppercase;
+}
+
+.occasion-hero h1 {
+    font-family: "Font";
+    font-size: clamp(42px, 6vw, 72px);
+    font-weight: 400;
+    line-height: 1.05;
+    margin-bottom: 25px;
+}
+
+.occasion-intro {
+    max-width: 650px;
+    margin: 0 auto 50px;
+    color: #aaa39a;
+    font-family: "Font1";
+    font-size: 15px;
+    line-height: 1.8;
+    letter-spacing: 0.5px;
+}
+
+.occasion-hero-image {
+    width: 100%;
+    max-width: 950px;
+    height: 450px;
+    margin: 0 auto;
+    overflow: hidden;
+    border: 1px solid rgba(201, 154, 61, 0.25);
+    background: #11100e;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+.occasion-hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.7s ease;
+}
+
+.occasion-hero-image:hover img {
+    transform: scale(1.03);
+}
+
+
+/* Curated Section */
+
+.curated-section {
+    background: #050505;
+    padding: 100px 8% 110px;
+    border-top: 1px solid rgba(201, 154, 61, 0.15);
+}
+
+.occasion-section-heading {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.occasion-section-heading > p {
+    font-family: "Font1";
+    font-size: 12px;
+    letter-spacing: 4px;
+    color: #c99a3d;
+    margin-bottom: 18px;
+    text-transform: uppercase;
+}
+
+.occasion-section-heading h2 {
+    font-family: "Font";
+    font-size: clamp(35px, 5vw, 52px);
+    font-weight: 400;
+    color: #f5f0e8;
+}
+
+.occasion-products {
+    max-width: 1250px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    perspective: 1200px;
+    position: relative;
+}
+
+.occasion-products::before {
+    content: "";
+    position: absolute;
+    top: -60px;
+    left: -60px;
+    right: -60px;
+    bottom: -60px;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    z-index: 5;
+}
+
+.occasion-products:has(.occasion-product:hover)::before {
+    opacity: 1;
+}
+
+.occasion-product {
+    background: #11100e;
+    border: 1px solid rgba(201, 154, 61, 0.18);
+    overflow: hidden;
+    position: relative;
+    transform-style: preserve-3d;
+    will-change: transform;
+    z-index: 1;
+    transition:
+        transform 0.15s ease,
+        border-color 0.4s ease,
+        box-shadow 0.4s ease;
+}
+
+.occasion-product:hover {
+    z-index: 10;
+    border-color: rgba(201, 154, 61, 0.6);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55);
+}
+
+.occasion-product-image {
+    width: 100%;
+    height: 330px;
+    overflow: hidden;
+    background: #15130f;
+}
+
+.occasion-product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s ease;
+}
+
+.occasion-product:hover .occasion-product-image img {
+    transform: scale(1.06);
+}
+
+.occasion-product-info {
+    padding: 25px;
+}
+
+.occasion-product-info h3 {
+    font-family: "Font";
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 10px;
+    color: #f5f0e8;
+}
+
+.occasion-product-info p {
+    color: #969087;
+    font-family: "Font1";
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 22px;
+}
+
+.occasion-product-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.occasion-product-bottom span {
+    color: #d5a74a;
+    font-family: "Font1";
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.occasion-product-bottom button {
+    background: transparent;
+    border: 1px solid #b88932;
+    color: #e7c46b;
+    padding: 10px 20px;
+    font-family: "Font1";
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.occasion-product-bottom button:hover {
+    background: linear-gradient(
+        90deg,
+        #83641b 0%,
+        #f7ef8a 25%,
+        #765f21 50%,
+        #a9882b 75%,
+        #83641b 100%
+    );
+    background-size: 200% 100%;
+    background-position: 80% 40%;
+    color: #080706;
+    border-color: #c99a3d;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(217, 164, 65, 0.25);
+}
+
+
+/* Occasion Gift Section */
+
+.occasion-gift-section {
+    background: #080706;
+    padding: 100px 25px 110px;
+    max-width: 850px;
+    margin: 0 auto;
+}
+
+.gift-options {
+    max-width: 650px;
+    margin: 0 auto 45px;
+    border-top: 1px solid rgba(201, 154, 61, 0.2);
+    border-bottom: 1px solid rgba(201, 154, 61, 0.2);
+}
+
+.gift-option {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    min-height: 65px;
+    cursor: pointer;
+    font-family: "Font1";
+    font-size: 14px;
+    color: #aaa39a;
+    transition: color 0.3s ease;
+}
+
+.gift-option:hover {
+    color: #f5f0e8;
+}
+
+.gift-option + .gift-option {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.gift-option input {
+    display: none;
+}
+
+.custom-radio {
+    width: 18px;
+    height: 18px;
+    border: 1px solid #77716a;
+    border-radius: 50%;
+    position: relative;
+    flex-shrink: 0;
+    transition: border-color 0.3s ease;
+}
+
+.gift-option input:checked + .custom-radio {
+    border-color: #d5a74a;
+}
+
+.gift-option input:checked + .custom-radio::after {
+    content: "";
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #d5a74a;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.gift-option-text {
+    flex: 1;
+}
+
+.gift-price {
+    color: #d5a74a;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.message-area {
+    max-width: 650px;
+    margin: 0 auto 40px;
+}
+
+.message-area label {
+    display: block;
+    font-family: "Font";
+    font-size: 20px;
+    color: #f5f0e8;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.message-area textarea {
+    width: 100%;
+    min-height: 130px;
+    resize: vertical;
+    background: #11100e;
+    border: 1px solid rgba(201, 154, 61, 0.25);
+    outline: none;
+    color: #f5f0e8;
+    font-family: "Font1";
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 18px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.message-area textarea:focus {
+    border-color: #c99a3d;
+    box-shadow: 0 0 15px rgba(201, 154, 61, 0.2);
+}
+
+.message-area textarea::placeholder {
+    color: #77716a;
+}
+
+.message-hint {
+    color: #68635d;
+    font-family: "Font1";
+    font-size: 11px;
+    margin-top: 10px;
+}
+
+.occasion-action {
+    text-align: center;
+}
+
+
+/* Back to Seasonals Container */
+
+.occasion-back-container {
+    width: 100%;
+    padding: 0 5% 90px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+
+/* =========================================================
+   SHOP PAGE
+   ========================================================= */
+
+.shop-page {
+    background: #050505;
+    color: #ffffff;
+    min-height: 100vh;
+    padding-top: 90px;
+}
+
+.shop-hero {
+    text-align: center;
+    padding: 100px 5% 70px;
+}
+
+.shop-label {
+    margin: 0 0 25px;
+    color: #d9a441;
+    font-family: "Font1";
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+.shop-hero h1 {
+    max-width: 900px;
+    margin: 0 auto 25px;
+    font-size: clamp(45px, 6vw, 80px);
+    font-weight: 400;
+    line-height: 1.05;
+}
+
+.shop-intro {
+    max-width: 600px;
+    margin: 0 auto;
+    color: #969087;
+    font-family: "Font1";
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+.shop-controls {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 25px 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    border-top: 1px solid rgba(217, 164, 65, 0.2);
+    border-bottom: 1px solid rgba(217, 164, 65, 0.2);
+}
+
+.shop-count span {
+    color: #969087;
+    font-family: "Font1";
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.shop-filter {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.filter-button {
+    padding: 5px 0;
+    background: transparent;
+    color: #77716a;
+    border: none;
+    font-family: "Font1";
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.filter-button:hover,
+.filter-button.active {
+    color: #d9a441;
+}
+
+.shop-sort select {
+    padding: 10px 5px;
+    background: transparent;
+    color: #969087;
+    border: none;
+    outline: none;
+    font-family: "Font1";
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.shop-sort option {
+    background: #11100e;
+    color: #ffffff;
+}
+
+.shop-products {
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 70px 5% 120px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 50px 30px;
+    perspective: 1200px;
+    position: relative;
+}
+
+.shop-products::before {
+    content: "";
+    position: absolute;
+    top: -60px;
+    left: -60px;
+    right: -60px;
+    bottom: -60px;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    z-index: 5;
+}
+
+.shop-products:has(.shop-product:hover)::before {
+    opacity: 1;
+}
+
+.shop-product {
+    background: #11100e;
+    border: 1px solid rgba(201, 154, 61, 0.18);
+    position: relative;
+    transform-style: preserve-3d;
+    will-change: transform;
+    z-index: 1;
+    transition:
+        transform 0.15s ease,
+        border-color 0.4s ease,
+        box-shadow 0.4s ease;
+}
+
+.shop-product:hover {
+    z-index: 10;
+    border-color: rgba(201, 154, 61, 0.6);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55);
+}
+
+.shop-product-image {
+    position: relative;
+    width: 100%;
+    height: 350px;
+    overflow: hidden;
+    background: #15130f;
+}
+
+.shop-product-image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.shop-product:hover .shop-product-image img {
+    transform: scale(1.06);
+}
+
+.product-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 2;
+    padding: 6px 12px;
+    background: #d9a441;
+    color: #050505;
+    font-family: "Font1";
+    font-size: 9px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.quick-add {
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    width: calc(100% - 40px);
+    padding: 13px;
+    background: rgba(5, 5, 5, 0.92);
+    color: #ffffff;
+    border: 1px solid #d9a441;
+    font-family: "Font1";
+    font-size: 11px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(10px);
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease,
+        background 0.3s ease,
+        color 0.3s ease;
+}
+
+.shop-product:hover .quick-add {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.quick-add:hover {
+    background: #d9a441;
+    color: #050505;
+}
+
+.shop-product-info {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.product-category {
+    margin: 0 0 8px;
+    color: #d9a441;
+    font-family: "Font1";
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.shop-product-info h2 {
+    margin: 0 0 10px;
+    color: #ffffff;
+    font-family: "Font";
+    font-size: 24px;
+    font-weight: 400;
+}
+
+.product-description {
+    color: #969087;
+    font-family: "Font1";
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.shop-product-bottom {
+    margin-top: 20px;
+    padding-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(217, 164, 65, 0.18);
+}
+
+.shop-price {
+    color: #d5a74a;
+    font-family: "Font1";
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.shop-gifting {
+    margin: 0;
+    padding: 110px 5%;
+    background: #080706;
+    border-top: 1px solid rgba(217, 164, 65, 0.2);
+    border-bottom: 1px solid rgba(217, 164, 65, 0.2);
+}
+
+.shop-gifting-content {
+    max-width: 750px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.shop-gifting-content > p:first-child {
+    margin-bottom: 20px;
+    color: #d9a441;
+    font-family: "Font1";
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.shop-gifting-content h2 {
+    margin: 0 auto 20px;
+    font-family: "Font";
+    font-size: clamp(35px, 5vw, 60px);
+    font-weight: 400;
+    line-height: 1.1;
+}
+
+.gifting-text {
+    max-width: 550px;
+    margin: 0 auto 35px;
+    color: #969087;
+    font-family: "Font1";
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.footer {
+    background: #050505;
+    color: #f5f0e8;
+    padding: 80px 8% 25px;
+    border-top: 1px solid rgba(201, 154, 61, 0.18);
+    font-family: "Font1";
+}
+
+.footer-container {
+    max-width: 1250px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
+    gap: 60px;
+    padding-bottom: 65px;
+}
+
+.footer-brand {
+    max-width: 300px;
+}
+
+.footer-logo {
+    display: block;
+    width: 150px;
+    margin-bottom: 22px;
+}
+
+.footer-logo img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.footer-brand p {
+    color: #969087;
+    font-family: "Font1";
+    font-size: 13px;
+    line-height: 1.8;
+    margin-bottom: 25px;
+}
+
+.footer-socials {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.footer-socials a {
+    color: #d5a74a;
+    text-decoration: none;
+    font-family: "Font1";
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+.footer-socials a:hover {
+    color: #ffffff;
+}
+
+.footer-column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.footer-column h3,
+.footer-newsletter h3 {
+    color: #f5f0e8;
+    font-family: "Font";
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 25px;
+}
+
+.footer-column h3::after,
+.footer-newsletter h3::after {
+    content: "";
+    display: block;
+    width: 30px;
+    height: 1px;
+    background: #c99a3d;
+    margin-top: 12px;
+}
+
+.footer-column a {
+    color: #969087;
+    text-decoration: none;
+    font-family: "Font1";
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    margin-bottom: 15px;
+    transition:
+        color 0.3s ease,
+        transform 0.3s ease;
+}
+
+.footer-column a:hover {
+    color: #d5a74a;
+    transform: translateX(4px);
+}
+
+.footer-newsletter {
+    max-width: 350px;
+}
+
+.footer-newsletter p {
+    color: #969087;
+    font-family: "Font1";
+    font-size: 13px;
+    line-height: 1.7;
+    margin-bottom: 22px;
+}
+
+.newsletter-form {
+    display: flex;
+    width: 100%;
+    border-bottom: 1px solid rgba(201, 154, 61, 0.6);
+}
+
+.newsletter-form input {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #ffffff;
+    font-family: "Font1";
+    font-size: 13px;
+    padding: 13px 5px;
+}
+
+.newsletter-form input::placeholder {
+    color: #77716a;
+}
+
+.newsletter-form button {
+    background: transparent;
+    border: none;
+    color: #d5a74a;
+    font-family: "Font1";
+    font-size: 11px;
+    letter-spacing: 2px;
+    padding: 0 5px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.newsletter-form button:hover {
+    color: #ffffff;
+}
+
+.footer-bottom {
+    max-width: 1250px;
+    margin: 0 auto;
+    padding-top: 25px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.footer-bottom p {
+    color: #68635d;
+    font-family: "Font1";
+    font-size: 11px;
+    letter-spacing: 0.5px;
+}
+
+.footer-bottom-links {
+    display: flex;
+    gap: 25px;
+}
+
+.footer-bottom-links a {
+    color: #68635d;
+    text-decoration: none;
+    font-family: "Font1";
+    font-size: 11px;
+    transition: color 0.3s ease;
+}
+
+.footer-bottom-links a:hover {
+    color: #d5a74a;
+}
+
+
+/* =========================================
+   RESPONSIVE DESIGN (TABLET & MOBILE)
+========================================= */
+
+@media (max-width: 990px) {
+    .navbar {
+        height: 75px;
+        padding: 0 20px;
+    }
+
+    .logo {
+        width: 130px;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .occasion-grid,
+    .occasion-products,
+    .shop-products {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+    }
+
+    .footer-container {
+        grid-template-columns: 1fr 1fr;
+        gap: 45px 30px;
+    }
+}
+
+@media (max-width: 650px) {
+    .seasonals-intro h1,
+    .occasion-hero h1,
+    .shop-hero h1 {
+        font-size: 38px;
+    }
+
+    .occasion-grid,
+    .occasion-products,
+    .shop-products {
+        grid-template-columns: 1fr;
+    }
+
+    .occasion-hero-image {
+        height: 280px;
+    }
+
+    .occasion-product-image,
+    .shop-product-image {
+        height: 290px;
+    }
+
+    .flow-steps {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .flow-line {
+        width: 1px;
+        height: 35px;
+        margin: 0;
+    }
+
+    .flow-step p {
+        white-space: normal;
+    }
+
+    .footer-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+
+/* =========================================
+   PRODUCT CUSTOMIZATION MODAL
+========================================= */
+
+.product-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999999;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
+    padding: 20px;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.product-modal.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.modal-content {
+    background: #11100e;
+    border: 1px solid rgba(201, 154, 61, 0.35);
+    max-width: 820px;
+    width: 100%;
+    max-height: 90vh;
+    position: relative;
+    overflow-y: auto;
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.85),
+        0 0 35px rgba(217, 164, 65, 0.15);
+    transform: translateY(25px) scale(0.97);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.product-modal.active .modal-content {
+    transform: translateY(0) scale(1);
+}
+
+/* Gold decorative top border on modal */
+.modal-content::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: repeating-linear-gradient(
+        90deg,
+        #83641b 0px,
+        #f7ef8a 8px,
+        #e3bf5c 16px,
+        #a9882b 24px,
+        #83641b 32px
+    );
+    z-index: 2;
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: #969087;
+    font-size: 32px;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 10;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.close-modal:hover {
+    color: #d9a441;
+    transform: rotate(90deg) scale(1.1);
+}
+
+.modal-body {
+    display: flex;
+    min-height: 400px;
+}
+
+.modal-image-container {
+    width: 45%;
+    background: #15130f;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid rgba(201, 154, 61, 0.2);
+}
+
+.modal-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.modal-image-container:hover img {
+    transform: scale(1.05);
+}
+
+.modal-details {
+    width: 55%;
+    padding: 35px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.modal-badge {
+    font-family: "Font1";
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: #d9a441;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.modal-details h2 {
+    font-family: "Font";
+    font-size: 30px;
+    font-weight: 400;
+    color: #f5f0e8;
+    margin-bottom: 10px;
+}
+
+.modal-description {
+    font-family: "Font1";
+    font-size: 13px;
+    line-height: 1.6;
+    color: #969087;
+    margin-bottom: 20px;
+}
+
+.modal-option-group {
+    margin-bottom: 18px;
+}
+
+.modal-option-label {
+    display: block;
+    font-family: "Font1";
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #d9a441;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.flavour-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.flavour-button {
+    background: transparent;
+    border: 1px solid rgba(201, 154, 61, 0.25);
+    color: #aaa39a;
+    padding: 7px 14px;
+    font-family: "Font1";
+    font-size: 11px;
+    letter-spacing: 0.8px;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.flavour-button:hover {
+    border-color: #d9a441;
+    color: #ffffff;
+    background: rgba(217, 164, 65, 0.08);
+}
+
+.flavour-button.selected {
+    border-color: #d9a441;
+    background: linear-gradient(
+        90deg,
+        rgba(131, 100, 27, 0.4) 0%,
+        rgba(247, 239, 138, 0.15) 50%,
+        rgba(131, 100, 27, 0.4) 100%
+    );
+    color: #f7ef8a;
+    box-shadow: 0 0 12px rgba(217, 164, 65, 0.25);
+}
+
+.quantity-control {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid rgba(201, 154, 61, 0.3);
+    background: #080706;
+    user-select: none;
+}
+
+.qty-btn {
+    background: transparent;
+    border: none;
+    color: #d5a74a;
+    width: 34px;
+    height: 34px;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, color 0.2s ease;
+    user-select: none;
+}
+
+.qty-btn:hover {
+    background: #d5a74a;
+    color: #050505;
+}
+
+.qty-display {
+    position: relative;
+    width: 36px;
+    height: 34px;
+    line-height: 34px;
+    text-align: center;
+    font-family: "Font1";
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+}
+
+.qty-digit {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    will-change: transform, opacity;
+}
+
+.qty-digit.current {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.modal-footer-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 15px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(201, 154, 61, 0.18);
+}
+
+.modal-price-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-price-label {
+    font-family: "Font1";
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: #77716a;
+}
+
+.modal-price {
+    color: #d5a74a;
+    font-family: "Font1";
+    font-size: 22px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    height: 30px;
+    line-height: 30px;
+    user-select: none;
+    overflow: hidden;
+    font-variant-numeric: tabular-nums;
+}
+
+.price-currency {
+    display: inline-block;
+    margin-right: 2px;
+}
+
+.price-digits {
+    display: inline-flex;
+    align-items: center;
+    height: 100%;
+}
+
+.digit-slot {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 0.65em;
+    min-width: 14px;
+    height: 30px;
+    line-height: 30px;
+    overflow: hidden;
+    vertical-align: middle;
+}
+
+.digit-val {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    will-change: transform, opacity;
+}
+
+.digit-val.current {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.modal-add-btn {
+    padding: 12px 28px;
+    background: transparent;
+    border: 1px solid #d9a441;
+    color: #ffffff;
+    font-family: "Font1";
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.4s ease;
+}
+
+.modal-add-btn:hover {
+    background: linear-gradient(
+        90deg,
+        #83641b 0%,
+        #f7ef8a 25%,
+        #765f21 50%,
+        #a9882b 75%,
+        #83641b 100%
+    );
+    background-size: 200% 100%;
+    background-position: 80% 40%;
+    color: #080706;
+    border-color: #c99a3d;
+    box-shadow: 0 8px 25px rgba(217, 164, 65, 0.35);
+}
+
+@media (max-width: 750px) {
+    .modal-body {
+        flex-direction: column;
+    }
+
+    .modal-image-container {
+        width: 100%;
+        height: 220px;
+        border-right: none;
+        border-bottom: 1px solid rgba(201, 154, 61, 0.2);
+    }
+
+    .modal-details {
+        width: 100%;
+        padding: 25px 20px;
+    }
+}
+
