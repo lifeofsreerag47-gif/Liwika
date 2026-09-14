@@ -171,6 +171,7 @@ let currentQuantity = 1;
 let currentPrice = 0;
 let qtyAnimationTimeout = null;
 let qtyAnimationRaf = null;
+let qtyAnimationRevision = 0;
 let priceAnimationTimeouts = [];
 let priceAnimationRafs = [];
 let lastPriceChangeTime = 0;
@@ -182,6 +183,8 @@ let lastQtyChangeTime = 0;
 
 function setQuantityDisplay(val, animate = false, direction = "up") {
     if (!quantityElement) return;
+
+    const revision = ++qtyAnimationRevision;
 
     if (qtyAnimationTimeout) {
         clearTimeout(qtyAnimationTimeout);
@@ -231,6 +234,7 @@ function setQuantityDisplay(val, animate = false, direction = "up") {
     }
 
     qtyAnimationRaf = requestAnimationFrame(() => {
+        if (qtyAnimationRevision !== revision || !quantityElement.isConnected) return;
         incomingDigit.style.transform = "translateY(0)";
         incomingDigit.style.opacity = "1";
         if (currentDigit) {
@@ -241,6 +245,7 @@ function setQuantityDisplay(val, animate = false, direction = "up") {
 
     const finishDuration = isRapid ? 180 : 300;
     qtyAnimationTimeout = setTimeout(() => {
+        if (qtyAnimationRevision !== revision || !quantityElement.isConnected) return;
         quantityElement.innerHTML = `<span class="qty-digit current">${val}</span>`;
         qtyAnimationTimeout = null;
     }, finishDuration);
@@ -582,11 +587,17 @@ if (modalAddToCart) {
         if (!currentProduct || !currentFlavour) return;
 
         const cartItem = {
+            id: currentProduct.name ? currentProduct.name.toLowerCase().replace(/\s+/g, '-') : 'prod',
             name: currentProduct.name,
             flavour: currentFlavour.name,
             quantity: currentQuantity,
-            price: currentProduct.basePrice * currentQuantity
+            price: currentProduct.basePrice,
+            image: currentFlavour.image || '../images/choco1.jpg'
         };
+
+        if (window.LiwikaCart) {
+            window.LiwikaCart.addItem(cartItem);
+        }
 
         console.log("Added to cart:", cartItem);
 
@@ -599,7 +610,10 @@ if (modalAddToCart) {
             modalAddToCart.style.background = "";
             modalAddToCart.style.color = "";
             closeProductModal();
-        }, 700);
+            if (typeof showCartToast === "function") {
+                showCartToast(currentProduct.name);
+            }
+        }, 600);
     });
 }
 

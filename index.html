@@ -43,7 +43,7 @@
 
             <button aria-label="My Account">♙</button>
 
-            <button aria-label="Shopping Cart">🛒</button>
+            <a href="seasonals/cart.html" class="cart-nav-link" aria-label="Shopping Cart"><button type="button">🛒</button></a>
 
         </div>
 
@@ -136,7 +136,7 @@
     <div class="product-grid">
 
         <!-- Product 1 -->
-        <div class="product-card">
+        <div class="product-card" data-product="dark-indulgence">
 
             <div class="product-image">
                 <img src="./images/choco1.jpg" alt="Dark Chocolate Collection">
@@ -154,7 +154,7 @@
 
                     <span class="price">₹299</span>
 
-                    <button class="add-button">
+                    <button type="button" class="add-button">
                         Add to Cart
                     </button>
 
@@ -166,7 +166,7 @@
 
 
         <!-- Product 2 -->
-        <div class="product-card">
+        <div class="product-card" data-product="golden-milk">
 
             <div class="product-image">
                 <img src="./images/choco2.jpg" alt="Luxury Milk Chocolate">
@@ -184,7 +184,7 @@
 
                     <span class="price">₹349</span>
 
-                    <button class="add-button">
+                    <button type="button" class="add-button">
                         Add to Cart
                     </button>
 
@@ -196,7 +196,7 @@
 
 
         <!-- Product 3 -->
-        <div class="product-card">
+        <div class="product-card" data-product="hazelnut-bliss">
 
             <div class="product-image">
                 <img src="./images/choco3.jpg" alt="Hazelnut Chocolate">
@@ -214,7 +214,7 @@
 
                     <span class="price">₹249</span>
 
-                    <button class="add-button">
+                    <button type="button" class="add-button">
                         Add to Cart
                     </button>
 
@@ -535,6 +535,54 @@
 
     </footer>
 
+    
+    <!-- ================= PRODUCT CUSTOMIZATION MODAL ================= -->
+    <div id="productModal" class="product-modal" aria-hidden="true" role="dialog">
+        <div class="modal-content">
+            <button id="closeModal" class="close-modal" aria-label="Close modal">&times;</button>
+            <div class="modal-body">
+                <div class="modal-image-container">
+                    <img id="modalProductImage" src="./images/choco1.jpg" alt="Selected Product">
+                </div>
+                <div class="modal-details">
+                    <p id="modalProductBadge" class="modal-badge">BESTSELLER</p>
+                    <h2 id="modalProductName">Dark Indulgence</h2>
+                    <p id="modalProductDescription" class="modal-description">
+                        Rich dark chocolate crafted for true chocolate lovers.
+                    </p>
+
+                    <!-- Flavour Selection -->
+                    <div class="modal-option-group">
+                        <label class="modal-option-label">CHOOSE FLAVOUR</label>
+                        <div id="flavourOptions" class="flavour-options"></div>
+                    </div>
+
+                    <!-- Quantity Selection -->
+                    <div class="modal-option-group">
+                        <label class="modal-option-label">QUANTITY</label>
+                        <div class="quantity-control">
+                            <button id="decreaseQuantity" type="button" class="qty-btn" aria-label="Decrease quantity">−</button>
+                            <span id="quantity" class="qty-display">1</span>
+                            <button id="increaseQuantity" type="button" class="qty-btn" aria-label="Increase quantity">+</button>
+                        </div>
+                    </div>
+
+                    <!-- Price & Add Button -->
+                    <div class="modal-footer-action">
+                        <div class="modal-price-container">
+                            <span class="modal-price-label">PRICE</span>
+                            <span id="modalProductPrice" class="modal-price">₹299</span>
+                        </div>
+                        <button id="modalAddToCart" type="button" class="modal-add-btn">
+                            ADD TO CART
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="cart.js"></script>
     <script src="script.js"></script>
     
 </body>

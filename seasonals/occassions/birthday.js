@@ -2,6 +2,41 @@
    BIRTHDAY PRODUCTS DATA
 ========================================= */
 
+/* =========================================
+   CART TOAST
+========================================= */
+
+(function injectToast() {
+    if (document.getElementById("cart-toast")) return;
+    const toast = document.createElement("div");
+    toast.id = "cart-toast";
+    toast.innerHTML = `
+        <div class="cart-toast-icon">✓</div>
+        <div class="cart-toast-body">
+            <span class="cart-toast-label">Added to cart</span>
+            <span class="cart-toast-name" id="cart-toast-name"></span>
+        </div>
+    `;
+    document.body.appendChild(toast);
+})();
+
+let toastTimeout = null;
+
+function showCartToast(productName) {
+    const toast = document.getElementById("cart-toast");
+    const nameEl = document.getElementById("cart-toast-name");
+    if (!toast || !nameEl) return;
+    nameEl.textContent = productName;
+    if (toastTimeout) { clearTimeout(toastTimeout); toastTimeout = null; }
+    toast.classList.remove("show");
+    void toast.offsetHeight;
+    toast.classList.add("show");
+    toastTimeout = setTimeout(() => {
+        toast.classList.remove("show");
+        toastTimeout = null;
+    }, 2500);
+}
+
 const birthdayProducts = {
 
     "dark-indulgence": {
@@ -93,6 +128,10 @@ let currentPrice = 0;
 let qtyAnimationTimeout = null;
 let priceAnimationTimeouts = [];
 
+let qtyAnimationRaf = null;
+let qtyAnimationRevision = 0;
+let lastQtyChangeTime = 0;
+
 /* =========================================
    QUANTITY ROLLING ANIMATION
 ========================================= */
@@ -100,45 +139,57 @@ let priceAnimationTimeouts = [];
 function setQuantityDisplay(val, animate = false, direction = "up") {
     if (!quantityElement) return;
 
-    if (!animate) {
-        if (qtyAnimationTimeout) {
-            clearTimeout(qtyAnimationTimeout);
-            qtyAnimationTimeout = null;
-        }
-        quantityElement.innerHTML = `<span class="qty-digit current">${val}</span>`;
-        return;
-    }
+    const revision = ++qtyAnimationRevision;
 
     if (qtyAnimationTimeout) {
         clearTimeout(qtyAnimationTimeout);
         qtyAnimationTimeout = null;
     }
+    if (qtyAnimationRaf) {
+        cancelAnimationFrame(qtyAnimationRaf);
+        qtyAnimationRaf = null;
+    }
 
-    const currentDigit = quantityElement.querySelector(".qty-digit.current") || quantityElement.querySelector(".qty-digit");
+    if (!animate) {
+        quantityElement.innerHTML = `<span class="qty-digit current">${val}</span>`;
+        return;
+    }
+
+    const now = performance.now();
+    const isRapid = (now - lastQtyChangeTime) < 220;
+    lastQtyChangeTime = now;
+
+    // Immediately resolve and reset any ongoing animation so digits never overlap
+    const incomingEl = quantityElement.querySelector(".qty-digit.incoming");
+    const currentEl = quantityElement.querySelector(".qty-digit.current") || quantityElement.querySelector(".qty-digit");
+    const baselineVal = incomingEl ? incomingEl.textContent : (currentEl ? currentEl.textContent : String(val));
+
+    quantityElement.innerHTML = `<span class="qty-digit current">${baselineVal}</span>`;
+
+    if (baselineVal === String(val)) {
+        return;
+    }
+
+    const currentDigit = quantityElement.firstElementChild;
     const incomingDigit = document.createElement("span");
     incomingDigit.className = "qty-digit incoming";
     incomingDigit.textContent = val;
 
-    // Set initial position
-    if (direction === "up") {
-        incomingDigit.style.transform = "translateY(100%)";
-    } else {
-        incomingDigit.style.transform = "translateY(-100%)";
-    }
+    incomingDigit.style.transform = direction === "up" ? "translateY(100%)" : "translateY(-100%)";
     incomingDigit.style.opacity = "0";
-
     quantityElement.appendChild(incomingDigit);
 
-    // Force reflow
-    void incomingDigit.offsetHeight;
+    void incomingDigit.offsetHeight; // Force reflow
 
-    const animCurve = "transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease";
+    const animDuration = isRapid ? "0.16s" : "0.28s";
+    const animCurve = `transform ${animDuration} cubic-bezier(0.16, 1, 0.3, 1), opacity ${animDuration} ease`;
     incomingDigit.style.transition = animCurve;
     if (currentDigit) {
         currentDigit.style.transition = animCurve;
     }
 
-    requestAnimationFrame(() => {
+    qtyAnimationRaf = requestAnimationFrame(() => {
+        if (qtyAnimationRevision !== revision || !quantityElement.isConnected) return;
         incomingDigit.style.transform = "translateY(0)";
         incomingDigit.style.opacity = "1";
         if (currentDigit) {
@@ -147,10 +198,12 @@ function setQuantityDisplay(val, animate = false, direction = "up") {
         }
     });
 
+    const finishDuration = isRapid ? 180 : 300;
     qtyAnimationTimeout = setTimeout(() => {
+        if (qtyAnimationRevision !== revision || !quantityElement.isConnected) return;
         quantityElement.innerHTML = `<span class="qty-digit current">${val}</span>`;
         qtyAnimationTimeout = null;
-    }, 350);
+    }, finishDuration);
 }
 
 /* =========================================
@@ -427,11 +480,17 @@ if (modalAddToCart) {
         if (!currentProduct || !currentFlavour) return;
 
         const cartItem = {
+            id: currentProduct.name ? currentProduct.name.toLowerCase().replace(/\s+/g, '-') : 'prod',
             name: currentProduct.name,
             flavour: currentFlavour.name,
             quantity: currentQuantity,
-            price: currentProduct.basePrice * currentQuantity
+            price: currentProduct.basePrice,
+            image: currentFlavour.image || '../../images/choco1.jpg'
         };
+
+        if (window.LiwikaCart) {
+            window.LiwikaCart.addItem(cartItem);
+        }
 
         console.log("Added to cart:", cartItem);
 
@@ -444,6 +503,7 @@ if (modalAddToCart) {
             modalAddToCart.style.background = "";
             modalAddToCart.style.color = "";
             closeProductModal();
-        }, 700);
+            showCartToast(currentProduct.name);
+        }, 600);
     });
 }
