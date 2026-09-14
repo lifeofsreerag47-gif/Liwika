@@ -145,6 +145,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let qtyAnimationRevision = 0;
     let lastQtyChangeTime = 0;
     let priceAnimationTimeouts = [];
+    let priceAnimationRafs = [];
+    let lastPriceChangeTime = 0;
 
     function setQuantityDisplay(val, animate = false, direction = "up") {
         if (!quantityElement) return;
@@ -216,9 +218,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         priceAnimationTimeouts.forEach(t => clearTimeout(t));
         priceAnimationTimeouts = [];
+        priceAnimationRafs.forEach(r => cancelAnimationFrame(r));
+        priceAnimationRafs = [];
 
         const newStr = String(newPrice);
-        const oldStr = String(currentPrice || newPrice);
 
         if (!animate) {
             let slotsHtml = "";
@@ -232,12 +235,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
         let digitsContainer = modalProductPrice.querySelector(".price-digits");
         if (!digitsContainer) {
-            setPriceDisplay(currentPrice || newPrice, false);
+            setPriceDisplay(newPrice, false);
             digitsContainer = modalProductPrice.querySelector(".price-digits");
         }
 
-        let slots = Array.from(digitsContainer.querySelectorAll(".digit-slot"));
-        if (slots.length !== newStr.length) {
+        const now = performance.now();
+        const isRapid = (now - lastPriceChangeTime) < 220;
+        lastPriceChangeTime = now;
+
+        // A click can arrive while the previous roll is mid-flight. Collapse every
+        // slot to its visible target before creating the next roll, so digits never stack.
+        const existingSlots = Array.from(digitsContainer.querySelectorAll(".digit-slot"));
+        const oldStr = existingSlots.map(slot => {
+            const incoming = slot.querySelector(".digit-val.incoming");
+            const current = slot.querySelector(".digit-val.current") || slot.querySelector(".digit-val");
+            const value = incoming ? incoming.textContent : (current ? current.textContent : "");
+            slot.innerHTML = `<span class="digit-val current">${value}</span>`;
+            return value;
+        }).join("") || String(currentPrice || newPrice);
+
+        let slots = existingSlots;
+        if (existingSlots.length !== newStr.length) {
             let slotsHtml = "";
             for (let i = 0; i < newStr.length; i++) {
                 const placeFromRight = newStr.length - 1 - i;
@@ -249,6 +267,12 @@ document.addEventListener("DOMContentLoaded", () => {
             slots = Array.from(digitsContainer.querySelectorAll(".digit-slot"));
         }
 
+        slots = Array.from(digitsContainer.querySelectorAll(".digit-slot"));
+        const currentSlotsStr = slots.map(slot => {
+            const value = slot.querySelector(".digit-val.current") || slot.querySelector(".digit-val");
+            return value ? value.textContent : "";
+        }).join("");
+
         let maxDelay = 0;
         let changedCount = 0;
 
@@ -258,12 +282,11 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!slot) continue;
 
             const newDigitChar = newStr[slotIndex];
-            const oldIndex = oldStr.length - 1 - place;
-            const oldDigitChar = oldIndex >= 0 ? oldStr[oldIndex] : null;
+            const oldDigitChar = currentSlotsStr[slotIndex] || "";
 
             if (oldDigitChar === newDigitChar) continue;
 
-            const delay = changedCount * 75;
+            const delay = changedCount * (isRapid ? 0 : 35);
             changedCount++;
             if (delay > maxDelay) maxDelay = delay;
 
@@ -278,19 +301,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
             void incVal.offsetHeight;
 
-            const animCurve = `transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms, opacity 0.28s ease ${delay}ms`;
+            const duration = isRapid ? "0.16s" : "0.28s";
+            const animCurve = `transform ${duration} cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms, opacity ${duration} ease ${delay}ms`;
             incVal.style.transition = animCurve;
             if (curVal) curVal.style.transition = animCurve;
 
-            const triggerTimeout = setTimeout(() => {
+            const raf = requestAnimationFrame(() => {
                 incVal.style.transform = "translateY(0)";
                 incVal.style.opacity = "1";
                 if (curVal) {
                     curVal.style.transform = direction === "up" ? "translateY(-100%)" : "translateY(100%)";
                     curVal.style.opacity = "0";
                 }
-            }, 15);
-            priceAnimationTimeouts.push(triggerTimeout);
+            });
+            priceAnimationRafs.push(raf);
         }
 
         const cleanupTimeout = setTimeout(() => {
@@ -300,7 +324,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             digitsContainer.innerHTML = slotsHtml;
             currentPrice = newPrice;
-        }, maxDelay + 400);
+        }, maxDelay + (isRapid ? 180 : 320));
 
         priceAnimationTimeouts.push(cleanupTimeout);
         currentPrice = newPrice;

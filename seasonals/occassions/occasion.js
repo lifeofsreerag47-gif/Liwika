@@ -82,6 +82,8 @@ let qtyAnimRaf      = null;
 let qtyAnimationRevision = 0;
 let lastQtyTime     = 0;
 let priceAnimTOs    = [];
+let priceAnimRafs   = [];
+let lastPriceChangeTime = 0;
 
 /* =========================================
    QUANTITY ROLLING ANIMATION
@@ -165,11 +167,12 @@ function setPriceDisplay(newPrice, animate = false, direction = "up") {
     if (!modalProductPrice) return;
 
     const newStr = String(newPrice);
-    const oldStr = String(currentPrice || newPrice);
 
     if (!animate) {
         priceAnimTOs.forEach(t => clearTimeout(t));
         priceAnimTOs = [];
+        priceAnimRafs.forEach(r => cancelAnimationFrame(r));
+        priceAnimRafs = [];
         let html = "";
         for (let i = 0; i < newStr.length; i++) {
             html += `<span class="digit-slot" data-digit-index="${i}"><span class="digit-val current">${newStr[i]}</span></span>`;
@@ -181,9 +184,25 @@ function setPriceDisplay(newPrice, animate = false, direction = "up") {
 
     priceAnimTOs.forEach(t => clearTimeout(t));
     priceAnimTOs = [];
+    priceAnimRafs.forEach(r => cancelAnimationFrame(r));
+    priceAnimRafs = [];
 
     let digs = modalProductPrice.querySelector(".price-digits");
-    if (!digs) { setPriceDisplay(currentPrice || newPrice, false); digs = modalProductPrice.querySelector(".price-digits"); }
+    if (!digs) { setPriceDisplay(newPrice, false); return; }
+
+    const now = performance.now();
+    const isRapid = (now - lastPriceChangeTime) < 220;
+    lastPriceChangeTime = now;
+
+    // Settle each digit to one baseline node before beginning another roll.
+    const existingSlots = Array.from(digs.querySelectorAll(".digit-slot"));
+    const oldStr = existingSlots.map(slot => {
+        const incoming = slot.querySelector(".digit-val.incoming");
+        const current = slot.querySelector(".digit-val.current") || slot.querySelector(".digit-val");
+        const value = incoming ? incoming.textContent : (current ? current.textContent : "");
+        slot.innerHTML = `<span class="digit-val current">${value}</span>`;
+        return value;
+    }).join("") || String(currentPrice || newPrice);
 
     let slots = Array.from(digs.querySelectorAll(".digit-slot"));
     if (slots.length !== newStr.length) {
@@ -198,17 +217,21 @@ function setPriceDisplay(newPrice, animate = false, direction = "up") {
         slots = Array.from(digs.querySelectorAll(".digit-slot"));
     }
 
+    const currentSlotsStr = slots.map(slot => {
+        const value = slot.querySelector(".digit-val.current") || slot.querySelector(".digit-val");
+        return value ? value.textContent : "";
+    }).join("");
+
     let maxDelay = 0, changed = 0;
     for (let place = 0; place < newStr.length; place++) {
         const si = newStr.length - 1 - place;
         const slot = slots[si];
         if (!slot) continue;
         const nd = newStr[si];
-        const oi = oldStr.length - 1 - place;
-        const od = oi >= 0 ? oldStr[oi] : null;
+        const od = currentSlotsStr[si] || "";
         if (od === nd) continue;
 
-        const delay = changed * 75;
+        const delay = changed * (isRapid ? 0 : 35);
         changed++;
         if (delay > maxDelay) maxDelay = delay;
 
@@ -221,19 +244,20 @@ function setPriceDisplay(newPrice, animate = false, direction = "up") {
         slot.appendChild(incEl);
         void incEl.offsetHeight;
 
-        const spec = `transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms, opacity 0.28s ease ${delay}ms`;
+        const duration = isRapid ? "0.16s" : "0.28s";
+        const spec = `transform ${duration} cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms, opacity ${duration} ease ${delay}ms`;
         incEl.style.transition = spec;
         if (curEl) curEl.style.transition = spec;
 
-        const t = setTimeout(() => {
+        const raf = requestAnimationFrame(() => {
             incEl.style.transform = "translateY(0)";
             incEl.style.opacity = "1";
             if (curEl) {
                 curEl.style.transform = direction === "up" ? "translateY(-100%)" : "translateY(100%)";
                 curEl.style.opacity = "0";
             }
-        }, 15);
-        priceAnimTOs.push(t);
+        });
+        priceAnimRafs.push(raf);
     }
 
     const cleanup = setTimeout(() => {
@@ -243,7 +267,7 @@ function setPriceDisplay(newPrice, animate = false, direction = "up") {
         }
         digs.innerHTML = html;
         currentPrice = newPrice;
-    }, maxDelay + 400);
+    }, maxDelay + (isRapid ? 180 : 320));
     priceAnimTOs.push(cleanup);
     currentPrice = newPrice;
 }
