@@ -23,6 +23,32 @@ tiltCards.forEach(card => {
     });
 });
 
+// Event delegation for dynamic festival cards tilt effect
+document.addEventListener("mousemove", (e) => {
+    const festCard = e.target.closest(".dynamic-festival-card");
+    if (!festCard) return;
+
+    const rect = festCard.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const rotateX = ((y - centerY) / centerY) * -6;
+    const rotateY = ((x - centerX) / centerX) * 6;
+
+    festCard.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px) scale(1.02)`;
+});
+
+document.addEventListener("mouseout", (e) => {
+    const festCard = e.target.closest(".dynamic-festival-card");
+    if (!festCard) return;
+    if (!festCard.contains(e.relatedTarget)) {
+        festCard.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0) scale(1)";
+    }
+});
+
 // Dynamic Navbar Hide on Scroll Down / Reveal on Scroll Up
 let lastScrollY = window.scrollY;
 const navbar = document.querySelector(".navbar");
@@ -383,6 +409,8 @@ document.addEventListener("DOMContentLoaded", () => {
         productModal.classList.remove("active");
         productModal.setAttribute("aria-hidden", "true");
         document.body.style.overflow = "";
+        currentProduct = null;
+        currentQuantity = 1;
     }
 
     if (closeModalBtn) closeModalBtn.addEventListener("click", closeProductModal);
@@ -398,6 +426,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (increaseQuantity) {
         increaseQuantity.addEventListener("click", (e) => {
             e.stopPropagation();
+            if (!currentProduct) return;
             currentQuantity++;
             setQuantityDisplay(currentQuantity, true, "up");
             if (currentProduct) setPriceDisplay(currentProduct.basePrice * currentQuantity, true, "up");
@@ -407,6 +436,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (decreaseQuantity) {
         decreaseQuantity.addEventListener("click", (e) => {
             e.stopPropagation();
+            if (!currentProduct) return;
             if (currentQuantity > 1) {
                 currentQuantity--;
                 setQuantityDisplay(currentQuantity, true, "down");

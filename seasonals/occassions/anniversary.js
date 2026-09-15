@@ -289,6 +289,8 @@ increaseQuantity.addEventListener(
     "click",
     function () {
 
+        if (!currentProduct) return;
+
         currentQuantity++;
 
         quantity.textContent =
@@ -306,6 +308,8 @@ increaseQuantity.addEventListener(
 decreaseQuantity.addEventListener(
     "click",
     function () {
+
+        if (!currentProduct) return;
 
         if (currentQuantity > 1) {
 
@@ -351,6 +355,9 @@ function closeProductModal() {
     );
 
     document.body.style.overflow = "";
+
+    currentProduct = null;
+    currentQuantity = 1;
 }
 
 
@@ -407,7 +414,12 @@ modalAddToCart.addEventListener(
     "click",
     function () {
 
+        const occasionEl = document.querySelector(".occasion-label");
+        const occasionName = window.occasionTitle || (occasionEl ? occasionEl.textContent.trim() : 'ANNIVERSARY');
+
         const cartItem = {
+
+            id: currentProduct.name ? currentProduct.name.toLowerCase().replace(/\s+/g, '-') : 'prod',
 
             name: currentProduct.name,
 
@@ -415,9 +427,11 @@ modalAddToCart.addEventListener(
 
             quantity: currentQuantity,
 
-            price: currentPrice,
+            price: currentProduct.basePrice || currentPrice,
 
-            image: currentFlavour.image
+            image: currentFlavour.image,
+
+            occasion: occasionName
         };
 
 

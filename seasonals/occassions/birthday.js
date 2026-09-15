@@ -417,6 +417,7 @@ function displayFlavours() {
 if (increaseQuantity) {
     increaseQuantity.addEventListener("click", (e) => {
         e.stopPropagation();
+        if (!currentProduct) return;
         currentQuantity++;
         setQuantityDisplay(currentQuantity, true, "up");
 
@@ -430,6 +431,7 @@ if (increaseQuantity) {
 if (decreaseQuantity) {
     decreaseQuantity.addEventListener("click", (e) => {
         e.stopPropagation();
+        if (!currentProduct) return;
         if (currentQuantity > 1) {
             currentQuantity--;
             setQuantityDisplay(currentQuantity, true, "down");
@@ -451,6 +453,8 @@ function closeProductModal() {
     productModal.classList.remove("active");
     productModal.setAttribute("aria-hidden", "true");
     document.body.style.overflow = "";
+    currentProduct = null;
+    currentQuantity = 1;
 }
 
 if (closeModal) {
@@ -479,13 +483,17 @@ if (modalAddToCart) {
     modalAddToCart.addEventListener("click", () => {
         if (!currentProduct || !currentFlavour) return;
 
+        const occasionEl = document.querySelector(".occasion-label");
+        const occasionName = window.occasionTitle || (occasionEl ? occasionEl.textContent.trim() : 'BIRTHDAY');
+
         const cartItem = {
             id: currentProduct.name ? currentProduct.name.toLowerCase().replace(/\s+/g, '-') : 'prod',
             name: currentProduct.name,
             flavour: currentFlavour.name,
             quantity: currentQuantity,
             price: currentProduct.basePrice,
-            image: currentFlavour.image || '../../images/choco1.jpg'
+            image: currentFlavour.image || '../../images/choco1.jpg',
+            occasion: occasionName
         };
 
         if (window.LiwikaCart) {
@@ -506,4 +514,5 @@ if (modalAddToCart) {
             showCartToast(currentProduct.name);
         }, 600);
     });
-}
+}
+

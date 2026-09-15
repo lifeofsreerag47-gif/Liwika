@@ -13,7 +13,14 @@
     <link rel="stylesheet" href="seasonals.css">
 
 </head>
-
+<script>
+    // Remember that the user entered an occasion from the Seasonals page
+    document.querySelectorAll(".occasion-card").forEach(card => {
+        card.addEventListener("click", () => {
+            sessionStorage.setItem("occasionEntry", "true");
+        });
+    });
+</script>
 
 <body>
 
@@ -154,23 +161,7 @@
 
 
 
-            <!-- CHRISTMAS -->
 
-            <a href="occassions/christmas.html" class="occasion-card">
-
-                <div class="occasion-icon">
-                    🎄
-                </div>
-
-                <h2>
-                    CHRISTMAS
-                </h2>
-
-                <p>
-                    A little Christmas
-                </p>
-
-            </a>
 
 
 
@@ -607,6 +598,7 @@
 
     <script src="cart.js"></script>
     <script src="../script.js"></script>
+    <script src="festivals.js"></script>
 
 </body>
 

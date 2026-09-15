@@ -510,6 +510,7 @@ shopProductCards.forEach(card => {
 if (increaseQuantity) {
     increaseQuantity.addEventListener("click", (e) => {
         e.stopPropagation();
+        if (!currentProduct) return;
         currentQuantity++;
         setQuantityDisplay(currentQuantity, true, "up");
 
@@ -523,6 +524,7 @@ if (increaseQuantity) {
 if (decreaseQuantity) {
     decreaseQuantity.addEventListener("click", (e) => {
         e.stopPropagation();
+        if (!currentProduct) return;
         if (currentQuantity > 1) {
             currentQuantity--;
             setQuantityDisplay(currentQuantity, true, "down");
@@ -544,6 +546,8 @@ function closeProductModal() {
     productModal.classList.remove("active");
     productModal.setAttribute("aria-hidden", "true");
     document.body.style.overflow = "";
+    currentProduct = null;
+    currentQuantity = 1;
 
     // Cancel any pending animations
     if (qtyAnimationTimeout) {

@@ -349,7 +349,102 @@ function closeProductModal() {
     productModal.classList.remove("active");
     productModal.setAttribute("aria-hidden", "true");
     document.body.style.overflow = "";
+    currentProduct = null;
+    currentQuantity = 1;
 }
+
+window.addEventListener("load", () => {
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        return;
+    }
+
+    const products = document.querySelector(".occasion-products");
+
+    if (!products) {
+        return;
+    }
+
+    /*
+       FIRST: Make sure the page starts completely at the top.
+    */
+    window.scrollTo(0, 0);
+
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
+
+    /*
+       WAIT 1.4 SECONDS
+    */
+    window.setTimeout(() => {
+
+        /*
+           Force the page to the very top again
+           immediately before scrolling.
+        */
+        window.scrollTo(0, 0);
+
+        const navHeight =
+            document.querySelector(".navbar")?.offsetHeight || 90;
+
+        const target =
+            products.getBoundingClientRect().top +
+            window.scrollY -
+            navHeight -
+            22;
+
+        const start = window.scrollY;
+
+        /*
+           HOW LONG THE SCROLL TAKES
+
+           6000 = 6 seconds
+           Make this 7000 or 8000 if you want even slower.
+        */
+        const duration = 3000;
+
+        const startTime = performance.now();
+
+
+        /*
+           Very smooth cinematic easing.
+        */
+        function easeInOut(t) {
+            return t < 0.5
+                ? 4 * t * t * t
+                : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        }
+
+
+        function animate(currentTime) {
+
+            const elapsed =
+                currentTime - startTime;
+
+            const progress =
+                Math.min(elapsed / duration, 1);
+
+            const eased =
+                easeInOut(progress);
+
+            window.scrollTo(
+                0,
+                start + (target - start) * eased
+            );
+
+
+            if (progress < 1) {
+                requestAnimationFrame(animate);
+            }
+        }
+
+
+        requestAnimationFrame(animate);
+
+    }, 1400);
+
+}, { once: true });
 
 if (closeModalBtn) closeModalBtn.addEventListener("click", closeProductModal);
 
@@ -372,6 +467,7 @@ document.addEventListener("keydown", (e) => {
 if (increaseQtyBtn) {
     increaseQtyBtn.addEventListener("click", (e) => {
         e.stopPropagation();
+        if (!currentProduct) return;
         currentQuantity++;
         setQuantityDisplay(currentQuantity, true, "up");
         if (currentProduct) setPriceDisplay(currentProduct.basePrice * currentQuantity, true, "up");
@@ -381,6 +477,7 @@ if (increaseQtyBtn) {
 if (decreaseQtyBtn) {
     decreaseQtyBtn.addEventListener("click", (e) => {
         e.stopPropagation();
+        if (!currentProduct) return;
         if (currentQuantity > 1) {
             currentQuantity--;
             setQuantityDisplay(currentQuantity, true, "down");
@@ -397,13 +494,17 @@ if (modalAddToCart) {
     modalAddToCart.addEventListener("click", () => {
         if (!currentProduct || !currentFlavour) return;
 
+        const occasionEl = document.querySelector(".occasion-label");
+        const occasionName = window.occasionTitle || (occasionEl ? occasionEl.textContent.trim() : '');
+
         const cartItem = {
             id: currentProduct.name ? currentProduct.name.toLowerCase().replace(/\s+/g, '-') : 'prod',
             name:     currentProduct.name,
             flavour:  currentFlavour.name,
             quantity: currentQuantity,
             price:    currentProduct.basePrice,
-            image:    currentFlavour.image || '../../images/choco1.jpg'
+            image:    currentFlavour.image || '../../images/choco1.jpg',
+            occasion: occasionName
         };
 
         if (window.LiwikaCart) {
