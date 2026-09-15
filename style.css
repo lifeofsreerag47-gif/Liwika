@@ -1819,6 +1819,7 @@ body {
     text-overflow: ellipsis;
 }
 
+
 /* =====================================================
    SITE-WIDE DYNAMIC AMBIENT LUXURY BACKGROUND SYSTEM
    ===================================================== */
@@ -1946,3 +1947,4 @@ body {
 html {
     overflow-x: clip;
 }
+
