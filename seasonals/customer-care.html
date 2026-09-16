@@ -1,433 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Customer Care | Liwi-Ka</title>
-
     <link rel="stylesheet" href="customer-care.css">
 </head>
-
 <body>
 
-    <!-- ================= NAVBAR ================= -->
+<header class="navbar">
+    <a href="../index.html" class="logo">
+        <img src="./images/liwi.png" alt="Liwi-Ka Finest Chocolate">
+    </a>
 
-    <header class="navbar">
+    <nav class="nav-links">
+        <a href="../index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="seasonals.html">Seasonals</a>
+        <a href="../index.html#our-story">Our Story</a>
+        <a href="customer-care.html" class="active">Customer Care</a>
+    </nav>
 
-        <a href="../index.html" class="logo">
-            <img src="../images/liwi.png" alt="Liwi-Ka Finest Chocolate">
-        </a>
+    <div class="nav-icons">
+        <button aria-label="Search">⌕</button>
+        <button aria-label="My Account">♙</button>
+        <a href="cart.html" class="cart-nav-link" aria-label="Shopping Cart"><button type="button">🛒</button></a>
+    </div>
+</header>
 
-        <nav class="nav-links">
+<div class="gold-dust" aria-hidden="true"></div>
 
-            <a href="../index.html">Home</a>
+<main>
+    <section class="care-hero">
+        <div class="hero-glow glow-one"></div>
+        <div class="hero-glow glow-two"></div>
+        <div class="hero-content">
+            <p class="eyebrow">LIWI-KA • CUSTOMER CARE</p>
+            <h1>We're here<br><span>for you.</span></h1>
+            <p class="hero-description">Questions about an order, a gift, or one of our chocolates? Tell us what you need. We'll take care of the rest.</p>
+            <a class="gold-button" href="#contact">Talk to us <span>↗</span></a>
+        </div>
+        <div class="scroll-cue"><span></span> SCROLL TO EXPLORE</div>
+    </section>
 
-            <a href="shop.html">Shop</a>
-
-            <a href="seasonals.html">Seasonals</a>
-
-            <a href="../index.html#our-story">Our Story</a>
-
-            <a href="customer-care.html">Customer Care</a>
-
-        </nav>
-
-        <div class="nav-icons">
-
-            <button aria-label="Search">⌕</button>
-
-            <button aria-label="My Account">♙</button>
-
-            <button aria-label="Shopping Cart">🛒</button>
-
+    <section class="help-section" id="help">
+        <div class="section-heading reveal">
+            <p class="eyebrow">SUPPORT, WITHOUT THE FUSS</p>
+            <h2>How can we <span>help?</span></h2>
+            <p>Pick a topic and we'll point you in the right direction.</p>
         </div>
 
-    </header>
+        <div class="help-cards">
+            <a href="#faq-orders" class="help-card tilt-card reveal">
+                <div class="card-number">01</div>
+                <div class="help-icon">▣</div>
+                <h3>Orders & Delivery</h3>
+                <p>Tracking, delivery timelines, changes and order questions.</p>
+                <span class="card-arrow">↗</span>
+            </a>
+            <a href="#faq-products" class="help-card tilt-card reveal">
+                <div class="card-number">02</div>
+                <div class="help-icon">◇</div>
+                <h3>Chocolate & Ingredients</h3>
+                <p>Flavours, ingredients and everything inside your box.</p>
+                <span class="card-arrow">↗</span>
+            </a>
+            <a href="#faq-gifting" class="help-card tilt-card reveal">
+                <div class="card-number">03</div>
+                <div class="help-icon">✦</div>
+                <h3>Gifting</h3>
+                <p>Need help choosing something beautiful for someone special?</p>
+                <span class="card-arrow">↗</span>
+            </a>
+            <a href="#contact" class="help-card tilt-card reveal">
+                <div class="card-number">04</div>
+                <div class="help-icon">○</div>
+                <h3>Something Else?</h3>
+                <p>Send us a message and our team will help you out.</p>
+                <span class="card-arrow">↗</span>
+            </a>
+        </div>
+    </section>
 
-
-    <!-- ================= MAIN CONTENT ================= -->
-
-    <main>
-
-        <!-- CUSTOMER CARE HERO -->
-
-        <section class="customer-care-hero">
-
-            <div class="customer-care-hero-content">
-
-                <p class="small-heading">
-                    LIWI-KA CUSTOMER CARE
-                </p>
-
-                <h1>
-                    WE'RE HERE FOR YOU
-                </h1>
-
-                <p>
-                    Your experience matters to us. Whether you have a
-                    question about your order, our chocolates, or gifting,
-                    we're here to help.
-                </p>
-
+    <section class="contact-section" id="contact">
+        <div class="contact-orb"></div>
+        <div class="contact-content">
+            <div class="contact-copy reveal">
+                <p class="eyebrow">GET IN TOUCH</p>
+                <h2>Let's make<br><span>things right.</span></h2>
+                <p>Whether you have a question, a suggestion, or something went wrong with your order, we're listening.</p>
+                <div class="contact-mini">
+                    <div><span>EMAIL</span><strong>care@liwika.com</strong></div>
+                    <div><span>HOURS</span><strong>Mon – Sat · 10 AM – 6 PM</strong></div>
+                </div>
             </div>
 
-        </section>
-
-
-        <!-- HOW CAN WE HELP -->
-
-        <section class="help-section">
-
-            <div class="section-heading">
-
-                <p class="small-heading">
-                    CUSTOMER SUPPORT
-                </p>
-
-                <h2>
-                    HOW CAN WE HELP?
-                </h2>
-
-                <p>
-                    Choose a topic and we'll help you find the
-                    information you need.
-                </p>
-
-            </div>
-
-
-            <div class="help-cards">
-
-                <div class="help-card">
-
-                    <div class="help-icon">📦</div>
-
-                    <h3>
-                        Orders & Delivery
-                    </h3>
-
-                    <p>
-                        Questions about your order,
-                        shipping or delivery?
-                    </p>
-
+            <form class="customer-care-form glass-panel reveal" id="careForm">
+                <div class="form-top"><span>01</span><p>SEND A MESSAGE</p></div>
+                <div class="form-row">
+                    <div class="form-group"><label for="customerName">Your Name</label><input type="text" id="customerName" name="customerName" placeholder="Your name" required></div>
+                    <div class="form-group"><label for="customerEmail">Email Address</label><input type="email" id="customerEmail" name="customerEmail" placeholder="you@example.com" required></div>
                 </div>
-
-
-                <div class="help-card">
-
-                    <div class="help-icon">🍫</div>
-
-                    <h3>
-                        Products & Ingredients
-                    </h3>
-
-                    <p>
-                        Need information about our chocolates,
-                        flavours or ingredients?
-                    </p>
-
-                </div>
-
-
-                <div class="help-card">
-
-                    <div class="help-icon">🎁</div>
-
-                    <h3>
-                        Gifting
-                    </h3>
-
-                    <p>
-                        Looking for help choosing the
-                        perfect chocolate gift?
-                    </p>
-
-                </div>
-
-
-                <div class="help-card">
-
-                    <div class="help-icon">💬</div>
-
-                    <h3>
-                        General Enquiries
-                    </h3>
-
-                    <p>
-                        Have another question?
-                        We're happy to help.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- CONTACT SECTION -->
-
-        <section class="contact-section">
-
-            <div class="contact-content">
-
-
-                <div class="contact-intro">
-
-                    <p class="small-heading">
-                        GET IN TOUCH
-                    </p>
-
-                    <h2>
-                        WE'D LOVE TO<br>
-                        HEAR FROM YOU
-                    </h2>
-
-                    <p>
-                        Have a question, suggestion or concern?
-                        Send us a message and our customer care
-                        team will get back to you.
-                    </p>
-
-                </div>
-
-
-                <form class="customer-care-form">
-
-                    <div class="form-group">
-
-                        <label for="customerName">
-                            Your Name
-                        </label>
-
-                        <input
-                            type="text"
-                            id="customerName"
-                            name="customerName"
-                            placeholder="Enter your name"
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="customerEmail">
-                            Email Address
-                        </label>
-
-                        <input
-                            type="email"
-                            id="customerEmail"
-                            name="customerEmail"
-                            placeholder="Enter your email"
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="orderNumber">
-                            Order Number
-                            <span>(Optional)</span>
-                        </label>
-
-                        <input
-                            type="text"
-                            id="orderNumber"
-                            name="orderNumber"
-                            placeholder="Enter your order number"
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="customerMessage">
-                            How can we help?
-                        </label>
-
-                        <textarea
-                            id="customerMessage"
-                            name="customerMessage"
-                            rows="6"
-                            placeholder="Tell us how we can help..."
-                        ></textarea>
-
-                    </div>
-
-
-                    <button type="submit">
-                        SEND MESSAGE
-                    </button>
-
-                </form>
-
-            </div>
-
-        </section>
-
-
-        <!-- FAQ -->
-
-        <section class="faq-section">
-
-            <div class="section-heading">
-
-                <p class="small-heading">
-                    NEED TO KNOW
-                </p>
-
-                <h2>
-                    FREQUENTLY ASKED QUESTIONS
-                </h2>
-
-            </div>
-
-
-            <div class="faq-container">
-
-                <div class="faq-item">
-
-                    <h3>
-                        How long does delivery take?
-                    </h3>
-
-                    <p>
-                        Our delivery details and estimated timelines
-                        will be provided during checkout.
-                    </p>
-
-                </div>
-
-
-                <div class="faq-item">
-
-                    <h3>
-                        Can I modify or cancel my order?
-                    </h3>
-
-                    <p>
-                        Please contact our customer care team as soon
-                        as possible if you need to make a change to
-                        your order.
-                    </p>
-
-                </div>
-
-
-                <div class="faq-item">
-
-                    <h3>
-                        Do you offer gift packaging?
-                    </h3>
-
-                    <p>
-                        Yes. Selected Liwi-Ka chocolates can be prepared
-                        with special gift packaging.
-                    </p>
-
-                </div>
-
-
-                <div class="faq-item">
-
-                    <h3>
-                        What if my order arrives damaged?
-                    </h3>
-
-                    <p>
-                        Please contact our customer care team with
-                        your order details so we can assist you.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- SUPPORT INFORMATION -->
-
-        <section class="support-info">
-
-            <div class="section-heading">
-
-                <p class="small-heading">
-                    LIWI-KA
-                </p>
-
-                <h2>
-                    CUSTOMER CARE
-                </h2>
-
-            </div>
-
-
-            <div class="support-details">
-
-                <div>
-
-                    <h3>
-                        EMAIL
-                    </h3>
-
-                    <p>
-                        care@liwika.com
-                    </p>
-
-                </div>
-
-
-                <div>
-
-                    <h3>
-                        PHONE
-                    </h3>
-
-                    <p>
-                        +91 XXXXX XXXXX
-                    </p>
-
-                </div>
-
-
-                <div>
-
-                    <h3>
-                        SUPPORT HOURS
-                    </h3>
-
-                    <p>
-                        Monday – Saturday<br>
-                        10:00 AM – 6:00 PM
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-    <!-- ================= FOOTER ================= -->
-
-    <footer>
-
-        <p>
-            © 2026 Liwi-Ka Finest Chocolate. All Rights Reserved.
-        </p>
-
-    </footer>
-
+                <div class="form-group"><label for="orderNumber">Order Number <span>optional</span></label><input type="text" id="orderNumber" name="orderNumber" placeholder="e.g. LK-1024"></div>
+                <div class="form-group"><label for="customerMessage">How can we help?</label><textarea id="customerMessage" name="customerMessage" rows="5" placeholder="Tell us what's on your mind..." required></textarea></div>
+                <button class="send-button" type="submit">SEND MESSAGE <span>↗</span></button>
+                <p class="form-note" id="formNote">We'll get back to you as soon as possible.</p>
+            </form>
+        </div>
+    </section>
+
+    <section class="faq-section" id="faq">
+        <div class="section-heading reveal">
+            <p class="eyebrow">THE LITTLE DETAILS</p>
+            <h2>Frequently asked <span>questions.</span></h2>
+        </div>
+        <div class="faq-grid">
+            <details class="faq-item tilt-card reveal" id="faq-orders">
+                <summary><span>01</span> How long does delivery take? <b>+</b></summary>
+                <p>Delivery timelines and estimated dates are shown during checkout. If you already placed an order, contact us with your order number and we'll help you check its status.</p>
+            </details>
+            <details class="faq-item tilt-card reveal">
+                <summary><span>02</span> Can I modify or cancel my order? <b>+</b></summary>
+                <p>Please contact customer care as soon as possible. We'll check the order status and let you know what changes can still be made.</p>
+            </details>
+            <details class="faq-item tilt-card reveal" id="faq-gifting">
+                <summary><span>03</span> Do you offer gift packaging? <b>+</b></summary>
+                <p>Selected Liwi-Ka chocolates can be prepared as gifts. If you have a specific gifting request, mention it in your message and we'll guide you.</p>
+            </details>
+            <details class="faq-item tilt-card reveal" id="faq-products">
+                <summary><span>04</span> Where can I find ingredients? <b>+</b></summary>
+                <p>If you need ingredient information for a particular chocolate, tell us the product name and we'll help you with the details.</p>
+            </details>
+            <details class="faq-item tilt-card reveal">
+                <summary><span>05</span> What if my order arrives damaged? <b>+</b></summary>
+                <p>Contact us with your order details and a description of the issue. We'll help you with the next steps.</p>
+            </details>
+            <details class="faq-item tilt-card reveal">
+                <summary><span>06</span> Still have a question? <b>+</b></summary>
+                <p>That's completely fine. Use the contact form above and send us your question directly.</p>
+            </details>
+        </div>
+    </section>
+
+    <section class="support-strip">
+        <div class="support-inner">
+            <div><p class="eyebrow">LIWI-KA</p><h2>Always a little<br><span>closer.</span></h2></div>
+            <div class="support-links"><a href="mailto:care@liwika.com"><span>EMAIL</span>care@liwika.com</a><a href="#contact"><span>SUPPORT</span>Send a message ↗</a><a href="shop.html"><span>SHOP</span>Explore chocolates ↗</a></div>
+        </div>
+    </section>
+</main>
+
+<footer><p>© 2026 Liwi-Ka Finest Chocolate. All Rights Reserved.</p></footer>
+
+<script src="customer-care.js"></script>
+<script src="../script.js"></script>
 </body>
-
 </html>
