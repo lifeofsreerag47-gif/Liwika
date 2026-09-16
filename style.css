@@ -298,17 +298,16 @@ body {
         0 3px 8px rgba(0, 0, 0, 0.4);
 }
 
-
 .hero-content h1 span {
     font-size: 80px;
 
     background: repeating-linear-gradient(
         180deg,
-        #3e2f0b 0,
+        #493506 0,
         #f7ef8a 8px,
-        #1d1605 16px,
+        #46370c 16px,
         #a9882b 24px,
-        #3c2e0c 32px
+        #413006 32px
     );
 
     -webkit-background-clip: text;
@@ -1965,20 +1964,3 @@ html {
    Keeps the original home-page design; only the gold phrase
    receives a richer, non-animated metallic gradient.
 ========================================================= */
-
-
-/* HOME NAVBAR — MATCH THE SHARED PAGE NAVBAR */
-.home-page .navbar{height:82px;padding:0 clamp(20px,5vw,72px);}
-.home-page .logo{width:154px;}
-.home-page .nav-links{gap:clamp(18px,2.45vw,36px);}
-.home-page .nav-links a{font-size:11px;letter-spacing:1.7px;padding:9px 0;}
-.home-page .nav-icons{gap:8px;}
-.home-page .nav-icons button{width:38px;height:38px;font-size:18px;}
-@media(max-width:900px){
- .home-page .navbar{height:72px;padding:0 18px;}
- .home-page .logo{width:125px;}
- .home-page .nav-icons{gap:6px;}
- .home-page .nav-icons button{width:34px;height:34px;font-size:17px;}
-}
-
-/* EXACT SHOP GOLD EFFECT ON HOME */
