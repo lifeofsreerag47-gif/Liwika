@@ -1,0 +1,1268 @@
+/* =========================================================
+   LIWI-KA — NEW ARRIVALS
+   Luxury Chocolate Collection
+========================================================= */
+
+
+/* =========================================================
+   FONTS
+========================================================= */
+
+@font-face {
+    font-family: "Font";
+    src: url("OrangeAvenue.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Font1";
+    src: url("Outfit-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+body {
+    margin: 0;
+    padding: 0;
+
+    width: 100%;
+    min-height: 100vh;
+
+    background: #080402;
+
+    color: #f5eee4;
+
+    font-family: "Font1", sans-serif;
+}
+
+
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.navbar {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 90px;
+
+    padding: 0 5%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    z-index: 1000;
+
+    font-family: "Font1", sans-serif;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(5, 3, 2, 0.94),
+            rgba(5, 3, 2, 0.55),
+            transparent
+        );
+}
+
+
+
+/* Logo */
+
+.logo {
+
+    display: flex;
+
+    align-items: center;
+
+    width: 170px;
+
+    text-decoration: none;
+}
+
+
+.logo img {
+
+    width: 100%;
+
+    height: auto;
+
+    display: block;
+}
+
+
+
+/* Navigation */
+
+.nav-links {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 35px;
+}
+
+
+.nav-links a {
+
+    position: relative;
+
+    color: #f5eee4;
+
+    text-decoration: none;
+
+    font-family: "Font1", sans-serif;
+
+    font-size: 13px;
+
+    letter-spacing: 1.5px;
+
+    text-transform: uppercase;
+
+    transition:
+        color 0.3s ease,
+        opacity 0.3s ease;
+}
+
+
+.nav-links a::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+
+    bottom: -8px;
+
+    width: 0;
+
+    height: 1px;
+
+    background: #c9a45b;
+
+    transition: width 0.3s ease;
+}
+
+
+.nav-links a:hover,
+.nav-links a.active {
+
+    color: #c9a45b;
+}
+
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+
+    width: 100%;
+}
+
+
+
+/* =========================================================
+   NAVIGATION ICONS
+========================================================= */
+
+.nav-icons {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+}
+
+
+.nav-icons button {
+
+    background: none;
+
+    border: none;
+
+    color: #f5eee4;
+
+    font-size: 21px;
+
+    cursor: pointer;
+
+    transition:
+        color 0.3s ease,
+        transform 0.3s ease;
+}
+
+
+.nav-icons button:hover {
+
+    color: #c9a45b;
+
+    transform: translateY(-2px);
+}
+
+
+.cart-nav-link {
+
+    display: flex;
+
+    align-items: center;
+
+    text-decoration: none;
+}
+
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.new-arrivals-hero {
+
+    position: relative;
+
+    min-height: 820px;
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    overflow: hidden;
+
+    background-color: #140804;
+
+    /*
+       IMPORTANT:
+
+       Put your New Arrivals background image here:
+
+       images/new-arrivals-bg.jpg
+
+       If you use another filename, change it here.
+    */
+
+    background-image:
+        url("seasonals/images/new-arrivals-bg.png");
+
+    background-size: cover;
+
+    background-position: center;
+
+    background-repeat: no-repeat;
+}
+
+
+
+/* Dark overlay */
+
+.hero-overlay {
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(5, 2, 1, 0.70),
+            rgba(20, 7, 3, 0.58),
+            rgba(5, 2, 1, 0.88)
+        );
+
+    z-index: 1;
+}
+
+
+
+/* Warm cinematic glow */
+
+.hero-glow {
+
+    position: absolute;
+
+    width: 650px;
+
+    height: 500px;
+
+    left: 50%;
+
+    top: 48%;
+
+    transform: translate(-50%, -50%);
+
+    background:
+        radial-gradient(
+            ellipse,
+            rgba(119, 57, 24, 0.24),
+            transparent 70%
+        );
+
+    filter: blur(30px);
+
+    animation: softGlow 7s ease-in-out infinite alternate;
+
+    z-index: 2;
+
+    pointer-events: none;
+}
+
+
+@keyframes softGlow {
+
+    from {
+        opacity: 0.45;
+        transform: translate(-50%, -50%) scale(0.95);
+    }
+
+    to {
+        opacity: 0.85;
+        transform: translate(-50%, -50%) scale(1.08);
+    }
+
+}
+
+
+
+/* =========================================================
+   HERO CONTENT
+========================================================= */
+
+.hero-content {
+
+    position: relative;
+
+    z-index: 3;
+
+    width: min(1100px, 90%);
+
+    text-align: center;
+
+    margin-top: 70px;
+
+    animation: heroAppear 1.3s ease both;
+}
+
+
+@keyframes heroAppear {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(25px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+    }
+
+}
+
+
+
+/* =========================================================
+   SMALL LABEL
+========================================================= */
+
+.section-label {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 22px;
+
+    margin-bottom: 32px;
+
+    color: #c9a45b;
+
+    font-family: "Font1", sans-serif;
+
+    font-size: 15px;
+
+    letter-spacing: 7px;
+
+    text-transform: uppercase;
+}
+
+
+.label-line {
+
+    display: block;
+
+    width: 48px;
+
+    height: 1px;
+
+    background: #b88c40;
+}
+
+
+
+/* =========================================================
+   MAIN HEADING
+========================================================= */
+
+.hero-content h1 {
+
+    color: #f4eee5;
+
+    font-family: "Font", Georgia, serif;
+
+    font-size: clamp(60px, 6.5vw, 100px);
+
+    font-weight: 400;
+
+    line-height: 0.95;
+
+    letter-spacing: -2px;
+
+    margin-bottom: 38px;
+
+    text-shadow:
+        0 5px 25px rgba(0, 0, 0, 0.35);
+}
+
+
+
+/* This is the champagne-gold part */
+
+.gold-italic {
+
+    display: block;
+
+    color: #d2aa62;
+
+    font-style: italic;
+
+    margin-top: 14px;
+
+    text-shadow:
+        0 3px 18px rgba(83, 51, 18, 0.35);
+}
+
+
+
+/* =========================================================
+   HERO DESCRIPTION
+========================================================= */
+
+.hero-description {
+
+    color: #eee5da;
+
+    font-family: "Font1", sans-serif;
+
+    font-size: 18px;
+
+    line-height: 1.8;
+
+    letter-spacing: 0.3px;
+
+    max-width: 720px;
+
+    margin: 0 auto;
+
+    opacity: 0.92;
+}
+
+
+
+/* =========================================================
+   DECORATIVE HEART
+========================================================= */
+
+.hero-decoration {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 35px;
+
+    margin-top: 48px;
+}
+
+
+.hero-decoration span {
+
+    width: 180px;
+
+    height: 1px;
+
+    background:
+        linear-gradient(
+            to right,
+            transparent,
+            #9d7736
+        );
+}
+
+
+.hero-decoration span:last-child {
+
+    background:
+        linear-gradient(
+            to left,
+            transparent,
+            #9d7736
+        );
+}
+
+
+.heart {
+
+    color: #d2aa62;
+
+    font-family: Georgia, serif;
+
+    font-size: 30px;
+
+    line-height: 1;
+
+    animation: heartFloat 3s ease-in-out infinite;
+}
+
+
+@keyframes heartFloat {
+
+    0%,
+    100% {
+
+        transform: translateY(0);
+
+        opacity: 0.8;
+    }
+
+    50% {
+
+        transform: translateY(-5px);
+
+        opacity: 1;
+    }
+
+}
+
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.empty-state {
+
+    position: relative;
+
+    padding: 120px 8%;
+
+    text-align: center;
+
+    background:
+
+        radial-gradient(
+            circle at center,
+            rgba(82, 42, 19, 0.28),
+            transparent 65%
+        ),
+
+        #080402;
+}
+
+
+.empty-state-inner {
+
+    max-width: 850px;
+
+    margin: auto;
+}
+
+
+.small-gold-text {
+
+    color: #b88c40;
+
+    font-family: "Font1", sans-serif;
+
+    font-size: 12px;
+
+    letter-spacing: 5px;
+
+    text-transform: uppercase;
+
+    margin-bottom: 25px;
+}
+
+
+.empty-state h2 {
+
+    color: #f2ebe1;
+
+    font-family: "Font", Georgia, serif;
+
+    font-size: clamp(45px, 5vw, 70px);
+
+    font-weight: 400;
+
+    line-height: 1.05;
+
+    margin-bottom: 30px;
+}
+
+
+.empty-state h2 span {
+
+    color: #d2aa62;
+
+    font-style: italic;
+}
+
+
+.empty-state p:last-child {
+
+    color: #cfc5b8;
+
+    font-family: "Font1", sans-serif;
+
+    font-size: 16px;
+
+    line-height: 1.8;
+}
+
+
+
+/* =========================================================
+   PRODUCTS SECTION
+========================================================= */
+
+.products-section {
+
+    padding: 120px 6% 140px;
+
+    background: #0a0503;
+
+    transition:
+        opacity 0.7s ease,
+        transform 0.7s ease;
+}
+
+
+
+/* JavaScript will remove this class */
+
+.is-hidden {
+
+    display: none !important;
+}
+
+
+
+/* =========================================================
+   PRODUCTS HEADING
+========================================================= */
+
+.products-heading {
+
+    text-align: center;
+
+    max-width: 750px;
+
+    margin: 0 auto 70px;
+}
+
+
+.products-heading h2 {
+
+    color: #f4eee5;
+
+    font-family: "Font", Georgia, serif;
+
+    font-size: clamp(48px, 5vw, 72px);
+
+    font-weight: 400;
+
+    line-height: 1;
+
+    margin-bottom: 25px;
+}
+
+
+.products-heading h2 span {
+
+    color: #d2aa62;
+
+    font-style: italic;
+}
+
+
+.products-heading > p:last-child {
+
+    color: #cfc5b8;
+
+    font-family: "Font1", sans-serif;
+
+    font-size: 16px;
+
+    line-height: 1.7;
+}
+
+
+
+/* =========================================================
+   PRODUCT GRID
+========================================================= */
+
+.products-grid {
+
+    width: min(1350px, 100%);
+
+    margin: 0 auto;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 55px 30px;
+}
+
+
+
+/* =========================================================
+   PRODUCT CARD
+========================================================= */
+
+.product-card {
+
+    position: relative;
+
+    background: #110805;
+
+    overflow: hidden;
+
+    transition:
+        transform 0.5s ease,
+        box-shadow 0.5s ease;
+}
+
+
+.product-card:hover {
+
+    transform: translateY(-8px);
+
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.45);
+}
+
+
+
+/* =========================================================
+   PRODUCT IMAGE
+========================================================= */
+
+.product-image-wrapper {
+
+    position: relative;
+
+    width: 100%;
+
+    aspect-ratio: 1 / 1;
+
+    overflow: hidden;
+
+    background: #1a0c06;
+}
+
+
+.product-image {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+    transition:
+        transform 0.8s ease;
+}
+
+
+.product-card:hover .product-image {
+
+    transform: scale(1.05);
+}
+
+
+
+/* =========================================================
+   IMAGE HOVER OVERLAY
+========================================================= */
+
+.product-image-overlay {
+
+    position: absolute;
+
+    inset: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        rgba(12, 5, 2, 0.35);
+
+    opacity: 0;
+
+    transition: opacity 0.4s ease;
+}
+
+
+.product-card:hover .product-image-overlay {
+
+    opacity: 1;
+}
+
+
+.view-product-btn {
+
+    padding: 13px 30px;
+
+    background: rgba(10, 5, 2, 0.82);
+
+    border: 1px solid #c9a45b;
+
+    color: #e1c27f;
+
+    font-family: "Font1", sans-serif;
+
+    font-size: 12px;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    transition:
+        background 0.3s ease,
+        color 0.3s ease;
+}
+
+
+.view-product-btn:hover {
+
+    background: #c9a45b;
+
+    color: #120703;
+}
+
+
+
+/* =========================================================
+   PRODUCT INFORMATION
+========================================================= */
+
+.product-info {
+
+    padding: 25px 20px 28px;
+
+    text-align: center;
+}
+
+
+.product-name {
+
+    color: #f2ebe1;
+
+    font-family: "Font", Georgia, serif;
+
+    font-size: 27px;
+
+    font-weight: 400;
+
+    margin-bottom: 8px;
+}
+
+
+.product-category {
+
+    color: #a99d8e;
+
+    font-family: "Font1", sans-serif;
+
+    font-size: 12px;
+
+    letter-spacing: 1.5px;
+
+    text-transform: uppercase;
+
+    margin-bottom: 15px;
+}
+
+
+.product-price {
+
+    color: #d2aa62;
+
+    font-family: "Font1", sans-serif;
+
+    font-size: 17px;
+
+    letter-spacing: 1px;
+}
+
+
+
+/* =========================================================
+   BACK TO HOME
+========================================================= */
+
+.back-home {
+
+    padding: 100px 20px;
+
+    text-align: center;
+
+    background: #080402;
+}
+
+
+.back-home p {
+
+    color: #a88a52;
+
+    font-family: "Font1", sans-serif;
+
+    font-size: 11px;
+
+    letter-spacing: 4px;
+
+    text-transform: uppercase;
+
+    margin-bottom: 25px;
+}
+
+
+.back-home a {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 15px;
+
+    min-width: 230px;
+
+    padding: 16px 30px;
+
+    border: 1px solid #8e6a31;
+
+    color: #d2aa62;
+
+    font-family: "Font1", sans-serif;
+
+    font-size: 12px;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+
+    text-decoration: none;
+
+    transition:
+        background 0.35s ease,
+        color 0.35s ease,
+        border-color 0.35s ease;
+}
+
+
+.back-home a:hover {
+
+    background: #c9a45b;
+
+    border-color: #c9a45b;
+
+    color: #100603;
+}
+
+
+.back-home a span {
+
+    font-size: 18px;
+}
+
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer {
+
+    padding: 70px 20px 40px;
+
+    text-align: center;
+
+    background: #050302;
+
+    border-top: 1px solid rgba(167, 126, 59, 0.15);
+}
+
+
+.footer-content {
+
+    max-width: 600px;
+
+    margin: auto;
+}
+
+
+.footer-logo {
+
+    width: 150px;
+
+    margin-bottom: 20px;
+}
+
+
+.footer p {
+
+    color: #9f9589;
+
+    font-family: "Font1", sans-serif;
+
+    font-size: 13px;
+
+    line-height: 1.7;
+}
+
+
+.footer .copyright {
+
+    margin-top: 25px;
+
+    color: #655d54;
+
+    font-size: 11px;
+
+    letter-spacing: 1px;
+}
+
+
+
+/* =========================================================
+   RESPONSIVE — TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .nav-links {
+
+        gap: 20px;
+    }
+
+
+    .nav-links a {
+
+        font-size: 11px;
+    }
+
+
+    .products-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+}
+
+
+
+/* =========================================================
+   RESPONSIVE — MOBILE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .navbar {
+
+        height: 75px;
+
+        padding: 0 20px;
+    }
+
+
+    .logo {
+
+        width: 125px;
+    }
+
+
+    .nav-links {
+
+        display: none;
+    }
+
+
+    .nav-icons {
+
+        gap: 12px;
+    }
+
+
+    .nav-icons button {
+
+        font-size: 18px;
+    }
+
+
+    .new-arrivals-hero {
+
+        min-height: 720px;
+    }
+
+
+    .hero-content {
+
+        margin-top: 50px;
+    }
+
+
+    .section-label {
+
+        font-size: 11px;
+
+        letter-spacing: 5px;
+
+        gap: 12px;
+    }
+
+
+    .label-line {
+
+        width: 30px;
+    }
+
+
+    .hero-content h1 {
+
+        font-size: clamp(48px, 13vw, 75px);
+
+        letter-spacing: -1px;
+    }
+
+
+    .hero-description {
+
+        font-size: 15px;
+    }
+
+
+    .hero-decoration {
+
+        gap: 15px;
+    }
+
+
+    .hero-decoration span {
+
+        width: 90px;
+    }
+
+
+    .products-grid {
+
+        grid-template-columns: 1fr;
+
+        gap: 40px;
+    }
+
+}
+
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 500px) {
+
+    .new-arrivals-hero {
+
+        min-height: 680px;
+    }
+
+
+    .hero-content {
+
+        width: 92%;
+    }
+
+
+    .hero-content h1 {
+
+        font-size: 48px;
+    }
+
+
+    .hero-description {
+
+        font-size: 14px;
+    }
+
+
+    .empty-state {
+
+        padding: 90px 25px;
+    }
+
+
+    .products-section {
+
+        padding: 90px 20px;
+    }
+
+}

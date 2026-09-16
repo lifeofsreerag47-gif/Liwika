@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Liwi-Ka | New Arrivals</title>
+
+    <!-- New Arrivals CSS -->
+    <link rel="stylesheet" href="new-arrivals.css">
+
+</head>
+
+
+<body class="new-arrivals-page">
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <header class="navbar">
+
+        <!-- LOGO -->
+        <a href="index.html" class="logo">
+            <img src="images/liwi.png" alt="Liwi-Ka Finest Chocolate">
+        </a>
+
+
+        <!-- NAVIGATION -->
+        <nav class="nav-links">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="seasonals/shop.html">
+                Shop
+            </a>
+
+            <a href="new-arrivals.html" class="active">
+                New Arrivals
+            </a>
+
+            <a href="seasonals/seasonals.html">
+                Seasonals
+            </a>
+
+            <a href="index.html#our-story">
+                Our Story
+            </a>
+
+            <a href="seasonals/customer-care.html">
+                Customer Care
+            </a>
+
+        </nav>
+
+
+        <!-- NAVIGATION ICONS -->
+        <div class="nav-icons">
+
+            <button type="button" aria-label="Search">
+                ⌕
+            </button>
+
+            <button type="button" aria-label="My Account">
+                ♙
+            </button>
+
+            <a
+                href="seasonals/cart.html"
+                class="cart-nav-link"
+                aria-label="Shopping Cart"
+            >
+                <button type="button">
+                    🛒
+                </button>
+            </a>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main>
+
+
+        <!-- =================================================
+             HERO / INTRO SECTION
+        ================================================== -->
+
+        <section class="new-arrivals-hero">
+
+
+            <!-- Background overlay -->
+            <div class="hero-overlay"></div>
+
+
+            <!-- Decorative light -->
+            <div class="hero-glow"></div>
+
+
+            <div class="hero-content">
+
+
+                <!-- Small gold heading -->
+                <div class="section-label">
+
+                    <span class="label-line"></span>
+
+                    <span>NEW ARRIVALS</span>
+
+                    <span class="label-line"></span>
+
+                </div>
+
+
+                <!--
+                    IMPORTANT:
+
+                    JavaScript will change this heading
+                    when products are available.
+                -->
+
+                <h1 id="newArrivalsTitle">
+
+                    <span id="titleLineOne">
+                        Something new is
+                    </span>
+
+                    <span
+                        id="titleLineTwo"
+                        class="gold-italic"
+                    >
+                        coming soon.
+                    </span>
+
+                </h1>
+
+
+                <!-- Description -->
+
+                <p
+                    id="newArrivalsDescription"
+                    class="hero-description"
+                >
+                    Our chocolatiers are crafting something special.
+                    <br>
+                    Stay tuned for the next Liwi-Ka creation.
+                </p>
+
+
+                <!-- Decorative heart -->
+
+                <div class="hero-decoration">
+
+                    <span></span>
+
+                    <div class="heart">
+                        ♡
+                    </div>
+
+                    <span></span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             EMPTY STATE
+             
+             THIS IS SHOWN WHEN THERE ARE NO NEW ARRIVALS.
+             
+             JavaScript will hide this when products exist.
+        ================================================== -->
+
+        <section
+            id="emptyState"
+            class="empty-state"
+        >
+
+            <div class="empty-state-inner">
+
+                <p class="small-gold-text">
+                    THE LIWI-KA COLLECTION
+                </p>
+
+                <h2>
+                    A little more
+                    <span>magic</span>
+                    is on its way.
+                </h2>
+
+                <p>
+                    We're carefully creating our next collection.
+                    <br>
+                    Check back soon for something extraordinary.
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             PRODUCTS SECTION
+             
+             HIDDEN INITIALLY.
+             
+             JavaScript will display this section when
+             New Arrival products are available.
+        ================================================== -->
+
+        <section
+            id="newArrivalsSection"
+            class="products-section is-hidden"
+        >
+
+
+            <!-- Section heading -->
+
+            <div class="products-heading">
+
+                <p class="small-gold-text">
+                    FRESH FROM LIWI-KA
+                </p>
+
+                <h2>
+                    Latest
+                    <span>Creations</span>
+                </h2>
+
+                <p>
+                    Discover the newest additions to our
+                    chocolate collection.
+                </p>
+
+            </div>
+
+
+
+            <!--
+                PRODUCT GRID
+
+                JavaScript will insert products inside this.
+            -->
+
+            <div
+                id="newArrivalsProducts"
+                class="products-grid"
+            >
+
+                <!-- Products will appear here using JavaScript -->
+
+            </div>
+
+
+
+            <!--
+                PRODUCT CARD TEMPLATE
+
+                JavaScript will clone this template
+                for every New Arrival product.
+            -->
+
+            <template id="productCardTemplate">
+
+                <article class="product-card">
+
+
+                    <!-- Product Image -->
+
+                    <div class="product-image-wrapper">
+
+                        <img
+                            class="product-image"
+                            src=""
+                            alt=""
+                        >
+
+                        <div class="product-image-overlay">
+
+                            <button
+                                type="button"
+                                class="view-product-btn"
+                            >
+                                View
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Product Information -->
+
+                    <div class="product-info">
+
+                        <h3 class="product-name">
+                            Product Name
+                        </h3>
+
+                        <p class="product-category">
+                            Chocolate Collection
+                        </p>
+
+                        <p class="product-price">
+                            ₹499
+                        </p>
+
+                    </div>
+
+                </article>
+
+            </template>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             BACK TO HOME
+        ================================================== -->
+
+        <section class="back-home">
+
+            <p>
+                EXPLORE MORE FROM LIWI-KA
+            </p>
+
+            <a href="index.html">
+
+                <span>←</span>
+
+                Back to Home
+
+            </a>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer class="footer">
+
+        <div class="footer-content">
+
+            <img
+                src="images/liwi.png"
+                alt="Liwi-Ka"
+                class="footer-logo"
+            >
+
+            <p>
+                Finest chocolate, crafted with intention.
+            </p>
+
+            <p class="copyright">
+                © 2026 Liwi-Ka. All rights reserved.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+
+    <!--
+        JAVASCRIPT WILL BE CONNECTED LATER.
+
+        DO NOT CREATE IT YET IF WE ARE STILL
+        FINISHING HTML + CSS.
+    -->
+
+    <!--
+    <script src="new-arrivals.js"></script>
+    -->
+
+</body>
+
+</html>
