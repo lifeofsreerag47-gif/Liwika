@@ -301,27 +301,23 @@ body {
 
 .hero-content h1 span {
     font-size: 80px;
-    background: linear-gradient(
-        105deg,
-        #6f4b0b 0%,
-        #b77b16 18%,
-        #f7d86a 34%,
-        #fff3b0 45%,
-        #d9a441 55%,
-        #8b5e12 72%,
-        #f2c75c 88%,
-        #fff0a0 100%
+
+    background: repeating-linear-gradient(
+        180deg,
+        #3e2f0b 0,
+        #f7ef8a 8px,
+        #1d1605 16px,
+        #a9882b 24px,
+        #3c2e0c 32px
     );
-    background-size: 240% 100%;
-    background-position: 0% 50%;
+
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: extraordinaryGoldShine 5.5s ease-in-out infinite;
-    filter:
-        drop-shadow(0 1px 0 rgba(255, 220, 130, 0.65))
-        drop-shadow(0 0 8px rgba(217, 164, 65, 0.22))
-        drop-shadow(0 4px 5px rgba(0, 0, 0, 0.6));
+
+    animation: none;
+
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,.5));
 }
 
 @keyframes extraordinaryGoldShine {
@@ -1963,3 +1959,26 @@ html {
     overflow-x: clip;
 }
 
+
+/* =========================================================
+   HOME — STATIC OVERWHELMING GOLD TITLE
+   Keeps the original home-page design; only the gold phrase
+   receives a richer, non-animated metallic gradient.
+========================================================= */
+
+
+/* HOME NAVBAR — MATCH THE SHARED PAGE NAVBAR */
+.home-page .navbar{height:82px;padding:0 clamp(20px,5vw,72px);}
+.home-page .logo{width:154px;}
+.home-page .nav-links{gap:clamp(18px,2.45vw,36px);}
+.home-page .nav-links a{font-size:11px;letter-spacing:1.7px;padding:9px 0;}
+.home-page .nav-icons{gap:8px;}
+.home-page .nav-icons button{width:38px;height:38px;font-size:18px;}
+@media(max-width:900px){
+ .home-page .navbar{height:72px;padding:0 18px;}
+ .home-page .logo{width:125px;}
+ .home-page .nav-icons{gap:6px;}
+ .home-page .nav-icons button{width:34px;height:34px;font-size:17px;}
+}
+
+/* EXACT SHOP GOLD EFFECT ON HOME */

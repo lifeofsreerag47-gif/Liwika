@@ -1266,3 +1266,166 @@ body {
     }
 
 }
+
+/* =========================================================
+   LIWI-KA — SHARED PREMIUM NAVBAR
+   Consistent across every page
+========================================================= */
+.navbar{
+    height:82px;
+    padding:0 clamp(20px,5vw,72px);
+    background:linear-gradient(180deg,rgba(5,3,2,.92) 0%,rgba(5,3,2,.55) 58%,transparent 100%);
+    border-bottom:1px solid rgba(226,182,86,.08);
+    backdrop-filter:blur(7px);
+    -webkit-backdrop-filter:blur(7px);
+}
+.navbar::after{
+    content:"";
+    position:absolute;
+    left:5%; right:5%; bottom:0;
+    height:1px;
+    background:linear-gradient(90deg,transparent,rgba(215,169,67,.24),rgba(255,226,143,.18),transparent);
+    pointer-events:none;
+}
+.logo{width:154px;position:relative;z-index:1;transition:transform .45s ease,filter .45s ease}
+.logo:hover{transform:translateY(-1px) scale(1.025);filter:drop-shadow(0 0 12px rgba(224,179,79,.18))}
+.nav-links{gap:clamp(18px,2.45vw,36px)}
+.nav-links a{font-size:11px;letter-spacing:1.7px;color:rgba(255,250,241,.9);padding:9px 0}
+.nav-links a::after{
+    height:1px;bottom:1px;width:0;
+    background:linear-gradient(90deg,#7d5310,#f8dc7b,#fff1ad,#b47a1c,#7d5310);
+    background-size:220% 100%;
+    box-shadow:0 0 8px rgba(224,177,73,.3);
+}
+.nav-links a:hover,.nav-links a.active{color:#f0c968;text-shadow:0 0 16px rgba(226,180,73,.22)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%;animation:navGoldSweep 1.8s linear infinite}
+.nav-icons{gap:8px}
+.nav-icons button{
+    width:38px;height:38px;border:1px solid rgba(235,194,101,.10);border-radius:50%;
+    display:grid;place-items:center;font-size:18px;color:rgba(255,248,235,.9);
+    background:rgba(255,255,255,.025);box-shadow:inset 0 1px rgba(255,255,255,.08);
+}
+.nav-icons button:hover{color:#f4cd72;border-color:rgba(235,194,101,.4);background:rgba(201,154,61,.08);box-shadow:0 0 22px rgba(201,154,61,.12),inset 0 1px rgba(255,255,255,.12)}
+.cart-nav-link{display:flex}
+@keyframes navGoldSweep{to{background-position:220% 0}}
+@media(max-width:900px){
+ .navbar{height:72px;padding:0 18px}
+ .logo{width:125px}
+ .nav-icons{gap:6px}
+ .nav-icons button{width:34px;height:34px;font-size:17px}
+}
+
+
+/* =========================================================
+   NEW ARRIVALS — LUXURY ART DIRECTION
+========================================================= */
+.new-arrivals-page{background:#080402;overflow-x:hidden}
+.new-arrivals-page main{position:relative}
+.new-arrivals-hero{min-height:860px;background-color:#100603;background-position:center 42%;isolation:isolate}
+.new-arrivals-hero::before{
+    content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:radial-gradient(ellipse at 50% 46%,rgba(241,188,77,.13),transparent 28%),radial-gradient(ellipse at 50% 100%,rgba(0,0,0,.8),transparent 58%);
+}
+.new-arrivals-hero::after{
+    content:"";position:absolute;inset:-1px;z-index:2;pointer-events:none;opacity:.13;
+    background-image:radial-gradient(rgba(255,223,143,.55) .5px,transparent .7px);background-size:6px 6px;mix-blend-mode:soft-light;
+}
+.new-arrivals-page .hero-overlay{background:linear-gradient(180deg,rgba(3,1,0,.76),rgba(18,6,2,.38) 42%,rgba(5,2,1,.92) 100%);z-index:3}
+.new-arrivals-page .hero-glow{z-index:4;background:radial-gradient(ellipse,rgba(196,132,39,.28),rgba(104,48,13,.08) 38%,transparent 72%);filter:blur(42px);width:min(760px,85vw);height:540px}
+.new-arrivals-page .hero-content{z-index:5;margin-top:52px;padding:36px 25px}
+.new-arrivals-page .section-label{font-size:11px;letter-spacing:6px;margin-bottom:35px;color:#d7a849}
+.new-arrivals-page .label-line{height:1px;background:linear-gradient(90deg,transparent,#d4a248,#fff0a4)}
+.new-arrivals-page .hero-content h1{font-size:clamp(58px,7.2vw,108px);line-height:.9;letter-spacing:-2.5px;text-shadow:0 12px 38px rgba(0,0,0,.55)}
+.new-arrivals-page .gold-italic{
+    margin-top:18px;font-style:italic;
+    background:repeating-linear-gradient(180deg,#83641b 0,#f7ef8a 8px,#46370c 16px,#a9882b 24px,#83641b 32px);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    filter:drop-shadow(0 2px 4px rgba(0,0,0,.5));
+    animation:none;
+}
+@keyframes newGoldShine{0%,35%{background-position:0% 50%}70%,100%{background-position:100% 50%}}
+.new-arrivals-page .hero-description{font-size:16px;line-height:1.9;color:rgba(248,238,224,.78);text-shadow:0 3px 14px rgba(0,0,0,.65)}
+.new-arrivals-page .hero-decoration{margin-top:40px;opacity:.9}
+.new-arrivals-page .heart{color:#edc66d;text-shadow:0 0 18px rgba(228,179,72,.4);font-size:25px}
+.new-arrivals-page .hero-decoration span{background:linear-gradient(90deg,transparent,#b68129,#f4d47b,transparent)}
+
+/* Empty state / collection area */
+.new-arrivals-page .empty-state,.new-arrivals-page .products-section{position:relative;background:radial-gradient(circle at 50% 0,rgba(197,141,43,.08),transparent 30%),#080402}
+.new-arrivals-page .empty-state{padding:135px 24px 150px;border-top:1px solid rgba(224,176,71,.08);border-bottom:1px solid rgba(224,176,71,.07)}
+.new-arrivals-page .empty-state-inner{position:relative;max-width:850px;margin:auto;text-align:center;padding:70px 30px;border:1px solid rgba(214,164,65,.11);background:linear-gradient(145deg,rgba(255,255,255,.035),rgba(255,255,255,.008));box-shadow:inset 0 1px rgba(255,255,255,.05),0 30px 80px rgba(0,0,0,.28);overflow:hidden}
+.new-arrivals-page .empty-state-inner::before{content:"";position:absolute;width:280px;height:280px;left:50%;top:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(201,154,61,.10),transparent 70%);filter:blur(8px);pointer-events:none}
+.new-arrivals-page .small-gold-text{position:relative;color:#d9aa50;letter-spacing:4px;font-size:11px;background:repeating-linear-gradient(180deg,#83641b 0,#f7ef8a 8px,#46370c 16px,#a9882b 24px,#83641b 32px);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:none}
+.new-arrivals-page .empty-state h2,.new-arrivals-page .products-heading h2{position:relative;font-family:"Font";font-weight:400;font-size:clamp(43px,5.5vw,76px);line-height:.98;margin:22px 0;background:linear-gradient(105deg,#eee3d4,#fff9ec,#d7c6af);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.new-arrivals-page .empty-state h2 span,.new-arrivals-page .products-heading h2 span{background:repeating-linear-gradient(180deg,#83641b 0,#f7ef8a 8px,#46370c 16px,#a9882b 24px,#83641b 32px);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:none}
+.new-arrivals-page .empty-state-inner>p:last-child{position:relative;color:#9d9387;line-height:1.8;font-size:14px}
+
+/* Products */
+.new-arrivals-page .products-section{padding:125px 7% 140px}
+.new-arrivals-page .products-heading{text-align:center;max-width:760px;margin:0 auto 58px}
+.new-arrivals-page .products-heading>p:last-child{color:#9e9589;line-height:1.7}
+.new-arrivals-page .products-grid{max-width:1250px;margin:auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:30px;perspective:1200px}
+.new-arrivals-page .product-card{position:relative;background:linear-gradient(150deg,#17120d,#0d0b09);border:1px solid rgba(210,163,68,.15);overflow:hidden;transform-style:preserve-3d;transition:transform .18s ease,border-color .35s ease,box-shadow .35s ease;box-shadow:0 20px 45px rgba(0,0,0,.25)}
+.new-arrivals-page .product-card:hover{border-color:rgba(229,186,91,.55);box-shadow:0 30px 70px rgba(0,0,0,.55),0 0 0 1px rgba(229,186,91,.08)}
+.new-arrivals-page .product-image-wrapper{position:relative;height:390px;overflow:hidden;background:#14100c}
+.new-arrivals-page .product-image{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.2,.7,.2,1),filter .5s ease}
+.new-arrivals-page .product-card:hover .product-image{transform:scale(1.065);filter:saturate(1.04) contrast(1.03)}
+.new-arrivals-page .product-image-overlay{position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(180deg,transparent 35%,rgba(0,0,0,.65));opacity:0;transition:opacity .4s ease}
+.new-arrivals-page .product-card:hover .product-image-overlay{opacity:1}
+.new-arrivals-page .view-product-btn,.new-arrivals-page .back-home a{
+    border:1px solid rgba(231,188,92,.78);color:#f6e6c2;background:linear-gradient(180deg,rgba(255,255,255,.11),rgba(255,255,255,.025));
+    box-shadow:inset 0 1px rgba(255,255,255,.15),0 10px 30px rgba(0,0,0,.28);text-transform:uppercase;letter-spacing:2px;font-family:"Font1";transition:.35s ease;cursor:pointer
+}
+.new-arrivals-page .view-product-btn{padding:13px 24px}
+.new-arrivals-page .view-product-btn:hover,.new-arrivals-page .back-home a:hover{color:#170f04;background:linear-gradient(100deg,#80540e,#d7a43d,#fff0a1,#b97d1d,#80540e);background-size:230% 100%;animation:buttonGoldMove 2s linear infinite;transform:translateY(-3px);box-shadow:0 14px 36px rgba(198,146,44,.2)}
+.new-arrivals-page .product-info{padding:25px 25px 28px}
+.new-arrivals-page .product-name{font-family:"Font";font-size:27px;font-weight:400;color:#f5eee4;margin-bottom:8px}
+.new-arrivals-page .product-category{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#857b70;margin-bottom:14px}
+.new-arrivals-page .product-price{font-family:"Font1";font-size:18px;color:#e2b755}
+.new-arrivals-page .back-home{position:relative;text-align:center;padding:90px 20px 110px;background:#060403}
+.new-arrivals-page .back-home p{color:#9c8f80;letter-spacing:4px;font-size:10px;margin-bottom:20px}
+.new-arrivals-page .back-home a{display:inline-flex;align-items:center;gap:12px;text-decoration:none;padding:14px 24px}
+.new-arrivals-page .footer{border-top:1px solid rgba(220,174,74,.08);background:linear-gradient(180deg,#090604,#040302)}
+.new-arrivals-page .footer-logo{filter:drop-shadow(0 0 12px rgba(222,175,72,.12))}
+@media(max-width:900px){
+ .new-arrivals-hero{min-height:760px}
+ .new-arrivals-page .hero-content{margin-top:35px}
+ .new-arrivals-page .hero-content h1{font-size:clamp(50px,12vw,80px)}
+ .new-arrivals-page .products-grid{grid-template-columns:1fr;max-width:560px}
+ .new-arrivals-page .product-image-wrapper{height:430px}
+ .new-arrivals-page .empty-state{padding:95px 18px}
+}
+
+@keyframes sectionGold{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+@keyframes buttonGoldMove{to{background-position:230% 0}}
+
+/* =========================================================
+   NEW ARRIVALS — MATCH HOME EXPLORE BUTTON
+========================================================= */
+.new-arrivals-page .view-product-btn,
+.new-arrivals-page .back-home a {
+    display: inline-block;
+    padding: 15px 32px;
+    border: 1px solid #d9a441;
+    color: #ffffff;
+    background: transparent;
+    text-decoration: none;
+    font-family: "Font1", sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: all 0.4s ease;
+}
+
+.new-arrivals-page .view-product-btn:hover,
+.new-arrivals-page .back-home a:hover {
+    background: linear-gradient(
+        90deg,
+        #83641b 0%,
+        #f7ef8a 25%,
+        #765f21 50%,
+        #a9882b 75%,
+        #83641b 100%
+    );
+    color: #000000;
+    border-color: #d9a441;
+    transform: translateY(-3px);
+}
