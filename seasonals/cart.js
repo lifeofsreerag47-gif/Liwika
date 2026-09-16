@@ -54,6 +54,10 @@
             }
 
             this.saveItems(items);
+
+            if (typeof window.showCartToast === "function") {
+                window.showCartToast(item.name || "Artisanal Chocolate");
+            }
         },
 
         updateQuantity(id, flavour, occasion, newQty) {

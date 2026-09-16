@@ -614,9 +614,6 @@ if (modalAddToCart) {
             modalAddToCart.style.background = "";
             modalAddToCart.style.color = "";
             closeProductModal();
-            if (typeof showCartToast === "function") {
-                showCartToast(currentProduct.name);
-            }
         }, 600);
     });
 }
