@@ -54,6 +54,12 @@
             }
 
             this.saveItems(items);
+
+            // Every successful add-to-cart action gets the same small
+            // bottom notification, regardless of which page initiated it.
+            if (typeof window.showCartToast === "function") {
+                window.showCartToast(item.name || "Artisanal Chocolate");
+            }
         },
 
         updateQuantity(id, flavour, occasion, newQty) {

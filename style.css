@@ -301,21 +301,36 @@ body {
 
 .hero-content h1 span {
     font-size: 80px;
-        background: repeating-linear-gradient(
-    180deg,
-    #83641b 0px,
-    #f7ef8a 8px,
-    #46370c 16px,
-    #a9882b 24px,
-    #83641b 32px
-);
+    background: linear-gradient(
+        105deg,
+        #6f4b0b 0%,
+        #b77b16 18%,
+        #f7d86a 34%,
+        #fff3b0 45%,
+        #d9a441 55%,
+        #8b5e12 72%,
+        #f2c75c 88%,
+        #fff0a0 100%
+    );
+    background-size: 240% 100%;
+    background-position: 0% 50%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-
+    animation: extraordinaryGoldShine 5.5s ease-in-out infinite;
     filter:
-        drop-shadow(0 1px 0 rgba(255, 220, 130, 0.4))
-        drop-shadow(0 3px 3px rgba(0, 0, 0, 0.55));
+        drop-shadow(0 1px 0 rgba(255, 220, 130, 0.65))
+        drop-shadow(0 0 8px rgba(217, 164, 65, 0.22))
+        drop-shadow(0 4px 5px rgba(0, 0, 0, 0.6));
+}
+
+@keyframes extraordinaryGoldShine {
+    0%, 55% {
+        background-position: 0% 50%;
+    }
+    78%, 100% {
+        background-position: 100% 50%;
+    }
 }
 
 
