@@ -629,7 +629,7 @@
 
 .shop-product-image {
 
-    height: 380px;
+    height: 350px;
 
     position: relative;
 
@@ -870,9 +870,9 @@
 .shop-product-info {
 
     padding:
-        25px 24px 23px;
+        22px 22px 20px;
 
-    min-height: 225px;
+    min-height: 210px;
 
     display: flex;
 
