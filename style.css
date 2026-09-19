@@ -82,7 +82,7 @@ body {
     display: flex;
     align-items: center;
 
-    width: 170px;
+    width: 154px;
 }
 
 .logo img {
@@ -1964,3 +1964,131 @@ html {
    Keeps the original home-page design; only the gold phrase
    receives a richer, non-animated metallic gradient.
 ========================================================= */
+
+
+
+/* =========================================================
+   HOME PAGE — MATCH NEW ARRIVALS STYLE
+========================================================= */
+
+/* NAVBAR */
+.home-page .navbar {
+    height: 82px;
+    padding: 0 clamp(20px, 5vw, 72px);
+
+    background: linear-gradient(
+        180deg,
+        rgba(5, 3, 2, 0.92) 0%,
+        rgba(5, 3, 2, 0.55) 58%,
+        transparent 100%
+    );
+
+    border-bottom: 1px solid rgba(226, 182, 86, 0.08);
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+}
+
+/* LOGO */
+.home-page .logo {
+    width: 154px;
+    height: auto;
+    display: flex;
+    align-items: center;
+}
+
+.home-page .logo img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* NAVIGATION */
+.home-page .nav-links {
+    gap: clamp(18px, 2.45vw, 36px);
+}
+
+.home-page .nav-links a {
+    font-family: "Font1", sans-serif;
+    font-size: 11px;
+    letter-spacing: 1.7px;
+    padding: 9px 0;
+}
+
+/* ICONS */
+.home-page .nav-icons {
+    gap: 8px;
+}
+
+.home-page .nav-icons button {
+    width: 38px;
+    height: 38px;
+
+    display: grid;
+    place-items: center;
+
+    font-size: 18px;
+
+    border: 1px solid rgba(235, 194, 101, 0.10);
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.025);
+}
+
+/* =========================================================
+   HOME HERO — MATCH NEW ARRIVALS TYPOGRAPHY
+========================================================= */
+
+.home-page .hero {
+    min-height: 860px;
+    height: 860px;
+}
+
+/* Small gold heading */
+.home-page .small-heading {
+    font-family: "Font1", sans-serif;
+    font-size: 11px;
+    letter-spacing: 6px;
+    margin-bottom: 35px;
+}
+
+/* Main heading */
+.home-page .hero-content h1 {
+    font-family: "Font", Georgia, serif;
+
+    font-size: clamp(58px, 7.2vw, 108px);
+
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -2.5px;
+
+    margin-bottom: 38px;
+}
+
+/* Gold part */
+.home-page .hero-content h1 span {
+    font-size: inherit;
+    line-height: inherit;
+}
+
+/* Description */
+.home-page .hero-description {
+    font-family: "Font1", sans-serif;
+    font-size: 18px;
+    line-height: 1.8;
+    letter-spacing: 0.3px;
+}
+
+/* Explore button */
+.home-page .shop-button {
+    font-family: "Font1", sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    padding: 15px 32px;
+}
+
+/* Scroll text */
+.home-page .scroll-indicator {
+    font-family: "Font1", sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+}
