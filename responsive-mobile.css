@@ -1,0 +1,1706 @@
+
+/* =========================================================
+   LIWI-KA — UNIVERSAL MOBILE RESPONSIVE LAYER
+   Added without changing desktop layouts.
+========================================================= */
+
+html {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    overscroll-behavior-x: none;
+}
+
+img, video, iframe, canvas {
+    max-width: 100%;
+}
+
+button, input, select, textarea {
+    font: inherit;
+}
+
+.mobile-menu-toggle {
+    display: none;
+}
+
+@media (max-width: 900px) {
+    /* ---------- GLOBAL ---------- */
+    body {
+        overflow-x: hidden !important;
+    }
+
+    main, section, footer, header {
+        max-width: 100%;
+    }
+
+    /* ---------- NAVBAR ---------- */
+    .navbar {
+        height: auto !important;
+        min-height: 68px;
+        padding: 10px 16px !important;
+        gap: 10px;
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) auto auto;
+        align-items: center;
+        width: 100%;
+    }
+
+    .logo {
+        width: 125px !important;
+        max-width: 42vw;
+        min-width: 0;
+    }
+
+    .nav-icons {
+        gap: 5px !important;
+        justify-content: flex-end;
+        min-width: 0;
+    }
+
+    .nav-icons button {
+        width: 36px !important;
+        height: 36px !important;
+        min-width: 36px;
+        padding: 0;
+        font-size: 18px !important;
+        display: grid;
+        place-items: center;
+    }
+
+    .mobile-menu-toggle {
+        display: grid !important;
+        place-items: center;
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        border: 1px solid rgba(235,194,101,.20);
+        border-radius: 50%;
+        color: #f7efcf;
+        background: rgba(255,255,255,.035);
+        cursor: pointer;
+        z-index: 1003;
+    }
+
+    .mobile-menu-toggle span,
+    .mobile-menu-toggle span::before,
+    .mobile-menu-toggle span::after {
+        content: "";
+        display: block;
+        width: 17px;
+        height: 1.5px;
+        background: currentColor;
+        transition: transform .25s ease, opacity .25s ease;
+    }
+
+    .mobile-menu-toggle span::before { transform: translateY(-6px); }
+    .mobile-menu-toggle span::after { transform: translateY(4.5px); }
+
+    .mobile-menu-toggle.open span { background: transparent; }
+    .mobile-menu-toggle.open span::before { transform: translateY(0) rotate(45deg); }
+    .mobile-menu-toggle.open span::after { transform: translateY(-1.5px) rotate(-45deg); }
+
+    .nav-links {
+        position: absolute !important;
+        top: calc(100% - 1px);
+        left: 10px;
+        right: 10px;
+        width: auto !important;
+        height: auto !important;
+        max-height: calc(100vh - 82px);
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: 10px !important;
+        margin: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        justify-content: flex-start !important;
+        gap: 2px !important;
+        background: rgba(8,6,4,.97);
+        border: 1px solid rgba(217,164,65,.18);
+        border-radius: 0 0 14px 14px;
+        box-shadow: 0 18px 45px rgba(0,0,0,.55);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateY(-8px);
+        transition: opacity .22s ease, transform .22s ease, visibility .22s ease;
+        z-index: 1002;
+    }
+
+    .nav-links.mobile-open {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateY(0);
+    }
+
+    .nav-links a {
+        width: 100%;
+        min-height: 46px;
+        padding: 13px 14px !important;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        border-radius: 8px;
+        font-size: 12px !important;
+        letter-spacing: 1.4px !important;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+        background: rgba(217,164,65,.08);
+    }
+
+    /* ---------- HEROES ---------- */
+    .hero {
+        min-height: 100svh !important;
+        height: 100svh !important;
+    }
+
+    .hero-content {
+        width: min(92%, 650px);
+        padding: 0 8px;
+    }
+
+    .hero-content h1 {
+        font-size: clamp(42px, 11vw, 72px) !important;
+        line-height: .96 !important;
+    }
+
+    .hero-description {
+        max-width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 13px !important;
+        line-height: 1.6 !important;
+    }
+
+    .small-heading,
+    .eyebrow,
+    .shop-label,
+    .seasonals-label {
+        letter-spacing: 3px !important;
+        font-size: 9px !important;
+    }
+
+    .scroll-indicator {
+        bottom: 24px !important;
+        font-size: 9px !important;
+    }
+
+    .arrival-hero,
+    .shop-hero,
+    .occasion-hero,
+    .care-hero {
+        min-height: 55svh !important;
+        padding: 105px 18px 55px !important;
+    }
+
+    .arrival-hero h1,
+    .shop-hero h1,
+    .occasion-hero h1,
+    .care-hero h1,
+    .new-arrivals-hero h1 {
+        font-size: clamp(42px, 12vw, 72px) !important;
+        line-height: .95 !important;
+        max-width: 100%;
+    }
+
+    .seasonals-intro,
+    .shop-intro {
+        padding: 105px 18px 45px !important;
+    }
+
+    .seasonals-intro h1,
+    .shop-intro h1 {
+        font-size: clamp(42px, 12vw, 70px) !important;
+        line-height: .95 !important;
+    }
+
+    /* ---------- COMMON CONTAINERS ---------- */
+    .section-heading,
+    .occasion-section-heading,
+    .products-heading {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .section-heading h2,
+    .occasion-section-heading h2,
+    .products-heading h2 {
+        font-size: clamp(34px, 9vw, 52px) !important;
+        line-height: 1 !important;
+    }
+
+    .section-description,
+    .seasonals-description {
+        max-width: 92% !important;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.7 !important;
+    }
+
+    /* ---------- PRODUCT GRIDS ---------- */
+    .product-grid,
+    .products-grid,
+    .shop-products,
+    .occasion-products {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 16px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    .product-card,
+    .shop-product,
+    .occasion-product {
+        min-width: 0 !important;
+        width: 100% !important;
+    }
+
+    .product-image,
+    .shop-product-image,
+    .occasion-product-image {
+        width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 1 / 1.08;
+        overflow: hidden;
+    }
+
+    .product-image img,
+    .shop-product-image img,
+    .occasion-product-image img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover;
+        display: block;
+    }
+
+    .product-info,
+    .shop-product-info,
+    .occasion-product-info {
+        min-width: 0;
+        padding: 13px !important;
+    }
+
+    .product-info h3,
+    .product-name {
+        font-size: 15px !important;
+        line-height: 1.2 !important;
+    }
+
+    .product-description {
+        font-size: 11px !important;
+        line-height: 1.5 !important;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .product-bottom,
+    .shop-product-bottom,
+    .occasion-product-bottom {
+        gap: 8px !important;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .price,
+    .shop-price,
+    .product-price {
+        font-size: 14px !important;
+    }
+
+    .add-button,
+    .shop-add,
+    .quick-add,
+    .view-product-btn,
+    .modal-add-btn {
+        min-height: 38px;
+        padding: 9px 11px !important;
+        font-size: 10px !important;
+        letter-spacing: .7px !important;
+    }
+
+    /* Keep touch interactions comfortable; remove desktop-only hover transforms */
+    .product-card:hover,
+    .shop-product:hover,
+    .occasion-card:hover,
+    .occasion-product:hover,
+    .tilt-card:hover {
+        transform: none !important;
+    }
+
+    /* ---------- OCCASION CARDS ---------- */
+    .occasion-grid {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 10px 16px 75px !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 14px !important;
+    }
+
+    .occasion-card:nth-child(n) {
+        grid-column: auto !important;
+    }
+
+    .occasion-card {
+        min-width: 0 !important;
+        min-height: 190px;
+    }
+
+    .occasion-card img,
+    .occasion-card .occasion-icon {
+        max-width: 100%;
+    }
+
+    /* ---------- SHOP CONTROLS ---------- */
+    .shop-controls {
+        width: 100% !important;
+        padding: 0 16px !important;
+        flex-wrap: wrap;
+        gap: 10px !important;
+    }
+
+    .shop-filter,
+    .shop-sort {
+        max-width: 100%;
+        flex: 1 1 140px;
+    }
+
+    .filter-button {
+        min-height: 42px;
+        padding: 9px 12px !important;
+    }
+
+    /* ---------- GIFTING / CTA ---------- */
+    .shop-gifting,
+    .gifting-section,
+    .story-cta-banner,
+    .support-strip {
+        margin-left: 16px !important;
+        margin-right: 16px !important;
+    }
+
+    .shop-gifting-content,
+    .gifting-text {
+        padding: 25px 18px !important;
+    }
+
+    .gifting-heading h2,
+    .shop-gifting-content h2,
+    .story-cta-banner h2 {
+        font-size: clamp(30px, 8vw, 48px) !important;
+    }
+
+    /* ---------- STORY ---------- */
+    .story-container {
+        width: 100% !important;
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+    }
+
+    .story-main-grid {
+        grid-template-columns: 1fr !important;
+        gap: 28px !important;
+        margin-bottom: 55px !important;
+    }
+
+    .story-visual-column,
+    .story-narrative-column {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .story-image-frame {
+        height: auto !important;
+        aspect-ratio: 4 / 3;
+    }
+
+    .story-pillars-grid,
+    .story-stats-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 12px !important;
+    }
+
+    .story-quote-card {
+        padding: 24px 18px !important;
+    }
+
+    /* ---------- CUSTOMER CARE ---------- */
+    .contact-section,
+    .faq-section,
+    .help-section {
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+    }
+
+    .contact-content {
+        grid-template-columns: 1fr !important;
+        gap: 35px !important;
+    }
+
+    .contact-copy h2 {
+        font-size: clamp(42px, 11vw, 68px) !important;
+    }
+
+    .contact-mini {
+        gap: 18px !important;
+        flex-wrap: wrap;
+        margin-top: 28px !important;
+    }
+
+    .faq-grid {
+        grid-template-columns: 1fr !important;
+        width: 100%;
+    }
+
+    .faq-item summary {
+        padding: 17px 15px !important;
+        grid-template-columns: 28px 1fr 18px !important;
+    }
+
+    .customer-care-form {
+        width: 100%;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr !important;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    /* ---------- CART ---------- */
+    .cart-page-main,
+    .cart-header {
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+    }
+
+    .cart-layout {
+        width: 100% !important;
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+        padding: 0 16px !important;
+    }
+
+    .cart-layout > * {
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .cart-item,
+    .cart-summary,
+    .empty-cart {
+        width: 100% !important;
+    }
+
+    /* ---------- MODALS / WINDOWS ---------- */
+    .product-modal {
+        padding: 10px !important;
+        align-items: center !important;
+        overflow-y: auto !important;
+    }
+
+    .modal-content {
+        width: 100% !important;
+        max-width: 100% !important;
+        max-height: calc(100svh - 20px) !important;
+        margin: 0 !important;
+        border-radius: 10px;
+        overflow-y: auto !important;
+    }
+
+    .modal-body {
+        grid-template-columns: 1fr !important;
+        gap: 18px !important;
+    }
+
+    .modal-image-container {
+        width: 100% !important;
+        max-height: 42svh;
+        min-height: 190px;
+    }
+
+    .modal-image-container img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover;
+    }
+
+    .modal-details {
+        width: 100% !important;
+        padding: 0 16px 16px !important;
+        min-width: 0;
+    }
+
+    .modal-footer-action {
+        position: sticky;
+        bottom: 0;
+        padding: 10px 0 0;
+        background: linear-gradient(transparent, #11100e 25%);
+    }
+
+    .close-modal {
+        width: 38px !important;
+        height: 38px !important;
+        top: 8px !important;
+        right: 8px !important;
+        z-index: 5;
+    }
+
+    .flavour-options,
+    .modal-option-group {
+        flex-wrap: wrap;
+    }
+
+    /* ---------- EMPTY STATES ---------- */
+    .empty-state,
+    .empty-arrivals,
+    .empty-content {
+        padding: 45px 18px !important;
+        width: 100%;
+    }
+
+    /* ---------- FOOTER ---------- */
+    .footer-container,
+    .footer-content {
+        width: 100% !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 30px 18px !important;
+        padding-left: 18px !important;
+        padding-right: 18px !important;
+    }
+
+    .footer-brand,
+    .footer-newsletter {
+        grid-column: 1 / -1;
+    }
+
+    .footer-bottom {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 12px !important;
+        padding-left: 18px !important;
+        padding-right: 18px !important;
+    }
+
+    .footer-bottom-links {
+        flex-wrap: wrap;
+        gap: 12px !important;
+    }
+}
+
+@media (max-width: 600px) {
+    /* ---------- SMALL PHONES ---------- */
+    .navbar {
+        padding: 8px 12px !important;
+        min-height: 62px;
+        grid-template-columns: minmax(0, 1fr) auto auto;
+    }
+
+    .logo {
+        width: 108px !important;
+    }
+
+    .nav-icons button {
+        width: 33px !important;
+        height: 33px !important;
+        min-width: 33px;
+        font-size: 16px !important;
+    }
+
+    .mobile-menu-toggle {
+        width: 36px;
+        height: 36px;
+    }
+
+    .nav-links {
+        left: 7px;
+        right: 7px;
+    }
+
+    .product-grid,
+    .products-grid,
+    .shop-products,
+    .occasion-products {
+        grid-template-columns: 1fr !important;
+        gap: 18px !important;
+        padding-left: 13px !important;
+        padding-right: 13px !important;
+    }
+
+    .occasion-grid {
+        grid-template-columns: 1fr !important;
+        padding-left: 13px !important;
+        padding-right: 13px !important;
+    }
+
+    .occasion-card {
+        min-height: 205px;
+    }
+
+    .product-image,
+    .shop-product-image,
+    .occasion-product-image {
+        aspect-ratio: 1 / .92;
+    }
+
+    .product-info,
+    .shop-product-info,
+    .occasion-product-info {
+        padding: 15px !important;
+    }
+
+    .product-info h3,
+    .product-name {
+        font-size: 17px !important;
+    }
+
+    .product-description {
+        font-size: 12px !important;
+        -webkit-line-clamp: 4;
+    }
+
+    .add-button,
+    .shop-add,
+    .quick-add,
+    .view-product-btn {
+        flex: 1 1 auto;
+        min-width: 110px;
+    }
+
+    .hero-content h1,
+    .arrival-hero h1,
+    .shop-hero h1,
+    .occasion-hero h1,
+    .care-hero h1,
+    .new-arrivals-hero h1,
+    .seasonals-intro h1,
+    .shop-intro h1 {
+        font-size: clamp(38px, 13vw, 58px) !important;
+    }
+
+    .hero-description {
+        font-size: 12px !important;
+    }
+
+    .story-pillars-grid,
+    .story-stats-row,
+    .footer-container,
+    .footer-content {
+        grid-template-columns: 1fr !important;
+    }
+
+    .footer-brand,
+    .footer-newsletter {
+        grid-column: auto;
+    }
+
+    .modal-content {
+        max-height: calc(100svh - 12px) !important;
+    }
+
+    .modal-image-container {
+        max-height: 34svh;
+        min-height: 155px;
+    }
+
+    .modal-details {
+        padding: 0 13px 13px !important;
+    }
+
+    .modal-price {
+        font-size: 22px !important;
+    }
+
+    .quantity-control {
+        min-height: 42px;
+    }
+
+    .qty-btn {
+        min-width: 40px;
+        min-height: 40px;
+    }
+
+    .support-inner {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 14px !important;
+    }
+}
+
+@media (hover: none) and (pointer: coarse) {
+    /* Phones/tablets should not depend on hover to reveal content. */
+    .product-card:hover .product-image-overlay,
+    .shop-product:hover .product-image-overlay,
+    .occasion-card:hover .card-arrow {
+        opacity: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+}
+
+/* =========================================================
+   LIWI-KA — PREMIUM MOBILE BOTTOM NAVIGATION
+   Replaces the hamburger menu on touch/mobile screens.
+========================================================= */
+
+.mobile-bottom-nav,
+.mobile-menu-toggle {
+    display: none;
+}
+
+@media (max-width: 900px) {
+    /* The desktop navigation remains available to desktop/tablet layouts,
+       but mobile gets a dedicated bottom navigation experience. */
+    .mobile-menu-toggle { display: none !important; }
+    .nav-links { display: none !important; }
+
+    body {
+        padding-bottom: calc(92px + env(safe-area-inset-bottom)) !important;
+    }
+
+    .mobile-bottom-nav {
+        position: fixed;
+        left: 50%;
+        bottom: max(10px, env(safe-area-inset-bottom));
+        transform: translateX(-50%);
+        z-index: 99999;
+        width: min(94vw, 500px);
+        height: 70px;
+        padding: 7px;
+        display: grid !important;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        align-items: stretch;
+        gap: 4px;
+        border: 1px solid rgba(230, 191, 99, .22);
+        border-radius: 24px;
+        /* More translucent so the page behind the bar actually shows through
+           the Gaussian-style blur instead of looking like a solid panel. */
+        background:
+            linear-gradient(145deg, rgba(25,19,13,.72), rgba(8,7,5,.62)),
+            rgba(9,7,5,.58);
+        box-shadow:
+            0 18px 50px rgba(0,0,0,.62),
+            0 4px 18px rgba(0,0,0,.42),
+            inset 0 1px 0 rgba(255,255,255,.07),
+            inset 0 0 0 1px rgba(217,164,65,.045);
+        backdrop-filter: blur(30px) saturate(145%);
+        -webkit-backdrop-filter: blur(30px) saturate(145%);
+    }
+
+    .mobile-bottom-nav::before {
+        content: "";
+        position: absolute;
+        inset: 1px;
+        border-radius: 22px;
+        pointer-events: none;
+        background: linear-gradient(105deg, rgba(255,255,255,.06), transparent 28%, transparent 70%, rgba(224,182,87,.045));
+    }
+
+    .mobile-bottom-item {
+        position: relative;
+        z-index: 1;
+        min-width: 0;
+        height: 56px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        border: 0;
+        border-radius: 17px;
+        background: transparent;
+        color: rgba(244,235,216,.58);
+        text-decoration: none;
+        -webkit-tap-highlight-color: transparent;
+        transition: color .25s ease, transform .25s cubic-bezier(.2,.8,.2,1), background .3s ease;
+    }
+
+    .mobile-bottom-item::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 4px;
+        width: 44px;
+        height: 34px;
+        transform: translateX(-50%) scale(.65);
+        border-radius: 13px;
+        background: radial-gradient(circle, rgba(222,179,79,.22), transparent 68%);
+        opacity: 0;
+        transition: opacity .3s ease, transform .35s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .mobile-bottom-item.active {
+        color: #f4d98b;
+        background: linear-gradient(145deg, rgba(217,164,65,.16), rgba(217,164,65,.055));
+        box-shadow: inset 0 1px 0 rgba(255,231,158,.08), inset 0 0 0 1px rgba(217,164,65,.08);
+    }
+
+    .mobile-bottom-item.active::before {
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+    }
+
+    .mobile-bottom-item:active {
+        transform: scale(.91);
+    }
+
+    .mobile-bottom-icon {
+        position: relative;
+        z-index: 1;
+        width: 21px;
+        height: 21px;
+        display: grid;
+        place-items: center;
+    }
+
+    .mobile-bottom-icon svg {
+        width: 20px;
+        height: 20px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.55;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        transition: transform .3s cubic-bezier(.2,.8,.2,1), filter .3s ease;
+    }
+
+    .mobile-bottom-item.active .mobile-bottom-icon svg {
+        transform: translateY(-1px) scale(1.06);
+        filter: drop-shadow(0 2px 6px rgba(231,191,92,.25));
+    }
+
+    .mobile-bottom-label {
+        position: relative;
+        z-index: 1;
+        max-width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-family: "Outfit", sans-serif;
+        font-size: 8px;
+        line-height: 1;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    .mobile-bottom-cart-badge {
+        position: absolute;
+        top: 7px;
+        right: calc(50% - 18px);
+        min-width: 13px;
+        height: 13px;
+        padding: 0 3px;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        background: #e2b755;
+        color: #100c07;
+        font: 700 7px/1 "Outfit", sans-serif;
+        box-shadow: 0 2px 8px rgba(0,0,0,.4);
+    }
+
+    .mobile-bottom-nav.cart-has-items .mobile-bottom-cart-badge {
+        display: flex;
+    }
+
+    /* Home hero: smaller, optically centered title. */
+    .home-page .hero-content {
+        width: min(92vw, 520px) !important;
+        max-width: 520px !important;
+        padding: 18px 10px !important;
+        margin: 0 auto !important;
+        text-align: center !important;
+        transform: translateY(-2vh);
+    }
+
+    .home-page .hero-content h1 {
+        width: 100% !important;
+        margin: 0 auto 20px !important;
+        font-size: clamp(31px, 8.7vw, 43px) !important;
+        line-height: 1.02 !important;
+        letter-spacing: -.3px;
+        text-align: center !important;
+    }
+
+    .home-page .hero-content h1 span {
+        display: inline-block;
+        max-width: 100%;
+        font-size: clamp(43px, 11.8vw, 59px) !important;
+        line-height: .96 !important;
+        white-space: normal;
+    }
+
+    .home-page .hero-content .small-heading {
+        margin-bottom: 18px !important;
+        font-size: 8px !important;
+        letter-spacing: 3.5px !important;
+    }
+
+    .home-page .hero-content .hero-description {
+        max-width: 310px !important;
+        margin: 0 auto 23px !important;
+    }
+
+    /* Make non-occasion product cards noticeably more compact on phones. */
+    body:not(.mobile-occasion-page) .product-grid,
+    body:not(.mobile-occasion-page) .products-grid,
+    body:not(.mobile-occasion-page) .shop-products {
+        gap: 12px !important;
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+
+    body:not(.mobile-occasion-page) .product-image,
+    body:not(.mobile-occasion-page) .shop-product-image,
+    body:not(.mobile-occasion-page) .product-image-wrapper {
+        aspect-ratio: 1 / .96 !important;
+        height: auto !important;
+        max-height: 250px !important;
+    }
+
+    body:not(.mobile-occasion-page) .product-info,
+    body:not(.mobile-occasion-page) .shop-product-info {
+        padding: 10px !important;
+    }
+
+    body:not(.mobile-occasion-page) .product-info h3,
+    body:not(.mobile-occasion-page) .product-name {
+        font-size: 13px !important;
+        line-height: 1.15 !important;
+    }
+
+    body:not(.mobile-occasion-page) .product-description {
+        font-size: 9.5px !important;
+        line-height: 1.4 !important;
+        -webkit-line-clamp: 2;
+    }
+
+    body:not(.mobile-occasion-page) .product-bottom,
+    body:not(.mobile-occasion-page) .shop-product-bottom {
+        gap: 5px !important;
+    }
+
+    body:not(.mobile-occasion-page) .price,
+    body:not(.mobile-occasion-page) .shop-price,
+    body:not(.mobile-occasion-page) .product-price {
+        font-size: 12px !important;
+    }
+
+    body:not(.mobile-occasion-page) .add-button,
+    body:not(.mobile-occasion-page) .shop-add,
+    body:not(.mobile-occasion-page) .quick-add,
+    body:not(.mobile-occasion-page) .view-product-btn {
+        min-height: 33px !important;
+        padding: 7px 8px !important;
+        font-size: 8.5px !important;
+        letter-spacing: .45px !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .mobile-bottom-nav {
+        width: calc(100vw - 18px);
+        height: 66px;
+        bottom: max(7px, env(safe-area-inset-bottom));
+        border-radius: 22px;
+    }
+
+    .mobile-bottom-item {
+        height: 52px;
+        border-radius: 15px;
+    }
+
+    .mobile-bottom-label {
+        font-size: 7.5px;
+        letter-spacing: .75px;
+    }
+
+    body {
+        padding-bottom: calc(82px + env(safe-area-inset-bottom)) !important;
+    }
+
+    .home-page .hero-content h1 {
+        font-size: clamp(28px, 8.2vw, 38px) !important;
+    }
+
+    .home-page .hero-content h1 span {
+        font-size: clamp(39px, 11.2vw, 53px) !important;
+    }
+
+    body:not(.mobile-occasion-page) .product-image,
+    body:not(.mobile-occasion-page) .shop-product-image,
+    body:not(.mobile-occasion-page) .product-image-wrapper {
+        max-height: 220px !important;
+    }
+}
+
+
+/* =========================================================
+   MOBILE FINAL PASS — SHOP + PRODUCT ACTIONS
+========================================================= */
+@media (max-width: 900px) {
+    /* Six-item premium bottom bar: Home / Shop / New / Seasonal / Care / Cart */
+    .mobile-bottom-nav {
+        grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+        width: min(96vw, 560px) !important;
+        gap: 2px !important;
+        padding: 6px !important;
+    }
+    .mobile-bottom-item { border-radius: 15px !important; }
+    .mobile-bottom-icon, .mobile-bottom-icon svg { width: 19px !important; height: 19px !important; }
+    .mobile-bottom-label { font-size: 7px !important; letter-spacing: .45px !important; }
+
+    /* Never let a touch device keep a hover-highlight stuck on quantity buttons. */
+    .qty-btn:hover {
+        background: transparent !important;
+        color: #d5a74a !important;
+    }
+    .qty-btn:active,
+    .qty-btn:focus-visible {
+        background: #d5a74a !important;
+        color: #050505 !important;
+    }
+
+    .quantity-control {
+        flex: 0 0 auto !important;
+        width: max-content !important;
+        min-width: 108px !important;
+        height: 40px !important;
+    }
+    .qty-btn {
+        width: 34px !important;
+        min-width: 34px !important;
+        height: 38px !important;
+        min-height: 38px !important;
+        padding: 0 !important;
+        color: #d9a441 !important;
+        background: #080706 !important;
+        font-size: 20px !important;
+        line-height: 1 !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    .qty-display {
+        width: 38px !important;
+        height: 38px !important;
+        line-height: 38px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        color: #f7ef8a !important;
+    }
+
+    /* Compact product actions everywhere except Seasonal occasion products. */
+    body:not(.mobile-occasion-page) .shop-product-bottom,
+    body:not(.mobile-occasion-page) .product-bottom {
+        align-items: center !important;
+        flex-wrap: nowrap !important;
+        gap: 7px !important;
+        margin-top: 10px !important;
+        padding-top: 9px !important;
+    }
+    body:not(.mobile-occasion-page) .shop-add,
+    body:not(.mobile-occasion-page) .add-button,
+    body:not(.mobile-occasion-page) .quick-add,
+    body:not(.mobile-occasion-page) .view-product-btn {
+        width: auto !important;
+        max-width: max-content !important;
+        min-width: 0 !important;
+        flex: 0 0 auto !important;
+        white-space: nowrap !important;
+        padding: 7px 10px !important;
+        min-height: 31px !important;
+        font-size: 8px !important;
+        letter-spacing: .35px !important;
+    }
+
+    /* =====================================================
+       SHOP PAGE — rebuilt mobile proportions
+       ===================================================== */
+    .shop-page .shop-controls {
+        width: calc(100% - 24px) !important;
+        margin: 0 12px !important;
+        padding: 13px 10px !important;
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+        align-items: center !important;
+        border-radius: 14px !important;
+    }
+    .shop-page .shop-count {
+        width: 100% !important;
+        text-align: center !important;
+    }
+    .shop-page .shop-filter {
+        width: 100% !important;
+        display: grid !important;
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        gap: 6px !important;
+        justify-content: stretch !important;
+        align-items: stretch !important;
+    }
+    .shop-page .filter-button {
+        width: 100% !important;
+        min-width: 0 !important;
+        min-height: 34px !important;
+        height: 34px !important;
+        padding: 6px 2px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 8px !important;
+        letter-spacing: .8px !important;
+        line-height: 1 !important;
+        white-space: nowrap !important;
+    }
+    .shop-page .shop-sort,
+    .shop-page .shop-sort select {
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+    .shop-page .shop-sort select {
+        height: 36px !important;
+        padding: 7px 10px !important;
+        font-size: 9px !important;
+    }
+
+    .shop-page .shop-products {
+        width: 100% !important;
+        max-width: 100% !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 12px !important;
+        padding: 16px 12px 105px !important;
+    }
+    .shop-page .shop-product {
+        width: 100% !important;
+        min-width: 0 !important;
+        overflow: hidden !important;
+    }
+    .shop-page .shop-product-image {
+        height: auto !important;
+        aspect-ratio: 1 / .93 !important;
+        max-height: none !important;
+    }
+    .shop-page .shop-product-info {
+        min-height: 145px !important;
+        padding: 10px !important;
+    }
+    .shop-page .product-category {
+        margin-bottom: 5px !important;
+        font-size: 7px !important;
+        letter-spacing: 1.7px !important;
+    }
+    .shop-page .shop-product-info h2 {
+        font-size: 15px !important;
+        line-height: 1.08 !important;
+        margin-bottom: 5px !important;
+    }
+    .shop-page .product-description {
+        font-size: 8.5px !important;
+        line-height: 1.35 !important;
+        max-width: 100% !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2 !important;
+        -webkit-box-orient: vertical !important;
+        overflow: hidden !important;
+    }
+    .shop-page .shop-product-bottom {
+        margin-top: 8px !important;
+        padding-top: 8px !important;
+        gap: 5px !important;
+    }
+    .shop-page .shop-price {
+        font-size: 14px !important;
+        white-space: nowrap !important;
+    }
+    .shop-page .shop-add {
+        padding: 6px 7px !important;
+        min-height: 29px !important;
+        font-size: 7px !important;
+        letter-spacing: .25px !important;
+    }
+    .shop-page .quick-add {
+        bottom: 9px !important;
+        padding: 7px 10px !important;
+        font-size: 7px !important;
+        letter-spacing: 1px !important;
+    }
+}
+
+@media (max-width: 380px) {
+    .mobile-bottom-nav { width: calc(100vw - 12px) !important; }
+    .mobile-bottom-label { font-size: 6.5px !important; letter-spacing: .25px !important; }
+    .mobile-bottom-icon, .mobile-bottom-icon svg { width: 18px !important; height: 18px !important; }
+    .shop-page .shop-products { gap: 9px !important; padding-left: 9px !important; padding-right: 9px !important; }
+    .shop-page .shop-product-info { padding: 8px !important; }
+    .shop-page .shop-product-info h2 { font-size: 14px !important; }
+    .shop-page .shop-price { font-size: 13px !important; }
+    .shop-page .shop-add { padding-left: 6px !important; padding-right: 6px !important; font-size: 6.5px !important; }
+}
+
+
+/* MOBILE NAV FINAL: bottom bar owns cart navigation; hide only the desktop cart icon. */
+@media (max-width: 900px) {
+    .navbar .cart-nav-link,
+    .navbar .cart-nav-link button,
+    .navbar a[aria-label="Shopping Cart"],
+    .navbar a[href*="cart"] {
+        display: none !important;
+    }
+
+    /* Keep the six destinations evenly distributed: Home, Shop, New, Seasonals, Care, Cart. */
+    .mobile-bottom-nav {
+        grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+    }
+}
+
+/* CART SLOT FIX: the desktop navigation does not contain Cart as a text link.
+   Force the sixth mobile slot to remain present and visible. */
+@media (max-width: 900px) {
+    .mobile-bottom-nav {
+        display: grid !important;
+        grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    .mobile-bottom-nav .mobile-bottom-item {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    .mobile-bottom-nav .mobile-bottom-item:last-child {
+        display: flex !important;
+    }
+    .mobile-bottom-nav .mobile-bottom-item:last-child .mobile-bottom-icon,
+    .mobile-bottom-nav .mobile-bottom-item:last-child .mobile-bottom-icon svg {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+}
+
+/* ==========================================================
+   MOBILE TAB SWITCH — smooth cross-document view transition
+   Chrome/Edge 111+: the site navigates normally, but the
+   bottom-nav active pill and page stay visually continuous.
+   ========================================================== */
+@media (max-width: 900px) {
+    @view-transition {
+        navigation: auto;
+    }
+
+    .mobile-bottom-item {
+        position: relative !important;
+        isolation: isolate !important;
+        overflow: visible !important;
+        -webkit-tap-highlight-color: transparent !important;
+    }
+
+    /* The moving gold/glass active pill. Because it has the same
+       view-transition-name on every page, the browser morphs it
+       from the old tab to the new tab instead of blinking. */
+    .mobile-bottom-item.active::before {
+        content: "" !important;
+        position: absolute !important;
+        z-index: -1 !important;
+        left: 8% !important;
+        right: 8% !important;
+        top: 3px !important;
+        bottom: 3px !important;
+        border-radius: 16px !important;
+        background: linear-gradient(135deg, rgba(210,166,74,.22), rgba(255,255,255,.07)) !important;
+        border: 1px solid rgba(214,178,98,.34) !important;
+        box-shadow: 0 0 18px rgba(214,178,98,.16), inset 0 1px 0 rgba(255,255,255,.10) !important;
+        backdrop-filter: blur(8px) saturate(125%) !important;
+        -webkit-backdrop-filter: blur(8px) saturate(125%) !important;
+        view-transition-name: mobile-nav-active-pill !important;
+    }
+
+    /* Don't cross-fade the whole website — this is what removes the
+       obvious white/black blink during tab navigation. */
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+        animation: none !important;
+        mix-blend-mode: normal !important;
+    }
+
+    ::view-transition-old(mobile-nav-active-pill),
+    ::view-transition-new(mobile-nav-active-pill) {
+        animation-duration: 420ms !important;
+        animation-timing-function: cubic-bezier(.22,.8,.22,1) !important;
+    }
+
+    /* Keep the bar itself visually stable while the active pill slides. */
+    ::view-transition-group(mobile-nav-active-pill) {
+        animation-duration: 420ms !important;
+        animation-timing-function: cubic-bezier(.22,.8,.22,1) !important;
+    }
+}
+
+/* Respect reduced-motion preferences. */
+@media (max-width: 900px) and (prefers-reduced-motion: reduce) {
+    ::view-transition-old(mobile-nav-active-pill),
+    ::view-transition-new(mobile-nav-active-pill),
+    ::view-transition-group(mobile-nav-active-pill) {
+        animation-duration: 1ms !important;
+    }
+}
+
+/* ==========================================================
+   MOBILE APP SHELL
+   On phones only, the bottom navigation lives in the outer
+   document while each page runs inside a content iframe.
+   This keeps the bar completely static during tab changes.
+   Desktop/laptop layouts are untouched.
+   ========================================================== */
+@media (max-width: 900px) {
+    body:has(.liwi-mobile-frame) {
+        overflow: hidden !important;
+        padding-bottom: 0 !important;
+    }
+
+    .liwi-mobile-frame {
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        height: 100dvh;
+        border: 0;
+        margin: 0;
+        padding: 0;
+        display: block;
+        background: #090806;
+        z-index: 1;
+    }
+
+    body:has(.liwi-mobile-frame) > :not(.liwi-mobile-frame):not(.mobile-bottom-nav) {
+        display: none !important;
+    }
+
+    body:has(.liwi-mobile-frame) .mobile-bottom-nav {
+        z-index: 100000 !important;
+    }
+}
+
+/* ==========================================================
+   MOBILE NAV — TRUE STATIC SLIDING ACTIVE HIGHLIGHT
+   The bottom bar stays mounted while the iframe content changes.
+   One shared indicator moves between the six slots instead of
+   creating a separate rounded box on every active button.
+   ========================================================== */
+@media (max-width: 900px) {
+    .mobile-bottom-nav {
+        position: fixed !important;
+        overflow: hidden !important;
+        isolation: isolate !important;
+    }
+
+    .mobile-bottom-item,
+    .mobile-bottom-item.active {
+        background: transparent !important;
+        box-shadow: none !important;
+        position: relative !important;
+        z-index: 2 !important;
+    }
+
+    /* Remove the old per-button glow/pill that was producing the
+       small rounded box above the active icon. */
+    .mobile-bottom-item::before,
+    .mobile-bottom-item.active::before {
+        content: none !important;
+        display: none !important;
+    }
+
+    .mobile-nav-active-indicator {
+        position: absolute !important;
+        left: 0 !important;
+        top: 10px !important;
+        height: 50px !important;
+        width: 0 !important;
+        border-radius: 17px !important;
+        pointer-events: none !important;
+        z-index: 1 !important;
+        opacity: 0 !important;
+        background: linear-gradient(145deg, rgba(217,164,65,.20), rgba(255,255,255,.065)) !important;
+        border: 1px solid rgba(214,178,98,.34) !important;
+        box-shadow:
+            0 0 18px rgba(214,178,98,.14),
+            inset 0 1px 0 rgba(255,255,255,.10) !important;
+        backdrop-filter: blur(10px) saturate(135%) !important;
+        -webkit-backdrop-filter: blur(10px) saturate(135%) !important;
+        transform: translate3d(5px,0,0);
+        transition:
+            transform 440ms cubic-bezier(.22,.8,.22,1),
+            width 180ms ease,
+            opacity 180ms ease !important;
+    }
+
+    .mobile-nav-active-indicator.is-ready {
+        opacity: 1 !important;
+    }
+
+    .mobile-bottom-item.active {
+        color: #f4d98b !important;
+    }
+
+    .mobile-bottom-item:active {
+        background: transparent !important;
+    }
+}
+
+@media (max-width: 900px) and (prefers-reduced-motion: reduce) {
+    .mobile-nav-active-indicator {
+        transition-duration: 1ms !important;
+    }
+}
+
+/* The persistent mobile shell does not need cross-document View Transitions. */
+@media (max-width: 900px) {
+    .mobile-bottom-item.active::before {
+        display: none !important;
+        content: none !important;
+    }
+}
+
+/* ==========================================================
+   MOBILE NAV — ACTIVE PILL VISIBILITY FIX
+   One shared, clearly visible rounded glass/gold pill slides
+   underneath the icons. Desktop/laptop is intentionally untouched.
+   ========================================================== */
+@media (max-width: 900px) {
+    .mobile-bottom-nav {
+        overflow: hidden !important;
+        isolation: isolate !important;
+    }
+
+    .mobile-bottom-nav::before {
+        z-index: 0 !important;
+    }
+
+    .mobile-nav-active-indicator {
+        top: 7px !important;
+        height: 56px !important;
+        min-width: 1px !important;
+        border-radius: 18px !important;
+        background: linear-gradient(145deg,
+            rgba(218, 166, 67, .30),
+            rgba(255, 225, 145, .13) 55%,
+            rgba(181, 128, 37, .20)) !important;
+        border: 1px solid rgba(239, 202, 112, .58) !important;
+        box-shadow:
+            0 0 22px rgba(218, 166, 67, .24),
+            0 5px 18px rgba(0, 0, 0, .22),
+            inset 0 1px 0 rgba(255,255,255,.18),
+            inset 0 -1px 0 rgba(190,135,42,.18) !important;
+        backdrop-filter: blur(14px) saturate(155%) !important;
+        -webkit-backdrop-filter: blur(14px) saturate(155%) !important;
+        z-index: 1 !important;
+    }
+
+    .mobile-bottom-item,
+    .mobile-bottom-item.active {
+        z-index: 2 !important;
+    }
+
+    .mobile-bottom-item.active .mobile-bottom-icon svg,
+    .mobile-bottom-item.active .mobile-bottom-label {
+        filter: drop-shadow(0 0 5px rgba(232, 194, 103, .18));
+    }
+}
+
+
+/* ==========================================================
+   FINAL MOBILE ACTIVE TAB — REAL GLASS PILL
+   One physical indicator element slides between all 6 tabs.
+========================================================== */
+@media (max-width: 900px) {
+    .mobile-bottom-nav {
+        display: grid !important;
+        grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+        grid-template-rows: 1fr !important;
+        align-items: center !important;
+        position: fixed !important;
+        overflow: hidden !important;
+    }
+
+    .mobile-nav-active-indicator {
+        display: block !important;
+        position: absolute !important;
+        box-sizing: border-box !important;
+        left: 0 !important;
+        top: 5px !important;
+        bottom: auto !important;
+        height: 56px !important;
+        width: 0 !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border-radius: 18px !important;
+        /* Black-to-gold luxury finish with a restrained glass-like blur. */
+        background: linear-gradient(180deg,
+            rgba(5, 5, 5, .88) 0%,
+            rgba(11, 9, 6, .84) 52%,
+            rgba(36, 24, 7, .78) 100%) !important;
+        border: none !important;
+        box-shadow:
+            inset 0 0 12px rgba(214, 174, 77, .13),
+            inset 0 1px 0 rgba(255, 226, 150, .10),
+            inset 0 -1px 0 rgba(112, 74, 18, .20) !important;
+        opacity: 0 !important;
+        z-index: 5 !important;
+        pointer-events: none !important;
+        transform: translate3d(5px,0,0);
+        transition: transform 460ms cubic-bezier(.22,.8,.22,1), width 180ms ease, opacity 160ms ease !important;
+        backdrop-filter: blur(16px) saturate(170%) !important;
+        -webkit-backdrop-filter: blur(16px) saturate(170%) !important;
+    }
+
+    .mobile-nav-active-indicator::after {
+        content: "" !important;
+        display: block !important;
+        position: absolute !important;
+        inset: 1px !important;
+        border-radius: 17px !important;
+        background: linear-gradient(180deg, rgba(255, 226, 150, .05), transparent 42%, rgba(214, 174, 77, .07)) !important;
+        pointer-events: none !important;
+    }
+
+    .mobile-nav-active-indicator.is-ready {
+        opacity: 1 !important;
+    }
+
+    .mobile-bottom-item,
+    .mobile-bottom-item.active {
+        position: relative !important;
+        z-index: 6 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+
+    .mobile-bottom-item::before,
+    .mobile-bottom-item.active::before {
+        content: none !important;
+        display: none !important;
+    }
+}
+
+/* ==========================================================
+   MOBILE POLISH — MODAL CLEARANCE + TOUCH FEEDBACK
+   Keeps the product window above the persistent bottom bar
+   and removes the browser's default blue tap flash on touch.
+   ========================================================== */
+@media (max-width: 900px) {
+    /* Reserve the bottom-nav area so the modal never sits behind it. */
+    .product-modal {
+        padding: 10px 10px calc(82px + env(safe-area-inset-bottom) + 10px) !important;
+        align-items: center !important;
+        overflow: hidden !important;
+    }
+
+    /* Make the customization window compact enough that its action row
+       remains visible above the fixed bottom navigation. */
+    .product-modal .modal-content {
+        width: 100% !important;
+        max-width: 100% !important;
+        max-height: calc(100dvh - 102px) !important;
+        overflow-y: auto !important;
+        overscroll-behavior: contain;
+    }
+
+    .product-modal .modal-image-container {
+        max-height: 24dvh !important;
+        min-height: 125px !important;
+    }
+
+    .product-modal .modal-details {
+        padding: 15px 16px 14px !important;
+    }
+
+    .product-modal .modal-details h2 {
+        font-size: 25px !important;
+        margin-bottom: 7px !important;
+    }
+
+    .product-modal .modal-description {
+        font-size: 11px !important;
+        line-height: 1.45 !important;
+        margin-bottom: 11px !important;
+    }
+
+    .product-modal .modal-option-group {
+        margin-bottom: 10px !important;
+    }
+
+    .product-modal .modal-option-label {
+        margin-bottom: 6px !important;
+    }
+
+    .product-modal .flavour-options {
+        gap: 7px !important;
+    }
+
+    .product-modal .flavour-button {
+        padding: 6px 10px !important;
+        font-size: 10px !important;
+    }
+
+    .product-modal .modal-footer-action {
+        margin-top: 8px !important;
+        padding-top: 10px !important;
+        gap: 10px !important;
+    }
+
+    .product-modal .modal-add-btn {
+        padding: 10px 18px !important;
+        min-height: 40px !important;
+        white-space: nowrap !important;
+    }
+
+    /* Never let a touch browser paint its default blue tap highlight. */
+    a,
+    button,
+    input,
+    select,
+    textarea,
+    [role="button"],
+    .mobile-bottom-item,
+    .product-card,
+    .shop-product-card,
+    .occasion-product-card,
+    .flavour-button,
+    .qty-btn,
+    .modal-add-btn {
+        -webkit-tap-highlight-color: transparent !important;
+        tap-highlight-color: transparent !important;
+    }
+}
