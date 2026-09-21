@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Liwi-Ka | Create Account</title>
+
+    <link rel="stylesheet" href="auth.css">
+</head>
+
+<body>
+
+    <main class="auth-page">
+
+        <!-- Small Logo -->
+        <a href="index.html" class="auth-logo">
+            <img src="images/liwi.png" alt="Liwi-Ka Finest Chocolate">
+        </a>
+
+
+        <!-- Signup Card -->
+        <section class="auth-card signup-card">
+
+            <div class="gold-line"></div>
+
+            <div class="auth-heading">
+                <p class="auth-eyebrow">JOIN THE LIWI-KA WORLD</p>
+
+                <h1>Create Account</h1>
+
+                <p>
+                    Create an account and make every chocolate moment memorable.
+                </p>
+            </div>
+
+
+            <form class="auth-form" id="signupForm">
+
+                <!-- Full Name -->
+                <div class="field-group">
+
+                    <label for="fullName">FULL NAME</label>
+
+                    <div class="field-wrapper">
+
+                        <span class="field-symbol">◇</span>
+
+                        <input
+                            type="text"
+                            id="fullName"
+                            name="fullName"
+                            placeholder="Enter your full name"
+                            autocomplete="name"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- Email -->
+                <div class="field-group">
+
+                    <label for="signupEmail">EMAIL ADDRESS</label>
+
+                    <div class="field-wrapper">
+
+                        <span class="field-symbol">@</span>
+
+                        <input
+                            type="email"
+                            id="signupEmail"
+                            name="email"
+                            placeholder="Enter your email address"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- Password -->
+                <div class="field-group">
+
+                    <label for="signupPassword">PASSWORD</label>
+
+                    <div class="field-wrapper password-field">
+
+                        <span class="field-symbol">◇</span>
+
+                        <input
+                            type="password"
+                            id="signupPassword"
+                            name="password"
+                            placeholder="Create a password"
+                            autocomplete="new-password"
+                            minlength="8"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            data-target="signupPassword"
+                        >
+                            VIEW
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Confirm Password -->
+                <div class="field-group">
+
+                    <label for="confirmPassword">CONFIRM PASSWORD</label>
+
+                    <div class="field-wrapper password-field">
+
+                        <span class="field-symbol">◇</span>
+
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            name="confirmPassword"
+                            placeholder="Confirm your password"
+                            autocomplete="new-password"
+                            minlength="8"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            data-target="confirmPassword"
+                        >
+                            VIEW
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Signup Button -->
+                <button type="submit" class="auth-button">
+                    <span>CREATE ACCOUNT</span>
+                    <span class="button-arrow">→</span>
+                </button>
+
+            </form>
+
+
+            <!-- Login Link -->
+            <div class="switch-auth">
+
+                <p>
+                    Already have an account?
+                    <a href="login.html">Sign in</a>
+                </p>
+
+            </div>
+
+
+            <div class="auth-note">
+                Your journey with Liwi-Ka begins here.
+            </div>
+
+        </section>
+
+
+        <footer class="auth-footer">
+            LIWI-KA &nbsp; • &nbsp; FINEST CHOCOLATE
+        </footer>
+
+    </main>
+
+
+    <script src="auth.js"></script>
+
+</body>
+
+</html>
