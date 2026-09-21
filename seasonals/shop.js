@@ -492,13 +492,32 @@ shopProductCards.forEach(card => {
     }
 
     const quickAddBtn = card.querySelector(".quick-add");
+
     if (quickAddBtn) {
         quickAddBtn.addEventListener("click", (e) => {
             e.stopPropagation();
+
             const productId = card.dataset.product;
-            if (productId && shopProducts[productId]) {
-                openProductModal(productId);
+            const product = shopProducts[productId];
+
+            if (!product) return;
+
+            const flavour = product.flavours?.[0];
+
+            const cartItem = {
+                id: product.name.toLowerCase().replace(/\s+/g, '-'),
+                name: product.name,
+                flavour: flavour?.name || "Classic",
+                quantity: 1,
+                price: product.basePrice,
+                image: flavour?.image || product.image
+            };
+
+            if (window.LiwikaCart) {
+                window.LiwikaCart.addItem(cartItem);
             }
+
+            console.log("Quick added to cart:", cartItem);
         });
     }
 });
