@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="shop-seasonals.css">
 
     <link rel="stylesheet" href="../responsive-mobile.css">
+<link rel="stylesheet" href="../shared-navbar.css">
+    <link rel="stylesheet" href="../free-delivery.css">
 </head>
 
 
@@ -40,9 +42,9 @@
 
     <div class="nav-icons">
         <button type="button" aria-label="Search">⌕</button>
-        <button type="button" aria-label="My Account">♙</button>
+        <a href="../login.html" class="profile-icon-button" aria-label="My Account"><svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"></circle><path d="M4.5 20c.8-4 3.4-6 7.5-6s6.7 2 7.5 6"></path></svg></a>
         <a href="cart.html" class="cart-nav-link" aria-label="Shopping Cart">
-            <button type="button">🛒</button>
+            <button type="button" class="cart-icon-button" aria-label="Shopping Cart"><svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h2l1.7 10.2a2 2 0 0 0 2 1.7h7.8a2 2 0 0 0 1.9-1.4L21 9H7"></path><circle cx="10" cy="20" r="1.2"></circle><circle cx="18" cy="20" r="1.2"></circle></svg></button>
         </a>
     </div>
 
@@ -139,6 +141,12 @@
                     <option>
                         Newest
                     </option>
+                    <option>
+                        Best Sellers
+                    </option>
+                    <option>
+                        Weekly Selling
+                    </option>
 
                 </select>
 
@@ -157,7 +165,7 @@
 
             <!-- ================= PRODUCT 1 ================= -->
 
-            <article class="shop-product" data-product="dark-indulgence" data-category="dark">
+            <article class="shop-product" data-product="dark-indulgence" data-sales="120" data-weekly-sales="0" data-category="dark">
 
                 <div class="shop-product-image">
 
@@ -203,7 +211,7 @@
                     <div class="shop-product-bottom">
 
                         <span class="shop-price">
-                            ₹499
+                            ₹49
                         </span>
 
                         <button
@@ -223,7 +231,7 @@
 
             <!-- ================= PRODUCT 2 ================= -->
 
-            <article class="shop-product" data-product="golden-milk" data-category="milk">
+            <article class="shop-product" data-product="golden-milk" data-sales="90" data-weekly-sales="0" data-category="milk">
 
                 <div class="shop-product-image">
 
@@ -269,7 +277,7 @@
                     <div class="shop-product-bottom">
 
                         <span class="shop-price">
-                            ₹699
+                            ₹69
                         </span>
 
                         <button
@@ -289,7 +297,7 @@
 
             <!-- ================= PRODUCT 3 ================= -->
 
-            <article class="shop-product" data-product="hazelnut-bliss" data-category="nutty">
+            <article class="shop-product" data-product="hazelnut-bliss" data-sales="72" data-weekly-sales="0" data-category="nutty">
 
                 <div class="shop-product-image">
 
@@ -331,7 +339,7 @@
                     <div class="shop-product-bottom">
 
                         <span class="shop-price">
-                            ₹899
+                            ₹89
                         </span>
 
                         <button
@@ -351,7 +359,7 @@
 
             <!-- ================= PRODUCT 4 ================= -->
 
-            <article class="shop-product" data-product="midnight-cacao" data-category="dark">
+            <article class="shop-product" data-product="midnight-cacao" data-sales="64" data-weekly-sales="0" data-category="dark">
 
                 <div class="shop-product-image">
 
@@ -397,7 +405,7 @@
                     <div class="shop-product-bottom">
 
                         <span class="shop-price">
-                            ₹599
+                            ₹59
                         </span>
 
                         <button
@@ -417,7 +425,7 @@
 
             <!-- ================= PRODUCT 5 ================= -->
 
-            <article class="shop-product" data-product="velvet-cream" data-category="milk">
+            <article class="shop-product" data-product="velvet-cream" data-sales="56" data-weekly-sales="0" data-category="milk">
 
                 <div class="shop-product-image">
 
@@ -459,7 +467,7 @@
                     <div class="shop-product-bottom">
 
                         <span class="shop-price">
-                            ₹649
+                            ₹79
                         </span>
 
                         <button
@@ -479,7 +487,7 @@
 
             <!-- ================= PRODUCT 6 ================= -->
 
-            <article class="shop-product" data-product="roasted-hazelnut" data-category="nutty">
+            <article class="shop-product" data-product="roasted-hazelnut" data-sales="48" data-weekly-sales="0" data-category="nutty">
 
                 <div class="shop-product-image">
 
@@ -521,7 +529,7 @@
                     <div class="shop-product-bottom">
 
                         <span class="shop-price">
-                            ₹749
+                            ₹89
                         </span>
 
                         <button
@@ -784,7 +792,7 @@
 
                         <div class="quantity-control">
 
-                            <button id="decreaseQuantity" type="button" class="qty-btn" aria-label="Decrease quantity">−</button>
+                            <button id="decreaseQuantity" type="button" class="qty-btn" aria-label="Decrease quantity">-</button>
 
                             <span id="quantity" class="qty-display">1</span>
 
@@ -801,7 +809,7 @@
 
                             <span class="modal-price-label">PRICE</span>
 
-                            <span id="modalProductPrice" class="modal-price">₹499</span>
+                            <span id="modalProductPrice" class="modal-price">₹49</span>
 
                         </div>
 
@@ -823,6 +831,7 @@
     <script src="shop.js"></script>
     <script src="shop-seasonals.js"></script>
 
+    <script src="../free-delivery.js"></script>
     <script src="../responsive-mobile.js"></script>
 </body>
 

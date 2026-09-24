@@ -11,6 +11,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const activeAnimState = new Map();
 
+    function getOrCreateOrderNumber() {
+        const SESSION_KEY = "liwika_current_order_number";
+        const STORED_KEY = "liwika_order_numbers";
+        try {
+            const existing = sessionStorage.getItem(SESSION_KEY);
+            if (existing && /^LK-\d{5}$/.test(existing)) return existing;
+
+            const used = JSON.parse(localStorage.getItem(STORED_KEY) || "[]");
+            let orderNumber = "";
+            for (let attempt = 0; attempt < 50; attempt++) {
+                const value = Math.floor(10000 + Math.random() * 90000);
+                const candidate = "LK-" + value;
+                if (!used.includes(candidate)) {
+                    orderNumber = candidate;
+                    used.push(candidate);
+                    break;
+                }
+            }
+            if (!orderNumber) {
+                orderNumber = "LK-" + String(Date.now() % 90000 + 10000);
+                used.push(orderNumber);
+            }
+            sessionStorage.setItem(SESSION_KEY, orderNumber);
+            localStorage.setItem(STORED_KEY, JSON.stringify(used.slice(-5000)));
+            return orderNumber;
+        } catch (err) {
+            return "LK-" + String(Date.now() % 90000 + 10000);
+        }
+    }
+
     function renderCart() {
         activeAnimState.forEach((state) => {
             if (state.timeout) clearTimeout(state.timeout);
@@ -33,9 +63,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const subtotal = window.LiwikaCart.getSubtotal();
-        const giftingTotal = window.LiwikaCart.getGiftWrappingTotal();
-        const shipping = 0; // Complimentary luxury delivery
-        const total = subtotal + giftingTotal + shipping;
+        const shipping = subtotal >= 150 ? 0 : 20;
+        const total = subtotal + shipping;
 
         // Build items list HTML
         let itemsHtml = `<div class="cart-items-container">`;
@@ -56,9 +85,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 ? `<div class="cart-item-occasion-tag">✦ Occasion: ${itemOccasion}</div>` 
                 : '';
 
-            const isWrapped = Boolean(item.isGiftWrapped);
-            const giftMsg = item.giftMessage || '';
-
             itemsHtml += `
                 <div class="cart-item-card" data-key="${itemKey}" data-id="${item.id}" data-flavour="${item.flavour}" data-occasion="${itemOccasion}">
                     <div class="cart-item-image">
@@ -76,18 +102,6 @@ document.addEventListener("DOMContentLoaded", () => {
                                 ✕
                             </button>
                         </div>
-
-                        <!-- GIFT WRAPPING SECTION -->
-                        <div class="cart-item-gifting-container">
-                            <label class="gift-checkbox-label">
-                                <input type="checkbox" class="gift-wrap-checkbox" ${isWrapped ? 'checked' : ''}>
-                                <span>🎁 Gift wrapping <span class="gift-badge-price">(+ ₹50)</span></span>
-                            </label>
-                            <div class="gift-message-box ${isWrapped ? 'active' : ''}">
-                                <textarea class="gift-message-input" placeholder="Write your personalized gift message here..." maxlength="200">${giftMsg}</textarea>
-                            </div>
-                        </div>
-
                         <div class="cart-item-bottom" style="margin-top: 15px;">
                             <div>
                                 <p class="cart-item-price-unit">₹${item.price} each</p>
@@ -95,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             </div>
 
                             <div class="cart-qty-control">
-                                <button type="button" class="qty-btn btn-decrease" aria-label="Decrease quantity">−</button>
+                                <button type="button" class="qty-btn btn-decrease" aria-label="Decrease quantity">-</button>
                                 <span class="qty-display item-qty-display">
                                     <span class="qty-digit current">${item.quantity}</span>
                                 </span>
@@ -125,16 +139,14 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
         });
 
-        const giftRowHtml = giftingTotal > 0 ? `
-            <div class="bill-row" id="billGiftWrappingRow">
-                <span>Gift Wrapping Fee (+₹50)</span>
-                <span style="color: #d9a441; font-weight: 600;">₹${giftingTotal}</span>
-            </div>
-        ` : '';
-
         const summaryHtml = `
             <div class="cart-summary-card">
                 <h2>Bill Details</h2>
+
+                <div class="bill-order-number">
+                    <span>Order Number</span>
+                    <strong>${getOrCreateOrderNumber()}</strong>
+                </div>
 
                 <div class="bill-rows" id="billRowsContainer">
                     ${billRowsHtml}
@@ -144,16 +156,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         <span id="billSubtotal">₹${subtotal}</span>
                     </div>
 
-                    ${giftRowHtml}
-
-                    <div class="bill-row">
-                        <span>Artisanal Packaging</span>
-                        <span style="color: #72b274;">Complimentary</span>
-                    </div>
-
                     <div class="bill-row">
                         <span>Standard Delivery</span>
-                        <span style="color: #72b274;">Free</span>
+                        <span id="billDelivery" style="color: #72b274;">${shipping === 0 ? "Free" : "₹" + shipping}</span>
                     </div>
 
                     <div class="bill-row total-line">
@@ -163,32 +168,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
 
                 <div class="payment-methods">
-                    <div class="payment-methods-title">Pay With</div>
-                    <div class="payment-options-grid">
-                        <label class="pay-option selected">
-                            <input type="radio" name="pay_method" value="upi" checked>
-                            <span>UPI / GPay</span>
-                        </label>
-                        <label class="pay-option">
-                            <input type="radio" name="pay_method" value="card">
-                            <span>Credit Card</span>
-                        </label>
-                        <label class="pay-option">
-                            <input type="radio" name="pay_method" value="netbanking">
-                            <span>Net Banking</span>
-                        </label>
-                        <label class="pay-option">
-                            <input type="radio" name="pay_method" value="cod">
-                            <span>Cash on Delivery</span>
-                        </label>
-                    </div>
-
+                    <div class="payment-methods-title">Ready to checkout?</div>
+                    <p style="margin:0 0 14px;color:#756b5d;font:13px/1.6 Arial,sans-serif;">Review your bag, then continue to secure checkout. Sign in or create your Liwi-Ka account before entering delivery details and payment.</p>
                     <button type="button" id="payNowBtn" class="cart-checkout-btn">
-                        PROCEED TO PAY ₹${total}
+                        CONTINUE TO CHECKOUT ₹${total}
                     </button>
-
                     <div class="checkout-guarantee">
-                        <span>🔒 256-Bit Encrypted &amp; Secure Checkout</span>
+                        <span>🔒 Account-required secure checkout</span>
                     </div>
                 </div>
             </div>
@@ -288,36 +274,15 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const subtotal = window.LiwikaCart.getSubtotal();
-        const giftingTotal = window.LiwikaCart.getGiftWrappingTotal();
-        const total = subtotal + giftingTotal;
+        const shipping = subtotal >= 150 ? 0 : 20;
+        const total = subtotal + shipping;
 
         const subtotalEl = document.getElementById("billSubtotal");
         if (subtotalEl) subtotalEl.textContent = `₹${subtotal}`;
-
-        let giftRowEl = document.getElementById("billGiftWrappingRow");
-        const billRowsContainer = document.getElementById("billRowsContainer");
-
-        if (giftingTotal > 0) {
-            if (!giftRowEl && billRowsContainer) {
-                giftRowEl = document.createElement("div");
-                giftRowEl.id = "billGiftWrappingRow";
-                giftRowEl.className = "bill-row";
-                const subtotalRow = subtotalEl ? subtotalEl.closest(".bill-row") : null;
-                if (subtotalRow && subtotalRow.nextSibling) {
-                    billRowsContainer.insertBefore(giftRowEl, subtotalRow.nextSibling);
-                } else {
-                    billRowsContainer.appendChild(giftRowEl);
-                }
-            }
-            if (giftRowEl) {
-                giftRowEl.innerHTML = `<span>Gift Wrapping Fee (+₹50)</span><span style="color: #d9a441; font-weight: 600;">₹${giftingTotal}</span>`;
-            }
-        } else if (giftRowEl) {
-            giftRowEl.remove();
-        }
-
         const grandTotalEl = document.getElementById("billGrandTotal");
         if (grandTotalEl) grandTotalEl.textContent = `₹${total}`;
+        const deliveryEl = document.getElementById("billDelivery");
+        if (deliveryEl) { deliveryEl.textContent = shipping === 0 ? "Free" : `₹${shipping}`; deliveryEl.style.color = shipping === 0 ? "#72b274" : "#d9a441"; }
 
         const payBtn = document.getElementById("payNowBtn");
         if (payBtn) payBtn.textContent = `PROCEED TO PAY ₹${total}`;
@@ -334,9 +299,6 @@ document.addEventListener("DOMContentLoaded", () => {
             const incBtn = card.querySelector(".btn-increase");
             const removeBtn = card.querySelector(".cart-item-remove");
             const qtyDisplay = card.querySelector(".item-qty-display");
-            const giftCheckbox = card.querySelector(".gift-wrap-checkbox");
-            const giftMsgBox = card.querySelector(".gift-message-box");
-            const giftMsgInput = card.querySelector(".gift-message-input");
 
             if (incBtn) {
                 incBtn.addEventListener("click", () => {
@@ -383,26 +345,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     }, 300);
                 });
             }
-
-            if (giftCheckbox) {
-                giftCheckbox.addEventListener("change", () => {
-                    const isChecked = giftCheckbox.checked;
-                    if (isChecked) {
-                        giftMsgBox.classList.add("active");
-                    } else {
-                        giftMsgBox.classList.remove("active");
-                    }
-                    window.LiwikaCart.updateGifting(id, flavour, occasion, isChecked, giftMsgInput ? giftMsgInput.value : '');
-                    updateItemAndBillDisplays(id, flavour, occasion);
-                });
-            }
-
-            if (giftMsgInput) {
-                giftMsgInput.addEventListener("input", () => {
-                    const isChecked = giftCheckbox ? giftCheckbox.checked : true;
-                    window.LiwikaCart.updateGifting(id, flavour, occasion, isChecked, giftMsgInput.value);
-                });
-            }
         });
 
         const payOptions = container.querySelectorAll(".pay-option");
@@ -418,19 +360,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const payBtn = document.getElementById("payNowBtn");
         if (payBtn) {
             payBtn.addEventListener("click", () => {
-                const checkedRadio = container.querySelector('input[name="pay_method"]:checked');
-                const method = checkedRadio ? checkedRadio.value.toUpperCase() : "UPI";
-                const total = window.LiwikaCart.getSubtotal() + window.LiwikaCart.getGiftWrappingTotal();
-
-                payBtn.textContent = "PROCESSING...";
-                payBtn.style.opacity = "0.7";
-                setTimeout(() => {
-                    payBtn.textContent = "PAYMENT INITIATED (" + method + ")";
-                    payBtn.style.opacity = "1";
-                    setTimeout(() => {
-                        payBtn.textContent = "PROCEED TO PAY ₹" + total;
-                    }, 2000);
-                }, 800);
+                const total = window.LiwikaCart.getSubtotal();
+                try {
+                    sessionStorage.setItem("liwika_checkout_total", String(total));
+                    sessionStorage.setItem("liwika_checkout_return", "../checkout.html");
+                } catch (e) {}
+                window.location.href = "../checkout.html";
             });
         }
     }

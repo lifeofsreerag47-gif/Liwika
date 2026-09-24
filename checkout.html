@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liwi-Ka | Checkout</title>
+<link rel="stylesheet" href="auth.css">
+<link rel="stylesheet" href="responsive-mobile.css">
+<style>
+/* =========================================================
+   CHECKOUT — LIWI-KA SITE SYSTEM
+   Reuses the same typography, surfaces, gold language and
+   spacing rhythm as the main Liwi-Ka pages.
+   ========================================================= */
+.checkout-page {
+  min-height:100vh;
+  margin:0;
+  color:#f5efe4;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(117,76,25,.16), transparent 34%),
+    radial-gradient(circle at 8% 82%, rgba(157,105,31,.08), transparent 28%),
+    #070605;
+  font-family:"Font1",sans-serif;
+  overflow-x:hidden;
+}
+.checkout-page main{position:relative;z-index:1}
+.checkout-wrap{
+  width:min(1180px,calc(100% - 56px));
+  margin:0 auto;
+  padding:136px 0 90px;
+}
+.checkout-intro{
+  max-width:800px;
+  margin:0 auto 38px;
+  text-align:center;
+}
+.checkout-intro .eyebrow{
+  margin:0 0 18px;
+  color:#d9a441;
+  font:10px "Font1",sans-serif;
+  letter-spacing:4px;
+  text-transform:uppercase;
+}
+.checkout-intro h1{
+  margin:0;
+  color:#f5efe4;
+  font:400 clamp(46px,6vw,76px)/.98 "Font",Georgia,serif;
+  letter-spacing:-1.5px;
+}
+.checkout-intro h1 span{
+  color:#d9a441;
+  font-style:italic;
+}
+.checkout-intro > p:last-child{
+  max-width:650px;
+  margin:20px auto 0;
+  color:#8f877d;
+  font:13px/1.85 "Font1",sans-serif;
+  letter-spacing:.2px;
+}
+.checkout-progress{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+  margin:0 auto 28px;
+  color:#5f5952;
+  font:9px "Font1",sans-serif;
+  letter-spacing:2.5px;
+  text-transform:uppercase;
+}
+.checkout-progress .active{color:#d9a441}
+.checkout-progress .dot{width:3px;height:3px;border-radius:50%;background:#80632c}
+.checkout-card{
+  position:relative;
+  padding:1px;
+  border-radius:22px;
+  background:linear-gradient(135deg,rgba(217,164,65,.22),rgba(255,255,255,.045) 24%,rgba(255,255,255,.025) 70%,rgba(217,164,65,.10));
+  box-shadow:0 35px 100px rgba(0,0,0,.42);
+}
+.checkout-card::before{
+  content:"";
+  position:absolute;
+  width:320px;height:180px;
+  top:-90px;left:50%;
+  transform:translateX(-50%);
+  background:radial-gradient(circle,rgba(217,164,65,.08),transparent 68%);
+  filter:blur(22px);
+  pointer-events:none;
+}
+.checkout-card > *{
+  position:relative;
+  z-index:1;
+}
+.checkout-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1.35fr) minmax(310px,.65fr);
+  gap:1px;
+  overflow:hidden;
+  border-radius:21px;
+  background:#0c0a08;
+}
+.checkout-section{
+  min-width:0;
+  padding:34px;
+  background:linear-gradient(145deg,rgba(32,25,17,.92),rgba(10,9,7,.97));
+}
+.checkout-grid > .checkout-section:first-child{border-right:1px solid rgba(255,255,255,.055)}
+.checkout-section h2{
+  margin:0 0 24px;
+  color:#f2eadf;
+  font:400 29px/1 "Font",Georgia,serif;
+}
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.field{display:flex;flex-direction:column;gap:8px;min-width:0}
+.field.full{grid-column:1/-1}
+.field label{color:#857d73;font:9px "Font1",sans-serif;letter-spacing:2px;text-transform:uppercase}
+.field input,.field textarea{
+  width:100%;
+  border:1px solid rgba(255,255,255,.105);
+  border-radius:0;
+  outline:0;
+  background:rgba(255,255,255,.025);
+  color:#f6efe5;
+  padding:14px 15px;
+  font:13px "Font1",sans-serif;
+  transition:border-color .25s,background .25s,box-shadow .25s;
+}
+.field textarea{resize:vertical;min-height:104px}
+.field input::placeholder,.field textarea::placeholder{color:#4e4943}
+.field input:focus,.field textarea:focus{
+  border-color:rgba(217,164,65,.62);
+  background:rgba(217,164,65,.025);
+  box-shadow:0 0 0 3px rgba(217,164,65,.055);
+}
+.customer-pill{
+  display:inline-flex;
+  align-items:center;
+  min-height:30px;
+  padding:0 11px;
+  border:1px solid rgba(217,164,65,.17);
+  border-radius:999px;
+  background:rgba(217,164,65,.055);
+  color:#caa75f;
+  font:9px "Font1",sans-serif;
+  letter-spacing:1px;
+}
+.payment-note{
+  margin-top:20px;
+  padding:13px 14px;
+  border-left:1px solid rgba(217,164,65,.35);
+  background:rgba(217,164,65,.035);
+  color:#716a62;
+  font:11px/1.7 "Font1",sans-serif;
+}
+.checkout-btn{
+  width:100%;
+  margin-top:20px;
+  min-height:52px;
+  padding:0 20px;
+  border:1px solid rgba(236,198,105,.48);
+  border-radius:0;
+  background:linear-gradient(100deg,#8e631c,#d8aa4a 48%,#9b6d20);
+  color:#100d08;
+  font:700 10px "Font1",sans-serif;
+  letter-spacing:2.3px;
+  cursor:pointer;
+  transition:transform .25s,filter .25s,box-shadow .25s;
+}
+.checkout-btn:hover{transform:translateY(-2px);filter:brightness(1.06);box-shadow:0 14px 30px rgba(217,164,65,.10)}
+.summary{height:max-content;position:sticky;top:104px}
+.summary-items{max-height:300px;overflow:auto;margin-bottom:16px;padding-right:4px}
+.summary-item{
+  display:flex;
+  justify-content:space-between;
+  gap:18px;
+  padding:13px 0;
+  border-bottom:1px solid rgba(255,255,255,.055);
+  color:#777067;
+  font:12px/1.6 "Font1",sans-serif;
+}
+.summary-item strong{color:#e9e0d4;font-weight:400}
+.summary-row{display:flex;justify-content:space-between;gap:20px;padding:9px 0;color:#716a62;font:12px "Font1",sans-serif}
+.summary-row strong{color:#ddd3c7;font-weight:400}
+.summary-row.total{margin-top:9px;padding-top:17px;border-top:1px solid rgba(217,164,65,.17);color:#9b9186}
+.summary-row.total strong{color:#e2bf69;font-size:21px}
+.auth-required{display:none}
+.auth-required.show{display:block}
+.auth-required .checkout-section{border-radius:21px}
+.auth-required p{max-width:650px;margin:0 0 24px;color:#817970;font:13px/1.8 "Font1",sans-serif}
+.auth-actions{display:flex;gap:12px;flex-wrap:wrap}
+.auth-actions a{
+  min-width:170px;
+  min-height:46px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:0 20px;
+  text-decoration:none;
+  font:700 9px "Font1",sans-serif;
+  letter-spacing:1.8px;
+  transition:transform .25s,background .25s,border-color .25s;
+}
+.auth-actions a:hover{transform:translateY(-2px)}
+.auth-actions .primary{background:linear-gradient(100deg,#a87520,#ddb257,#9a6b1f);color:#100d08}
+.auth-actions .secondary{border:1px solid rgba(217,164,65,.30);background:rgba(217,164,65,.035);color:#d7c093}
+.signed-in{display:none}
+.signed-in.show{display:block}
+.checkout-footer{
+  margin-top:28px;
+  text-align:center;
+  color:#514b45;
+  font:9px "Font1",sans-serif;
+  letter-spacing:3px;
+}
+#cart-toast{display:none !important}
+
+@media(max-width:900px){
+  .checkout-wrap{width:min(100% - 24px,640px);padding:108px 0 112px}
+  .checkout-intro{margin-bottom:28px}
+  .checkout-intro .eyebrow{font-size:9px;letter-spacing:3px}
+  .checkout-intro h1{font-size:47px;letter-spacing:-.8px}
+  .checkout-intro > p:last-child{padding:0 8px;font-size:12px}
+  .checkout-progress{font-size:8px;gap:9px;letter-spacing:2px}
+  .checkout-card{border-radius:18px}
+  .checkout-grid{grid-template-columns:1fr;border-radius:17px}
+  .checkout-grid > .checkout-section:first-child{border-right:0;border-bottom:1px solid rgba(255,255,255,.055)}
+  .checkout-section{padding:22px 19px}
+  .checkout-section h2{font-size:25px;margin-bottom:20px}
+  .field-grid{grid-template-columns:1fr;gap:14px}
+  .field.full{grid-column:auto}
+  .summary{position:static;order:-1}
+  .summary-items{max-height:220px}
+  .auth-actions{flex-direction:column}
+  .auth-actions a{width:100%}
+}
+@media(max-width:430px){
+  .checkout-wrap{width:calc(100% - 16px);padding-top:104px}
+  .checkout-intro h1{font-size:41px}
+  .checkout-progress{margin-bottom:20px}
+  .checkout-section{padding:19px 16px}
+  .checkout-card{border-radius:16px}
+}
+</style>
+<link rel="stylesheet" href="shared-navbar.css">
+    <link rel="stylesheet" href="free-delivery.css">
+</head>
+<body class="checkout-page">
+<header class="navbar">
+  <a href="index.html" class="logo" aria-label="Liwi-Ka Home"><img src="images/liwi.png" alt="Liwi-Ka Finest Chocolate"></a>
+  <nav class="nav-links" aria-label="Primary navigation">
+    <a href="index.html">Home</a><a href="seasonals/shop.html">Shop</a><a href="new-arrivals.html">New Arrivals</a>
+    <a href="seasonals/seasonals.html">Seasonals</a><a href="index.html#our-story">Our Story</a><a href="seasonals/customer-care.html">Customer Care</a>
+  </nav>
+  <div class="nav-icons">
+    <button type="button" aria-label="Search">⌕</button>
+    <a href="login.html" class="profile-icon-button" aria-label="My Account"><svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"></circle><path d="M4.5 20c.8-4 3.4-6 7.5-6s6.7 2 7.5 6"></path></svg></a>
+    <a href="seasonals/cart.html" class="cart-nav-link" aria-label="Shopping Cart"><button type="button" class="cart-icon-button" aria-label="Shopping Cart"><svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h2l1.7 10.2a2 2 0 0 0 2 1.7h7.8a2 2 0 0 0 1.9-1.4L21 9H7"></path><circle cx="10" cy="20" r="1.2"></circle><circle cx="18" cy="20" r="1.2"></circle></svg></button></a>
+  </div>
+</header>
+<main class="checkout-wrap">
+  <div class="checkout-intro">
+    <p class="eyebrow">LIWI-KA • YOUR SWEETEST MOMENT</p>
+    <h1>Complete your <span>order.</span></h1>
+    <p>One final step before your chocolate reaches its destination. Sign in or create your Liwi-Ka account, then add your delivery details.</p>
+  </div>
+  <div class="checkout-progress"><span class="active">Account</span><span class="dot"></span><span>Delivery</span><span class="dot"></span><span>Payment</span></div>
+  <section class="checkout-card">
+    <div id="authRequired" class="auth-required">
+      <div class="checkout-section">
+        <h2>Continue with your account</h2>
+        <p>Your Liwi-Ka account keeps your order details together and lets you follow your purchases. Guest checkout isn't available.</p>
+        <div class="auth-actions"><a class="primary" id="loginLink" href="login.html">SIGN IN</a><a class="secondary" id="signupLink" href="signup.html">CREATE ACCOUNT</a></div>
+      </div>
+    </div>
+    <div id="checkoutContent" class="signed-in">
+      <div class="checkout-grid">
+        <section class="checkout-section">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap"><h2 style="margin:0">Delivery details</h2><span class="customer-pill" id="customerEmail"></span></div>
+          <form id="checkoutForm">
+            <div class="field-grid">
+              <div class="field"><label for="checkoutName">FULL NAME</label><input id="checkoutName" required autocomplete="name"></div>
+              <div class="field"><label for="checkoutPhone">PHONE</label><input id="checkoutPhone" required autocomplete="tel" inputmode="tel"></div>
+              <div class="field full"><label for="checkoutAddress">DELIVERY ADDRESS</label><textarea id="checkoutAddress" rows="3" required autocomplete="street-address"></textarea></div>
+              <div class="field"><label for="checkoutCity">CITY</label><input id="checkoutCity" required autocomplete="address-level2"></div>
+              <div class="field"><label for="checkoutPin">PINCODE</label><input id="checkoutPin" required inputmode="numeric" autocomplete="postal-code"></div>
+            </div>
+            <div class="payment-note">Your details are saved for this checkout only. The next step is payment.</div>
+            <button class="checkout-btn" type="submit">CONTINUE TO PAYMENT →</button>
+          </form>
+        </section>
+        <aside class="checkout-section summary">
+          <h2>Your order</h2><div id="summaryItems" class="summary-items"></div>
+          <div class="summary-row"><span>Subtotal</span><strong id="summarySubtotal">₹0</strong></div>
+          <div class="summary-row"><span>Delivery</span><strong id="summaryDelivery">₹20</strong></div>
+          <div class="summary-row total"><span>Total</span><strong id="summaryTotal">₹0</strong></div>
+        </aside>
+      </div>
+    </div>
+  </section>
+  <div class="checkout-footer">LIWI-KA &nbsp; • &nbsp; FINEST CHOCOLATE</div>
+</main>
+<script src="cart.js"></script>
+<script src="free-delivery.js"></script>
+    <script src="responsive-mobile.js"></script>
+<script>
+(function(){
+  const authKey='liwika_auth_session', required=document.getElementById('authRequired'), content=document.getElementById('checkoutContent');
+  const login=document.getElementById('loginLink'), signup=document.getElementById('signupLink');
+  const returnUrl='checkout.html';
+  login.href='login.html?returnTo='+encodeURIComponent(returnUrl); signup.href='signup.html?returnTo='+encodeURIComponent(returnUrl);
+  function session(){try{return JSON.parse(localStorage.getItem(authKey)||'null')}catch(e){return null}}
+  function money(v){return '₹'+Number(v||0).toLocaleString('en-IN')}
+  const items=window.LiwikaCart?window.LiwikaCart.getItems():[];
+  if(!items.length){location.href='seasonals/cart.html';return}
+  const subtotal=window.LiwikaCart.getSubtotal();
+  const delivery=subtotal>=150?0:20;
+  const total=subtotal+delivery;
+  document.getElementById('summarySubtotal').textContent=money(subtotal);
+  document.getElementById('summaryDelivery').textContent=delivery===0?'Free':money(delivery);
+  document.getElementById('summaryTotal').textContent=money(total);
+  document.getElementById('summaryItems').innerHTML=items.map(i=>`<div class="summary-item"><span><strong>${i.name}</strong><br>${i.flavour||''} × ${i.quantity}</span><span>${money(i.price*i.quantity)}</span></div>`).join('');
+  const s=session();
+  if(!s){required.classList.add('show');return}
+  content.classList.add('show');document.getElementById('customerEmail').textContent=s.email||'SIGNED IN';
+  document.getElementById('checkoutForm').addEventListener('submit',function(e){
+    e.preventDefault();
+    const details={name:document.getElementById('checkoutName').value.trim(),phone:document.getElementById('checkoutPhone').value.trim(),address:document.getElementById('checkoutAddress').value.trim(),city:document.getElementById('checkoutCity').value.trim(),pin:document.getElementById('checkoutPin').value.trim()};
+    sessionStorage.setItem('liwika_checkout_details',JSON.stringify(details));sessionStorage.setItem('liwika_checkout_total',String(total));location.href='payment.html';
+  });
+})();
+</script>
+</body>
+</html>

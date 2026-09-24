@@ -146,6 +146,20 @@
                         ? priceA - priceB
                         : priceB - priceA;
                 });
+            } else if (value === "Best Sellers" || value === "Weekly Selling") {
+                const metricKey = value === "Best Sellers" ? "sales" : "weeklySales";
+                const ledger = window.LiwikaSales && window.LiwikaSales.getMetrics
+                    ? window.LiwikaSales.getMetrics()
+                    : {};
+                items.sort((a, b) => {
+                    const idA = a.dataset.product || "";
+                    const idB = b.dataset.product || "";
+                    const fallbackA = Number(a.dataset[metricKey === "weeklySales" ? "weeklySales" : "sales"] || 0);
+                    const fallbackB = Number(b.dataset[metricKey === "weeklySales" ? "weeklySales" : "sales"] || 0);
+                    const metricA = Number(ledger[idA]?.[metricKey] ?? fallbackA);
+                    const metricB = Number(ledger[idB]?.[metricKey] ?? fallbackB);
+                    return metricB - metricA;
+                });
             }
 
             items.forEach((item) => grid.appendChild(item));

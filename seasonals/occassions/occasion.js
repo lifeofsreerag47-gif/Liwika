@@ -8,50 +8,6 @@
    this script.
 ========================================= */
 
-/* =========================================
-   CART TOAST
-========================================= */
-
-(function injectToast() {
-    if (document.getElementById("cart-toast")) return;
-    const toast = document.createElement("div");
-    toast.id = "cart-toast";
-    toast.innerHTML = `
-        <div class="cart-toast-icon">✓</div>
-        <div class="cart-toast-body">
-            <span class="cart-toast-label">Added to cart</span>
-            <span class="cart-toast-name" id="cart-toast-name"></span>
-        </div>
-    `;
-    document.body.appendChild(toast);
-})();
-
-let toastTimeout = null;
-
-function showCartToast(productName) {
-    const toast = document.getElementById("cart-toast");
-    const nameEl = document.getElementById("cart-toast-name");
-    if (!toast || !nameEl) return;
-
-    nameEl.textContent = productName;
-
-    // Clear any running hide timer
-    if (toastTimeout) {
-        clearTimeout(toastTimeout);
-        toastTimeout = null;
-    }
-
-    // Force re-trigger animation if already showing
-    toast.classList.remove("show");
-    void toast.offsetHeight; // reflow
-
-    toast.classList.add("show");
-
-    toastTimeout = setTimeout(() => {
-        toast.classList.remove("show");
-        toastTimeout = null;
-    }, 2500);
-}
 
 /* =========================================
    MODAL ELEMENTS

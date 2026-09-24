@@ -19,10 +19,13 @@
             }
         },
 
-        saveItems(items) {
+        saveItems(items, addedItem) {
             try {
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-                window.dispatchEvent(new CustomEvent('cartUpdated', { detail: { items } }));
+                window.dispatchEvent(new CustomEvent('cartUpdated', { detail: { items, item: addedItem || null } }));
+                if (window.parent && window.parent !== window) {
+                    window.parent.postMessage({ type: 'LIWIKA_CART_UPDATED', item: addedItem || null }, '*');
+                }
             } catch (err) {
                 console.error('Failed to save cart to localStorage:', err);
             }
@@ -53,11 +56,7 @@
                 });
             }
 
-            this.saveItems(items);
-
-            if (typeof window.showCartToast === "function") {
-                window.showCartToast(item.name || "Artisanal Chocolate");
-            }
+            this.saveItems(items, item);
         },
 
         updateQuantity(id, flavour, occasion, newQty) {
@@ -110,50 +109,4 @@
     };
 
     window.LiwikaCart = Cart;
-
-    // Cart Toast helper
-    function injectToast() {
-        if (document.getElementById('cart-toast')) return;
-        const toast = document.createElement('div');
-        toast.id = 'cart-toast';
-        toast.innerHTML = `
-            <div class="cart-toast-icon">✓</div>
-            <div class="cart-toast-body">
-                <span class="cart-toast-label">Added to cart</span>
-                <span class="cart-toast-name" id="cart-toast-name"></span>
-            </div>
-        `;
-        document.body.appendChild(toast);
-    }
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', injectToast);
-    } else {
-        injectToast();
-    }
-
-    let toastTimeout = null;
-    window.showCartToast = function (productName) {
-        injectToast();
-        const toast = document.getElementById('cart-toast');
-        const nameEl = document.getElementById('cart-toast-name');
-        if (!toast || !nameEl) return;
-
-        nameEl.textContent = productName;
-
-        if (toastTimeout) {
-            clearTimeout(toastTimeout);
-            toastTimeout = null;
-        }
-
-        toast.classList.remove('show');
-        void toast.offsetHeight;
-        toast.classList.add('show');
-
-        toastTimeout = setTimeout(() => {
-            toast.classList.remove('show');
-            toastTimeout = null;
-        }, 2500);
-    };
-
 })(window);

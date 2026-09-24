@@ -71,11 +71,6 @@
         bar.className = "mobile-bottom-nav";
         bar.setAttribute("aria-label", "Mobile navigation");
 
-        var indicator = document.createElement("div");
-        indicator.className = "mobile-nav-active-indicator";
-        indicator.setAttribute("aria-hidden", "true");
-        bar.appendChild(indicator);
-
         definitions.forEach(function (definition) {
             var source = getNavLink(desktopNav, definition[0]);
             /* Cart is intentionally not part of the desktop text navigation.
@@ -108,7 +103,7 @@
 
             if (definition[1] === "cart") {
                 var badge = document.createElement("span");
-                badge.className = "mobile-bottom-cart-badge";
+                badge.className = "liwika-cart-badge";
                 badge.setAttribute("aria-hidden", "true");
                 badge.textContent = "0";
                 item.appendChild(badge);
@@ -147,71 +142,59 @@
 
         document.body.appendChild(bar);
 
-        function moveActiveIndicator(activeItem, animate) {
+        function moveActiveIndicator(activeItem) {
             var active = activeItem || bar.querySelector(".mobile-bottom-item.active");
-            if (!active || !indicator) return;
-            /* Use the rendered geometry of the active tab itself.
-               This is more accurate than calculating from grid slots because
-               the nav has padding + gaps and those can change at breakpoints.
-               The pill is centered on the active tab and clamped inside the
-               nav's border box so it can never stick outside the bottom bar. */
-            var barRect = bar.getBoundingClientRect();
-            var itemRect = active.getBoundingClientRect();
+            var items = Array.prototype.slice.call(bar.querySelectorAll(".mobile-bottom-item"));
 
-            var sideInset = -3;
-            var indicatorWidth = Math.max(1, itemRect.width - (sideInset * 2));
+            if (!active) {
+                var currentPath = window.location.pathname.replace(/\/$/, "");
+                active = items.find(function (item) {
+                    try {
+                        var itemPath = new URL(item.href, window.location.href).pathname.replace(/\/$/, "");
+                        return itemPath === currentPath ||
+                            (item.getAttribute("aria-label") === "Seasonals" && /\/occassions\//i.test(currentPath));
+                    } catch (e) { return false; }
+                });
+            }
 
-            /* Position from the active item's exact center. */
-            var itemCenter = (itemRect.left - barRect.left - bar.clientLeft) + (itemRect.width / 2);
-            var indicatorLeft = itemCenter - (indicatorWidth / 2);
+            if (!active) active = bar.querySelector('.mobile-bottom-item[aria-label="Home"]');
+            if (!active) return;
 
-            /* Keep the pill completely inside the bar, including its border. */
-            var minLeft = 1;
-            var maxLeft = Math.max(minLeft, bar.clientWidth - indicatorWidth - 1);
-            indicatorLeft = Math.max(minLeft, Math.min(indicatorLeft, maxLeft));
-
-            indicator.style.setProperty("width", indicatorWidth + "px", "important");
-            indicator.style.transform = "translate3d(" + indicatorLeft + "px,0,0)";
-            indicator.classList.toggle("is-ready", !!animate);
+            items.forEach(function (item) { item.classList.toggle("active", item === active); });
         }
 
         bar.__moveActiveIndicator = moveActiveIndicator;
         requestAnimationFrame(function () { moveActiveIndicator(null, true); });
-        window.addEventListener("resize", function () { moveActiveIndicator(null, false); });
+        window.addEventListener("resize", function () {
+            requestAnimationFrame(function () { moveActiveIndicator(null, false); });
+        }, { passive: true });
+        window.addEventListener("orientationchange", function () {
+            setTimeout(function () { moveActiveIndicator(null, false); }, 80);
+        }, { passive: true });
+        /* The indicator is positioned by CSS from --active-index.
+           Do not recalculate it from scroll geometry. */
         updateCartBadge(bar);
     }
 
     function updateCartBadge(bar) {
-        var badge = bar && bar.querySelector(".mobile-bottom-cart-badge");
+        if (window.LiwikaUpdateCartBadges) {
+            window.LiwikaUpdateCartBadges();
+            return;
+        }
+        var badge = bar && bar.querySelector(".liwika-cart-badge");
         if (!badge) return;
-
         var count = 0;
         try {
-            var possibleKeys = ["cart", "liwikaCart", "cartItems", "shoppingCart"];
-            possibleKeys.some(function (key) {
-                var raw = localStorage.getItem(key);
-                if (!raw) return false;
-                var data = JSON.parse(raw);
-                if (Array.isArray(data)) {
-                    count = data.reduce(function (sum, item) {
-                        return sum + Number(item.quantity || item.qty || 1);
-                    }, 0);
-                    return true;
-                }
-                if (data && Array.isArray(data.items)) {
-                    count = data.items.reduce(function (sum, item) {
-                        return sum + Number(item.quantity || item.qty || 1);
-                    }, 0);
-                    return true;
-                }
-                return false;
-            });
-        } catch (e) {
-            count = 0;
-        }
-
+            var raw = localStorage.getItem("liwika_cart_items");
+            var data = raw ? JSON.parse(raw) : [];
+            if (Array.isArray(data)) {
+                count = data.reduce(function (sum, item) {
+                    return sum + Number(item.quantity || 0);
+                }, 0);
+            }
+        } catch (e) {}
         badge.textContent = count > 99 ? "99+" : String(count);
-        bar.classList.toggle("cart-has-items", count > 0);
+        badge.classList.toggle("is-visible", count > 0);
     }
 
     function installMobileShell() {
@@ -262,6 +245,8 @@
         };
 
         frame.addEventListener("load", function () {
+            if (window.LiwikaUpdateFreeDeliveryHUD) window.LiwikaUpdateFreeDeliveryHUD(false);
+            if (window.LiwikaUpdateCartBadges) window.LiwikaUpdateCartBadges();
             var doc;
             try { doc = frame.contentDocument; } catch (e) { doc = null; }
             if (!doc) return;
@@ -289,6 +274,13 @@
             }
         });
 
+        window.addEventListener("message", function (event) {
+            if (!event.data || event.data.type !== "LIWIKA_CART_UPDATED") return;
+            if (window.LiwikaUpdateFreeDeliveryHUD) window.LiwikaUpdateFreeDeliveryHUD(true);
+            if (window.LiwikaUpdateCartBadges) window.LiwikaUpdateCartBadges();
+            if (event.data.item && window.LiwikaShowCartToast) window.LiwikaShowCartToast(event.data.item);
+        });
+
         window.addEventListener("popstate", function () {
             var target = window.location.href;
             window.__liwiNavigate(target, false);
@@ -309,9 +301,10 @@
 
         /* Existing cart scripts often change the DOM without firing storage.
            Keep the badge synced without interfering with cart functionality. */
-        window.setInterval(function () {
+        window.addEventListener("cartUpdated", function () {
             updateCartBadge(document.querySelector(".mobile-bottom-nav"));
-        }, 1200);
+        });
+        updateCartBadge(document.querySelector(".mobile-bottom-nav"));
     }
 
     if (document.readyState === "loading") {
@@ -320,3 +313,10 @@
         init();
     }
 })();
+
+(function () {
+    if (new URLSearchParams(window.location.search).get("liwiFrame") === "1") {
+        document.body && document.body.classList.add("mobile-liwi-frame");
+    }
+})();
+

@@ -2,47 +2,13 @@
    BIRTHDAY PRODUCTS DATA
 ========================================= */
 
-/* =========================================
-   CART TOAST
-========================================= */
-
-(function injectToast() {
-    if (document.getElementById("cart-toast")) return;
-    const toast = document.createElement("div");
-    toast.id = "cart-toast";
-    toast.innerHTML = `
-        <div class="cart-toast-icon">✓</div>
-        <div class="cart-toast-body">
-            <span class="cart-toast-label">Added to cart</span>
-            <span class="cart-toast-name" id="cart-toast-name"></span>
-        </div>
-    `;
-    document.body.appendChild(toast);
-})();
-
-let toastTimeout = null;
-
-function showCartToast(productName) {
-    const toast = document.getElementById("cart-toast");
-    const nameEl = document.getElementById("cart-toast-name");
-    if (!toast || !nameEl) return;
-    nameEl.textContent = productName;
-    if (toastTimeout) { clearTimeout(toastTimeout); toastTimeout = null; }
-    toast.classList.remove("show");
-    void toast.offsetHeight;
-    toast.classList.add("show");
-    toastTimeout = setTimeout(() => {
-        toast.classList.remove("show");
-        toastTimeout = null;
-    }, 2500);
-}
 
 const birthdayProducts = {
 
     "dark-indulgence": {
         name: "Dark Indulgence",
         description: "Rich dark chocolate crafted for a sophisticated birthday treat.",
-        basePrice: 499,
+        basePrice: 49,
         flavours: [
             {
                 name: "Classic Dark",
@@ -62,7 +28,7 @@ const birthdayProducts = {
     "golden-milk": {
         name: "Golden Milk",
         description: "Smooth and creamy chocolate made for a little birthday luxury.",
-        basePrice: 699,
+        basePrice: 69,
         flavours: [
             {
                 name: "Classic Milk",
@@ -82,7 +48,7 @@ const birthdayProducts = {
     "hazelnut-bliss": {
         name: "Hazelnut Bliss",
         description: "Velvety chocolate combined with roasted hazelnuts for a joyful celebration.",
-        basePrice: 899,
+        basePrice: 89,
         flavours: [
             {
                 name: "Classic Hazelnut",

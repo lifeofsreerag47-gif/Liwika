@@ -8,6 +8,8 @@
     <title>Liwi-Ka | Create Account</title>
 
     <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="responsive-mobile.css">
+    <link rel="stylesheet" href="free-delivery.css">
 </head>
 
 <body>
@@ -162,7 +164,7 @@
 
                 <p>
                     Already have an account?
-                    <a href="login.html">Sign in</a>
+                    <a id="loginSwitchLink" href="login.html">Sign in</a>
                 </p>
 
             </div>
@@ -184,6 +186,9 @@
 
     <script src="auth.js"></script>
 
+    <script src="free-delivery.js"></script>
 </body>
 
-</html>
+</html><script>
+(function(){var p=new URLSearchParams(location.search),r=p.get('returnTo');if(r){var a=document.getElementById('loginSwitchLink');if(a)a.href='login.html?returnTo='+encodeURIComponent(r);}})();
+</script>

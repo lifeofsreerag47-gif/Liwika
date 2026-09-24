@@ -11,6 +11,8 @@
     <!-- Connecting our CSS file -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="responsive-mobile.css">
+<link rel="stylesheet" href="shared-navbar.css">
+    <link rel="stylesheet" href="free-delivery.css">
 </head>
 
 <body class="home-page">
@@ -48,9 +50,9 @@
             <button aria-label="Search">⌕</button>
             
 
-            <button aria-label="My Account">♙</button>
+            <a href="login.html" class="profile-icon-button" aria-label="My Account"><svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"></circle><path d="M4.5 20c.8-4 3.4-6 7.5-6s6.7 2 7.5 6"></path></svg></a>
 
-            <a href="seasonals/cart.html" class="cart-nav-link" aria-label="Shopping Cart"><button type="button">🛒</button></a>
+            <a href="seasonals/cart.html" class="cart-nav-link" aria-label="Shopping Cart"><button type="button" class="cart-icon-button" aria-label="Shopping Cart"><svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h2l1.7 10.2a2 2 0 0 0 2 1.7h7.8a2 2 0 0 0 1.9-1.4L21 9H7"></path><circle cx="10" cy="20" r="1.2"></circle><circle cx="18" cy="20" r="1.2"></circle></svg></button></a>
 
         </div>
 
@@ -159,7 +161,7 @@
 
                 <div class="product-bottom">
 
-                    <span class="price">₹299</span>
+                    <span class="price">₹49</span>
 
                     <button type="button" class="add-button">
                         Add to Cart
@@ -189,7 +191,7 @@
 
                 <div class="product-bottom">
 
-                    <span class="price">₹349</span>
+                    <span class="price">₹59</span>
 
                     <button type="button" class="add-button">
                         Add to Cart
@@ -219,7 +221,7 @@
 
                 <div class="product-bottom">
 
-                    <span class="price">₹249</span>
+                    <span class="price">₹69</span>
 
                     <button type="button" class="add-button">
                         Add to Cart
@@ -501,13 +503,13 @@
 
             <div class="footer-newsletter">
 
-                <h3>Stay in the Chocolate Loop</h3>
+                <h3>Stay in the Loop</h3>
 
                 <p>
                     Be the first to discover new creations, seasonal collections, and exclusive offers.
                 </p>
 
-                <form class="newsletter-form" onsubmit="event.preventDefault(); this.reset(); alert('Thank you for joining Liwi-Ka!');">
+                <form class="newsletter-form" id="liwikaNewsletterForm">
 
                     <input
                         type="email"
@@ -568,7 +570,7 @@
                     <div class="modal-option-group">
                         <label class="modal-option-label">QUANTITY</label>
                         <div class="quantity-control">
-                            <button id="decreaseQuantity" type="button" class="qty-btn" aria-label="Decrease quantity">−</button>
+                            <button id="decreaseQuantity" type="button" class="qty-btn" aria-label="Decrease quantity">-</button>
                             <span id="quantity" class="qty-display">1</span>
                             <button id="increaseQuantity" type="button" class="qty-btn" aria-label="Increase quantity">+</button>
                         </div>
@@ -578,7 +580,7 @@
                     <div class="modal-footer-action">
                         <div class="modal-price-container">
                             <span class="modal-price-label">PRICE</span>
-                            <span id="modalProductPrice" class="modal-price">₹299</span>
+                            <span id="modalProductPrice" class="modal-price">₹49</span>
                         </div>
                         <button id="modalAddToCart" type="button" class="modal-add-btn">
                             ADD TO CART
@@ -592,6 +594,7 @@
     <script src="cart.js"></script>
     <script src="script.js"></script>
     
+    <script src="free-delivery.js"></script>
     <script src="responsive-mobile.js"></script>
 </body>
 </html>

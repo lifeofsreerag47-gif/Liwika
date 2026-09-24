@@ -1,0 +1,349 @@
+/* =========================================================
+   LIWI-KA — GLOBAL FREE DELIVERY HUD
+========================================================= */
+
+.liwika-free-delivery {
+  position: fixed;
+  right: 28px;
+  bottom: 28px;
+  width: min(520px, calc(100vw - 56px));
+  min-height: 66px;
+  box-sizing: border-box;
+  z-index: 2147483646;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate3d(0, 115%, 0) scale(.985);
+  transition: opacity .34s ease, transform .62s cubic-bezier(.16,1,.3,1);
+}
+
+.lfd-card {
+  position: relative;
+  min-height: 66px;
+  padding: 14px 18px 13px;
+  box-sizing: border-box;
+  display: grid;
+  align-items: center;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(20,16,11,.97), rgba(10,9,7,.95));
+  border: 1px solid rgba(221,180,86,.18);
+  border-radius: 16px;
+  box-shadow: 0 20px 55px rgba(0,0,0,.42), inset 0 1px rgba(255,255,255,.045);
+  backdrop-filter: blur(18px) saturate(120%);
+  -webkit-backdrop-filter: blur(18px) saturate(120%);
+}
+
+.lfd-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 82% 50%, rgba(222,177,77,.10), transparent 54%);
+}
+
+.liwika-free-delivery.is-visible {
+  opacity: 1;
+  transform: translate3d(0,0,0) scale(1);
+}
+
+.liwika-free-delivery.is-leaving {
+  opacity: 0;
+  transform: translate3d(0,115%,0) scale(.97);
+}
+
+.lfd-progress-state {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0,1fr) 180px;
+  align-items: center;
+  gap: 18px;
+  transition: opacity .34s ease, transform .42s ease;
+}
+
+.lfd-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.lfd-label {
+  font-family: "Font1", "Outfit", sans-serif;
+  font-size: 8px;
+  letter-spacing: 2.2px;
+  color: #d6ad56;
+  text-transform: uppercase;
+}
+
+.lfd-message {
+  font-family: "Font1", "Outfit", sans-serif;
+  font-size: 12px;
+  letter-spacing: .25px;
+  color: #f5efe4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lfd-track {
+  position: relative;
+  height: 4px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255,255,255,.07);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.025);
+}
+
+.lfd-fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg,#8b681d 0%,#d6a43f 38%,#f7df8c 68%,#c18a25 100%);
+  box-shadow: 0 0 10px rgba(221,177,72,.30);
+  transition: width .78s cubic-bezier(.16,1,.3,1);
+}
+
+.lfd-unlocked {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  padding: 0 18px;
+  box-sizing: border-box;
+  font-family: "Outfit", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 2.8px;
+  color: #f3d78c;
+  opacity: 0;
+  transform: translateY(12px) scale(.96);
+  pointer-events: none;
+  text-align: center;
+  transition: opacity .45s ease, transform .65s cubic-bezier(.16,1,.3,1);
+}
+
+.liwika-free-delivery.is-unlocked .lfd-progress-state {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+.liwika-free-delivery.is-unlocked .lfd-unlocked {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+@media (max-width: 900px) {
+  .liwika-free-delivery {
+    left: 0;
+    right: 0;
+    bottom: calc(78px + env(safe-area-inset-bottom));
+    width: min(430px, calc(100vw - 24px));
+    max-width: calc(100vw - 24px);
+    margin: 0 auto;
+  }
+
+  .lfd-card {
+    min-height: 58px;
+    padding: 11px 14px 10px;
+    border-radius: 15px;
+  }
+
+  .lfd-progress-state {
+    grid-template-columns: minmax(0,1fr) 118px;
+    gap: 12px;
+  }
+
+  .lfd-label { font-size: 7px; letter-spacing: 1.7px; }
+  .lfd-message { font-size: 10.5px; }
+  .lfd-unlocked { font-size: 14px; letter-spacing: 2px; }
+}
+
+@media (max-width: 390px) {
+  .liwika-free-delivery {
+    width: calc(100vw - 18px);
+    max-width: calc(100vw - 18px);
+  }
+
+  .lfd-card {
+    min-height: 55px;
+    padding: 10px 12px;
+  }
+
+  .lfd-progress-state {
+    grid-template-columns: minmax(0,1fr) 92px;
+    gap: 9px;
+  }
+
+  .lfd-message { font-size: 10px; }
+  .lfd-unlocked { font-size: 12px; letter-spacing: 1.5px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .liwika-free-delivery,
+  .lfd-progress-state,
+  .lfd-unlocked,
+  .lfd-fill {
+    transition-duration: 1ms !important;
+  }
+}
+
+/* =========================================================
+   LOCAL OUTFIT REGULAR + CART BADGES + CART TOAST
+========================================================= */
+@font-face {
+  font-family: "LiwikaOutfitRegular";
+  src: url("./Outfit-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+.liwika-free-delivery,
+.liwika-free-delivery .lfd-message,
+.liwika-free-delivery .lfd-label,
+.liwika-free-delivery .lfd-unlocked {
+  font-family: "LiwikaOutfitRegular", "Outfit", sans-serif !important;
+  font-weight: 400;
+}
+
+.liwika-cart-badge {
+  position: absolute !important;
+  top: -5px !important;
+  right: -6px !important;
+  min-width: 16px !important;
+  height: 16px !important;
+  padding: 0 4px !important;
+  box-sizing: border-box !important;
+  display: none !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 999px !important;
+  background: linear-gradient(145deg, #f0cf79, #c99732) !important;
+  color: #110d07 !important;
+  font: 700 8px/1 "LiwikaOutfitRegular", sans-serif !important;
+  letter-spacing: 0 !important;
+  box-shadow: 0 2px 9px rgba(0,0,0,.45), 0 0 10px rgba(217,164,65,.16) !important;
+  z-index: 20 !important;
+  pointer-events: none !important;
+}
+
+.liwika-cart-badge.is-visible {
+  display: flex !important;
+}
+
+.navbar .cart-nav-link,
+.navbar .cart-icon-button,
+.mobile-bottom-item[aria-label="Shopping Cart"] {
+  position: relative !important;
+}
+
+.liwika-cart-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  width: 135px;
+  min-height: 44px;
+  padding: 5px 10px 5px 5px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 2147483647;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate3d(-50%, 20px, 0) scale(.96);
+  border: 1px solid rgba(255,255,255,.04);
+  border-radius: 999px;
+  background: #000;
+  box-shadow: 0 12px 30px rgba(0,0,0,.42);
+  transition: opacity .3s ease, transform .42s cubic-bezier(.16,1,.3,1);
+}
+
+.liwika-cart-toast.is-visible {
+  opacity: 1;
+  transform: translate3d(-50%, 0, 0) scale(1);
+}
+
+.lct-icon {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #e4c65b;
+  color: #050505;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+}
+
+.lct-icon span {
+  display: block;
+  font: 400 19px/1 "LiwikaOutfitRegular", sans-serif;
+  transform: translateY(-1px);
+}
+
+.lct-text {
+  color: #fff;
+  white-space: nowrap;
+  font: 400 12px/1 "LiwikaOutfitRegular", sans-serif;
+  letter-spacing: -.3px;
+}
+
+@media (max-width: 900px) {
+  .liwika-free-delivery {
+    bottom: calc(91px + env(safe-area-inset-bottom)) !important;
+    width: calc(100vw - 18px) !important;
+    max-width: 440px !important;
+    right: 9px !important;
+    left: 9px !important;
+    margin: 0 auto !important;
+    z-index: 2147483645 !important;
+  }
+
+  /* Mobile cart toast: very compact pill, always above the free-delivery card. */
+  .liwika-cart-toast {
+    bottom: calc(154px + env(safe-area-inset-bottom)) !important;
+    left: 50% !important;
+    right: auto !important;
+    width: 82px !important;
+    min-height: 28px !important;
+    height: 28px !important;
+    padding: 2px 5px 2px 3px !important;
+    gap: 4px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    border-radius: 999px !important;
+    z-index: 2147483647 !important;
+    transform: translate3d(-50%, 14px, 0) scale(.96);
+  }
+
+  .liwika-cart-toast.is-visible {
+    transform: translate3d(-50%, 0, 0) scale(1);
+  }
+
+  .liwika-cart-toast .lct-icon {
+    width: 21px !important;
+    height: 21px !important;
+    flex: 0 0 21px !important;
+  }
+
+  .liwika-cart-toast .lct-icon span {
+    font-size: 12px !important;
+  }
+
+  .liwika-cart-toast .lct-text {
+    font-size: 8px !important;
+    letter-spacing: -.15px !important;
+  }
+
+  .mobile-bottom-item .liwika-cart-badge {
+    top: 3px !important;
+    right: calc(50% - 19px) !important;
+    min-width: 15px !important;
+    height: 15px !important;
+    font-size: 7px !important;
+  }
+}

@@ -7,6 +7,34 @@
     'use strict';
 
     const STORAGE_KEY = 'liwika_cart_items';
+    const SALES_KEY = 'liwika_sales_metrics';
+
+    const Sales = {
+        getMetrics() {
+            try {
+                const raw = localStorage.getItem(SALES_KEY);
+                return raw ? JSON.parse(raw) : {};
+            } catch (err) {
+                return {};
+            }
+        },
+        record(id, quantity) {
+            if (!id || !quantity) return;
+            const metrics = this.getMetrics();
+            const now = Date.now();
+            const entry = metrics[id] || { sales: 0, events: [] };
+            entry.sales = Number(entry.sales || 0) + Number(quantity);
+            entry.events = Array.isArray(entry.events) ? entry.events : [];
+            entry.events.push({ t: now, q: Number(quantity) });
+            const cutoff = now - 7 * 24 * 60 * 60 * 1000;
+            entry.events = entry.events.filter(e => Number(e.t) >= cutoff);
+            entry.weeklySales = entry.events.reduce((sum, e) => sum + Number(e.q || 0), 0);
+            metrics[id] = entry;
+            try { localStorage.setItem(SALES_KEY, JSON.stringify(metrics)); } catch (err) {}
+        }
+    };
+
+    window.LiwikaSales = Sales;
 
     const Cart = {
         getItems() {
@@ -19,10 +47,13 @@
             }
         },
 
-        saveItems(items) {
+        saveItems(items, addedItem) {
             try {
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-                window.dispatchEvent(new CustomEvent('cartUpdated', { detail: { items } }));
+                window.dispatchEvent(new CustomEvent('cartUpdated', { detail: { items, item: addedItem || null } }));
+                if (window.parent && window.parent !== window) {
+                    window.parent.postMessage({ type: 'LIWIKA_CART_UPDATED', item: addedItem || null }, '*');
+                }
             } catch (err) {
                 console.error('Failed to save cart to localStorage:', err);
             }
@@ -53,13 +84,8 @@
                 });
             }
 
-            this.saveItems(items);
-
-            // Every successful add-to-cart action gets the same small
-            // bottom notification, regardless of which page initiated it.
-            if (typeof window.showCartToast === "function") {
-                window.showCartToast(item.name || "Artisanal Chocolate");
-            }
+            this.saveItems(items, item);
+            Sales.record(item.id, Number(item.quantity) || 1);
         },
 
         updateQuantity(id, flavour, occasion, newQty) {
@@ -112,50 +138,4 @@
     };
 
     window.LiwikaCart = Cart;
-
-    // Cart Toast helper
-    function injectToast() {
-        if (document.getElementById('cart-toast')) return;
-        const toast = document.createElement('div');
-        toast.id = 'cart-toast';
-        toast.innerHTML = `
-            <div class="cart-toast-icon">✓</div>
-            <div class="cart-toast-body">
-                <span class="cart-toast-label">Added to cart</span>
-                <span class="cart-toast-name" id="cart-toast-name"></span>
-            </div>
-        `;
-        document.body.appendChild(toast);
-    }
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', injectToast);
-    } else {
-        injectToast();
-    }
-
-    let toastTimeout = null;
-    window.showCartToast = function (productName) {
-        injectToast();
-        const toast = document.getElementById('cart-toast');
-        const nameEl = document.getElementById('cart-toast-name');
-        if (!toast || !nameEl) return;
-
-        nameEl.textContent = productName;
-
-        if (toastTimeout) {
-            clearTimeout(toastTimeout);
-            toastTimeout = null;
-        }
-
-        toast.classList.remove('show');
-        void toast.offsetHeight;
-        toast.classList.add('show');
-
-        toastTimeout = setTimeout(() => {
-            toast.classList.remove('show');
-            toastTimeout = null;
-        }, 2500);
-    };
-
 })(window);

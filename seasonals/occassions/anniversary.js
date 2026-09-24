@@ -7,7 +7,7 @@ const anniversaryProducts = {
     "dark-indulgence": {
         name: "Dark Indulgence",
         description: "Rich, smooth dark chocolate crafted for an elegant anniversary celebration.",
-        basePrice: 499,
+        basePrice: 49,
 
         flavours: [
             {
@@ -28,7 +28,7 @@ const anniversaryProducts = {
     "golden-milk": {
         name: "Golden Milk",
         description: "Smooth and creamy milk chocolate made to make your special moments sweeter.",
-        basePrice: 699,
+        basePrice: 69,
 
         flavours: [
             {
@@ -49,7 +49,7 @@ const anniversaryProducts = {
     "hazelnut-bliss": {
         name: "Hazelnut Bliss",
         description: "Luxurious chocolate combined with rich roasted hazelnuts for a memorable celebration.",
-        basePrice: 899,
+        basePrice: 89,
 
         flavours: [
             {

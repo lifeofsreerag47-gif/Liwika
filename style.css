@@ -787,9 +787,9 @@ body {
 
     letter-spacing: 3px;
 
-    border-bottom: 1px solid #d5a74a;
+    border-bottom: 0;
 
-    padding-bottom: 7px;
+    padding-bottom: 0;
 
     transition: opacity 0.3s ease;
 }
@@ -1983,7 +1983,7 @@ html {
         transparent 100%
     );
 
-    border-bottom: 1px solid rgba(226, 182, 86, 0.08);
+    border-bottom: 0;
     backdrop-filter: blur(7px);
     -webkit-backdrop-filter: blur(7px);
 }
@@ -2055,7 +2055,7 @@ html {
 .home-page .hero-content h1 {
     font-family: "Font", Georgia, serif;
 
-    font-size: clamp(58px, 7.2vw, 108px);
+    font-size: clamp(44px, 5.2vw, 74px);
 
     font-weight: 400;
     line-height: 1.1;
@@ -2092,3 +2092,118 @@ html {
     font-size: 10px;
     letter-spacing: 3px;
 }
+
+/* =========================================================
+   FINAL UI POLISH — ICONS, QUANTITY CONTROLS & RESPONSIVE MODALS
+   ========================================================= */
+.nav-icons .nav-icon-svg {
+    width: 21px;
+    height: 21px;
+    display: block;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.nav-icons .profile-icon-button,
+.nav-icons .cart-icon-button {
+    width: 30px;
+    height: 34px;
+    padding: 5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.nav-icons .profile-icon-button:hover,
+.nav-icons .cart-icon-button:hover {
+    color: #d9a441;
+    transform: translateY(-2px);
+}
+.hero {
+    background: #090806 url("./images/liwi.jpeg") center / cover no-repeat;
+}
+.hero-video,
+.hero-overlay {
+    pointer-events: none;
+}
+.hero-video {
+    background: transparent;
+}
+.qty-btn {
+    appearance: none;
+    -webkit-appearance: none;
+    visibility: visible !important;
+    opacity: 1 !important;
+    min-width: 34px;
+    min-height: 34px;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: 20px !important;
+    font-weight: 400 !important;
+    line-height: 1 !important;
+    color: #e0b95d !important;
+    text-align: center;
+}
+.quantity-control {
+    min-height: 36px;
+    overflow: visible;
+    border-radius: 6px;
+}
+.qty-btn:hover,
+.qty-btn:focus-visible {
+    color: #050505 !important;
+    background: #d9a441 !important;
+}
+
+
+/* Gift-Off Packaging / order number polish */
+.gift-off-packaging-row .coming-soon {
+    color: #d9a441;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+.bill-order-number {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 0 0 14px;
+    padding: 11px 13px;
+    border: 1px solid rgba(201,154,61,.18);
+    border-radius: 8px;
+    background: rgba(255,255,255,.025);
+}
+.bill-order-number span {
+    color: #969087;
+    font-size: 10px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+}
+.bill-order-number strong {
+    color: #f2d47e;
+    font-size: 14px;
+    letter-spacing: .12em;
+    font-variant-numeric: tabular-nums;
+}
+
+
+.newsletter-form {
+    position: relative;
+}
+.newsletter-status {
+    display: block;
+    min-height: 16px;
+    margin-top: 8px;
+    color: #d9a441;
+    font-size: 11px;
+    line-height: 1.4;
+    letter-spacing: .02em;
+}
+.newsletter-form.submitted input {
+    border-color: rgba(217,164,65,.55);
+}
+
+

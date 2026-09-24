@@ -913,7 +913,7 @@ button, input, select, textarea {
         text-transform: uppercase;
     }
 
-    .mobile-bottom-cart-badge {
+    .liwika-cart-badge {
         position: absolute;
         top: 7px;
         right: calc(50% - 18px);
@@ -930,7 +930,7 @@ button, input, select, textarea {
         box-shadow: 0 2px 8px rgba(0,0,0,.4);
     }
 
-    .mobile-bottom-nav.cart-has-items .mobile-bottom-cart-badge {
+    .mobile-bottom-nav.cart-has-items .liwika-cart-badge {
         display: flex;
     }
 
@@ -1072,7 +1072,7 @@ button, input, select, textarea {
 @media (max-width: 900px) {
     /* Six-item premium bottom bar: Home / Shop / New / Seasonal / Care / Cart */
     .mobile-bottom-nav {
-        grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+        grid-template-columns: repeat(var(--nav-item-count, 6), minmax(0, 1fr)) !important;
         width: min(96vw, 560px) !important;
         gap: 2px !important;
         padding: 6px !important;
@@ -1403,8 +1403,25 @@ button, input, select, textarea {
         z-index: 1;
     }
 
-    body:has(.liwi-mobile-frame) > :not(.liwi-mobile-frame):not(.mobile-bottom-nav) {
+    body:has(.liwi-mobile-frame) > :not(.liwi-mobile-frame):not(.mobile-bottom-nav):not(.liwika-free-delivery):not(.liwika-cart-toast) {
         display: none !important;
+    }
+
+    /* Persistent overlays belong to the outer mobile shell, so keep them
+       visible above the iframe while page content is swapped underneath. */
+    body:has(.liwi-mobile-frame) > .liwika-free-delivery,
+    body:has(.liwi-mobile-frame) > .liwika-cart-toast {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    body:has(.liwi-mobile-frame) > .liwika-free-delivery {
+        z-index: 2147483646 !important;
+    }
+
+    body:has(.liwi-mobile-frame) > .liwika-cart-toast {
+        z-index: 2147483647 !important;
     }
 
     body:has(.liwi-mobile-frame) .mobile-bottom-nav {
@@ -1704,3 +1721,720 @@ button, input, select, textarea {
         tap-highlight-color: transparent !important;
     }
 }
+
+
+/* =========================================================
+   FINAL MOBILE RELIABILITY PATCH
+   ========================================================= */
+@media (max-width: 900px) {
+    html, body {
+        min-height: 100%;
+        overflow-x: hidden !important;
+    }
+
+    /* The mobile shell/iframe must never cover the persistent bottom nav. */
+    .liwi-mobile-frame {
+        z-index: 9000 !important;
+        height: 100dvh !important;
+        min-height: 100dvh !important;
+        background: #090806 !important;
+    }
+
+    .mobile-bottom-nav {
+        position: fixed !important;
+        left: 50% !important;
+        right: auto !important;
+        bottom: max(10px, env(safe-area-inset-bottom)) !important;
+        width: min(96vw, 560px) !important;
+        min-height: 68px !important;
+        z-index: 1000000 !important;
+        transform: translateX(-50%) translateZ(0) !important;
+        backface-visibility: hidden !important;
+        -webkit-backface-visibility: hidden !important;
+        contain: layout paint style !important;
+        isolation: isolate !important;
+    }
+
+    .mobile-nav-active-indicator {
+        opacity: 0 !important;
+        will-change: transform, width, opacity !important;
+        transform: translate3d(0,0,0) !important;
+    }
+    .mobile-nav-active-indicator.is-ready {
+        opacity: 1 !important;
+    }
+
+    .mobile-bottom-item,
+    .mobile-bottom-item.active {
+        min-width: 0 !important;
+        overflow: visible !important;
+    }
+
+    /* Phone add-to-cart window: centered, scroll-safe and aligned. */
+    .product-modal {
+        align-items: center !important;
+        justify-content: center !important;
+        padding: max(10px, env(safe-area-inset-top)) 10px calc(86px + env(safe-area-inset-bottom)) !important;
+        overflow: hidden !important;
+    }
+    .product-modal .modal-content {
+        width: min(100%, 520px) !important;
+        max-width: 520px !important;
+        max-height: calc(100dvh - 96px - env(safe-area-inset-bottom)) !important;
+        border-radius: 18px !important;
+        overflow: hidden auto !important;
+        overscroll-behavior: contain !important;
+        margin: 0 auto !important;
+        transform-origin: center center !important;
+    }
+    .product-modal .modal-body {
+        min-height: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    .product-modal .modal-image-container {
+        width: 100% !important;
+        height: clamp(150px, 30svh, 205px) !important;
+        min-height: 150px !important;
+        max-height: 205px !important;
+        border-right: 0 !important;
+        border-bottom: 1px solid rgba(201,154,61,.22) !important;
+        flex: 0 0 auto !important;
+    }
+    .product-modal .modal-details {
+        width: 100% !important;
+        padding: 18px 16px 16px !important;
+        gap: 0 !important;
+    }
+    .product-modal .modal-details h2 {
+        font-size: clamp(23px, 7vw, 28px) !important;
+        line-height: 1.05 !important;
+        padding-right: 34px !important;
+        margin-bottom: 7px !important;
+    }
+    .product-modal .modal-description {
+        font-size: 11px !important;
+        line-height: 1.5 !important;
+        margin-bottom: 12px !important;
+    }
+    .product-modal .modal-option-group {
+        width: 100% !important;
+        margin-bottom: 12px !important;
+    }
+    .product-modal .quantity-control {
+        display: inline-flex !important;
+        align-self: flex-start !important;
+        min-height: 40px !important;
+    }
+    .product-modal .qty-btn {
+        width: 40px !important;
+        min-width: 40px !important;
+        height: 40px !important;
+        min-height: 40px !important;
+        font-size: 21px !important;
+    }
+    .product-modal .qty-display {
+        width: 44px !important;
+        height: 40px !important;
+        min-height: 40px !important;
+    }
+    .product-modal .modal-footer-action {
+        width: 100% !important;
+        display: grid !important;
+        grid-template-columns: minmax(90px, .75fr) minmax(0, 1.25fr) !important;
+        align-items: center !important;
+        gap: 10px !important;
+        margin-top: 8px !important;
+        padding-top: 12px !important;
+    }
+    .product-modal .modal-price-container,
+    .product-modal .modal-add-btn {
+        min-width: 0 !important;
+    }
+    .product-modal .modal-add-btn {
+        width: 100% !important;
+        min-height: 44px !important;
+        padding: 10px 12px !important;
+        white-space: nowrap !important;
+    }
+    .product-modal .close-modal {
+        top: 8px !important;
+        right: 8px !important;
+        width: 38px !important;
+        height: 38px !important;
+        font-size: 27px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    /* Make every quantity control reliably render the minus sign. */
+    .qty-btn,
+    .cart-qty-control .qty-btn,
+    .quantity-control .qty-btn {
+        display: inline-flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        align-items: center !important;
+        justify-content: center !important;
+        color: #e0b95d !important;
+        font-family: Arial, Helvetica, sans-serif !important;
+        font-weight: 400 !important;
+        line-height: 1 !important;
+        overflow: visible !important;
+    }
+
+    .hero-video {
+        z-index: 0 !important;
+        pointer-events: none !important;
+    }
+    .hero-overlay {
+        z-index: 1 !important;
+        pointer-events: none !important;
+    }
+    .hero-content {
+        z-index: 2 !important;
+    }
+
+    .home-page .hero-content h1 {
+        font-size: clamp(38px, 10vw, 52px) !important;
+        line-height: 1.06 !important;
+        letter-spacing: -1px !important;
+    }
+}
+
+/* ==========================================================
+   MOBILE NAV — STABLE ACTIVE CAPSULE (FINAL)
+   Uses the tab index rather than DOM geometry. This prevents
+   the capsule from getting stuck/disappearing during scrolling,
+   iframe navigation, resize, or mobile browser viewport changes.
+   ========================================================== */
+@media (max-width: 900px) {
+    .mobile-bottom-nav {
+        --active-index: 0;
+        display: grid !important;
+        grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+        grid-template-rows: 1fr !important;
+        align-items: center !important;
+        justify-items: stretch !important;
+        position: fixed !important;
+        left: 6px !important;
+        right: 6px !important;
+        bottom: max(8px, env(safe-area-inset-bottom)) !important;
+        width: auto !important;
+        min-height: 64px !important;
+        height: 64px !important;
+        overflow: visible !important;
+        isolation: isolate !important;
+        z-index: 100000 !important;
+    }
+
+    .mobile-nav-active-indicator {
+        display: block !important;
+        position: absolute !important;
+        left: calc((100% / var(--nav-item-count, 6)) * var(--active-index) + 4px) !important;
+        top: 4px !important;
+        bottom: auto !important;
+        width: calc((100% / var(--nav-item-count, 6)) - 8px) !important;
+        height: 56px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
+        transform: none !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: none !important;
+        z-index: 1 !important;
+        border: 1px solid rgba(239,202,112,.48) !important;
+        border-radius: 17px !important;
+        background: linear-gradient(180deg, rgba(40,31,14,.96), rgba(13,11,8,.96)) !important;
+        box-shadow: 0 0 16px rgba(214,174,77,.16), inset 0 1px 0 rgba(255,226,150,.10) !important;
+        transition: left 260ms cubic-bezier(.22,.8,.22,1) !important;
+        will-change: left !important;
+    }
+
+    .mobile-nav-active-indicator.is-ready {
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    .mobile-bottom-item,
+    .mobile-bottom-item.active {
+        position: relative !important;
+        z-index: 2 !important;
+        min-width: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+
+    .mobile-bottom-item::before,
+    .mobile-bottom-item.active::before {
+        content: none !important;
+        display: none !important;
+    }
+}
+
+/* ==========================================================
+   LIWI-KA — BOTTOM NAV HARD RESET / FINAL STABILITY PATCH
+   - Full-width fixed bar; never clipped by width math.
+   - Active capsule is a single shared element.
+   - NO capsule border/stroke/outline.
+   ========================================================== */
+@media (max-width: 900px) {
+    html, body {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+    }
+
+    .mobile-bottom-nav {
+        position: fixed !important;
+        left: 50% !important;
+        right: auto !important;
+        bottom: max(8px, env(safe-area-inset-bottom)) !important;
+        width: min(560px, calc(100vw - 16px)) !important;
+        max-width: calc(100vw - 16px) !important;
+        min-width: 0 !important;
+        height: 64px !important;
+        min-height: 64px !important;
+        max-height: 64px !important;
+        margin: 0 !important;
+        padding: 5px !important;
+        box-sizing: border-box !important;
+        transform: translateX(-50%) !important;
+        display: grid !important;
+        grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+        grid-template-rows: 1fr !important;
+        gap: 2px !important;
+        overflow: hidden !important;
+        isolation: isolate !important;
+        contain: layout paint !important;
+        z-index: 2147483000 !important;
+    }
+
+    .mobile-bottom-nav .mobile-bottom-item,
+    .mobile-bottom-nav .mobile-bottom-item.active {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: none !important;
+        height: 54px !important;
+        min-height: 54px !important;
+        max-height: 54px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+        border: 0 !important;
+        outline: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        z-index: 2 !important;
+    }
+
+    .mobile-nav-active-indicator,
+    .mobile-nav-active-indicator.is-ready {
+        position: absolute !important;
+        left: calc((100% / var(--nav-item-count, 6)) * var(--active-index, 0) + 4px) !important;
+        top: 4px !important;
+        width: calc((100% / var(--nav-item-count, 6)) - 8px) !important;
+        height: 54px !important;
+        min-width: 0 !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
+        transform: none !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        border: 0 !important;
+        outline: 0 !important;
+        box-shadow: none !important;
+        border-radius: 16px !important;
+        background: linear-gradient(180deg, rgba(45,34,15,.94), rgba(15,12,8,.96)) !important;
+        pointer-events: none !important;
+        z-index: 1 !important;
+        transition: left 260ms cubic-bezier(.22,.8,.22,1) !important;
+        will-change: left !important;
+    }
+
+    .mobile-nav-active-indicator::after,
+    .mobile-nav-active-indicator::before {
+        content: none !important;
+        display: none !important;
+    }
+
+    .mobile-bottom-nav .mobile-bottom-item.active {
+        color: #f4d98b !important;
+    }
+}
+
+@media (max-width: 380px) {
+    .mobile-bottom-nav {
+        width: calc(100vw - 10px) !important;
+        max-width: calc(100vw - 10px) !important;
+    }
+}
+
+/* ==========================================================
+   LIWI-KA — PROFILE ICON CONSISTENCY
+   Match the Home page's clean outline profile icon everywhere.
+   ========================================================== */
+.nav-icons .profile-icon-button,
+.nav-icons .profile-icon-button:hover,
+.nav-icons .profile-icon-button:focus,
+.nav-icons .profile-icon-button:active {
+    width: 30px !important;
+    height: 34px !important;
+    min-width: 30px !important;
+    min-height: 34px !important;
+    padding: 5px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: 0 !important;
+    outline: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: inherit !important;
+    transform: none !important;
+}
+
+.nav-icons .profile-icon-button .nav-icon-svg {
+    width: 21px !important;
+    height: 21px !important;
+    display: block !important;
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 1.6 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+}
+
+@media (max-width: 900px) {
+    .nav-icons .profile-icon-button,
+    .nav-icons .profile-icon-button:hover,
+    .nav-icons .profile-icon-button:focus,
+    .nav-icons .profile-icon-button:active {
+        width: 36px !important;
+        height: 36px !important;
+        min-width: 36px !important;
+        min-height: 36px !important;
+        padding: 7px !important;
+    }
+
+    .nav-icons .profile-icon-button .nav-icon-svg {
+        width: 21px !important;
+        height: 21px !important;
+    }
+}
+
+/* ==========================================================
+   LIWI-KA — MOBILE NAV PRECISION / GLASS CAPSULE
+   Final alignment: the capsule is centered inside each grid cell,
+   including the first and last (Home / Cart) items.
+   ========================================================== */
+@media (max-width: 900px) {
+    .mobile-bottom-nav {
+        --nav-pad: 5px;
+        --nav-gap: 2px;
+        padding: var(--nav-pad) !important;
+        grid-template-columns: repeat(var(--nav-item-count, 6), minmax(0, 1fr)) !important;
+        gap: var(--nav-gap) !important;
+    }
+
+    .mobile-nav-active-indicator,
+    .mobile-nav-active-indicator.is-ready {
+        /* Account for the nav's 5px inner padding before calculating the
+           selected cell. This keeps Home and Cart equally centered. */
+        left: calc(
+            var(--nav-pad) +
+            ((100% - (2 * var(--nav-pad)) - (var(--nav-gap) * (var(--nav-item-count, 6) - 1))) / var(--nav-item-count, 6)) * var(--active-index, 0) +
+            2px
+        ) !important;
+        width: calc(
+            ((100% - (2 * var(--nav-pad)) - (var(--nav-gap) * (var(--nav-item-count, 6) - 1))) / var(--nav-item-count, 6)) - 4px
+        ) !important;
+        top: 5px !important;
+        height: 54px !important;
+        border: 0 !important;
+        outline: 0 !important;
+        box-shadow: none !important;
+        background:
+            linear-gradient(135deg,
+                rgba(247, 214, 128, 0.17) 0%,
+                rgba(218, 172, 70, 0.10) 38%,
+                rgba(255, 255, 255, 0.035) 68%,
+                rgba(24, 18, 10, 0.18) 100%) !important;
+        -webkit-backdrop-filter: blur(14px) saturate(125%) !important;
+        backdrop-filter: blur(14px) saturate(125%) !important;
+        transition: left 260ms cubic-bezier(.22,.8,.22,1) !important;
+    }
+
+    .mobile-nav-active-indicator::before,
+    .mobile-nav-active-indicator::after {
+        content: none !important;
+        display: none !important;
+    }
+}
+
+/* ==========================================================
+   LIWI-KA — UNIVERSAL ADD-TO-CART CLOSE BUTTON
+   ========================================================== */
+.close-modal,
+.product-modal .close-modal {
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    min-height: 40px !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+    border: 0 !important;
+    outline: 0 !important;
+    border-radius: 50% !important;
+    background: rgba(18, 16, 13, 0.92) !important;
+    color: #f7f0df !important;
+    font-size: 24px !important;
+    line-height: 1 !important;
+    font-family: Arial, sans-serif !important;
+    font-weight: 300 !important;
+    text-align: center !important;
+    z-index: 100 !important;
+    cursor: pointer !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    overflow: visible !important;
+    box-shadow: 0 4px 14px rgba(0,0,0,.28) !important;
+}
+
+.close-modal:hover,
+.close-modal:focus-visible {
+    background: rgba(35, 30, 22, 0.98) !important;
+    color: #ffffff !important;
+}
+
+@media (max-width: 900px) {
+    .close-modal,
+    .product-modal .close-modal {
+        width: 42px !important;
+        height: 42px !important;
+        min-width: 42px !important;
+        min-height: 42px !important;
+        top: 10px !important;
+        right: 10px !important;
+        font-size: 25px !important;
+    }
+}
+
+/* ==========================================================
+   LIWI-KA — MOBILE NAV REDESIGN / FLOATING GLASS ACTIVE STATE
+   The old shared moving capsule is intentionally disabled.
+   Each tab owns its own active surface, so first/last tabs can
+   never drift and no viewport-coordinate math is required.
+   Desktop is untouched.
+   ========================================================== */
+@media (max-width: 900px) {
+    .mobile-bottom-nav {
+        /* A quiet glass dock; the active state does the visual work. */
+        height: 68px !important;
+        min-height: 68px !important;
+        max-height: 68px !important;
+        padding: 5px !important;
+        gap: 2px !important;
+        overflow: hidden !important;
+        border: 0 !important;
+        border-radius: 24px !important;
+        background:
+            linear-gradient(180deg, rgba(27,22,16,.76), rgba(8,7,5,.72)) !important;
+        box-shadow:
+            0 14px 38px rgba(0,0,0,.48),
+            inset 0 1px 0 rgba(255,255,255,.055) !important;
+        backdrop-filter: blur(26px) saturate(135%) !important;
+        -webkit-backdrop-filter: blur(26px) saturate(135%) !important;
+        contain: none !important;
+    }
+
+    .mobile-bottom-nav::before {
+        content: "" !important;
+        position: absolute !important;
+        inset: 0 !important;
+        border-radius: inherit !important;
+        pointer-events: none !important;
+        background:
+            radial-gradient(circle at 50% -30%, rgba(255,221,145,.055), transparent 48%),
+            linear-gradient(90deg, rgba(255,255,255,.018), transparent 18%, transparent 82%, rgba(239,194,91,.018)) !important;
+    }
+
+    /* The old moving element no longer participates in the design. */
+    .mobile-nav-active-indicator,
+    .mobile-nav-active-indicator.is-ready {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+    }
+
+    .mobile-bottom-nav .mobile-bottom-item,
+    .mobile-bottom-nav .mobile-bottom-item.active {
+        position: relative !important;
+        z-index: 1 !important;
+        height: 58px !important;
+        min-height: 58px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        border: 0 !important;
+        outline: 0 !important;
+        border-radius: 17px !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        transform: translateZ(0) !important;
+        transition:
+            color 260ms ease,
+            transform 220ms cubic-bezier(.2,.8,.2,1) !important;
+    }
+
+    /* Premium active tile: soft liquid-glass glow, not a capsule. */
+    .mobile-bottom-nav .mobile-bottom-item::before,
+    .mobile-bottom-nav .mobile-bottom-item.active::before {
+        content: "" !important;
+        position: absolute !important;
+        inset: 5px 6px !important;
+        z-index: -1 !important;
+        border: 0 !important;
+        border-radius: 15px !important;
+        background:
+            radial-gradient(circle at 50% 22%, rgba(250,215,125,.16), transparent 52%),
+            linear-gradient(145deg,
+                rgba(229,183,78,.105),
+                rgba(224,179,73,.045) 48%,
+                rgba(255,255,255,.018) 100%) !important;
+        box-shadow:
+            inset 0 1px 0 rgba(255,236,180,.035),
+            0 7px 18px rgba(0,0,0,.12) !important;
+        opacity: 0 !important;
+        transform: scale(.93) !important;
+        filter: blur(.1px) !important;
+        backdrop-filter: blur(16px) saturate(135%) !important;
+        -webkit-backdrop-filter: blur(16px) saturate(135%) !important;
+        transition:
+            opacity 260ms ease,
+            transform 360ms cubic-bezier(.16,1,.3,1) !important;
+    }
+
+    .mobile-bottom-nav .mobile-bottom-item.active::before {
+        opacity: 1 !important;
+        transform: scale(1) !important;
+    }
+
+    /* A tiny gold breathing point gives the active destination a premium
+       anchor without surrounding the icon with a hard outline. */
+    .mobile-bottom-nav .mobile-bottom-item.active::after {
+        content: "" !important;
+        position: absolute !important;
+        left: 50% !important;
+        top: 5px !important;
+        width: 4px !important;
+        height: 4px !important;
+        border-radius: 50% !important;
+        background: rgba(244,210,126,.82) !important;
+        box-shadow: 0 0 9px rgba(240,201,103,.34) !important;
+        transform: translateX(-50%) scale(1) !important;
+        opacity: 1 !important;
+        transition: opacity 240ms ease, transform 300ms cubic-bezier(.16,1,.3,1) !important;
+    }
+
+    .mobile-bottom-nav .mobile-bottom-item:not(.active)::after {
+        content: none !important;
+    }
+
+    .mobile-bottom-nav .mobile-bottom-item.active {
+        color: #f3d58d !important;
+    }
+
+    .mobile-bottom-nav .mobile-bottom-item.active .mobile-bottom-icon svg {
+        transform: translateY(-1px) scale(1.055) !important;
+        filter: drop-shadow(0 2px 7px rgba(232,190,91,.20)) !important;
+    }
+
+    .mobile-bottom-nav .mobile-bottom-item.active .mobile-bottom-label {
+        letter-spacing: .52px !important;
+        text-shadow: 0 1px 8px rgba(229,185,83,.12) !important;
+    }
+
+    .mobile-bottom-nav .mobile-bottom-item:active {
+        transform: scale(.94) !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .mobile-bottom-nav {
+        height: 66px !important;
+        min-height: 66px !important;
+        max-height: 66px !important;
+        border-radius: 23px !important;
+    }
+    .mobile-bottom-nav .mobile-bottom-item,
+    .mobile-bottom-nav .mobile-bottom-item.active {
+        height: 56px !important;
+        min-height: 56px !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) and (max-width: 900px) {
+    .mobile-bottom-nav .mobile-bottom-item,
+    .mobile-bottom-nav .mobile-bottom-item::before,
+    .mobile-bottom-nav .mobile-bottom-item.active::before {
+        transition: none !important;
+    }
+}
+
+/* =========================================================
+   QUANTITY CONTROLS — DESKTOP + MOBILE
+   Keep the decrease/increase controls equally visible.
+   ========================================================= */
+.quantity-control .qty-btn,
+.cart-qty-control .qty-btn {
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  width:34px !important;
+  min-width:34px !important;
+  height:36px !important;
+  min-height:36px !important;
+  padding:0 !important;
+  margin:0 !important;
+  border:0 !important;
+  color:#e0b95d !important;
+  background:transparent !important;
+  font-family:Arial,Helvetica,sans-serif !important;
+  font-size:20px !important;
+  font-weight:400 !important;
+  line-height:1 !important;
+  text-align:center !important;
+  overflow:visible !important;
+}
+.quantity-control .qty-btn:hover,
+.cart-qty-control .qty-btn:hover {
+  color:#050505 !important;
+  background:#d9a441 !important;
+}
+
+/* FINAL MOBILE HEADER CONSISTENCY */
+@media (max-width: 900px) {
+  .navbar .cart-nav-link, .navbar .cart-nav-link button, .navbar a[aria-label="Shopping Cart"], .navbar a[href*="cart"] { display:none !important; }
+  body .navbar { border-bottom:0 !important; box-shadow:none !important; }
+}
+
+/* The actual page inside the mobile iframe gets the persistent HUD from
+   the outer shell instead, preventing a second box from appearing. */
+

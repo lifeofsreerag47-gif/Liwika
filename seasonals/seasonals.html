@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="shop-seasonals.css">
 
     <link rel="stylesheet" href="../responsive-mobile.css">
+<link rel="stylesheet" href="../shared-navbar.css">
+    <link rel="stylesheet" href="../free-delivery.css">
 </head>
 <body>
 
@@ -37,9 +39,9 @@
 
     <div class="nav-icons">
         <button type="button" aria-label="Search">⌕</button>
-        <button type="button" aria-label="My Account">♙</button>
+        <a href="../login.html" class="profile-icon-button" aria-label="My Account"><svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"></circle><path d="M4.5 20c.8-4 3.4-6 7.5-6s6.7 2 7.5 6"></path></svg></a>
         <a href="cart.html" class="cart-nav-link" aria-label="Shopping Cart">
-            <button type="button">🛒</button>
+            <button type="button" class="cart-icon-button" aria-label="Shopping Cart"><svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h2l1.7 10.2a2 2 0 0 0 2 1.7h7.8a2 2 0 0 0 1.9-1.4L21 9H7"></path><circle cx="10" cy="20" r="1.2"></circle><circle cx="18" cy="20" r="1.2"></circle></svg></button>
         </a>
     </div>
 
@@ -251,11 +253,11 @@
                 </p>
 
 
-                <a href="#" class="gift-button">
+                <span class="gift-button coming-soon-gift" aria-label="Gifting coming soon">
 
-                    EXPLORE GIFTING
+                    COMING SOON
 
-                </a>
+                </span>
 
 
             </div>
@@ -572,6 +574,7 @@
     <script src="cart.js"></script>
     <script src="festivals.js"></script>
     <script src="shop-seasonals.js"></script>
+    <script src="../free-delivery.js"></script>
     <script src="../responsive-mobile.js"></script>
 </body>
 

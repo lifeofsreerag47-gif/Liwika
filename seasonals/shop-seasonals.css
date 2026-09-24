@@ -2224,3 +2224,17 @@ body {
 }
 
 
+
+
+/* Cross-device content visibility safeguard */
+.page-background,
+.background-layer,
+.decorative-background,
+.hero-overlay,
+.shop-hero::before,
+.seasonals-intro::before {
+    pointer-events: none !important;
+}
+img, video {
+    max-width: 100%;
+}

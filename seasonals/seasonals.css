@@ -92,7 +92,13 @@ body {
         #83641b 32px
     );
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
+    color: transparent;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    padding-right: .08em;
+    margin-right: -.08em;
     background-clip: text;
     font-style: normal;
     filter:
@@ -2268,19 +2274,29 @@ body {
 }
 
 .cart-item-remove {
-    background: none;
-    border: none;
-    color: #7a736a;
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    display: inline-grid;
+    place-items: center;
+    background: rgba(255,255,255,.025);
+    border: 1px solid rgba(201,154,61,.18);
+    border-radius: 50%;
+    color: #9a9186;
     cursor: pointer;
-    font-size: 18px;
-    line-height: 1;
-    padding: 4px;
-    transition: color 0.25s ease, transform 0.25s ease;
-}
+    font-size: 16px;
 
+    padding: 0;
+    margin: 0;
+    transform: translateZ(0) scale(1);
+    transform-origin: center center;
+    transition: color .22s ease, background .22s ease, border-color .22s ease, transform .24s cubic-bezier(.2,.8,.2,1);
+}
 .cart-item-remove:hover {
-    color: #ff5555;
-    transform: rotate(90deg) scale(1.15);
+    color: #f0c96b;
+    background: rgba(217,164,65,.10);
+    border-color: rgba(217,164,65,.42);
+    transform: translateZ(0) scale(1.055);
 }
 
 .cart-item-bottom {
@@ -2969,3 +2985,54 @@ html {
  .nav-icons{gap:6px}
  .nav-icons button{width:34px;height:34px;font-size:17px}
 }
+
+
+/* Gift-Off Packaging / order number polish */
+.gift-off-packaging-row .coming-soon {
+    color: #d9a441;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+.bill-order-number {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 0 0 14px;
+    padding: 11px 13px;
+    border: 1px solid rgba(201,154,61,.18);
+    border-radius: 8px;
+    background: rgba(255,255,255,.025);
+}
+.bill-order-number span {
+    color: #969087;
+    font-size: 10px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+}
+.bill-order-number strong {
+    color: #f2d47e;
+    font-size: 14px;
+    letter-spacing: .12em;
+    font-variant-numeric: tabular-nums;
+}
+
+
+/* Cross-device content visibility safeguard */
+.page-background,
+.background-layer,
+.decorative-background,
+.hero-overlay,
+.shop-hero::before,
+.seasonals-intro::before {
+    pointer-events: none !important;
+}
+img, video {
+    max-width: 100%;
+}
+
+.gift-button.coming-soon-gift { display:inline-flex; align-items:center; justify-content:center; cursor:default; pointer-events:none; opacity:.86; }
+.gift-button.coming-soon-gift:hover { transform:none; box-shadow:none; }
+
+

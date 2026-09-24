@@ -1355,7 +1355,7 @@ body {
 .new-arrivals-page .empty-state-inner::before{content:"";position:absolute;width:280px;height:280px;left:50%;top:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(201,154,61,.10),transparent 70%);filter:blur(8px);pointer-events:none}
 .new-arrivals-page .small-gold-text{position:relative;color:#d9aa50;letter-spacing:4px;font-size:11px;background:repeating-linear-gradient(180deg,#83641b 0,#f7ef8a 8px,#46370c 16px,#a9882b 24px,#83641b 32px);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:none}
 .new-arrivals-page .empty-state h2,.new-arrivals-page .products-heading h2{position:relative;font-family:"Font";font-weight:400;font-size:clamp(43px,5.5vw,76px);line-height:.98;margin:22px 0;background:linear-gradient(105deg,#eee3d4,#fff9ec,#d7c6af);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.new-arrivals-page .empty-state h2 span,.new-arrivals-page .products-heading h2 span{background:repeating-linear-gradient(180deg,#83641b 0,#f7ef8a 8px,#46370c 16px,#a9882b 24px,#83641b 32px);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:none}
+.new-arrivals-page .empty-state h2 span,.new-arrivals-page .products-heading h2 span{display:inline-block;background:repeating-linear-gradient(180deg,#83641b 0,#f7ef8a 8px,#46370c 16px,#a9882b 24px,#83641b 32px);background-size:100% 100%;background-repeat:no-repeat;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;padding-right:.08em;margin-right:-.08em;animation:none}
 .new-arrivals-page .empty-state-inner>p:last-child{position:relative;color:#9d9387;line-height:1.8;font-size:14px}
 
 /* Products */
@@ -1429,3 +1429,19 @@ body {
     border-color: #d9a441;
     transform: translateY(-3px);
 }
+
+
+/* Cross-device content visibility safeguard */
+.page-background,
+.background-layer,
+.decorative-background,
+.hero-overlay,
+.shop-hero::before,
+.seasonals-intro::before {
+    pointer-events: none !important;
+}
+img, video {
+    max-width: 100%;
+}
+
+.nav-icons .nav-icon-svg,.account-icon .nav-icon-svg,.cart-icon .nav-icon-svg{width:21px;height:21px;display:block;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}.account-icon,.cart-icon{display:inline-flex;align-items:center;justify-content:center;color:inherit}.cart-icon{line-height:1}

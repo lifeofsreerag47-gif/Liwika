@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
             name: "Dark Indulgence",
             badge: "BESTSELLER",
             description: "Rich dark chocolate crafted for true chocolate lovers with single-origin cocoa.",
-            basePrice: 299,
+            basePrice: 49,
             image: "./images/choco1.jpg",
             flavours: [
                 { name: "Classic Dark", image: "./images/choco1.jpg" },
@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
             name: "Golden Milk",
             badge: "SIGNATURE",
             description: "Smooth, creamy chocolate with a luxurious finish and velvety richness.",
-            basePrice: 349,
+            basePrice: 59,
             image: "./images/choco2.jpg",
             flavours: [
                 { name: "Classic Milk", image: "./images/choco2.jpg" },
@@ -152,7 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
             name: "Hazelnut Bliss",
             badge: "POPULAR",
             description: "Velvety chocolate paired with slow-roasted Mediterranean hazelnuts.",
-            basePrice: 249,
+            basePrice: 69,
             image: "./images/choco3.jpg",
             flavours: [
                 { name: "Classic Hazelnut", image: "./images/choco3.jpg" },
@@ -494,4 +494,32 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 600);
         });
     }
+});
+
+
+/* =====================================================
+   LIWI-KA COMMUNITY — newsletter signup
+   ===================================================== */
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("liwikaNewsletterForm");
+    const status = document.getElementById("newsletterStatus");
+    if (!form) return;
+
+    form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const input = form.querySelector('input[type="email"]');
+        const email = input ? input.value.trim().toLowerCase() : "";
+        if (!email) return;
+
+        try {
+            const key = "liwika_community_emails";
+            const emails = JSON.parse(localStorage.getItem(key) || "[]");
+            if (!emails.includes(email)) emails.push(email);
+            localStorage.setItem(key, JSON.stringify(emails));
+        } catch (e) {}
+
+        if (status) status.textContent = "You're in — welcome to the Liwika community.";
+        form.classList.add("submitted");
+        if (input) input.value = "";
+    });
 });

@@ -1,0 +1,292 @@
+/* =========================================================
+   LIWI-KA — CANONICAL SHARED TOP BAR
+   Loaded last on every page that uses the main site navbar.
+   ========================================================= */
+.navbar {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  height: 82px !important;
+  min-height: 82px !important;
+  padding: 0 clamp(20px, 5vw, 72px) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 20px !important;
+  font-family: "Font1", sans-serif !important;
+  z-index: 1000 !important;
+  background:
+    linear-gradient(180deg,
+      rgba(5,3,2,.94) 0%,
+      rgba(5,3,2,.72) 56%,
+      rgba(5,3,2,.10) 100%) !important;
+  border: 0 !important;
+  border-bottom: 0 !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  box-shadow: none !important;
+}
+
+.navbar::after {
+  content: "" !important;
+  position: absolute !important;
+  left: 5% !important;
+  right: 5% !important;
+  bottom: 0 !important;
+  width: auto !important;
+  height: 1px !important;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(179,128,39,.10) 12%,
+    rgba(217,164,65,.34) 34%,
+    rgba(255,226,143,.42) 50%,
+    rgba(217,164,65,.34) 66%,
+    rgba(179,128,39,.10) 88%,
+    transparent 100%) !important;
+  pointer-events: none !important;
+  opacity: 1 !important;
+}
+
+body .navbar .logo {
+  width: 154px !important;
+  height: auto !important;
+  flex: 0 0 auto !important;
+  display: flex !important;
+  align-items: center !important;
+  position: relative !important;
+  z-index: 2 !important;
+  transform: none !important;
+  filter: none !important;
+}
+
+body .navbar .logo img {
+  width: 100% !important;
+  height: auto !important;
+  display: block !important;
+}
+
+body .navbar .nav-links {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: clamp(18px, 2.45vw, 36px) !important;
+  margin: 0 auto !important;
+}
+
+body .navbar .nav-links a {
+  position: relative !important;
+  padding: 9px 0 !important;
+  color: rgba(255,250,241,.90) !important;
+  text-decoration: none !important;
+  font-family: "Font1", sans-serif !important;
+  font-size: 11px !important;
+  line-height: 1 !important;
+  letter-spacing: 1.7px !important;
+  text-transform: uppercase !important;
+  text-shadow: none !important;
+  transition: color .25s ease, text-shadow .25s ease !important;
+  overflow: visible !important;
+  isolation: isolate !important;
+}
+
+/* F & E: Long Upward Glow Light Trail (extends UPWARD into tab) */
+body .navbar .nav-links a::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 32px !important;
+  background: radial-gradient(ellipse 75% 100% at 50% 100%, 
+    rgba(245, 203, 92, 0.38) 0%, 
+    rgba(245, 203, 92, 0.18) 35%, 
+    rgba(245, 203, 92, 0.04) 70%, 
+    transparent 100%) !important;
+  opacity: 0 !important;
+  transform: scaleX(0) !important;
+  transform-origin: center bottom !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+  transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease !important;
+}
+
+/* A, B, C & D: Thin 1px Gold Line with Center Expanding Entry & Continuous Moving Gradient */
+body .navbar .nav-links a::after {
+  content: "" !important;
+  position: absolute !important;
+  left: 0 !important;
+  bottom: -1px !important;
+  width: 100% !important;
+  height: 1px !important;
+  background: linear-gradient(90deg,
+    #755014 0%,
+    #bd8624 14%,
+    #f9dc79 28%,
+    #fff4b0 42%,
+    #d59d32 56%,
+    #fff4b0 70%,
+    #f0c95f 84%,
+    #755014 100%) !important;
+  background-size: 260% 100% !important;
+  background-position: 0% 50% !important;
+  opacity: 0 !important;
+  transform: scaleX(0) !important;
+  transform-origin: center center !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+  transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease !important;
+  box-shadow: none !important;
+}
+
+@keyframes liwikaTopbarGoldMovingFlow {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 260% 50%; }
+}
+
+body .navbar .nav-links a:hover,
+body .navbar .nav-links a:focus-visible {
+  color: #f0c968 !important;
+  text-shadow: 0 0 14px rgba(226,180,73,.16) !important;
+}
+
+body .navbar .nav-links a:hover::before,
+body .navbar .nav-links a:focus-visible::before {
+  opacity: 1 !important;
+  transform: scaleX(1) !important;
+}
+
+body .navbar .nav-links a:hover::after,
+body .navbar .nav-links a:focus-visible::after {
+  opacity: 1 !important;
+  transform: scaleX(1) !important;
+  animation: liwikaTopbarGoldMovingFlow 1.25s linear infinite !important;
+}
+
+body .navbar .nav-links a.active {
+  color: #f0c968 !important;
+}
+
+body .navbar .nav-links a.active::before {
+  opacity: 0.65 !important;
+  transform: scaleX(1) !important;
+}
+
+body .navbar .nav-links a.active::after {
+  opacity: 0.85 !important;
+  transform: scaleX(1) !important;
+  background-position: 50% 50% !important;
+  animation: none !important;
+}
+
+body .navbar .nav-icons {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 8px !important;
+  flex: 0 0 auto !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+body .navbar .nav-icons > button,
+body .navbar .nav-icons .profile-icon-button,
+body .navbar .nav-icons .cart-icon-button {
+  width: 38px !important;
+  height: 38px !important;
+  min-width: 38px !important;
+  min-height: 38px !important;
+  padding: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+  border: 1px solid rgba(235,194,101,.10) !important;
+  border-radius: 50% !important;
+  background: rgba(255,255,255,.025) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.08) !important;
+  color: rgba(255,248,235,.90) !important;
+  font-family: "Font1", sans-serif !important;
+  font-size: 18px !important;
+  line-height: 1 !important;
+  cursor: pointer !important;
+  transform: none !important;
+  text-decoration: none !important;
+}
+
+body .navbar .nav-icons > button:hover,
+body .navbar .nav-icons .profile-icon-button:hover,
+body .navbar .nav-icons .cart-icon-button:hover {
+  color: #f4cd72 !important;
+  border-color: rgba(235,194,101,.40) !important;
+  background: rgba(201,154,61,.08) !important;
+  box-shadow: 0 0 22px rgba(201,154,61,.12), inset 0 1px rgba(255,255,255,.12) !important;
+  transform: translateY(-1px) !important;
+}
+
+body .navbar .nav-icons .nav-icon-svg {
+  width: 21px !important;
+  height: 21px !important;
+  display: block !important;
+  fill: none !important;
+  stroke: currentColor !important;
+  stroke-width: 1.6 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+}
+
+body .navbar .nav-icons .cart-nav-link {
+  display: flex !important;
+  align-items: center !important;
+  text-decoration: none !important;
+}
+
+/* Checkout uses the same header, but its local inline CSS previously made it relative. */
+body.checkout-page .navbar {
+  position: fixed !important;
+}
+
+@media (max-width: 900px) {
+  .navbar {
+    height: 68px !important;
+    min-height: 68px !important;
+    padding: 0 16px !important;
+  }
+  body .navbar .logo { width: 124px !important; }
+  body .navbar .nav-links { display: none !important; }
+  body .navbar .nav-icons { gap: 5px !important; }
+  body .navbar .nav-icons > button,
+  body .navbar .nav-icons .profile-icon-button,
+  body .navbar .nav-icons .cart-icon-button {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+  }
+  body .navbar .nav-icons .nav-icon-svg { width: 20px !important; height: 20px !important; }
+}
+
+@media (max-width: 380px) {
+  .navbar { padding: 0 11px !important; }
+  body .navbar .logo { width: 112px !important; }
+  body .navbar .nav-icons { gap: 3px !important; }
+}
+
+
+/* FINAL MOBILE TOPBAR RULE — cart belongs only to the bottom navigation on phones. */
+@media (max-width: 900px) {
+  body .navbar .nav-icons .cart-nav-link,
+  body .navbar .nav-icons .cart-nav-link .cart-icon-button,
+  body .navbar .nav-icons a[aria-label="Shopping Cart"],
+  body .navbar .nav-icons button.cart-icon-button {
+    display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    min-width: 0 !important;
+    max-width: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+  }
+}
+
+

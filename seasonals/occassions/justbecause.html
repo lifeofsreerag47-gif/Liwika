@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="../seasonals.css">
 
     <link rel="stylesheet" href="../../responsive-mobile.css">
+<link rel="stylesheet" href="../../shared-navbar.css">
+    <link rel="stylesheet" href="../../free-delivery.css">
 </head>
 
 <body>
@@ -32,9 +34,9 @@
 
     <div class="nav-icons">
         <button type="button" aria-label="Search">⌕</button>
-        <button type="button" aria-label="My Account">♙</button>
+        <a href="../../login.html" class="profile-icon-button" aria-label="My Account"><svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"></circle><path d="M4.5 20c.8-4 3.4-6 7.5-6s6.7 2 7.5 6"></path></svg></a>
         <a href="../cart.html" class="cart-nav-link" aria-label="Shopping Cart">
-            <button type="button">🛒</button>
+            <button type="button" class="cart-icon-button" aria-label="Shopping Cart"><svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h2l1.7 10.2a2 2 0 0 0 2 1.7h7.8a2 2 0 0 0 1.9-1.4L21 9H7"></path><circle cx="10" cy="20" r="1.2"></circle><circle cx="18" cy="20" r="1.2"></circle></svg></button>
         </a>
     </div>
 
@@ -80,7 +82,7 @@
                         <h3>Dark Indulgence</h3>
                         <p>A rich little indulgence for turning an ordinary day into something special.</p>
                         <div class="occasion-product-bottom">
-                            <span>₹499</span>
+                            <span>₹49</span>
                             <button>ADD</button>
                         </div>
                     </div>
@@ -94,7 +96,7 @@
                         <h3>Golden Milk</h3>
                         <p>Smooth, creamy comfort crafted to brighten anyone's day.</p>
                         <div class="occasion-product-bottom">
-                            <span>₹699</span>
+                            <span>₹69</span>
                             <button>ADD</button>
                         </div>
                     </div>
@@ -108,7 +110,7 @@
                         <h3>Hazelnut Bliss</h3>
                         <p>Crisp hazelnuts and silky chocolate for a delightfully spontaneous moment.</p>
                         <div class="occasion-product-bottom">
-                            <span>₹899</span>
+                            <span>₹89</span>
                             <button>ADD</button>
                         </div>
                     </div>
@@ -204,7 +206,7 @@
                     <div class="modal-option-group">
                         <label class="modal-option-label">QUANTITY</label>
                         <div class="quantity-control">
-                            <button id="decreaseQuantity" type="button" class="qty-btn" aria-label="Decrease quantity">−</button>
+                            <button id="decreaseQuantity" type="button" class="qty-btn" aria-label="Decrease quantity">-</button>
                             <span id="quantity" class="qty-display">1</span>
                             <button id="increaseQuantity" type="button" class="qty-btn" aria-label="Increase quantity">+</button>
                         </div>
@@ -212,7 +214,7 @@
                     <div class="modal-footer-action">
                         <div class="modal-price-container">
                             <span class="modal-price-label">PRICE</span>
-                            <span id="modalProductPrice" class="modal-price">₹499</span>
+                            <span id="modalProductPrice" class="modal-price">₹49</span>
                         </div>
                         <button id="modalAddToCart" type="button" class="modal-add-btn">ADD TO CART</button>
                     </div>
@@ -226,7 +228,7 @@
             "dark-indulgence": {
                 name: "Dark Indulgence",
                 description: "A rich little indulgence for turning an ordinary day into something special.",
-                basePrice: 499,
+                basePrice: 49,
                 flavours: [
                     { name: "Classic Dark",  image: "../../images/choco1.jpg" },
                     { name: "Orange Dark",   image: "../../images/choco1.jpg" },
@@ -236,7 +238,7 @@
             "golden-milk": {
                 name: "Golden Milk",
                 description: "Smooth, creamy comfort crafted to brighten anyone's day.",
-                basePrice: 699,
+                basePrice: 69,
                 flavours: [
                     { name: "Classic Milk",  image: "../../images/choco2.jpg" },
                     { name: "Caramel Milk",  image: "../../images/choco2.jpg" },
@@ -246,7 +248,7 @@
             "hazelnut-bliss": {
                 name: "Hazelnut Bliss",
                 description: "Crisp hazelnuts and silky chocolate for a delightfully spontaneous moment.",
-                basePrice: 899,
+                basePrice: 89,
                 flavours: [
                     { name: "Classic Hazelnut",  image: "../../images/choco3.jpg" },
                     { name: "Roasted Hazelnut",  image: "../../images/choco3.jpg" },
@@ -260,6 +262,7 @@
     <script src="../../script.js"></script>
     <script src="occasion.js"></script>
 
+    <script src="../../free-delivery.js"></script>
     <script src="../../responsive-mobile.js"></script>
 </body>
 

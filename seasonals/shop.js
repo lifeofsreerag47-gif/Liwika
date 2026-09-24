@@ -8,7 +8,7 @@ const shopProducts = {
         name: "Dark Indulgence",
         category: "DARK CHOCOLATE",
         description: "Rich dark chocolate with deep, sophisticated cocoa notes.",
-        basePrice: 499,
+        basePrice: 49,
         image: "../images/choco1.jpg",
         badge: "BESTSELLER",
         flavours: [
@@ -31,7 +31,7 @@ const shopProducts = {
         name: "Golden Milk",
         category: "MILK CHOCOLATE",
         description: "Silky smooth milk chocolate with a beautifully creamy finish.",
-        basePrice: 699,
+        basePrice: 69,
         image: "../images/choco2.jpg",
         badge: "SIGNATURE",
         flavours: [
@@ -54,7 +54,7 @@ const shopProducts = {
         name: "Hazelnut Bliss",
         category: "NUTTY CHOCOLATE",
         description: "Velvety chocolate combined with beautifully roasted hazelnuts.",
-        basePrice: 899,
+        basePrice: 89,
         image: "../images/choco3.jpg",
         badge: "POPULAR",
         flavours: [
@@ -77,7 +77,7 @@ const shopProducts = {
         name: "Midnight Cacao",
         category: "DARK CHOCOLATE",
         description: "An intense cocoa experience for lovers of elegant dark chocolate.",
-        basePrice: 599,
+        basePrice: 59,
         image: "../images/choco1.jpg",
         badge: "NEW",
         flavours: [
@@ -100,7 +100,7 @@ const shopProducts = {
         name: "Velvet Cream",
         category: "MILK CHOCOLATE",
         description: "Delicate milk chocolate with a soft, creamy sweetness.",
-        basePrice: 649,
+        basePrice: 79,
         image: "../images/choco2.jpg",
         badge: "LUXURY",
         flavours: [
@@ -123,7 +123,7 @@ const shopProducts = {
         name: "Roasted Hazelnut",
         category: "NUTTY CHOCOLATE",
         description: "Toasted hazelnuts layered into smooth, luxurious chocolate.",
-        basePrice: 749,
+        basePrice: 89,
         image: "../images/choco3.jpg",
         badge: "ARTISAN",
         flavours: [
