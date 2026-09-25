@@ -1,7 +1,181 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Liwi-Ka | Payment</title><link rel="stylesheet" href="auth.css"><style>
-body{margin:0;min-height:100vh;background:linear-gradient(135deg,#fbf8f1,#f0e7d8);color:#17130d;font-family:Georgia,'Times New Roman',serif}.wrap{width:min(720px,calc(100% - 24px));margin:0 auto;padding:30px 0 60px}.card{background:rgba(255,255,255,.78);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-radius:26px;padding:30px;box-shadow:0 22px 70px rgba(45,30,12,.1);border:1px solid rgba(255,255,255,.8)}.ey{font:700 10px Arial,sans-serif;letter-spacing:.2em;color:#c08b2d}.card h1{font-size:42px;font-weight:500;margin:8px 0}.muted{font:14px/1.6 Arial,sans-serif;color:#756b5d}.methods{display:grid;gap:10px;margin:24px 0}.method{display:flex;align-items:center;gap:12px;padding:16px;border:1px solid rgba(38,28,15,.12);border-radius:14px;background:#fffdf9;cursor:pointer;font:600 13px Arial,sans-serif}.method.selected{border-color:#d9a441;background:rgba(217,164,65,.08)}.method input{accent-color:#c08b2d}.pay{width:100%;border:0;border-radius:14px;padding:17px;background:linear-gradient(135deg,#b98728,#e2b653,#b98728);color:white;font:700 11px Arial,sans-serif;letter-spacing:.16em;cursor:pointer}.secure{margin-top:15px;text-align:center;font:11px Arial,sans-serif;color:#766b5d}@media(max-width:600px){.wrap{padding-top:14px}.card{padding:21px;border-radius:22px}.card h1{font-size:34px}}
-</style>    <link rel="stylesheet" href="free-delivery.css">
-</head><body><main class="wrap"><section class="card"><p class="ey">FINAL STEP</p><h1>Payment.</h1><p class="muted">Choose how you'd like to complete your Liwi-Ka order.</p><div class="methods"><label class="method selected"><input type="radio" name="method" value="UPI / GPay" checked> UPI / GPay</label><label class="method"><input type="radio" name="method" value="Credit Card"> Credit Card</label><label class="method"><input type="radio" name="method" value="Net Banking"> Net Banking</label><label class="method"><input type="radio" name="method" value="Cash on Delivery"> Cash on Delivery</label></div><button class="pay" id="pay">PAY NOW</button><div class="secure">🔒 Secure checkout · Order total <strong id="total">₹0</strong></div></section></main><script>
-(function(){const s=JSON.parse(sessionStorage.getItem('liwika_checkout_details')||'null');const total=Number(sessionStorage.getItem('liwika_checkout_total')||0);const auth=localStorage.getItem('liwika_auth_session');if(!auth||!s||!total){location.href='checkout.html';return}document.getElementById('total').textContent='₹'+total.toLocaleString('en-IN');document.querySelectorAll('.method').forEach(m=>m.addEventListener('click',()=>{document.querySelectorAll('.method').forEach(x=>x.classList.remove('selected'));m.classList.add('selected');m.querySelector('input').checked=true}));document.getElementById('pay').addEventListener('click',()=>{const method=document.querySelector('input[name=method]:checked').value;sessionStorage.setItem('liwika_payment_method',method);sessionStorage.setItem('liwika_payment_complete','1');location.href='order-confirmation.html'});})();
-</script>    <script src="free-delivery.js"></script>
-</body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liwi-Ka | Payment</title>
+<link rel="stylesheet" href="auth.css">
+<link rel="stylesheet" href="responsive-mobile.css">
+<style>
+/* =========================================================
+   PAYMENT — LIWI-KA SITE SYSTEM
+   Matches checkout.html: same dark ground, gold language,
+   card and typography rhythm.
+   ========================================================= */
+.payment-page{
+  min-height:100vh;
+  margin:0;
+  color:#f5efe4;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(117,76,25,.16), transparent 34%),
+    radial-gradient(circle at 8% 82%, rgba(157,105,31,.08), transparent 28%),
+    #070605;
+  font-family:"Font1",sans-serif;
+  overflow-x:hidden;
+}
+.payment-page main{position:relative;z-index:1}
+.payment-wrap{
+  width:min(720px,calc(100% - 56px));
+  margin:0 auto;
+  padding:136px 0 90px;
+}
+.payment-intro{max-width:620px;margin:0 auto 28px;text-align:center}
+.payment-intro .eyebrow{
+  margin:0 0 18px;color:#d9a441;
+  font:10px "Font1",sans-serif;letter-spacing:4px;text-transform:uppercase;
+}
+.payment-intro h1{
+  margin:0;color:#f5efe4;
+  font:400 clamp(42px,6vw,64px)/.98 "Font",Georgia,serif;letter-spacing:-1.5px;
+}
+.payment-intro h1 span{color:#d9a441;font-style:italic}
+.payment-intro > p:last-child{
+  max-width:520px;margin:20px auto 0;color:#8f877d;
+  font:13px/1.85 "Font1",sans-serif;letter-spacing:.2px;
+}
+.checkout-progress{
+  display:flex;align-items:center;justify-content:center;gap:14px;
+  margin:0 auto 28px;color:#5f5952;
+  font:9px "Font1",sans-serif;letter-spacing:2.5px;text-transform:uppercase;
+}
+.checkout-progress .active{color:#d9a441}
+.checkout-progress .dot{width:3px;height:3px;border-radius:50%;background:#80632c}
+.payment-card{
+  position:relative;padding:1px;border-radius:22px;
+  background:linear-gradient(135deg,rgba(217,164,65,.22),rgba(255,255,255,.045) 24%,rgba(255,255,255,.025) 70%,rgba(217,164,65,.10));
+  box-shadow:0 35px 100px rgba(0,0,0,.42);
+}
+.payment-card::before{
+  content:"";position:absolute;width:320px;height:180px;top:-90px;left:50%;
+  transform:translateX(-50%);
+  background:radial-gradient(circle,rgba(217,164,65,.08),transparent 68%);
+  filter:blur(22px);pointer-events:none;
+}
+.payment-inner{
+  position:relative;z-index:1;padding:34px;border-radius:21px;
+  background:linear-gradient(145deg,rgba(32,25,17,.92),rgba(10,9,7,.97));
+}
+.payment-inner h2{margin:0 0 6px;color:#f2eadf;font:400 27px/1 "Font",Georgia,serif}
+.payment-inner .muted{margin:0 0 24px;color:#8f877d;font:12.5px/1.7 "Font1",sans-serif}
+.methods{display:grid;gap:12px;margin:0 0 24px}
+.method{
+  display:flex;align-items:center;gap:12px;padding:16px 15px;
+  border:1px solid rgba(255,255,255,.105);
+  background:rgba(255,255,255,.025);
+  color:#e6dccb;
+  font:12px "Font1",sans-serif;letter-spacing:.3px;
+  cursor:pointer;transition:border-color .25s,background .25s;
+}
+.method input{accent-color:#d9a441;width:16px;height:16px}
+.method.selected{
+  border-color:rgba(217,164,65,.55);
+  background:rgba(217,164,65,.06);
+  color:#f2eadf;
+}
+.pay-summary{
+  display:flex;justify-content:space-between;align-items:center;gap:14px;
+  padding:15px 16px;margin-bottom:20px;
+  border-left:1px solid rgba(217,164,65,.35);
+  background:rgba(217,164,65,.035);
+  color:#9b9186;font:12px "Font1",sans-serif;
+}
+.pay-summary strong{color:#e2bf69;font-size:20px;font-weight:400}
+.checkout-btn{
+  width:100%;min-height:52px;padding:0 20px;
+  border:1px solid rgba(236,198,105,.48);border-radius:0;
+  background:linear-gradient(100deg,#8e631c,#d8aa4a 48%,#9b6d20);
+  color:#100d08;font:700 10px "Font1",sans-serif;letter-spacing:2.3px;
+  cursor:pointer;transition:transform .25s,filter .25s,box-shadow .25s;
+}
+.checkout-btn:hover{transform:translateY(-2px);filter:brightness(1.06);box-shadow:0 14px 30px rgba(217,164,65,.10)}
+.secure-note{margin-top:16px;text-align:center;color:#5f5952;font:10px "Font1",sans-serif;letter-spacing:1.5px}
+.payment-footer{margin-top:28px;text-align:center;color:#514b45;font:9px "Font1",sans-serif;letter-spacing:3px}
+#cart-toast{display:none !important}
+
+@media(max-width:900px){
+  .payment-wrap{width:min(100% - 24px,640px);padding:108px 0 112px}
+  .payment-intro h1{font-size:44px;letter-spacing:-.8px}
+  .payment-card{border-radius:18px}
+  .payment-inner{padding:22px 19px;border-radius:17px}
+  .payment-inner h2{font-size:24px}
+}
+@media(max-width:430px){
+  .payment-wrap{width:calc(100% - 16px);padding-top:104px}
+  .payment-intro h1{font-size:38px}
+  .payment-inner{padding:19px 16px}
+}
+</style>
+<link rel="stylesheet" href="shared-navbar.css">
+<link rel="stylesheet" href="free-delivery.css">
+</head>
+<body class="payment-page">
+<header class="navbar">
+  <a href="index.html" class="logo" aria-label="Liwi-Ka Home"><img src="images/liwi.png" alt="Liwi-Ka Finest Chocolate"></a>
+  <nav class="nav-links" aria-label="Primary navigation">
+    <a href="index.html">Home</a><a href="seasonals/shop.html">Shop</a><a href="new-arrivals.html">New Arrivals</a>
+    <a href="seasonals/seasonals.html">Seasonals</a><a href="index.html#our-story">Our Story</a><a href="seasonals/customer-care.html">Customer Care</a>
+  </nav>
+  <div class="nav-icons">
+    <button type="button" aria-label="Search">⌕</button>
+    <button type="button" class="profile-icon-button" aria-label="My Account"><svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"></circle><path d="M4.5 20c.8-4 3.4-6 7.5-6s6.7 2 7.5 6"></path></svg></button>
+    <a href="seasonals/cart.html" class="cart-nav-link" aria-label="Shopping Cart"><button type="button" class="cart-icon-button" aria-label="Shopping Cart"><svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h2l1.7 10.2a2 2 0 0 0 2 1.7h7.8a2 2 0 0 0 1.9-1.4L21 9H7"></path><circle cx="10" cy="20" r="1.2"></circle><circle cx="18" cy="20" r="1.2"></circle></svg></button></a>
+  </div>
+</header>
+<main class="payment-wrap">
+  <div class="payment-intro">
+    <p class="eyebrow">LIWI-KA • YOUR SWEETEST MOMENT</p>
+    <h1>Complete your <span>payment.</span></h1>
+    <p>Choose how you'd like to pay to finish your Liwi-Ka order.</p>
+  </div>
+  <div class="checkout-progress"><span>Account</span><span class="dot"></span><span>Delivery</span><span class="dot"></span><span class="active">Payment</span></div>
+  <section class="payment-card">
+    <div class="payment-inner">
+      <h2>Payment method</h2>
+      <p class="muted">Deliveries are confirmed within Visakhapatnam only.</p>
+      <div class="methods">
+        <label class="method selected"><input type="radio" name="method" value="UPI / GPay" checked> UPI / GPay</label>
+        <label class="method"><input type="radio" name="method" value="Credit Card"> Credit Card</label>
+        <label class="method"><input type="radio" name="method" value="Net Banking"> Net Banking</label>
+        <label class="method"><input type="radio" name="method" value="Cash on Delivery"> Cash on Delivery</label>
+      </div>
+      <div class="pay-summary"><span>Order total</span><strong id="total">₹0</strong></div>
+      <button class="checkout-btn" id="pay">PAY NOW →</button>
+      <div class="secure-note">🔒 SECURE CHECKOUT</div>
+    </div>
+  </section>
+  <div class="payment-footer">LIWI-KA &nbsp; • &nbsp; FINEST CHOCOLATE</div>
+</main>
+<script src="free-delivery.js"></script>
+<script src="responsive-mobile.js"></script>
+<script>
+(function(){
+  const s=JSON.parse(sessionStorage.getItem('liwika_checkout_details')||'null');
+  const total=Number(sessionStorage.getItem('liwika_checkout_total')||0);
+  const auth=localStorage.getItem('liwika_auth_session');
+  if(!auth||!s||!total){location.href='checkout.html';return}
+  document.getElementById('total').textContent='₹'+total.toLocaleString('en-IN');
+  document.querySelectorAll('.method').forEach(m=>m.addEventListener('click',()=>{
+    document.querySelectorAll('.method').forEach(x=>x.classList.remove('selected'));
+    m.classList.add('selected');m.querySelector('input').checked=true;
+  }));
+  document.getElementById('pay').addEventListener('click',()=>{
+    const method=document.querySelector('input[name=method]:checked').value;
+    sessionStorage.setItem('liwika_payment_method',method);
+    sessionStorage.setItem('liwika_payment_complete','1');
+    location.href='order-confirmation.html';
+  });
+})();
+</script>
+<script type="module" src="profile-menu.js"></script>
+</body>
+</html>

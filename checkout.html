@@ -215,6 +215,79 @@
 }
 #cart-toast{display:none !important}
 
+/* ===== Service-area / validation additions ===== */
+.service-banner{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:22px;
+  padding:12px 15px;
+  border:1px solid rgba(217,164,65,.28);
+  background:rgba(217,164,65,.06);
+  color:#d9c197;
+  font:11px/1.6 "Font1",sans-serif;
+  letter-spacing:.2px;
+}
+.service-banner b{color:#e2bf69;font-weight:600}
+.field-msg{
+  min-height:14px;
+  font:10px "Font1",sans-serif;
+  letter-spacing:.3px;
+}
+.field-msg.ok{color:#7fbf7a}
+.field-msg.err{color:#e0796b}
+.field.invalid input,.field.invalid textarea{border-color:rgba(224,121,107,.65) !important;background:rgba(224,121,107,.05) !important}
+.field.valid input{border-color:rgba(127,191,122,.5) !important}
+
+.location-block{margin-top:24px}
+.location-block h3{
+  margin:0 0 6px;
+  color:#f2eadf;
+  font:400 18px/1 "Font",Georgia,serif;
+}
+.location-block > p{margin:0 0 14px;color:#7d766c;font:11.5px/1.7 "Font1",sans-serif}
+#deliveryMap{
+  width:100%;
+  height:280px;
+  border:1px solid rgba(255,255,255,.1);
+  background:#141210;
+  filter:saturate(.35) brightness(.9) sepia(.18);
+}
+.map-toolbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top:10px;
+}
+.locate-btn{
+  border:1px solid rgba(217,164,65,.35);
+  background:rgba(217,164,65,.06);
+  color:#d7c093;
+  padding:9px 14px;
+  font:700 9px "Font1",sans-serif;
+  letter-spacing:1.4px;
+  cursor:pointer;
+  transition:background .2s,transform .2s;
+}
+.locate-btn:hover{background:rgba(217,164,65,.14);transform:translateY(-1px)}
+.location-status{
+  flex:1;
+  min-width:200px;
+  font:11px/1.6 "Font1",sans-serif;
+  color:#7d766c;
+}
+.location-status.ok{color:#7fbf7a}
+.location-status.err{color:#e0796b}
+.checkout-btn:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+  filter:grayscale(.3);
+}
+.checkout-btn:disabled:hover{transform:none;filter:grayscale(.3);box-shadow:none}
+.leaflet-container{font-family:"Font1",sans-serif !important}
+
 @media(max-width:900px){
   .checkout-wrap{width:min(100% - 24px,640px);padding:108px 0 112px}
   .checkout-intro{margin-bottom:28px}
@@ -244,6 +317,7 @@
 </style>
 <link rel="stylesheet" href="shared-navbar.css">
     <link rel="stylesheet" href="free-delivery.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 </head>
 <body class="checkout-page">
 <header class="navbar">
@@ -254,7 +328,7 @@
   </nav>
   <div class="nav-icons">
     <button type="button" aria-label="Search">⌕</button>
-    <a href="login.html" class="profile-icon-button" aria-label="My Account"><svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"></circle><path d="M4.5 20c.8-4 3.4-6 7.5-6s6.7 2 7.5 6"></path></svg></a>
+    <button type="button" class="profile-icon-button" aria-label="My Account"><svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"></circle><path d="M4.5 20c.8-4 3.4-6 7.5-6s6.7 2 7.5 6"></path></svg></button>
     <a href="seasonals/cart.html" class="cart-nav-link" aria-label="Shopping Cart"><button type="button" class="cart-icon-button" aria-label="Shopping Cart"><svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h2l1.7 10.2a2 2 0 0 0 2 1.7h7.8a2 2 0 0 0 1.9-1.4L21 9H7"></path><circle cx="10" cy="20" r="1.2"></circle><circle cx="18" cy="20" r="1.2"></circle></svg></button></a>
   </div>
 </header>
@@ -277,16 +351,35 @@
       <div class="checkout-grid">
         <section class="checkout-section">
           <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap"><h2 style="margin:0">Delivery details</h2><span class="customer-pill" id="customerEmail"></span></div>
-          <form id="checkoutForm">
+          <div class="service-banner">📍 <span>We currently deliver only within <b>Visakhapatnam</b>. Enter a Visakhapatnam pincode and pin your exact location below to continue.</span></div>
+          <form id="checkoutForm" novalidate>
             <div class="field-grid">
               <div class="field"><label for="checkoutName">FULL NAME</label><input id="checkoutName" required autocomplete="name"></div>
-              <div class="field"><label for="checkoutPhone">PHONE</label><input id="checkoutPhone" required autocomplete="tel" inputmode="tel"></div>
-              <div class="field full"><label for="checkoutAddress">DELIVERY ADDRESS</label><textarea id="checkoutAddress" rows="3" required autocomplete="street-address"></textarea></div>
-              <div class="field"><label for="checkoutCity">CITY</label><input id="checkoutCity" required autocomplete="address-level2"></div>
-              <div class="field"><label for="checkoutPin">PINCODE</label><input id="checkoutPin" required inputmode="numeric" autocomplete="postal-code"></div>
+              <div class="field" id="phoneField">
+                <label for="checkoutPhone">PHONE</label>
+                <input id="checkoutPhone" required autocomplete="tel" inputmode="tel" maxlength="10" placeholder="10-digit mobile number">
+                <div class="field-msg" id="phoneMsg"></div>
+              </div>
+              <div class="field full"><label for="checkoutAddress">DELIVERY ADDRESS</label><textarea id="checkoutAddress" rows="3" required autocomplete="street-address" placeholder="House/flat no., street, landmark, area"></textarea></div>
+              <div class="field full" id="pinField">
+                <label for="checkoutPin">PINCODE</label>
+                <input id="checkoutPin" required inputmode="numeric" autocomplete="postal-code" maxlength="6" placeholder="e.g. 530016">
+                <div class="field-msg" id="pinMsg"></div>
+              </div>
             </div>
+
+            <div class="location-block">
+              <h3>Pin your exact location</h3>
+              <p>Drag the marker (or use "Use my location") to the exact delivery spot. This helps us confirm it falls within our Visakhapatnam delivery zone.</p>
+              <div id="deliveryMap"></div>
+              <div class="map-toolbar">
+                <button type="button" class="locate-btn" id="locateBtn">USE MY LOCATION</button>
+                <div class="location-status" id="locationStatus">No location pinned yet.</div>
+              </div>
+            </div>
+
             <div class="payment-note">Your details are saved for this checkout only. The next step is payment.</div>
-            <button class="checkout-btn" type="submit">CONTINUE TO PAYMENT →</button>
+            <button class="checkout-btn" type="submit" id="checkoutSubmitBtn" disabled>CONTINUE TO PAYMENT →</button>
           </form>
         </section>
         <aside class="checkout-section summary">
@@ -303,6 +396,7 @@
 <script src="cart.js"></script>
 <script src="free-delivery.js"></script>
     <script src="responsive-mobile.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 (function(){
   const authKey='liwika_auth_session', required=document.getElementById('authRequired'), content=document.getElementById('checkoutContent');
@@ -323,12 +417,170 @@
   const s=session();
   if(!s){required.classList.add('show');return}
   content.classList.add('show');document.getElementById('customerEmail').textContent=s.email||'SIGNED IN';
+
+  /* =========================================================
+     VISAKHAPATNAM-ONLY DELIVERY VALIDATION
+     - Phone: 10-digit Indian mobile number
+     - Pincode: must belong to the Visakhapatnam (530xxx) postal district
+     - Map: pinned point must fall inside the Visakhapatnam service area
+     ========================================================= */
+
+  // Visakhapatnam district bounding box (covers GVMC + Bheemunipatnam,
+  // Anandapuram, Pendurthi, Gajuwaka and other nearby delivery mandals).
+  const VIZAG_BOUNDS = { minLat:17.55, maxLat:18.10, minLng:83.00, maxLng:83.45 };
+  const VIZAG_CENTER = { lat:17.6868, lng:83.2185 }; // RTC Complex, Visakhapatnam
+
+  const phoneInput=document.getElementById('checkoutPhone');
+  const phoneField=document.getElementById('phoneField');
+  const phoneMsg=document.getElementById('phoneMsg');
+  const pinInput=document.getElementById('checkoutPin');
+  const pinField=document.getElementById('pinField');
+  const pinMsg=document.getElementById('pinMsg');
+  const locationStatus=document.getElementById('locationStatus');
+  const submitBtn=document.getElementById('checkoutSubmitBtn');
+
+  let phoneValid=false, pinValid=false, locationValid=false, pinnedLatLng=null;
+
+  function setField(field,msgEl,state,text){
+    field.classList.remove('valid','invalid');
+    if(state==='ok'){field.classList.add('valid')}
+    else if(state==='err'){field.classList.add('invalid')}
+    msgEl.textContent=text||'';
+    msgEl.className='field-msg'+(state==='ok'?' ok':state==='err'?' err':'');
+  }
+
+  function validatePhone(){
+    const v=phoneInput.value.replace(/\D/g,'');
+    if(!v){phoneValid=false;setField(phoneField,phoneMsg,'','');return}
+    if(!/^[6-9]\d{9}$/.test(v)){
+      phoneValid=false;
+      setField(phoneField,phoneMsg,'err','Enter a valid 10-digit Indian mobile number.');
+    }else{
+      phoneValid=true;
+      setField(phoneField,phoneMsg,'ok','Looks good.');
+    }
+    updateSubmitState();
+  }
+
+  function validatePin(){
+    const v=pinInput.value.replace(/\D/g,'');
+    if(!v){pinValid=false;setField(pinField,pinMsg,'','');updateSubmitState();return}
+    if(!/^\d{6}$/.test(v)){
+      pinValid=false;
+      setField(pinField,pinMsg,'err','Pincode must be 6 digits.');
+    }else if(!/^530\d{3}$/.test(v)){
+      pinValid=false;
+      setField(pinField,pinMsg,'err','Sorry, delivery isn\'t available in this area yet — we currently deliver within Visakhapatnam only.');
+    }else{
+      pinValid=true;
+      setField(pinField,pinMsg,'ok','Delivers within Visakhapatnam ✓');
+    }
+    updateSubmitState();
+  }
+
+  phoneInput.addEventListener('input',function(){this.value=this.value.replace(/\D/g,'').slice(0,10);validatePhone()});
+  pinInput.addEventListener('input',function(){this.value=this.value.replace(/\D/g,'').slice(0,6);validatePin()});
+
+  function updateSubmitState(){
+    submitBtn.disabled=!(phoneValid && pinValid && locationValid);
+  }
+
+  function inVizagBounds(lat,lng){
+    return lat>=VIZAG_BOUNDS.minLat && lat<=VIZAG_BOUNDS.maxLat && lng>=VIZAG_BOUNDS.minLng && lng<=VIZAG_BOUNDS.maxLng;
+  }
+
+  async function checkLocation(lat,lng){
+    locationStatus.className='location-status';
+    locationStatus.textContent='Checking this location…';
+    const insideBox=inVizagBounds(lat,lng);
+    if(!insideBox){
+      locationValid=false;pinnedLatLng=null;
+      locationStatus.className='location-status err';
+      locationStatus.textContent='This location is outside Visakhapatnam. We can\'t deliver here yet — please pin a location within Visakhapatnam.';
+      updateSubmitState();
+      return;
+    }
+    // Best-effort reverse geocode (OpenStreetMap Nominatim) to confirm & label the spot.
+    let label='Pinned location';
+    try{
+      const res=await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&zoom=14`);
+      if(res.ok){
+        const data=await res.json();
+        const a=data.address||{};
+        const district=(a.state_district||a.county||'').toLowerCase();
+        const cityText=(a.city||a.town||a.suburb||a.county||'').toLowerCase();
+        label=data.display_name?data.display_name.split(',').slice(0,3).join(','):label;
+        // If the geocoder clearly names a different district, flag it even though
+        // the point fell inside our fallback bounding box.
+        if(district && district.indexOf('visakhapatnam')===-1 && cityText.indexOf('visakhapatnam')===-1 && district.length){
+          locationValid=false;pinnedLatLng=null;
+          locationStatus.className='location-status err';
+          locationStatus.textContent='This pin looks like it\'s outside Visakhapatnam ('+(a.state_district||a.county)+'). We can\'t deliver here yet.';
+          updateSubmitState();
+          return;
+        }
+      }
+    }catch(e){ /* offline / blocked — fall back to the bounding-box result above */ }
+    locationValid=true;pinnedLatLng={lat,lng,label};
+    locationStatus.className='location-status ok';
+    locationStatus.textContent='✓ Within Visakhapatnam — '+label;
+    updateSubmitState();
+  }
+
+  // ---- Map setup (Leaflet + OpenStreetMap — no API key required) ----
+  let map,marker;
+  function initMap(){
+    map=L.map('deliveryMap',{scrollWheelZoom:false}).setView([VIZAG_CENTER.lat,VIZAG_CENTER.lng],12);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+      maxZoom:19,attribution:'© OpenStreetMap contributors'
+    }).addTo(map);
+    marker=L.marker([VIZAG_CENTER.lat,VIZAG_CENTER.lng],{draggable:true}).addTo(map);
+    marker.on('dragend',function(){
+      const p=marker.getLatLng();checkLocation(p.lat,p.lng);
+    });
+    map.on('click',function(e){
+      marker.setLatLng(e.latlng);checkLocation(e.latlng.lat,e.latlng.lng);
+    });
+  }
+  if(window.L){initMap()}else{
+    locationStatus.textContent='Map could not load. Please check your connection and refresh.';
+  }
+
+  document.getElementById('locateBtn').addEventListener('click',function(){
+    if(!navigator.geolocation){locationStatus.textContent='Location access isn\'t supported on this browser.';return}
+    locationStatus.className='location-status';
+    locationStatus.textContent='Getting your location…';
+    navigator.geolocation.getCurrentPosition(function(pos){
+      const {latitude,longitude}=pos.coords;
+      if(map&&marker){map.setView([latitude,longitude],15);marker.setLatLng([latitude,longitude])}
+      checkLocation(latitude,longitude);
+    },function(){
+      locationStatus.className='location-status err';
+      locationStatus.textContent='Couldn\'t get your location. Please drag the pin manually.';
+    });
+  });
+
   document.getElementById('checkoutForm').addEventListener('submit',function(e){
     e.preventDefault();
-    const details={name:document.getElementById('checkoutName').value.trim(),phone:document.getElementById('checkoutPhone').value.trim(),address:document.getElementById('checkoutAddress').value.trim(),city:document.getElementById('checkoutCity').value.trim(),pin:document.getElementById('checkoutPin').value.trim()};
+    validatePhone();validatePin();
+    if(!phoneValid||!pinValid||!locationValid){
+      updateSubmitState();
+      return;
+    }
+    const details={
+      name:document.getElementById('checkoutName').value.trim(),
+      phone:phoneInput.value.trim(),
+      address:document.getElementById('checkoutAddress').value.trim(),
+      pin:pinInput.value.trim(),
+      city:'Visakhapatnam',
+      lat:pinnedLatLng?pinnedLatLng.lat:null,
+      lng:pinnedLatLng?pinnedLatLng.lng:null,
+      locationLabel:pinnedLatLng?pinnedLatLng.label:''
+    };
     sessionStorage.setItem('liwika_checkout_details',JSON.stringify(details));sessionStorage.setItem('liwika_checkout_total',String(total));location.href='payment.html';
   });
 })();
 </script>
+    <script type="module" src="profile-menu.js"></script>
 </body>
 </html>

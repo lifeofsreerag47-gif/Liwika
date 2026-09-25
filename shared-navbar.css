@@ -290,3 +290,181 @@ body.checkout-page .navbar {
 }
 
 
+
+/* =========================================================
+   LIWI-KA — PREMIUM ACCOUNT POPOVER
+   ========================================================= */
+body .navbar .nav-icons .profile-icon-button {
+  position: relative !important;
+}
+
+.liwika-account-menu {
+  position: fixed;
+  top: 94px;
+  right: clamp(18px, 5vw, 72px);
+  width: 292px;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid rgba(225, 184, 87, .24);
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 85% 0%, rgba(218, 174, 77, .13), transparent 38%),
+    linear-gradient(145deg, rgba(30, 25, 20, .985), rgba(12, 10, 8, .985));
+  box-shadow:
+    0 24px 65px rgba(0, 0, 0, .42),
+    0 4px 18px rgba(0, 0, 0, .28),
+    inset 0 1px rgba(255, 255, 255, .08);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  z-index: 1600;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-7px) scale(.985);
+  transform-origin: top right;
+  pointer-events: none;
+  transition: opacity .18s ease, transform .22s cubic-bezier(.22, 1, .36, 1), visibility .18s ease;
+}
+
+.liwika-account-menu.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.liwika-account-topline {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(90deg, transparent, rgba(246, 208, 111, .85), transparent);
+  box-shadow: 0 0 15px rgba(224, 179, 70, .18);
+}
+
+.liwika-account-header {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 18px 18px 16px;
+}
+
+.liwika-account-avatar {
+  flex: 0 0 45px;
+  width: 45px;
+  height: 45px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(229, 189, 91, .34);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 28%, rgba(247, 218, 133, .24), rgba(147, 102, 31, .12) 48%, rgba(0, 0, 0, .22));
+  color: #f2ce78;
+  font-family: "Font1", sans-serif;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  box-shadow: inset 0 1px rgba(255,255,255,.10), 0 5px 18px rgba(0,0,0,.22);
+}
+
+.liwika-account-heading {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.liwika-account-label {
+  color: rgba(235, 198, 110, .68);
+  font-family: "Font1", sans-serif;
+  font-size: 8px;
+  line-height: 1.2;
+  letter-spacing: 2px;
+}
+
+.liwika-account-heading strong {
+  color: rgba(255, 249, 238, .96);
+  font-family: "Font1", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: .4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.liwika-account-heading > span:last-child {
+  color: rgba(255, 248, 236, .54);
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.liwika-account-divider {
+  height: 1px;
+  margin: 0 17px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.09), transparent);
+}
+
+.liwika-account-logout {
+  width: calc(100% - 28px);
+  min-height: 42px;
+  margin: 12px 14px 14px;
+  padding: 0 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border: 1px solid rgba(224, 180, 76, .18);
+  border-radius: 10px;
+  background: rgba(255,255,255,.025);
+  color: rgba(250, 241, 224, .86);
+  font-family: "Font1", sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 1.8px;
+  cursor: pointer;
+  box-shadow: inset 0 1px rgba(255,255,255,.05);
+  transition: color .2s ease, border-color .2s ease, background .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+
+.liwika-account-logout:hover,
+.liwika-account-logout:focus-visible {
+  color: #f4cf79;
+  border-color: rgba(231, 191, 93, .45);
+  background: rgba(199, 153, 55, .09);
+  box-shadow: 0 0 20px rgba(201, 154, 61, .10), inset 0 1px rgba(255,255,255,.08);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.liwika-account-logout:disabled {
+  opacity: .55;
+  cursor: wait;
+  transform: none;
+}
+
+.liwika-logout-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  font-family: Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1;
+  transform: rotate(180deg);
+}
+
+@media (max-width: 900px) {
+  .liwika-account-menu {
+    top: 78px;
+    right: 12px;
+    width: min(292px, calc(100vw - 24px));
+  }
+}
+
+@media (max-width: 380px) {
+  .liwika-account-menu {
+    right: 9px;
+    width: calc(100vw - 18px);
+  }
+}
