@@ -1,0 +1,188 @@
+/* =========================================================
+   LIWI-KA OCCASION DESIGN
+   PRODUCT CARDS
+========================================================= */
+
+.occasion-product {
+    position: relative;
+    background: #0d0907;
+    border: 1px solid rgba(201, 164, 91, 0.28);
+    border-radius: 0 0 28px 28px;
+    overflow: hidden;
+    scrollbar-gutter: stable;
+
+    transition:
+        transform 0.4s ease,
+        border-color 0.4s ease,
+        box-shadow 0.4s ease;
+}
+
+
+/* Product card scrollbar */
+.occasion-product::-webkit-scrollbar {
+    width: 6px;
+}
+
+.occasion-product::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.occasion-product::-webkit-scrollbar-thumb {
+    background: rgba(201, 164, 91, 0.45);
+    border-radius: 10px;
+}
+
+.occasion-product::-webkit-scrollbar-thumb:hover {
+    background: rgba(201, 164, 91, 0.75);
+}
+
+
+/* CARD HOVER */
+
+.occasion-product:hover {
+    transform: translateY(-6px);
+
+    border-color: rgba(201, 164, 91, 0.65);
+
+    box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.45),
+        0 0 24px rgba(201, 164, 91, 0.08);
+}
+
+
+/* =========================================================
+   PRODUCT IMAGE
+========================================================= */
+
+.occasion-product-image {
+   position: relative;
+    width: 100%;
+    height: 320px;
+    flex-shrink: 0;
+    overflow: hidden;
+    background: #160d09;
+
+    
+}
+
+
+.occasion-product-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    display: block;
+
+    transition:
+        transform 0.7s ease,
+        filter 0.7s ease;
+}
+
+
+.occasion-product:hover .occasion-product-image img {
+    transform: scale(1.045);
+    filter: brightness(1.04);
+}
+
+
+/* =========================================================
+   PRODUCT INFORMATION
+========================================================= */
+
+.occasion-product-info {
+    padding: 25px 28px 26px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #120d0a 0%,
+            #0d0907 100%
+        );
+}
+
+
+/* PRODUCT NAME */
+
+.occasion-product-info h3 {
+    margin: 0 0 10px;
+
+    color: #f3eee6;
+
+    font-family: "Font", Georgia, serif;
+    font-size: 29px;
+    font-weight: 400;
+
+    line-height: 1.1;
+}
+
+
+/* DESCRIPTION */
+
+.occasion-product-info p {
+    margin: 0;
+
+    max-width: 330px;
+
+    color: #a9a198;
+
+    font-family: "Font1", Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.65;
+}
+
+
+/* =========================================================
+   PRICE + ADD
+========================================================= */
+
+.occasion-product-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-top: 25px;
+}
+
+
+/* PRICE */
+
+.occasion-product-bottom span {
+    color: #d9ad55;
+
+    font-family: "Font1", Arial, sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+}
+
+
+/* ADD BUTTON */
+
+.occasion-product-bottom button {
+    min-width: 102px;
+    padding: 11px 20px;
+
+    background: transparent;
+
+    border: 1px solid rgba(217, 164, 65, 0.75);
+
+    color: #d9ad55;
+
+    font-family: "Font1", Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease;
+}
+
+
+.occasion-product-bottom button:hover {
+    background: #d9ad55;
+    border-color: #d9ad55;
+
+    color: #0b0806;
+}

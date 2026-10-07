@@ -1,0 +1,397 @@
+/* =========================================================================
+   LIWI-KA — HOME PAGE ONLY: CINEMATIC SCROLL
+   Loaded ONLY by index.html. Every rule is scoped to html.cine-on / .cine*
+   so nothing here can affect any other page or shared component.
+   Without .cine-on (reduced motion / no JS) the Home page keeps its normal
+   stacked layout (see the "STATIC FALLBACK" block at the bottom).
+   ========================================================================= */
+
+:root {
+    --cine-dark: #080706;          /* existing Bestsellers / Story background */
+    --cine-gold-ink: #7d5a1c;      /* dark gold for text on the light scene   */
+    --cine-gold-ink-2: #8f6a22;
+    --cine-top-pad: clamp(96px, 15vh, 150px);   /* clears the fixed navbar */
+    --cine-bottom-reserve: 0px;                 /* mobile bottom nav space */
+}
+
+/* ---------- sticky needs a non-scrolling ancestor chain ---------- */
+html.cine-on { overflow-x: clip !important; }
+html.cine-on body.home-page { overflow-x: clip !important; }
+
+/* =========================== TRACK + STAGE ============================ */
+html.cine-on .cine {
+    position: relative;
+    height: var(--cine-track, 700vh);       /* set precisely by JS */
+    background: var(--cine-bg, #050505);    /* fills any svh/lvh gap on phones */
+}
+html.cine-on .cine-stage {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+    background: #050505;
+    contain: layout paint;
+}
+
+/* hero fills the stage (was a fixed 860px) */
+html.cine-on .cine .hero {
+    height: 100% !important;
+    min-height: 0 !important;
+    position: absolute;
+    inset: 0;
+}
+html.cine-on .cine-camera {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform-origin: 0 0;
+    backface-visibility: hidden;
+}
+html.cine-on .cine-camera .hero-video,
+html.cine-on .cine-camera .hero-overlay { position: absolute; }
+html.cine-on .cine-camera { background: #050505; }
+html.cine-on .cine-camera .hero-video {
+    will-change: opacity;
+    backface-visibility: hidden;
+}
+
+/* =========================== LIGHT / DARK =========================== */
+html.cine-on .cine-bloom {
+    position: absolute;
+    left: 50%; top: 50%;
+    width: var(--cine-bloom, 3000px);
+    height: var(--cine-bloom, 3000px);
+    margin: calc(var(--cine-bloom, 3000px) / -2) 0 0 calc(var(--cine-bloom, 3000px) / -2);
+    border-radius: 50%;
+    background: radial-gradient(circle closest-side,
+        var(--cine-light, #fff) 0%, var(--cine-light, #fff) 46%, transparent 100%);
+    transform: scale(0);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 3;
+}
+html.cine-on .cine-veil {
+    position: absolute; inset: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+html.cine-on .cine-veil-light { background: var(--cine-light, #fff); z-index: 4; }
+html.cine-on .cine-veil-dark  { background: var(--cine-dark);        z-index: 5; }
+
+/* ============================== SCENES =============================== */
+html.cine-on .cine-scene {
+    position: absolute;
+    inset: 0;
+    z-index: 6;
+    visibility: hidden;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: none !important;
+    border: 0 !important;
+    overflow: visible !important;
+}
+html.cine-on .cine-scene.is-live { visibility: visible; }
+
+/* ---- scene 2: collection (light) ---- */
+html.cine-on .cine-collection {
+    justify-content: center;
+    text-align: center;
+    padding: 0 6% !important;
+}
+.cine-collection-title {
+    font-family: "Font", Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(34px, 6.2vw, 92px);
+    line-height: 1.05;
+    letter-spacing: -1px;
+    margin: 0 0 clamp(14px, 2.4vh, 26px);
+    color: var(--cine-gold-ink);
+    background: linear-gradient(110deg, #6a4912 0%, #a37a2c 48%, #6a4912 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    max-width: 14ch;
+    text-wrap: balance;
+}
+.cine-collection-sub {
+    font-family: "Font1", sans-serif;
+    font-size: clamp(11px, 1.15vw, 15px);
+    letter-spacing: clamp(3px, .5vw, 6px);
+    text-transform: uppercase;
+    color: var(--cine-gold-ink-2);
+    margin: 0;
+}
+
+/* ---- heading groups (bestsellers / heritage) ---- */
+html.cine-on .cine-head {
+    position: relative;
+    margin: 0 auto !important;
+    padding: var(--cine-top-pad) 6% 0;
+    transform: none;
+    max-width: 780px !important;
+    width: 100%;
+    text-align: center;
+    flex: 0 0 auto;
+}
+html.cine-on .cine-head .small-heading { margin-bottom: clamp(10px, 1.6vh, 16px); }
+html.cine-on .cine-head h2 {
+    font-size: clamp(30px, 4.3vw, 56px);
+    line-height: 1.08;
+    margin: 0 0 clamp(8px, 1.4vh, 16px);
+}
+html.cine-on .cine-head .section-description {
+    margin: 0 auto;
+    max-width: 560px;
+    font-size: clamp(12px, 1.05vw, 15px);
+    line-height: 1.6;
+}
+html.cine-on .cine-head > * { will-change: auto; }
+
+/* ---- items area (desktop = in flow, below the heading) ---- */
+html.cine-on .cine-items-wrap {
+    position: relative;
+    width: 100%;
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: clamp(14px, 2.6vh, 30px) 0 clamp(18px, 3.5vh, 40px);
+}
+html.cine-on .cine-rail { width: 100%; }
+html.cine-on .cine-scene.is-live .cine-items-wrap { pointer-events: none; }
+html.cine-on .cine-scene.is-live .cine-items,
+html.cine-on .cine-scene.is-live .cine-tail,
+html.cine-on .cine-scene.is-live .cine-tail a { pointer-events: auto; }
+
+/* bestseller grid — the REAL cards, unchanged. On desktop the whole grid is
+   uniformly scaled (CSS zoom, computed in JS) only if the stage is too short
+   to show heading + cards + link at full size, so card shape never changes. */
+html.cine-on .cine-bests .product-grid {
+    margin: 0 auto !important;
+    width: min(1180px, 88%);
+    max-width: none;
+}
+html.cine-on .cine-bests .view-all-container { margin: clamp(10px, 2.2vh, 26px) 0 0; text-align: center; }
+@media (min-width: 901px) {
+    html.cine-on .cine-scene .cine-items { zoom: var(--cine-zoom, 1); }
+}
+
+/* heritage pillar cards */
+html.cine-on .cine-heritage .story-pillars-grid {
+    margin: 0 auto;
+    width: min(1180px, 88%);
+    max-width: none;
+}
+
+/* =========================== STORY SECTION =========================== */
+/* heading + pillars now live in the stage, so this section starts directly with the grid */
+html.cine-on .our-story {
+    border-top: 0;
+    padding-top: clamp(50px, 8vh, 90px);
+}
+
+/* scroll reveal for the remaining story blocks (blur -> sharp, fade, rise, stagger) */
+html.cine-on .cine-rv {
+    opacity: 0;
+    filter: blur(12px);
+    translate: 0 56px;
+    transition: opacity 1s cubic-bezier(.16,1,.3,1) var(--rv-d, 0s),
+                filter 1s cubic-bezier(.16,1,.3,1) var(--rv-d, 0s),
+                translate 1s cubic-bezier(.16,1,.3,1) var(--rv-d, 0s);
+}
+html.cine-on .cine-rv.is-in { opacity: 1; filter: none; translate: 0 0; }
+
+/* =============================== MOBILE ================================ */
+@media (max-width: 900px) {
+    :root {
+        --cine-top-pad: clamp(78px, 11vh, 104px);
+        --cine-bottom-reserve: calc(92px + env(safe-area-inset-bottom, 0px));
+    }
+    html.cine-on .cine-head { padding-left: 7%; padding-right: 7%; }
+    html.cine-on .cine-head h2 { font-size: clamp(28px, 8.6vw, 42px); }
+    html.cine-on .cine-head .section-description { font-size: 12.5px; max-width: 320px; }
+    .cine-collection-title { font-size: clamp(34px, 11vw, 56px); max-width: 11ch; }
+
+    /* items become a vertical "rail" that the scroll drives upward */
+    html.cine-on .cine-items-wrap {
+        position: absolute;
+        left: 0; right: 0;
+        top: var(--cine-wrap-top, 300px);
+        bottom: var(--cine-bottom-reserve);
+        padding: 0;
+        overflow: hidden;
+        -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 7%, #000 90%, transparent 100%);
+                mask-image: linear-gradient(to bottom, transparent 0, #000 7%, #000 90%, transparent 100%);
+    }
+    html.cine-on .cine-rail { will-change: transform; padding: 6px 0 4px; }
+    html.cine-on .cine-bests .product-grid,
+    html.cine-on .cine-heritage .story-pillars-grid {
+        width: 100%;
+        padding-left: 18px !important;
+        padding-right: 18px !important;
+    }
+    html.cine-on .cine-bests .view-all-container { margin: 22px 0 8px; }
+}
+
+/* =========================== STATIC FALLBACK ===========================
+   Reduced motion / no JS: plain stacked sections, everything visible,
+   no zoom, no blur, normal scrolling.                                   */
+html:not(.cine-on) .cine-bloom,
+html:not(.cine-on) .cine-veil { display: none; }
+html:not(.cine-on) .cine-collection {
+    background: var(--cine-dark);
+    text-align: center;
+    padding: 80px 20px;
+}
+html:not(.cine-on) .cine-collection-title {
+    background: none; -webkit-text-fill-color: currentColor; color: #f5f0e8;
+}
+html:not(.cine-on) .cine-collection-sub { color: #d9a441; }
+html:not(.cine-on) .cine-camera { display: contents; }
+html:not(.cine-on) .cine-heritage {
+    background: var(--cine-dark);
+    padding: 100px 8% 20px;
+    color: #f5f0e8;
+}
+html:not(.cine-on) .cine-heritage .story-pillars-grid {
+    max-width: 1250px; margin: 0 auto;
+}
+html:not(.cine-on) .cine-heritage .section-heading { transform: none; margin-top: 0; }
+
+/* heritage headline stays on two lines like the original */
+@media (min-width: 901px) {
+    html.cine-on .cine-heritage .cine-head { max-width: 940px !important; }
+    html.cine-on .cine-heritage .cine-head h2 { font-size: clamp(30px, 3.9vw, 54px); }
+}
+
+html:not(.cine-on) .cine-collection {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+html:not(.cine-on) .cine-collection-title { margin-left: auto; margin-right: auto; }
+
+/* =========================================================
+   FINAL UX PATCH — direct hero text zoom
+   Keep the camera zoom, remove the circular white bloom.
+========================================================= */
+html.cine-on .cine-bloom {
+    display: none !important;
+}
+
+/* =========================================================
+   FINAL DESKTOP BESTSELLER SIZE
+========================================================= */
+@media (min-width: 901px) {
+    html.cine-on .cine-bests .product-grid {
+        width: min(1400px, 94%) !important;
+        gap: clamp(28px, 2.6vw, 42px) !important;
+    }
+}
+@media (min-width: 901px) {
+    html.cine-on .cine-bests .product-card .product-info h3 {
+        font-size: clamp(25px, 2vw, 34px) !important;
+        line-height: 1.02 !important;
+        margin-bottom: 10px !important;
+    }
+    html.cine-on .cine-bests .product-card .product-info h3 span {
+        display: block;
+    }
+}
+
+@media (max-width: 900px) {
+    html.cine-on .cine-bests .product-card .product-info h3 span {
+        display: block;
+    }
+}
+
+/* =========================================================
+   HOME BESTSELLERS — BIGGER CARDS + BIGGER, WRAPPED NAMES
+   (home page only: every rule is scoped to .cine-bests)
+========================================================= */
+.cine-bests .product-card .card-corner-name {
+    white-space: normal !important;
+    line-height: 1 !important;
+    letter-spacing: -.5px !important;
+}
+.cine-bests .product-card .card-corner-name br { display: block; content: ""; }
+
+@media (min-width: 901px) {
+    html.cine-on .cine-bests { --cine-top-pad: clamp(84px, 11vh, 110px); }
+
+    html.cine-on .cine-bests .product-grid {
+        width: min(1480px, 96%) !important;
+        gap: clamp(24px, 2.4vw, 40px) !important;
+    }
+
+    /* wider, shorter cards -> the grid no longer has to shrink to fit */
+    html.cine-on .cine-bests .product-card {
+        aspect-ratio: 10 / 11 !important;
+        height: auto !important;
+    }
+    html.cine-on .cine-bests .product-card .product-image {
+        position: absolute !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+    }
+    html.cine-on .cine-bests .product-card .product-image img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        display: block;
+    }
+    /* details stay in the DOM (modal reads them) but are not painted on the card */
+    html.cine-on .cine-bests .product-card .product-info {
+        position: absolute !important;
+        width: 1px; height: 1px;
+        padding: 0 !important; margin: -1px;
+        overflow: hidden; clip: rect(0 0 0 0);
+        opacity: 0; pointer-events: none;
+    }
+
+    html.cine-on .cine-bests .product-card .card-corner-name {
+        left: 28px !important;
+        right: 28px !important;
+        bottom: 26px !important;
+        max-width: calc(100% - 56px) !important;
+        font-size: clamp(48px, 4.6vw, 72px) !important;
+        padding-bottom: .08em !important;     /* keeps descenders from being clipped by the text-clip */
+    }
+    html.cine-on .cine-bests .product-card::after { height: 52%; }
+}
+
+@media (max-width: 900px) {
+    html.cine-on .cine-bests .product-card .card-corner-name {
+        left: 16px !important;
+        right: 16px !important;
+        bottom: 16px !important;
+        font-size: clamp(30px, 9vw, 40px) !important;
+        padding-bottom: .08em !important;
+    }
+    html.cine-on .cine-bests .product-card::after { height: 52%; }
+}
+.cine-bests .product-card::after {
+    background: linear-gradient(180deg, transparent 0%, rgba(4,2,1,.18) 30%, rgba(4,2,1,.84) 100%);
+}
+
+/* =========================================================
+   ZOOM PERFORMANCE (home only)
+   A blurred text-shadow / drop-shadow filter is re-rendered at the zoomed
+   size on every frame (blur radius grows 200x+), which caused the lag and
+   glitching. While zooming we drop only those blurred effects and keep the
+   thin gold edge line. Glyphs stay live vector text -> no loss of sharpness.
+========================================================= */
+html.cine-on .cine.is-zooming .hero-content h1 {
+    text-shadow: 0 1px 0 rgba(255, 210, 110, 0.35) !important;
+}
+html.cine-on .cine.is-zooming .hero-content h1 span {
+    filter: none !important;
+}
+html.cine-on .cine.is-zooming .hero-overlay,
+html.cine-on .cine.is-zooming .hero-content {
+    will-change: auto;
+}

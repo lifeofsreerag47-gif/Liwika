@@ -5,12 +5,6 @@
 (() => {
     "use strict";
 
-    /* Never let these pages create a second page scroll container or
-       restore a previous scroll position unexpectedly. */
-    if ("scrollRestoration" in history) {
-        history.scrollRestoration = "manual";
-    }
-
     /* ---------------------------------------------------------
        3D MOUSE TILT
        Same style as the Home product-card hover.
@@ -50,21 +44,6 @@
     document
         .querySelectorAll(".shop-product, .occasion-card, .gift-box")
         .forEach(addTilt);
-
-    /* ---------------------------------------------------------
-       OCCASION ENTRY SCROLL
-       Tell every occasion page (including Birthday) that it was
-       opened from the Seasonals cards. The shared occasion-theme
-       then handles the 1.4s pause and slow cinematic scroll.
-       --------------------------------------------------------- */
-    document.addEventListener("click", (event) => {
-        // Use the actual occasion link rather than relying only on the card
-        // class. This also catches Birthday reliably on every browser.
-        const link = event.target.closest('a[href*="occassions/"]');
-        if (!link) return;
-
-        sessionStorage.setItem("occasionEntry", "true");
-    }, true);
 
     /* Dynamic festival cards are inserted after page load. */
     const observeDynamicCards = () => {

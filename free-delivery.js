@@ -233,6 +233,20 @@
     if (!event.key || event.key === STORAGE_KEY) { update(false); syncBadges(); }
   });
 
+  function getCartDestination() {
+    const path = window.location.pathname;
+    if (path.includes('/occassions/')) return '../cart.html';
+    if (path.includes('/seasonals/')) return 'cart.html';
+    return 'seasonals/cart.html';
+  }
+
+  document.addEventListener('click', function (event) {
+    const hud = event.target.closest('#liwika-free-delivery');
+    if (!hud || !hud.classList.contains('is-visible')) return;
+    if (document.querySelector('.product-modal.active')) return;
+    window.location.href = getCartDestination();
+  });
+
   function init() {
     previousTotal = null;
     update(false);

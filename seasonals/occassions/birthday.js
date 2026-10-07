@@ -9,6 +9,18 @@ const birthdayProducts = {
         name: "Dark Indulgence",
         description: "Rich dark chocolate crafted for a sophisticated birthday treat.",
         basePrice: 49,
+        nutrition: {
+    energy: "545 kcal",
+    fat: "34 g",
+    saturatedFat: "21 g",
+    carbohydrates: "54 g",
+    sugars: "45 g",
+    protein: "8 g"
+},
+
+ingredients: "Sugar, milk solids, cocoa butter, cocoa solids, natural vanilla flavour",
+
+        
         flavours: [
             {
                 name: "Classic Dark",
@@ -29,6 +41,17 @@ const birthdayProducts = {
         name: "Golden Milk",
         description: "Smooth and creamy chocolate made for a little birthday luxury.",
         basePrice: 69,
+        nutrition: {
+    energy: "545 kcal",
+    fat: "34 g",
+    saturatedFat: "21 g",
+    carbohydrates: "54 g",
+    sugars: "45 g",
+    protein: "8 g"
+},
+
+ingredients: "Sugar, milk solids, cocoa butter, cocoa solids, natural vanilla flavour",
+
         flavours: [
             {
                 name: "Classic Milk",
@@ -49,6 +72,17 @@ const birthdayProducts = {
         name: "Hazelnut Bliss",
         description: "Velvety chocolate combined with roasted hazelnuts for a joyful celebration.",
         basePrice: 89,
+        nutrition: {
+    energy: "560 kcal",
+    fat: "37 g",
+    saturatedFat: "18 g",
+    carbohydrates: "51 g",
+    sugars: "39 g",
+    protein: "8 g"
+},
+
+ingredients: "Cocoa solids, sugar, cocoa butter, milk solids, roasted hazelnuts, natural vanilla flavour",
+
         flavours: [
             {
                 name: "Classic Hazelnut",
@@ -76,6 +110,26 @@ const closeModal = document.getElementById("closeModal");
 const modalProductImage = document.getElementById("modalProductImage");
 const modalProductName = document.getElementById("modalProductName");
 const modalProductDescription = document.getElementById("modalProductDescription");
+const modalProductIngredients =
+    document.getElementById("modalProductIngredients");
+
+const nutritionEnergy =
+    document.getElementById("nutritionEnergy");
+
+const nutritionFat =
+    document.getElementById("nutritionFat");
+
+const nutritionSaturatedFat =
+    document.getElementById("nutritionSaturatedFat");
+
+const nutritionCarbohydrates =
+    document.getElementById("nutritionCarbohydrates");
+
+const nutritionSugars =
+    document.getElementById("nutritionSugars");
+
+const nutritionProtein =
+    document.getElementById("nutritionProtein");
 const flavourOptions = document.getElementById("flavourOptions");
 const quantityElement = document.getElementById("quantity");
 const modalProductPrice = document.getElementById("modalProductPrice");
@@ -323,6 +377,40 @@ function openProductModal(productId) {
     if (modalProductDescription) {
         modalProductDescription.textContent = currentProduct.description;
     }
+    if (modalProductIngredients) {
+    modalProductIngredients.textContent =
+        currentProduct.ingredients;
+}
+
+if (nutritionEnergy) {
+    nutritionEnergy.textContent =
+        currentProduct.nutrition.energy;
+}
+
+if (nutritionFat) {
+    nutritionFat.textContent =
+        currentProduct.nutrition.fat;
+}
+
+if (nutritionSaturatedFat) {
+    nutritionSaturatedFat.textContent =
+        currentProduct.nutrition.saturatedFat;
+}
+
+if (nutritionCarbohydrates) {
+    nutritionCarbohydrates.textContent =
+        currentProduct.nutrition.carbohydrates;
+}
+
+if (nutritionSugars) {
+    nutritionSugars.textContent =
+        currentProduct.nutrition.sugars;
+}
+
+if (nutritionProtein) {
+    nutritionProtein.textContent =
+        currentProduct.nutrition.protein;
+}
 
     if (modalProductImage) {
         modalProductImage.src = currentFlavour.image;
