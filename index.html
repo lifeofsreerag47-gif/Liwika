@@ -13,6 +13,10 @@
     <link rel="stylesheet" href="responsive-mobile.css">
 <link rel="stylesheet" href="shared-navbar.css">
     <link rel="stylesheet" href="free-delivery.css">
+    <link rel="stylesheet" href="product-system.css">
+    <link rel="stylesheet" href="product-window.css">
+    <!-- HOME-ONLY cinematic scroll (not loaded by any other page) -->
+    <link rel="stylesheet" href="home-cinematic.css">
 </head>
 
 <body class="home-page">
@@ -63,8 +67,16 @@
 
     <main>
 
+        <!-- ================= HOME CINEMATIC SCROLL SEQUENCE =================
+             One tall track + one sticky stage. Scrolling drives the scenes:
+             hero -> zoom into "l" -> white -> collection -> black -> bestsellers -> heritage.
+             Driven by home-cinematic.js. -->
+        <div class="cine" id="homeCine">
+        <div class="cine-stage">
+
         <section class="hero">
 
+            <div class="cine-camera">
             <!-- Background video -->
             <video
                 class="hero-video"
@@ -105,6 +117,7 @@
                 </a>
 
             </div>
+            </div><!-- /.cine-camera -->
 
 
             <!-- Scroll indicator -->
@@ -116,22 +129,23 @@
         </section>
 
 
-        <!-- ================= TEMPORARY SECOND SECTION ================= -->
 
-        <section class="dummy-section">
+        <div class="cine-bloom" aria-hidden="true"></div>
+        <div class="cine-veil cine-veil-light" aria-hidden="true"></div>
+        <div class="cine-veil cine-veil-dark" aria-hidden="true"></div>
 
-            <p>Liwi-Ka Chocolate Collection</p>
+        <!-- ================= COLLECTION INTRO (scene 2) ================= -->
 
-            <h2>
-                Something delicious is coming.
-            </h2>
+        <div class="cine-scene cine-collection" aria-label="Liwi-Ka Chocolate Collection">
+            <h2 class="cine-collection-title">Liwi-Ka Chocolate Collection</h2>
+            <p class="cine-collection-sub">Something delicious is coming.</p>
+        </div>
 
-        </section>
         <!-- ================= BESTSELLERS ================= -->
 
-<section class="bestsellers" id="bestsellers">
+<section class="bestsellers cine-scene cine-bests" id="bestsellers">
 
-    <div class="section-heading">
+    <div class="section-heading cine-head">
         <p class="small-heading">A TASTE OF LUXURY</p>
         <h2>Our Bestsellers</h2>
         
@@ -142,7 +156,9 @@
     </div>
 
 
-    <div class="product-grid">
+    <div class="cine-items-wrap">
+    <div class="cine-rail">
+    <div class="product-grid cine-items">
 
         <!-- Product 1 -->
         <div class="product-card" data-product="dark-indulgence">
@@ -153,7 +169,7 @@
 
             <div class="product-info">
 
-                <h3>Dark Indulgence</h3>
+                <h3><span>Dark</span><span>Indulgence</span></h3>
 
                 <p class="product-description">
                     Rich dark chocolate crafted for true chocolate lovers.
@@ -183,7 +199,7 @@
 
             <div class="product-info">
 
-                <h3>Golden Milk</h3>
+                <h3><span>Golden</span><span>Milk</span></h3>
 
                 <p class="product-description">
                     Smooth, creamy chocolate with a luxurious finish.
@@ -213,7 +229,7 @@
 
             <div class="product-info">
 
-                <h3>Hazelnut Bliss</h3>
+                <h3><span>Hazelnut</span><span>Bliss</span></h3>
 
                 <p class="product-description">
                     Velvety chocolate paired with roasted hazelnuts.
@@ -236,25 +252,24 @@
     </div>
 
 
-    <div class="view-all-container">
+    <div class="view-all-container cine-tail">
 
         <a href="seasonals/shop.html" class="view-all">
             VIEW ALL CHOCOLATES
         </a>
 
     </div>
+    </div><!-- /.cine-rail -->
+    </div><!-- /.cine-items-wrap -->
 
 </section>
 
 
-        <!-- ================= OUR STORY ================= -->
+        <!-- ================= HERITAGE INTRO + PILLARS (scene 4) ================= -->
 
-        <section class="our-story" id="our-story">
-
-            <div class="story-container">
-
+        <section class="cine-scene cine-heritage" aria-label="The Liwi-Ka Heritage">
                 <!-- Section Heading -->
-                <div class="section-heading story-header">
+                <div class="section-heading story-header cine-head">
 
                     <p class="small-heading">
                         ✦ THE LIWI-KA HERITAGE ✦
@@ -271,6 +286,65 @@
 
                 </div>
 
+
+
+            <div class="cine-items-wrap">
+            <div class="cine-rail">
+                <!-- Three Core Pillars Grid (with 3D tilt effect) -->
+                <div class="story-pillars-grid cine-items">
+
+                    <div class="story-pillar-card gift-box">
+
+                        <div class="pillar-icon">🌱</div>
+
+                        <h4>Ethical Origins</h4>
+
+                        <p>
+                            100% sustainable, direct-trade cacao respecting fair wages for grower communities and preserving rainforest biodiversity.
+                        </p>
+
+                    </div>
+
+
+                    <div class="story-pillar-card gift-box">
+
+                        <div class="pillar-icon">✨</div>
+
+                        <h4>Marble-Tempered</h4>
+
+                        <p>
+                            Hand-tempered on Italian granite slabs to achieve that signature audible, glassy snap and silk-smooth, lingering melt.
+                        </p>
+
+                    </div>
+
+
+                    <div class="story-pillar-card gift-box">
+
+                        <div class="pillar-icon">🎁</div>
+
+                        <h4>The Gift of Sweetness</h4>
+
+                        <p>
+                            Packaged with fine gold foil and tactile textured paper, made to transform ordinary days into cherished celebrations.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div><!-- /.cine-rail -->
+            </div><!-- /.cine-items-wrap -->
+        </section>
+
+        </div><!-- /.cine-stage -->
+        </div><!-- /.cine -->
+
+        <!-- ================= OUR STORY ================= -->
+
+        <section class="our-story" id="our-story">
+
+            <div class="story-container">
 
                 <!-- Main Story: Visual & Narrative Grid -->
                 <div class="story-main-grid">
@@ -377,50 +451,6 @@
                             </div>
 
                         </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- Three Core Pillars Grid (with 3D tilt effect) -->
-                <div class="story-pillars-grid">
-
-                    <div class="story-pillar-card gift-box">
-
-                        <div class="pillar-icon">🌱</div>
-
-                        <h4>Ethical Origins</h4>
-
-                        <p>
-                            100% sustainable, direct-trade cacao respecting fair wages for grower communities and preserving rainforest biodiversity.
-                        </p>
-
-                    </div>
-
-
-                    <div class="story-pillar-card gift-box">
-
-                        <div class="pillar-icon">✨</div>
-
-                        <h4>Marble-Tempered</h4>
-
-                        <p>
-                            Hand-tempered on Italian granite slabs to achieve that signature audible, glassy snap and silk-smooth, lingering melt.
-                        </p>
-
-                    </div>
-
-
-                    <div class="story-pillar-card gift-box">
-
-                        <div class="pillar-icon">🎁</div>
-
-                        <h4>The Gift of Sweetness</h4>
-
-                        <p>
-                            Packaged with fine gold foil and tactile textured paper, made to transform ordinary days into cherished celebrations.
-                        </p>
 
                     </div>
 
@@ -594,8 +624,10 @@
     <script src="cart.js"></script>
     <script src="script.js"></script>
     
+    <script src="product-ui.js"></script>
     <script src="free-delivery.js"></script>
     <script src="responsive-mobile.js"></script>
+    <script src="home-cinematic.js"></script>
     <script type="module" src="profile-menu.js"></script>
 </body>
 </html>

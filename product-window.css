@@ -1,0 +1,1024 @@
+/* =========================================================
+   LIWI-KA — SHARED PRODUCT WINDOW
+   Single source of truth for every product modal/window.
+   Covers desktop + mobile, flavour chips, nutrition, quantity,
+   price animation, Add to Cart, layering and touch behaviour.
+========================================================= */
+
+.product-modal,
+.product-modal * {
+  box-sizing: border-box;
+}
+
+.product-modal {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100dvh !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 24px !important;
+  margin: 0 !important;
+  background: rgba(3, 2, 1, .78) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  z-index: 2147483500 !important;
+  transition: opacity .28s ease, visibility .28s ease !important;
+}
+
+.product-modal.active {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+.product-modal .modal-content {
+  position: relative !important;
+  width: min(1020px, calc(100vw - 48px)) !important;
+  height: min(740px, calc(100dvh - 48px)) !important;
+  max-width: 1020px !important;
+  max-height: calc(100dvh - 48px) !important;
+  margin: 0 auto !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(224, 181, 88, .20) !important;
+  border-radius: 24px !important;
+  background:
+    radial-gradient(circle at 18% 20%, rgba(221, 178, 77, .08), transparent 26%),
+    linear-gradient(145deg, #16120e 0%, #0c0a08 48%, #100c08 100%) !important;
+  box-shadow:
+    0 38px 110px rgba(0,0,0,.68),
+    0 0 0 1px rgba(255,255,255,.025) inset,
+    0 0 48px rgba(213,166,65,.06) !important;
+  transform: translateY(10px) scale(.985) !important;
+  transition: transform .38s cubic-bezier(.16,1,.3,1) !important;
+}
+
+.product-modal.active .modal-content {
+  transform: translateY(0) scale(1) !important;
+}
+
+.product-modal .modal-content::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 14% auto !important;
+  height: 1px !important;
+  z-index: 10 !important;
+  background: linear-gradient(90deg, transparent, #cfa34e, #f0d48a, #cfa34e, transparent) !important;
+  pointer-events: none !important;
+}
+
+.product-modal .modal-body {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  display: grid !important;
+  grid-template-columns: minmax(400px, 45%) minmax(0, 55%) !important;
+  overflow: hidden !important;
+  overscroll-behavior: contain !important;
+}
+
+/* ---------- close ---------- */
+.product-modal .close-modal {
+  position: absolute !important;
+  top: 14px !important;
+  right: 14px !important;
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+  min-height: 40px !important;
+  padding: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+  z-index: 30 !important;
+  border: 1px solid rgba(255,255,255,.08) !important;
+  border-radius: 50% !important;
+  background: rgba(7,6,4,.76) !important;
+  color: #e9dfd0 !important;
+  font: 300 23px/1 Arial, sans-serif !important;
+  cursor: pointer !important;
+  box-shadow: 0 8px 20px rgba(0,0,0,.28) !important;
+  transition: transform .32s ease, background .32s ease, color .32s ease, border-color .32s ease !important;
+}
+
+.product-modal .close-modal:hover {
+  transform: rotate(90deg) !important;
+  color: #0a0805 !important;
+  background: #e1b760 !important;
+  border-color: #f0d48a !important;
+}
+
+/* ---------- image panel ---------- */
+.product-modal .modal-image-container {
+  position: relative !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 28px !important;
+  overflow: hidden !important;
+  border: 0 !important;
+  border-right: 1px solid rgba(224,181,88,.13) !important;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(236,197,106,.13), transparent 38%),
+    linear-gradient(145deg, rgba(255,255,255,.025), rgba(0,0,0,.12)) !important;
+}
+
+.product-modal .modal-image-container::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 8% 10% !important;
+  border-radius: 22px !important;
+  border: 1px solid rgba(231,190,99,.08) !important;
+  background: radial-gradient(circle at center, rgba(218,171,67,.09), transparent 68%) !important;
+  box-shadow: inset 0 0 60px rgba(0,0,0,.20) !important;
+  pointer-events: none !important;
+}
+
+.product-modal .modal-image-container img {
+  position: relative !important;
+  z-index: 2 !important;
+  display: block !important;
+  width: min(92%, 450px) !important;
+  height: min(92%, 625px) !important;
+  max-width: 450px !important;
+  max-height: 625px !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  transform: none !important;
+  filter: drop-shadow(0 28px 32px rgba(0,0,0,.62)) !important;
+}
+
+.product-modal .modal-image-container:hover img {
+  transform: scale(1.018) !important;
+  filter: drop-shadow(0 32px 36px rgba(0,0,0,.66)) !important;
+}
+
+/* ---------- details panel ---------- */
+.product-modal .modal-details {
+  min-width: 0 !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding: 44px 46px 34px !important;
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(225,181,88,.28) transparent !important;
+}
+
+.product-modal .modal-details::-webkit-scrollbar { width: 4px !important; }
+.product-modal .modal-details::-webkit-scrollbar-thumb {
+  background: rgba(225,181,88,.28) !important;
+  border-radius: 999px !important;
+}
+
+.product-modal .modal-badge {
+  margin: 0 0 10px !important;
+  color: #d5ae55 !important;
+  font: 600 9px/1.2 "Font1", "Outfit", sans-serif !important;
+  letter-spacing: 2.2px !important;
+  text-transform: uppercase !important;
+}
+
+.product-modal #modalProductName,
+.product-modal .modal-details h2 {
+  margin: 0 42px 11px 0 !important;
+  color: #f7f0e4 !important;
+  font: 400 clamp(31px, 3.4vw, 48px)/.98 "Font", "Orange Avenue", Georgia, serif !important;
+  letter-spacing: -.4px !important;
+}
+
+.product-modal .modal-description {
+  max-width: 560px !important;
+  margin: 0 0 22px !important;
+  color: #aaa096 !important;
+  font: 400 12px/1.7 "Font1", "Outfit", sans-serif !important;
+}
+
+/* ---------- flavour ---------- */
+.product-modal .modal-option-group {
+  margin: 0 0 20px !important;
+}
+
+.product-modal .modal-option-label {
+  display: block !important;
+  margin: 0 0 9px !important;
+  color: #80776b !important;
+  font: 600 8px/1.2 "Font1", "Outfit", sans-serif !important;
+  letter-spacing: 1.8px !important;
+  text-transform: uppercase !important;
+}
+
+.product-modal .flavour-options {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+}
+
+.product-modal .flavour-options button,
+.product-modal .flavour-button {
+  position: relative !important;
+  min-height: 40px !important;
+  padding: 9px 14px !important;
+  border-radius: 999px !important;
+  border: 1px solid rgba(231,193,110,.25) !important;
+  overflow: hidden !important;
+  isolation: isolate !important;
+  color: #b8ada1 !important;
+  background: linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.012)) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.028) !important;
+  font: 500 9px/1 "Font1", "Outfit", sans-serif !important;
+  letter-spacing: .4px !important;
+  cursor: pointer !important;
+  transition: color .55s ease, border-color .55s ease, background .55s ease, box-shadow .55s ease, transform .55s cubic-bezier(.16,1,.3,1) !important;
+}
+
+.product-modal .flavour-options button::before,
+.product-modal .flavour-button::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: -80% -30% !important;
+  z-index: -1 !important;
+  background: linear-gradient(112deg, transparent 34%, rgba(255,246,202,.035) 44%, rgba(255,236,164,.30) 50%, rgba(255,246,202,.035) 56%, transparent 66%) !important;
+  transform: translateX(-140%) rotate(7deg) !important;
+  transition: transform 1.35s cubic-bezier(.16,1,.3,1) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .product-modal .flavour-options button:hover::before,
+  .product-modal .flavour-button:hover::before {
+    transform: translateX(140%) rotate(7deg) !important;
+  }
+
+  .product-modal .flavour-options button:hover,
+  .product-modal .flavour-button:hover {
+    color: #ffe9af !important;
+    border-color: rgba(239,204,125,.62) !important;
+    background: linear-gradient(180deg, rgba(239,204,125,.13), rgba(211,165,70,.045)) !important;
+    box-shadow: 0 10px 26px rgba(205,161,67,.09), inset 0 0 18px rgba(255,224,143,.035) !important;
+    transform: translateY(-1px) !important;
+  }
+}
+
+.product-modal .flavour-options button.selected,
+.product-modal .flavour-button.selected {
+  color: #ffe9af !important;
+  border-color: rgba(239,204,125,.60) !important;
+  background: linear-gradient(135deg, rgba(239,204,125,.14), rgba(211,165,70,.045)) !important;
+  box-shadow: 0 8px 24px rgba(205,161,67,.08), inset 0 0 18px rgba(255,224,143,.035) !important;
+}
+
+/* ---------- nutrition ---------- */
+.product-modal .universal-info-heading {
+  margin: 0 0 8px !important;
+  color: #80766a !important;
+  font: 600 8px/1.2 "Font1", "Outfit", sans-serif !important;
+  letter-spacing: 1.65px !important;
+  text-transform: uppercase !important;
+}
+
+.product-modal .nutrition-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0,1fr)) !important;
+  gap: 0 24px !important;
+  margin-top: 5px !important;
+}
+
+.product-modal .nutrition-item {
+  min-width: 0 !important;
+  padding: 8px 0 !important;
+  display: flex !important;
+  align-items: baseline !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+  border-bottom: 1px solid rgba(229,188,100,.07) !important;
+}
+
+.product-modal .nutrition-item span {
+  color: #80766a !important;
+  font: 400 9px/1.3 "Font1", "Outfit", sans-serif !important;
+}
+
+.product-modal .nutrition-item strong {
+  color: #e6d6b8 !important;
+  font: 600 9px/1.3 "Font1", "Outfit", sans-serif !important;
+  white-space: nowrap !important;
+}
+
+.product-modal .universal-ingredients {
+  margin-top: 14px !important;
+}
+
+.product-modal .universal-ingredients > span {
+  display: block !important;
+  margin-bottom: 6px !important;
+  color: #80766a !important;
+  font: 600 8px/1.2 "Font1", "Outfit", sans-serif !important;
+  letter-spacing: 1.65px !important;
+}
+
+.product-modal .universal-ingredients p,
+.product-modal .modal-info-text {
+  max-width: 560px !important;
+  margin: 0 !important;
+  color: #a79d92 !important;
+  font: 400 10px/1.6 "Font1", "Outfit", sans-serif !important;
+}
+
+/* ---------- quantity ---------- */
+.product-modal .quantity-control {
+  display: inline-flex !important;
+  align-items: center !important;
+  width: max-content !important;
+  height: 42px !important;
+  padding: 0 1px !important;
+  border: 1px solid rgba(231,193,110,.18) !important;
+  border-radius: 999px !important;
+  background: rgba(255,255,255,.025) !important;
+  user-select: none !important;
+}
+
+.product-modal .quantity-control .qty-btn,
+.product-modal .quantity-control button {
+  position: relative !important;
+  display: grid !important;
+  place-items: center !important;
+  width: 38px !important;
+  min-width: 38px !important;
+  
+  height: 38px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  color: #d7b25f !important;
+  background: transparent !important;
+  font: 400 20px/1 Arial, sans-serif !important;
+  line-height: 1 !important;
+  cursor: pointer !important;
+  touch-action: manipulation !important;
+  -webkit-tap-highlight-color: transparent !important;
+  tap-highlight-color: transparent !important;
+  transition: background .28s ease, color .28s ease, box-shadow .28s ease, transform .18s ease !important;
+}
+
+.product-modal .quantity-control .qty-btn:active,
+.product-modal .quantity-control button:active {
+  transform: scale(.94) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .product-modal .quantity-control .qty-btn:hover,
+  .product-modal .quantity-control button:hover {
+    color: #0a0805 !important;
+    background: #d8ad4f !important;
+    box-shadow: inset 0 0 12px rgba(255,232,168,.18), 0 0 12px rgba(201,164,91,.10) !important;
+  }
+}
+
+/* Critical: touch devices must NEVER keep the desktop hover paint. */
+@media (hover: none), (pointer: coarse) {
+  .product-modal .quantity-control .qty-btn:hover,
+  .product-modal .quantity-control .qty-btn:focus,
+  .product-modal .quantity-control .qty-btn:focus-visible,
+  .product-modal .quantity-control .qty-btn:active,
+  .product-modal .quantity-control button:hover,
+  .product-modal .quantity-control button:focus,
+  .product-modal .quantity-control button:focus-visible,
+  .product-modal .quantity-control button:active {
+    color: #d7b25f !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+}
+
+.product-modal .qty-display,
+.product-modal .universal-number-viewport {
+  position: relative !important;
+  width: 44px !important;
+  min-width: 44px !important;
+  height: 36px !important;
+  overflow: hidden !important;
+  display: block !important;
+  text-align: center !important;
+  line-height: 36px !important;
+  color: #f4eee6 !important;
+  font: 500 13px/36px "Font1", "Outfit", sans-serif !important;
+  vertical-align: middle !important;
+}
+
+.product-modal .universal-number-current,
+.product-modal .universal-number-next,
+.product-modal .qty-digit {
+  position: absolute !important;
+  inset: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+  white-space: nowrap !important;
+  color: #f4eee6 !important;
+  font: 500 13px/36px "Font1", "Outfit", sans-serif !important;
+  will-change: transform, opacity !important;
+}
+
+.product-modal .universal-number-next { opacity: 0 !important; }
+
+/* ---------- price ---------- */
+.product-modal .modal-footer-action {
+  display: grid !important;
+  grid-template-columns: minmax(120px, auto) minmax(0,1fr) !important;
+  align-items: end !important;
+  gap: 18px !important;
+  margin-top: 28px !important;
+  padding-top: 18px !important;
+  border-top: 1px solid rgba(231,193,110,.10) !important;
+}
+
+.product-modal .modal-price-container {
+  min-width: 120px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: flex-end !important;
+  gap: 4px !important;
+}
+
+.product-modal .modal-price-label {
+  color: #776e64 !important;
+  font: 600 7px/1 "Font1", "Outfit", sans-serif !important;
+  letter-spacing: 1.9px !important;
+  text-transform: uppercase !important;
+}
+
+.product-modal .modal-price,
+.product-modal #modalProductPrice.universal-number-viewport {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  min-width: 120px !important;
+  width: auto !important;
+  height: 34px !important;
+  line-height: 34px !important;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+  color: #f0d18a !important;
+  font: 500 25px/34px "Font1", "Outfit", sans-serif !important;
+}
+
+.product-modal .price-currency,
+.product-modal #modalProductPrice .universal-number-current,
+.product-modal #modalProductPrice .universal-number-next,
+.product-modal .digit-val {
+  color: #f0d18a !important;
+  font: 500 25px/34px "Font1", "Outfit", sans-serif !important;
+}
+
+.product-modal .price-currency {
+  flex: 0 0 auto !important;
+  margin-right: 2px !important;
+}
+
+.product-modal .price-digits {
+  display: inline-flex !important;
+  align-items: center !important;
+  height: 34px !important;
+  line-height: 34px !important;
+  overflow: visible !important;
+}
+
+.product-modal .digit-slot {
+  position: relative !important;
+  display: inline-block !important;
+  width: .62em !important;
+  height: 34px !important;
+  overflow: hidden !important;
+  vertical-align: bottom !important;
+}
+
+.product-modal .digit-val {
+  position: absolute !important;
+  inset: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+  white-space: nowrap !important;
+  will-change: transform, opacity !important;
+}
+
+/* ---------- add to cart ---------- */
+.product-modal .modal-add-btn {
+  width: 100% !important;
+  min-height: 54px !important;
+  padding: 14px 20px !important;
+  border: 1px solid rgba(240,209,138,.28) !important;
+  border-radius: 14px !important;
+  color: #0b0906 !important;
+  background: linear-gradient(120deg, #a77b24 0%, #e8ca74 43%, #fff0ab 50%, #d4a746 67%, #916719 100%) !important;
+  background-size: 220% 100% !important;
+  background-position: 0% 50% !important;
+  box-shadow: 0 14px 30px rgba(211,165,70,.14), inset 0 1px rgba(255,255,255,.36) !important;
+  font: 700 10px/1 "Font1", "Outfit", sans-serif !important;
+  letter-spacing: 2px !important;
+  cursor: pointer !important;
+  transition: background-position .9s cubic-bezier(.16,1,.3,1), transform .35s cubic-bezier(.16,1,.3,1), box-shadow .45s ease !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .product-modal .modal-add-btn:hover {
+    background-position: 100% 50% !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 18px 36px rgba(211,165,70,.20), inset 0 1px rgba(255,255,255,.42) !important;
+  }
+}
+
+.product-modal .modal-add-btn:active { transform: translateY(0) !important; }
+.product-modal .modal-add-btn.is-added { background-position: 100% 50% !important; }
+
+/* ---------- layering ---------- */
+body:has(.product-modal.active) > .liwika-free-delivery {
+  z-index: 100 !important;
+  pointer-events: none !important;
+}
+
+body:has(.product-modal.active) > .mobile-bottom-nav,
+body.liwi-product-modal-open > .mobile-bottom-nav {
+  z-index: 2147483647 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* ---------- mobile: image first + one scrollable window ---------- */
+@media (max-width: 760px) {
+  .product-modal {
+    align-items: flex-start !important;
+    justify-content: center !important;
+    padding: max(10px, env(safe-area-inset-top)) 10px calc(78px + env(safe-area-inset-bottom)) !important;
+    overflow: hidden !important;
+  }
+
+  .product-modal .modal-content {
+    width: min(100%, 520px) !important;
+    height: min(calc(100svh - 92px - env(safe-area-inset-bottom)), 740px) !important;
+    max-height: calc(100svh - 92px - env(safe-area-inset-bottom)) !important;
+    border-radius: 20px !important;
+  }
+
+  .product-modal .modal-body {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-height: none !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior: contain !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: rgba(217,173,85,.30) transparent !important;
+  }
+
+  .product-modal .modal-body::-webkit-scrollbar { width: 4px !important; }
+  .product-modal .modal-body::-webkit-scrollbar-thumb {
+    background: rgba(217,173,85,.30) !important;
+    border-radius: 999px !important;
+  }
+
+  .product-modal .modal-image-container {
+    width: 100% !important;
+    height: clamp(255px, 34dvh, 315px) !important;
+    min-height: 255px !important;
+    max-height: 315px !important;
+    padding: 14px 26px !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid rgba(224,181,88,.13) !important;
+  }
+
+  .product-modal .modal-image-container::before {
+    inset: 12px 14% !important;
+    border-radius: 18px !important;
+  }
+
+  .product-modal .modal-image-container img {
+    width: auto !important;
+    height: 94% !important;
+    max-width: 78% !important;
+    max-height: 292px !important;
+    object-fit: contain !important;
+  }
+
+  .product-modal .modal-details {
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    padding: 20px 18px 24px !important;
+  }
+
+  .product-modal .modal-badge {
+    margin-bottom: 7px !important;
+    font-size: 8px !important;
+    letter-spacing: 1.8px !important;
+  }
+
+  .product-modal #modalProductName,
+  .product-modal .modal-details h2 {
+    margin-right: 44px !important;
+    margin-bottom: 9px !important;
+    font-size: clamp(27px, 8vw, 35px) !important;
+    line-height: .99 !important;
+  }
+
+  .product-modal .modal-description {
+    margin-bottom: 17px !important;
+    font-size: 11px !important;
+    line-height: 1.58 !important;
+  }
+
+  .product-modal .modal-option-group {
+    margin-bottom: 17px !important;
+  }
+
+  .product-modal .modal-option-label,
+  .product-modal .universal-info-heading,
+  .product-modal .universal-ingredients > span {
+    font-size: 8px !important;
+    letter-spacing: 1.55px !important;
+  }
+
+  .product-modal .flavour-options { gap: 7px !important; }
+  .product-modal .flavour-options button,
+  .product-modal .flavour-button {
+    min-height: 35px !important;
+    padding: 8px 11px !important;
+    font-size: 9px !important;
+  }
+
+  .product-modal .nutrition-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0 14px !important;
+  }
+
+  .product-modal .nutrition-item { padding: 7px 0 !important; }
+  .product-modal .nutrition-item span,
+  .product-modal .nutrition-item strong { font-size: 9px !important; }
+  .product-modal .universal-ingredients p { font-size: 10px !important; line-height: 1.55 !important; }
+
+  .product-modal .quantity-control {
+    height: 40px !important;
+  }
+
+  .product-modal .quantity-control .qty-btn,
+  .product-modal .quantity-control button {
+    width: 36px !important;
+    min-width: 36px !important;
+    height: 36px !important;
+  }
+
+  .product-modal .qty-display,
+  .product-modal .universal-number-viewport {
+    width: 42px !important;
+    min-width: 42px !important;
+    height: 34px !important;
+    line-height: 34px !important;
+  }
+
+  .product-modal .universal-number-current,
+  .product-modal .universal-number-next,
+  .product-modal .qty-digit {
+    font-size: 12px !important;
+    line-height: 34px !important;
+  }
+
+  .product-modal .modal-footer-action {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+    margin-top: 18px !important;
+    padding-top: 15px !important;
+  }
+
+  .product-modal .modal-price-container { min-width: 0 !important; }
+  .product-modal .modal-price,
+  .product-modal #modalProductPrice.universal-number-viewport {
+    min-width: 90px !important;
+    height: 28px !important;
+    line-height: 28px !important;
+  }
+
+  .product-modal .price-currency,
+  .product-modal #modalProductPrice .universal-number-current,
+  .product-modal #modalProductPrice .universal-number-next,
+  .product-modal .digit-val {
+    font-size: 20px !important;
+    line-height: 28px !important;
+  }
+
+  .product-modal .digit-slot { height: 28px !important; }
+
+  .product-modal .modal-add-btn {
+    min-height: 46px !important;
+    padding: 12px 14px !important;
+    border-radius: 12px !important;
+    font-size: 9px !important;
+    letter-spacing: 1.6px !important;
+  }
+
+  .product-modal .close-modal {
+    top: 9px !important;
+    right: 9px !important;
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    font-size: 21px !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .product-modal .modal-content {
+    height: calc(100svh - 88px - env(safe-area-inset-bottom)) !important;
+    max-height: calc(100svh - 88px - env(safe-area-inset-bottom)) !important;
+  }
+
+  .product-modal .modal-image-container {
+    height: clamp(230px, 33dvh, 285px) !important;
+    min-height: 230px !important;
+    max-height: 285px !important;
+  }
+
+  .product-modal .modal-image-container img {
+    max-width: 82% !important;
+    max-height: 265px !important;
+  }
+
+  .product-modal .modal-details { padding: 18px 15px 22px !important; }
+  .product-modal #modalProductName,
+  .product-modal .modal-details h2 { font-size: clamp(25px, 7.5vw, 31px) !important; }
+}
+
+@media (max-width: 360px) {
+  .product-modal .modal-content {
+    height: calc(100svh - 84px - env(safe-area-inset-bottom)) !important;
+    max-height: calc(100svh - 84px - env(safe-area-inset-bottom)) !important;
+  }
+  .product-modal .modal-image-container {
+    height: 220px !important;
+    min-height: 220px !important;
+  }
+  .product-modal .modal-image-container img {
+    max-height: 205px !important;
+  }
+  .product-modal .modal-details { padding: 17px 14px 20px !important; }
+  .product-modal #modalProductName { font-size: 24px !important; }
+  .product-modal .nutrition-item span,
+  .product-modal .nutrition-item strong { font-size: 8.5px !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-modal,
+  .product-modal .modal-content,
+  .product-modal .flavour-options button,
+  .product-modal .flavour-button,
+  .product-modal .quantity-control .qty-btn,
+  .product-modal .modal-add-btn,
+  .product-modal .modal-image-container img {
+    transition: none !important;
+  }
+}
+
+/* =========================================================
+   FINAL PRODUCT WINDOW POLISH — V7
+   The product image is full-bleed inside its pane, with no
+   framed/inset box. Mobile gets a larger image-first layout.
+   Quantity + price use two fixed layers only; rapid clicks
+   replace the previous animation rather than stacking digits.
+========================================================= */
+.product-modal .modal-image-container {
+  padding: 0 !important;
+  border: 0 !important;
+  border-right: 1px solid rgba(224,181,88,.10) !important;
+  background: #0d0a08 !important;
+}
+
+.product-modal .modal-image-container::before {
+  display: none !important;
+  content: none !important;
+}
+
+.product-modal .modal-image-container img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  padding: 0 !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  filter: drop-shadow(0 28px 34px rgba(0,0,0,.62)) !important;
+  transform: none !important;
+}
+
+.product-modal .modal-image-container:hover img {
+  transform: none !important;
+}
+
+/* Stable quantity viewport: exactly two layers, never concatenated text. */
+.product-modal .qty-display {
+  position: relative !important;
+  display: block !important;
+  width: 44px !important;
+  min-width: 44px !important;
+  height: 36px !important;
+  line-height: 36px !important;
+  overflow: hidden !important;
+  isolation: isolate !important;
+}
+
+.product-modal .qty-display .qty-digit.current,
+.product-modal .qty-display .qty-digit.next {
+  position: absolute !important;
+  inset: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  white-space: nowrap !important;
+  pointer-events: none !important;
+  will-change: transform, opacity !important;
+  backface-visibility: hidden !important;
+  -webkit-backface-visibility: hidden !important;
+}
+
+/* Stable price viewport: ₹ stays fixed; amount digits roll inside their slots. */
+.product-modal #modalProductPrice.modal-price {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  width: max-content !important;
+  min-width: 120px !important;
+  height: 34px !important;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+}
+
+.product-modal #modalProductPrice .price-currency {
+  display: inline-flex !important;
+  flex: 0 0 auto !important;
+  align-items: center !important;
+  margin-right: 3px !important;
+}
+
+.product-modal #modalProductPrice .price-digits {
+  display: inline-flex !important;
+  align-items: center !important;
+  height: 34px !important;
+  overflow: visible !important;
+  white-space: nowrap !important;
+}
+
+.product-modal #modalProductPrice .digit-slot {
+  position: relative !important;
+  display: inline-block !important;
+  width: .62em !important;
+  height: 34px !important;
+  overflow: hidden !important;
+  vertical-align: bottom !important;
+  contain: paint !important;
+}
+
+.product-modal #modalProductPrice .digit-val {
+  position: absolute !important;
+  inset: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  white-space: nowrap !important;
+  will-change: transform, opacity !important;
+  backface-visibility: hidden !important;
+  -webkit-backface-visibility: hidden !important;
+}
+
+@media (max-width: 760px) {
+  .product-modal {
+    padding: max(8px, env(safe-area-inset-top)) 8px calc(78px + env(safe-area-inset-bottom)) !important;
+  }
+
+  .product-modal .modal-content {
+    width: min(100%, 520px) !important;
+    height: min(calc(100dvh - 92px - env(safe-area-inset-bottom)), 760px) !important;
+    max-height: calc(100dvh - 92px - env(safe-area-inset-bottom)) !important;
+    overflow: hidden !important;
+    border-radius: 18px !important;
+  }
+
+  .product-modal .modal-body {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior: contain !important;
+  }
+
+  .product-modal .modal-image-container {
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    height: clamp(270px, 38svh, 355px) !important;
+    min-height: 270px !important;
+    max-height: 355px !important;
+    border: 0 !important;
+    background: #0d0a08 !important;
+  }
+
+  .product-modal .modal-image-container img {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+  }
+
+  .product-modal .modal-details {
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    padding: 18px 16px 24px !important;
+  }
+
+  .product-modal .modal-details h2,
+  .product-modal #modalProductName {
+    font-size: clamp(24px, 7.2vw, 31px) !important;
+    line-height: 1.03 !important;
+  }
+
+  .product-modal .modal-description {
+    font-size: 11px !important;
+    line-height: 1.55 !important;
+  }
+
+  .product-modal .flavour-options {
+    gap: 7px !important;
+  }
+
+  .product-modal .flavour-options button,
+  .product-modal .flavour-button {
+    min-height: 37px !important;
+    padding: 8px 11px !important;
+    font-size: 9px !important;
+  }
+
+  .product-modal .quantity-control {
+    height: 42px !important;
+  }
+
+  .product-modal .quantity-control .qty-btn,
+  .product-modal .quantity-control button {
+    width: 38px !important;
+    min-width: 38px !important;
+    height: 38px !important;
+  }
+
+  .product-modal .qty-display {
+    width: 46px !important;
+    min-width: 46px !important;
+    height: 38px !important;
+  }
+
+  .product-modal #modalProductPrice.modal-price {
+    min-width: 100px !important;
+    height: 30px !important;
+  }
+
+  .product-modal #modalProductPrice .price-roll-viewport,
+  .product-modal #modalProductPrice .price-roll-current,
+  .product-modal #modalProductPrice .price-roll-next {
+    min-width: 100px !important;
+    height: 30px !important;
+    font-size: 21px !important;
+    line-height: 30px !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .product-modal .modal-image-container {
+    height: 255px !important;
+    min-height: 255px !important;
+    max-height: 255px !important;
+  }
+  .product-modal .modal-details {
+    padding: 16px 14px 22px !important;
+  }
+  .product-modal .modal-details h2,
+  .product-modal #modalProductName {
+    font-size: 23px !important;
+  }
+}

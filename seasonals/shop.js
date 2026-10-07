@@ -266,16 +266,13 @@ function setQuantityDisplay(val, animate = false, direction = "up") {
     const isRapid = (now - lastQtyChangeTime) < 220;
     lastQtyChangeTime = now;
 
-    // Immediately resolve any ongoing animation so quantityElement has exactly one clean baseline digit
     const incomingEl = quantityElement.querySelector(".qty-digit.incoming");
     const currentEl = quantityElement.querySelector(".qty-digit.current") || quantityElement.querySelector(".qty-digit");
     const baselineVal = incomingEl ? incomingEl.textContent : (currentEl ? currentEl.textContent : String(val));
 
     quantityElement.innerHTML = `<span class="qty-digit current">${baselineVal}</span>`;
 
-    if (baselineVal === String(val)) {
-        return;
-    }
+    if (baselineVal === String(val)) return;
 
     const currentDigit = quantityElement.firstElementChild;
     const incomingDigit = document.createElement("span");
@@ -286,14 +283,12 @@ function setQuantityDisplay(val, animate = false, direction = "up") {
     incomingDigit.style.opacity = "0";
     quantityElement.appendChild(incomingDigit);
 
-    void incomingDigit.offsetHeight; // Force reflow
+    void incomingDigit.offsetHeight;
 
     const animDuration = isRapid ? "0.16s" : "0.28s";
     const animCurve = `transform ${animDuration} cubic-bezier(0.16, 1, 0.3, 1), opacity ${animDuration} ease`;
     incomingDigit.style.transition = animCurve;
-    if (currentDigit) {
-        currentDigit.style.transition = animCurve;
-    }
+    if (currentDigit) currentDigit.style.transition = animCurve;
 
     qtyAnimationRaf = requestAnimationFrame(() => {
         if (qtyAnimationRevision !== revision || !quantityElement.isConnected) return;
@@ -313,14 +308,9 @@ function setQuantityDisplay(val, animate = false, direction = "up") {
     }, finishDuration);
 }
 
-/* =========================================
-   CASCADING DIGIT-BY-DIGIT PRICE ANIMATION
-========================================= */
-
 function setPriceDisplay(newPrice, animate = false, direction = "up") {
     if (!modalProductPrice) return;
 
-    // Clear any pending timeouts and animation frames
     priceAnimationTimeouts.forEach(t => clearTimeout(t));
     priceAnimationTimeouts = [];
     priceAnimationRafs.forEach(r => cancelAnimationFrame(r));
@@ -341,31 +331,25 @@ function setPriceDisplay(newPrice, animate = false, direction = "up") {
     let digitsContainer = modalProductPrice.querySelector(".price-digits");
     if (!digitsContainer) {
         setPriceDisplay(newPrice, false);
-        return;
+        digitsContainer = modalProductPrice.querySelector(".price-digits");
     }
 
     const now = performance.now();
     const isRapid = (now - lastPriceChangeTime) < 220;
     lastPriceChangeTime = now;
 
-    // Step 1: Immediately resolve ANY in-flight animations on all existing slots
-    // Ensures each slot contains exactly ONE clean baseline digit, preventing overlap
+    // A click can arrive while the previous roll is mid-flight. Collapse every
+    // slot to its visible target before creating the next roll, so digits never stack.
     const existingSlots = Array.from(digitsContainer.querySelectorAll(".digit-slot"));
-    let oldDigits = [];
-    existingSlots.forEach(slot => {
+    const oldStr = existingSlots.map(slot => {
         const incoming = slot.querySelector(".digit-val.incoming");
         const current = slot.querySelector(".digit-val.current") || slot.querySelector(".digit-val");
-        const targetDigit = incoming ? incoming.textContent : (current ? current.textContent : "");
-        oldDigits.push(targetDigit);
-        slot.innerHTML = `<span class="digit-val current">${targetDigit}</span>`;
-    });
+        const value = incoming ? incoming.textContent : (current ? current.textContent : "");
+        slot.innerHTML = `<span class="digit-val current">${value}</span>`;
+        return value;
+    }).join("") || String(currentPrice || newPrice);
 
-    let oldStr = oldDigits.join("");
-    if (!oldStr || oldStr.length === 0) {
-        oldStr = String(currentPrice || newPrice);
-    }
-
-    // Step 2: Synchronize slot count if number of digits changed (e.g., 998 -> 1497 or 1497 -> 998)
+    let slots = existingSlots;
     if (existingSlots.length !== newStr.length) {
         let slotsHtml = "";
         for (let i = 0; i < newStr.length; i++) {
@@ -375,119 +359,107 @@ function setPriceDisplay(newPrice, animate = false, direction = "up") {
             slotsHtml += `<span class="digit-slot" data-digit-index="${i}"><span class="digit-val current">${existingVal}</span></span>`;
         }
         digitsContainer.innerHTML = slotsHtml;
+        slots = Array.from(digitsContainer.querySelectorAll(".digit-slot"));
     }
 
-    // Step 3: Animate changed digits
-    const slots = Array.from(digitsContainer.querySelectorAll(".digit-slot"));
-    const currentSlotsStr = slots.map(s => {
-        const valEl = s.querySelector(".digit-val.current") || s.querySelector(".digit-val");
-        return valEl ? valEl.textContent : "";
+    slots = Array.from(digitsContainer.querySelectorAll(".digit-slot"));
+    const currentSlotsStr = slots.map(slot => {
+        const value = slot.querySelector(".digit-val.current") || slot.querySelector(".digit-val");
+        return value ? value.textContent : "";
     }).join("");
-
-    const animDuration = isRapid ? "0.16s" : "0.28s";
-    const opacityDuration = isRapid ? "0.14s" : "0.24s";
-    const cascadeDelayStep = isRapid ? 0 : 35; // Remove stagger during rapid clicks to keep digits in sync
 
     let maxDelay = 0;
     let changedCount = 0;
 
     for (let place = 0; place < newStr.length; place++) {
-        const slotIdx = newStr.length - 1 - place;
-        const slotEl = slots[slotIdx];
-        if (!slotEl) continue;
+        const slotIndex = newStr.length - 1 - place;
+        const slot = slots[slotIndex];
+        if (!slot) continue;
 
-        const newDigit = newStr[slotIdx];
-        const oldDigit = currentSlotsStr[slotIdx] || "";
+        const newDigitChar = newStr[slotIndex];
+        const oldDigitChar = currentSlotsStr[slotIndex] || "";
 
-        // Unchanged digits remain steady
-        if (oldDigit === newDigit) {
-            continue;
-        }
+        if (oldDigitChar === newDigitChar) continue;
 
-        const delay = changedCount * cascadeDelayStep;
+        const delay = changedCount * (isRapid ? 0 : 35);
         changedCount++;
         if (delay > maxDelay) maxDelay = delay;
 
-        const currentValEl = slotEl.firstElementChild;
-        const incomingValEl = document.createElement("span");
-        incomingValEl.className = "digit-val incoming";
-        incomingValEl.textContent = newDigit;
+        const curVal = slot.querySelector(".digit-val.current") || slot.querySelector(".digit-val");
+        const incVal = document.createElement("span");
+        incVal.className = "digit-val incoming";
+        incVal.textContent = newDigitChar;
 
-        incomingValEl.style.transform = direction === "up" ? "translateY(100%)" : "translateY(-100%)";
-        incomingValEl.style.opacity = "0";
+        incVal.style.transform = direction === "up" ? "translateY(100%)" : "translateY(-100%)";
+        incVal.style.opacity = "0";
+        slot.appendChild(incVal);
 
-        slotEl.appendChild(incomingValEl);
-        void incomingValEl.offsetHeight; // Force reflow
+        void incVal.offsetHeight;
 
-        const transitionSpec = `transform ${animDuration} cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms, opacity ${opacityDuration} ease ${delay}ms`;
-        incomingValEl.style.transition = transitionSpec;
-        if (currentValEl) {
-            currentValEl.style.transition = transitionSpec;
-        }
+        const duration = isRapid ? "0.16s" : "0.28s";
+        const animCurve = `transform ${duration} cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms, opacity ${duration} ease ${delay}ms`;
+        incVal.style.transition = animCurve;
+        if (curVal) curVal.style.transition = animCurve;
 
-        const rafId = requestAnimationFrame(() => {
-            incomingValEl.style.transform = "translateY(0)";
-            incomingValEl.style.opacity = "1";
-            if (currentValEl) {
-                currentValEl.style.transform = direction === "up" ? "translateY(-100%)" : "translateY(100%)";
-                currentValEl.style.opacity = "0";
+        const raf = requestAnimationFrame(() => {
+            incVal.style.transform = "translateY(0)";
+            incVal.style.opacity = "1";
+            if (curVal) {
+                curVal.style.transform = direction === "up" ? "translateY(-100%)" : "translateY(100%)";
+                curVal.style.opacity = "0";
             }
         });
-        priceAnimationRafs.push(rafId);
+        priceAnimationRafs.push(raf);
     }
 
-    // Step 4: Final cleanup when all animations settle
-    const finishDuration = maxDelay + (isRapid ? 180 : 320);
-    const finalCleanupTimeout = setTimeout(() => {
+    const cleanupTimeout = setTimeout(() => {
         let slotsHtml = "";
         for (let i = 0; i < newStr.length; i++) {
             slotsHtml += `<span class="digit-slot" data-digit-index="${i}"><span class="digit-val current">${newStr[i]}</span></span>`;
         }
         digitsContainer.innerHTML = slotsHtml;
         currentPrice = newPrice;
-    }, finishDuration);
-    priceAnimationTimeouts.push(finalCleanupTimeout);
+    }, maxDelay + (isRapid ? 180 : 320));
 
+    priceAnimationTimeouts.push(cleanupTimeout);
     currentPrice = newPrice;
 }
 
 /* =========================================
-   OPEN PRODUCT MODAL
+   OPEN MODAL
 ========================================= */
 
 function openProductModal(productId) {
     if (!productModal || !shopProducts[productId]) return;
 
-    currentProduct = shopProducts[productId];
+    const product = shopProducts[productId];
+    currentProduct = product;
     currentQuantity = 1;
-    currentFlavour = currentProduct.flavours[0];
-    currentPrice = currentProduct.basePrice;
+    currentFlavour = product.flavours?.[0] || { name: "Classic", image: product.image };
+    currentPrice = Number(product.basePrice) || 0;
 
-    if (modalProductName) {
-        modalProductName.textContent = currentProduct.name;
-    }
-
+    if (modalProductName) modalProductName.textContent = product.name || "Chocolate";
     if (modalProductBadge) {
-        modalProductBadge.textContent = currentProduct.badge || "FEATURED";
+        modalProductBadge.textContent = product.badge || "LIWI-KA";
+        modalProductBadge.style.display = product.badge ? "" : "none";
     }
-
     if (modalProductDescription) {
-        modalProductDescription.textContent = currentProduct.description;
+        modalProductDescription.textContent = product.description || "A handcrafted Liwi-Ka chocolate creation.";
     }
-
     if (modalProductImage) {
-        modalProductImage.src = currentFlavour.image;
-        modalProductImage.alt = currentProduct.name;
+        modalProductImage.src = currentFlavour.image || product.image;
+        modalProductImage.alt = product.name || "Selected chocolate";
     }
 
-    // Initialize quantity and price displays without animation
-    setQuantityDisplay(currentQuantity, false);
+    setQuantityDisplay(1, false);
     displayFlavours();
     setPriceDisplay(currentPrice, false);
 
     productModal.classList.add("active");
     productModal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("liwi-product-modal-open");
     document.body.style.overflow = "hidden";
+    closeModal?.focus({ preventScroll: true });
 }
 
 /* =========================================
@@ -531,60 +503,51 @@ function displayFlavours() {
    ATTACH EVENT LISTENERS TO PRODUCT CARDS
 ========================================= */
 
-const shopProductCards = document.querySelectorAll(".shop-product");
+const shopProductGrid = document.querySelector(".shop-products");
 
-shopProductCards.forEach(card => {
-    card.style.cursor = "pointer";
-    card.addEventListener("click", () => {
+if (shopProductGrid) {
+    shopProductGrid.addEventListener("click", (event) => {
+        const quickAdd = event.target.closest(".quick-add");
+        const addButton = event.target.closest(".shop-add");
+        const card = event.target.closest(".shop-product");
+        if (!card || !shopProductGrid.contains(card)) return;
+
         const productId = card.dataset.product;
-        if (productId && shopProducts[productId]) {
-            openProductModal(productId);
-        }
-    });
+        const product = shopProducts[productId];
+        if (!product) return;
 
-    const addBtn = card.querySelector(".shop-add");
-    if (addBtn) {
-        addBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            const productId = card.dataset.product;
-            if (productId && shopProducts[productId]) {
-                openProductModal(productId);
-            }
-        });
-    }
-
-    const quickAddBtn = card.querySelector(".quick-add");
-
-    if (quickAddBtn) {
-        quickAddBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-
-            const productId = card.dataset.product;
-            const product = shopProducts[productId];
-
-            if (!product) return;
-
+        if (quickAdd) {
+            event.preventDefault();
+            event.stopPropagation();
             const flavour = product.flavours?.[0];
-
             const cartItem = {
-                id: product.name.toLowerCase().replace(/\s+/g, '-'),
+                id: product.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''),
                 name: product.name,
                 flavour: flavour?.name || "Classic",
                 quantity: 1,
                 price: product.basePrice,
                 image: flavour?.image || product.image
             };
-
-            if (window.LiwikaCart) {
+            if (window.LiwikaCart?.addItem) {
                 window.LiwikaCart.addItem(cartItem);
             }
+            if (typeof window.LiwikaShowCartToast === "function") {
+                window.LiwikaShowCartToast(cartItem);
+            }
+            return;
+        }
 
-            console.log("Quick added to cart:", cartItem);
-        });
-    }
-});
+        if (addButton) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+
+        openProductModal(productId);
+    });
+}
 
 /* =========================================
+   QUANTITY HANDLERS/* =========================================
    QUANTITY HANDLERS
 ========================================= */
 
@@ -627,6 +590,7 @@ function closeProductModal() {
     productModal.classList.remove("active");
     productModal.setAttribute("aria-hidden", "true");
     document.body.style.overflow = "";
+    document.body.classList.remove("liwi-product-modal-open");
     currentProduct = null;
     currentQuantity = 1;
 

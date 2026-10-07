@@ -108,6 +108,10 @@ window.addEventListener("DOMContentLoaded", () => {
 
 // Home Page & Bestsellers Product Customization Modal Controller
 document.addEventListener("DOMContentLoaded", () => {
+    // Occasion pages have their own product controller. Do not attach the
+    // homepage controller here or quantity/add-to-cart events fire twice.
+    if (document.querySelector(".occasion-product") || document.querySelector(".shop-product")) return;
+
     const productModal = document.getElementById("productModal");
     if (!productModal) return;
 

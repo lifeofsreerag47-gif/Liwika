@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="../../responsive-mobile.css">
 <link rel="stylesheet" href="../../shared-navbar.css">
     <link rel="stylesheet" href="../../free-delivery.css">
+    <link rel="stylesheet" href="../../product-system.css">
+    <link rel="stylesheet" href="../../product-window.css">
 </head>
 
 <body>
@@ -20,7 +22,7 @@
     <header class="navbar">
 
     <a href="../../index.html" class="logo" aria-label="Liwi-Ka Home">
-        <img src="../images/liwi.png" alt="Liwi-Ka Finest Chocolate">
+        <img src="../../images/liwi.png" alt="Liwi-Ka Finest Chocolate">
     </a>
 
     <nav class="nav-links" aria-label="Primary navigation">
@@ -145,7 +147,7 @@
 
             <div class="footer-brand">
                 <a href="../../index.html" class="footer-logo">
-                    <img src="../images/liwi.png" alt="Liwi-Ka Finest Chocolate">
+                    <img src="../../images/liwi.png" alt="Liwi-Ka Finest Chocolate">
                 </a>
                 <p>Crafted with passion. Created for unforgettable moments.</p>
                 <div class="footer-socials">
@@ -233,6 +235,8 @@
         window.occasionProducts = {
             "dark-indulgence": {
                 name: "Dark Indulgence",
+                nutrition: { energy: "520 kcal", fat: "32 g", saturatedFat: "20 g", carbohydrates: "52 g", sugars: "38 g", protein: "7 g" },
+                ingredients: "Cocoa solids, sugar, cocoa butter, milk solids, natural vanilla flavour",
                 description: "Deep, rich dark chocolate for elegant Christmas celebrations.",
                 basePrice: 49,
                 flavours: [
@@ -243,6 +247,8 @@
             },
             "golden-milk": {
                 name: "Golden Milk",
+                nutrition: { energy: "545 kcal", fat: "34 g", saturatedFat: "21 g", carbohydrates: "54 g", sugars: "45 g", protein: "8 g" },
+                ingredients: "Sugar, milk solids, cocoa butter, cocoa solids, natural vanilla flavour",
                 description: "Creamy milk chocolate made for cozy evenings and festive cheer.",
                 basePrice: 69,
                 flavours: [
@@ -253,6 +259,8 @@
             },
             "hazelnut-bliss": {
                 name: "Hazelnut Bliss",
+                nutrition: { energy: "560 kcal", fat: "37 g", saturatedFat: "18 g", carbohydrates: "51 g", sugars: "39 g", protein: "8 g" },
+                ingredients: "Cocoa solids, sugar, cocoa butter, milk solids, roasted hazelnuts, natural vanilla flavour",
                 description: "Roasted hazelnuts wrapped in velvety chocolate for a festive treat.",
                 basePrice: 89,
                 flavours: [
@@ -269,6 +277,7 @@
     <script src="../festivals.js"></script>
     <script src="festival.js"></script>
 
+    <script src="../../product-ui.js"></script>
     <script src="../../free-delivery.js"></script>
     <script src="../../responsive-mobile.js"></script>
     <script type="module" src="../../profile-menu.js"></script>

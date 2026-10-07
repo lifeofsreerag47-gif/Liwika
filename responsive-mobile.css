@@ -2438,3 +2438,91 @@ button, input, select, textarea {
 /* The actual page inside the mobile iframe gets the persistent HUD from
    the outer shell instead, preventing a second box from appearing. */
 
+
+/* When a product modal is open inside the mobile iframe, the external
+   free-delivery HUD must drop below the iframe so it cannot cover the modal. */
+@media (max-width: 900px) {
+    body.liwi-product-modal-open > .liwika-free-delivery {
+        z-index: 8000 !important;
+    }
+    body.liwi-product-modal-open > .mobile-bottom-nav {
+        z-index: 100000 !important;
+    }
+}
+
+
+/* =========================================================
+   V4 — MOBILE SHELL: BOTTOM NAV NEVER DISAPPEARS OVER MODALS
+   ========================================================= */
+@media (max-width: 900px) {
+  body:has(.liwi-mobile-frame) > .mobile-bottom-nav {
+    position: fixed !important;
+    left: 50% !important;
+    bottom: max(8px, env(safe-area-inset-bottom)) !important;
+    transform: translateX(-50%) !important;
+    z-index: 2147483647 !important;
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  body:has(.liwi-mobile-frame) > .liwika-free-delivery {
+    z-index: 2147483646 !important;
+  }
+}
+
+/* =========================================================
+   FINAL MOBILE BESTSELLER CARD — image + name only
+========================================================= */
+@media (max-width: 900px) {
+    html.cine-on .cine-bests .product-card {
+        position: relative !important;
+        overflow: hidden !important;
+        padding: 0 !important;
+        background: #11100e !important;
+    }
+
+    html.cine-on .cine-bests .product-card .product-image {
+        width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 1 / 1.08 !important;
+        margin: 0 !important;
+    }
+
+    html.cine-on .cine-bests .product-card .product-image img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        display: block !important;
+    }
+
+    html.cine-on .cine-bests .product-card .product-info {
+        position: absolute !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        z-index: 3 !important;
+        padding: 42px 13px 13px !important;
+        background: linear-gradient(
+            to bottom,
+            transparent 0%,
+            rgba(5, 3, 2, .78) 100%
+        ) !important;
+    }
+
+    html.cine-on .cine-bests .product-card .product-info h3 {
+        margin: 0 !important;
+        color: #f5f0e8 !important;
+        font-size: 21px !important;
+        line-height: 1.05 !important;
+        text-align: left !important;
+        text-shadow: 0 2px 10px rgba(0,0,0,.45) !important;
+        max-width: none !important;
+    }
+
+    html.cine-on .cine-bests .product-card .product-description,
+    html.cine-on .cine-bests .product-card .product-bottom {
+        display: none !important;
+    }
+}

@@ -1,0 +1,362 @@
+/* =========================================================
+   LIWI-KA — SHARED PRODUCT SYSTEM
+   One visual language for cards + product windows everywhere.
+========================================================= */
+
+:root {
+  --lk-gold: #d9ad55;
+  --lk-gold-bright: #f0d48a;
+  --lk-ink: #0b0907;
+  --lk-panel: #120e0b;
+  --lk-panel-2: #18120d;
+  --lk-line: rgba(217, 173, 85, .24);
+  --lk-muted: #a9a198;
+  --lk-text: #f5efe5;
+}
+
+/* ---------- shared card shell ---------- */
+.product-card,
+.shop-product,
+.occasion-product {
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(150deg, #17120d 0%, #0d0a08 100%);
+  border: 1px solid rgba(217, 173, 85, .20);
+  border-radius: 18px;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  box-shadow: 0 18px 45px rgba(0,0,0,.22);
+  transition: transform .42s cubic-bezier(.16,1,.3,1),
+              border-color .35s ease,
+              box-shadow .35s ease;
+}
+
+.product-card:hover,
+.shop-product:hover,
+.occasion-product:hover {
+  z-index: 10;
+  border-color: rgba(240, 212, 138, .58);
+  box-shadow: 0 28px 65px rgba(0,0,0,.46), 0 0 32px rgba(217,173,85,.07);
+}
+
+/* ---------- image areas ---------- */
+.product-card .product-image-wrapper,
+.shop-product .shop-product-image,
+.occasion-product .occasion-product-image {
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 35%, #21160f 0%, #100b08 72%);
+}
+
+.product-card .product-image-wrapper { aspect-ratio: 1 / 1; }
+.shop-product .shop-product-image { height: 330px; }
+.occasion-product .occasion-product-image { height: 320px; }
+
+.product-card .product-image,
+.shop-product .shop-product-image img,
+.occasion-product .occasion-product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .75s cubic-bezier(.16,1,.3,1), filter .55s ease;
+}
+
+.product-card:hover .product-image,
+.shop-product:hover .shop-product-image img,
+.occasion-product:hover .occasion-product-image img {
+  transform: scale(1.055);
+  filter: brightness(1.045) saturate(1.03);
+}
+
+.product-card .product-image-wrapper::after,
+.shop-product .shop-product-image::after,
+.occasion-product .occasion-product-image::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 34%;
+  background: linear-gradient(180deg, transparent, rgba(5,3,2,.62));
+  pointer-events: none;
+}
+
+/* ---------- card information ---------- */
+.product-card .product-info,
+.shop-product .shop-product-info,
+.occasion-product .occasion-product-info {
+  position: relative;
+  padding: 22px 23px 23px;
+  background: linear-gradient(180deg, rgba(21,15,11,.98), #0d0a08);
+}
+
+.product-card .product-info h3,
+.shop-product .shop-product-info h2,
+.occasion-product .occasion-product-info h3 {
+  margin: 0 0 8px;
+  color: var(--lk-text);
+  font-family: "Font", "Orange Avenue", Georgia, serif;
+  font-weight: 400;
+  line-height: 1.12;
+}
+
+.product-card .product-info h3 { font-size: 27px; }
+.shop-product .shop-product-info h2 { font-size: 27px; }
+.occasion-product .occasion-product-info h3 { font-size: 28px; }
+
+.product-card .product-category,
+.shop-product .product-category {
+  margin: 0 0 11px;
+  color: #8f857b;
+  font-family: "Font1", Outfit, Arial, sans-serif;
+  font-size: 10px;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+}
+
+.product-card .product-description,
+.shop-product .product-description,
+.occasion-product .occasion-product-info p {
+  margin: 0;
+  color: var(--lk-muted);
+  font-family: "Font1", Outfit, Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.product-card .product-info .product-price,
+.shop-product .shop-price,
+.occasion-product .occasion-product-bottom span {
+  color: var(--lk-gold-bright);
+  font-family: "Font1", Outfit, Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.product-card .product-info .product-price { margin: 18px 0 0; }
+
+.product-card .product-bottom,
+.shop-product .shop-product-bottom,
+.occasion-product .occasion-product-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.product-card .add-button,
+.shop-product .shop-add,
+.occasion-product .occasion-product-bottom button {
+  min-width: 94px;
+  min-height: 38px;
+  padding: 9px 16px;
+  border: 1px solid rgba(217,173,85,.55);
+  border-radius: 999px;
+  background: rgba(217,173,85,.035);
+  color: var(--lk-gold-bright);
+  font-family: "Font1", Outfit, Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 1.8px;
+  cursor: pointer;
+  transition: background .25s ease, color .25s ease, border-color .25s ease, transform .25s ease, box-shadow .25s ease;
+}
+
+.product-card .add-button:hover,
+.shop-product .shop-add:hover,
+.occasion-product .occasion-product-bottom button:hover {
+  background: linear-gradient(180deg, #f0d48a, #c89c4b);
+  border-color: #f0d48a;
+  color: #100b07;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(217,173,85,.14);
+}
+
+/* Keep quick-add visually integrated instead of floating over content. */
+.shop-product .quick-add {
+  left: 50%;
+  bottom: 16px;
+  transform: translate(-50%, 12px);
+  border-radius: 999px;
+  border: 1px solid rgba(240,212,138,.7);
+  background: rgba(10,7,5,.82);
+  color: #f0d48a;
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  transition: opacity .28s ease, transform .28s ease, background .28s ease;
+}
+
+.shop-product:hover .quick-add,
+.shop-product:focus-within .quick-add {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* ---------- shop quick-add final interaction ---------- */
+@media (hover: hover) and (pointer: fine) {
+  .shop-product .quick-add {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: translate(-50%, 14px) !important;
+    transition: opacity .36s ease, transform .42s cubic-bezier(.16,1,.3,1), background .5s ease, color .35s ease, box-shadow .5s ease !important;
+  }
+  .shop-product:hover .quick-add,
+  .shop-product:focus-within .quick-add {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translate(-50%, 0) !important;
+  }
+  .shop-product .quick-add:hover {
+    background: linear-gradient(110deg, #80601d, #f5e983, #a67d27) !important;
+    color: #050505 !important;
+    border-color: #f7ef8a !important;
+    box-shadow: 0 10px 25px rgba(201,154,61,.20) !important;
+    transform: translate(-50%, -2px) !important;
+  }
+}
+
+/* ---------- home bestseller name ---------- */
+.product-card { overflow: hidden; }
+.product-card .card-corner-name {
+  position: absolute;
+  top: auto !important;
+  left: 18px !important;
+  right: 18px !important;
+  bottom: 18px !important;
+  max-width: calc(100% - 36px) !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: linear-gradient(100deg, #f2d27a 0%, #fff0ad 42%, #c7963d 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  font-family: "Font", "Orange Avenue", Georgia, serif !important;
+  font-size: clamp(30px, 2.8vw, 42px) !important;
+  font-weight: 400 !important;
+  line-height: .92 !important;
+  letter-spacing: -.4px !important;
+  text-shadow: 0 8px 26px rgba(0,0,0,.56) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  z-index: 8 !important;
+}
+.product-card .product-info h3 { display: none; }
+.product-card::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 38%;
+  z-index: 5;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 0%, rgba(4,2,1,.08) 28%, rgba(4,2,1,.74) 100%);
+}
+
+
+/* =========================================================
+   PRODUCT WINDOW — SHARED NUMBER MOTION + MOBILE PRESS FEEDBACK
+   Quantity/price motion is owned by product-ui.js.
+   These rules provide the stable viewports that JS animates.
+========================================================= */
+html body .product-modal .qty-display {
+  position: relative !important;
+  overflow: hidden !important;
+  isolation: isolate !important;
+}
+
+html body .product-modal .qty-display .qty-digit {
+  position: absolute !important;
+  inset: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  white-space: nowrap !important;
+  pointer-events: none !important;
+  will-change: transform, opacity !important;
+  backface-visibility: hidden !important;
+  -webkit-backface-visibility: hidden !important;
+}
+
+html body .product-modal #modalProductPrice .price-currency {
+  display: inline-flex !important;
+  flex: 0 0 auto !important;
+  align-items: center !important;
+  margin-right: 3px !important;
+  color: #f0d18a !important;
+  font: 500 25px/34px "Font1", "Outfit", sans-serif !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+html body .product-modal #modalProductPrice .price-digits {
+  display: inline-flex !important;
+  flex: 0 0 auto !important;
+  align-items: center !important;
+  height: 34px !important;
+  overflow: visible !important;
+  white-space: nowrap !important;
+}
+
+html body .product-modal #modalProductPrice .digit-slot {
+  position: relative !important;
+  display: inline-block !important;
+  width: .62em !important;
+  height: 34px !important;
+  overflow: hidden !important;
+  vertical-align: bottom !important;
+  contain: paint !important;
+}
+
+html body .product-modal #modalProductPrice .digit-val {
+  position: absolute !important;
+  inset: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  white-space: nowrap !important;
+  color: #f0d18a !important;
+  font: 500 25px/34px "Font1", "Outfit", sans-serif !important;
+  will-change: transform, opacity !important;
+  backface-visibility: hidden !important;
+  -webkit-backface-visibility: hidden !important;
+}
+
+/* Mobile/touch browsers do not reliably expose :active as a visual state.
+   The shared JS adds this class for a short, deterministic press animation. */
+html body .product-modal .quantity-control .qty-btn.liwika-touch-pressed,
+html body .product-modal .quantity-control button.liwika-touch-pressed {
+  transform: scale(.88) !important;
+  color: #fff4d1 !important;
+  background: rgba(217, 173, 85, .16) !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(240, 212, 138, .22),
+    0 0 18px rgba(217, 173, 85, .16) !important;
+}
+
+@media (max-width: 760px) {
+  html body .product-modal #modalProductPrice .price-currency {
+    font-size: 21px !important;
+    line-height: 30px !important;
+  }
+
+  html body .product-modal #modalProductPrice .price-digits {
+    height: 30px !important;
+  }
+
+  html body .product-modal #modalProductPrice .digit-slot {
+    height: 30px !important;
+  }
+
+  html body .product-modal #modalProductPrice .digit-val {
+    font-size: 21px !important;
+    line-height: 30px !important;
+  }
+}
