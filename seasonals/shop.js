@@ -9,6 +9,16 @@ const shopProducts = {
         category: "DARK CHOCOLATE",
         description: "Rich dark chocolate with deep, sophisticated cocoa notes.",
         basePrice: 49,
+        nutrition: {
+    energy: "520 kcal",
+    fat: "32 g",
+    saturatedFat: "20 g",
+    carbohydrates: "52 g",
+    sugars: "38 g",
+    protein: "7 g"
+},
+
+ingredients: "Cocoa solids, sugar, cocoa butter, milk solids, natural vanilla flavour",
         image: "../images/choco1.jpg",
         badge: "BESTSELLER",
         flavours: [
@@ -32,6 +42,16 @@ const shopProducts = {
         category: "MILK CHOCOLATE",
         description: "Silky smooth milk chocolate with a beautifully creamy finish.",
         basePrice: 69,
+        nutrition: {
+    energy: "545 kcal",
+    fat: "34 g",
+    saturatedFat: "21 g",
+    carbohydrates: "54 g",
+    sugars: "45 g",
+    protein: "8 g"
+},
+
+ingredients: "Sugar, milk solids, cocoa butter, cocoa solids, natural vanilla flavour",
         image: "../images/choco2.jpg",
         badge: "SIGNATURE",
         flavours: [
@@ -55,6 +75,17 @@ const shopProducts = {
         category: "NUTTY CHOCOLATE",
         description: "Velvety chocolate combined with beautifully roasted hazelnuts.",
         basePrice: 89,
+        nutrition: {
+    energy: "560 kcal",
+    fat: "37 g",
+    saturatedFat: "18 g",
+    carbohydrates: "51 g",
+    sugars: "39 g",
+    protein: "8 g"
+},
+
+ingredients: "Cocoa solids, sugar, cocoa butter, milk solids, roasted hazelnuts, natural vanilla flavour",
+
         image: "../images/choco3.jpg",
         badge: "POPULAR",
         flavours: [
@@ -78,6 +109,16 @@ const shopProducts = {
         category: "DARK CHOCOLATE",
         description: "An intense cocoa experience for lovers of elegant dark chocolate.",
         basePrice: 59,
+         nutrition: {
+        energy: "510 kcal",
+        fat: "31 g",
+        saturatedFat: "19 g",
+        carbohydrates: "50 g",
+        sugars: "32 g",
+        protein: "8 g"
+    },
+
+    ingredients: "Cocoa solids, cocoa butter, sugar, natural vanilla flavour, espresso extract",
         image: "../images/choco1.jpg",
         badge: "NEW",
         flavours: [
@@ -101,6 +142,17 @@ const shopProducts = {
         category: "MILK CHOCOLATE",
         description: "Delicate milk chocolate with a soft, creamy sweetness.",
         basePrice: 79,
+        nutrition: {
+    energy: "535 kcal",
+    fat: "34 g",
+    saturatedFat: "21 g",
+    carbohydrates: "55 g",
+    sugars: "46 g",
+    protein: "8 g"
+},
+
+ingredients: "Milk solids, sugar, cocoa butter, cocoa solids, natural vanilla flavour",
+
         image: "../images/choco2.jpg",
         badge: "LUXURY",
         flavours: [
@@ -124,6 +176,16 @@ const shopProducts = {
         category: "NUTTY CHOCOLATE",
         description: "Toasted hazelnuts layered into smooth, luxurious chocolate.",
         basePrice: 89,
+        nutrition: {
+    energy: "570 kcal",
+    fat: "39 g",
+    saturatedFat: "19 g",
+    carbohydrates: "49 g",
+    sugars: "35 g",
+    protein: "9 g"
+},
+
+ingredients: "Cocoa solids, sugar, cocoa butter, milk solids, roasted hazelnuts, hazelnut praline, natural vanilla flavour",
         image: "../images/choco3.jpg",
         badge: "ARTISAN",
         flavours: [
