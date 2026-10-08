@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Liwi-Ka | Track Your Order</title>
+
+    <!-- Main / Shared Styles -->
+    <link rel="stylesheet" href="../style.css">
+
+    <!-- Track Order Styles -->
+    <link rel="stylesheet" href="track-order.css">
+</head>
+
+<body>
+
+    <!-- =========================
+         NAVIGATION
+    ========================== -->
+
+    <header class="navbar">
+
+        <a href="../index.html" class="logo">
+            <img src="../images/liwi.png" alt="Liwi-Ka Finest Chocolate">
+        </a>
+
+        <nav class="nav-links">
+
+            <a href="../index.html">Home</a>
+
+            <a href="shop.html">Shop</a>
+
+            <a href="../new-arrivals.html">New Arrivals</a>
+
+            <a href="seasonals.html">Seasonals</a>
+
+            <a href="../index.html#our-story">Our Story</a>
+
+            <a href="customer-care.html">Customer Care</a>
+
+        </nav>
+
+        <div class="nav-icons">
+
+            <button aria-label="Search">⌕</button>
+
+            <button aria-label="My Account">♙</button>
+
+            <a href="cart.html" class="cart-nav-link" aria-label="Shopping Cart">
+                <button type="button">🛒</button>
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================
+         MAIN TRACK ORDER AREA
+    ========================== -->
+
+    <main class="track-order-page">
+
+
+        <!-- HERO / INTRO -->
+         
+        <section class="track-hero">
+
+            <p class="track-eyebrow">
+                YOUR LIWI-KA JOURNEY
+            </p>
+
+            <h1>
+                Track Your Order
+            </h1>
+
+            <p class="track-intro">
+                From our atelier to your doorstep.
+            </p>
+
+        </section>
+
+
+
+        <!-- =========================
+             TRACKING SEARCH
+        ========================== -->
+
+        <section class="track-search-section">
+
+            <div class="track-search-card">
+
+                <div class="search-card-heading">
+
+                    <p class="section-eyebrow">
+                        ORDER STATUS
+                    </p>
+
+                    <h2>
+                        Where is your order?
+                    </h2>
+
+                    <p>
+                        Enter your order number to view the latest delivery updates.
+                    </p>
+
+                </div>
+
+
+                <form id="trackOrderForm" class="track-order-form">
+
+                    <div class="form-field">
+
+                        <label for="orderNumber">
+                            Order Number
+                        </label>
+
+                        <input
+                            type="text"
+                            id="orderNumber"
+                            name="orderNumber"
+                            placeholder="e.g. LW2026100342"
+                            autocomplete="off"
+                            required
+                        >
+
+                    </div>
+
+
+                    <button type="submit" class="track-button">
+                        Track Order
+                    </button>
+
+                </form>
+
+
+                <p class="track-help-text">
+                    Your order number can be found in your order confirmation email.
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             ORDER RESULT
+             Hidden until JS finds order
+        ========================== -->
+
+        <section
+            class="order-result-section"
+            id="orderResult"
+            aria-live="polite"
+            hidden
+        >
+
+            <!-- ORDER HEADER -->
+
+            <div class="order-header">
+
+                <div>
+
+                    <p class="section-eyebrow">
+                        ORDER DETAILS
+                    </p>
+
+                    <h2 id="resultOrderNumber">
+                        Order #LW2026100342
+                    </h2>
+
+                    <p id="resultOrderDate">
+                        Placed on 06 October 2026
+                    </p>
+
+                </div>
+
+
+                <div class="current-status">
+
+                    <span class="status-label">
+                        CURRENT STATUS
+                    </span>
+
+                    <span id="currentStatus">
+                        Out for Delivery
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================
+                 ORDER TIMELINE
+            ========================== -->
+
+            <div class="order-timeline">
+
+                <div class="timeline-line"></div>
+
+
+                <div class="timeline-step completed">
+
+                    <div class="timeline-dot">
+                        ✓
+                    </div>
+
+                    <p>
+                        Ordered
+                    </p>
+
+                </div>
+
+
+                <div class="timeline-step completed">
+
+                    <div class="timeline-dot">
+                        ✓
+                    </div>
+
+                    <p>
+                        Confirmed
+                    </p>
+
+                </div>
+
+
+                <div class="timeline-step completed">
+
+                    <div class="timeline-dot">
+                        ✓
+                    </div>
+
+                    <p>
+                        Packed
+                    </p>
+
+                </div>
+
+
+                <div class="timeline-step active">
+
+                    <div class="timeline-dot">
+                        ●
+                    </div>
+
+                    <p>
+                        Shipped
+                    </p>
+
+                </div>
+
+
+                <div class="timeline-step">
+
+                    <div class="timeline-dot">
+                        ○
+                    </div>
+
+                    <p>
+                        Delivered
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================
+                 DELIVERY INFORMATION
+            ========================== -->
+
+            <div class="delivery-information">
+
+                <div class="delivery-column">
+
+                    <span class="info-label">
+                        ESTIMATED DELIVERY
+                    </span>
+
+                    <strong id="estimatedDelivery">
+                        10 October 2026
+                    </strong>
+
+                </div>
+
+
+                <div class="delivery-column">
+
+                    <span class="info-label">
+                        SHIPPING METHOD
+                    </span>
+
+                    <strong id="shippingMethod">
+                        Standard Delivery
+                    </strong>
+
+                </div>
+
+
+                <div class="delivery-column">
+
+                    <span class="info-label">
+                        TRACKING NUMBER
+                    </span>
+
+                    <strong id="trackingNumber">
+                        — 
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================
+                 ORDER ITEMS
+            ========================== -->
+
+            <div class="order-items-section">
+
+                <div class="section-heading">
+
+                    <p class="section-eyebrow">
+                        YOUR SELECTION
+                    </p>
+
+                    <h3>
+                        Order Items
+                    </h3>
+
+                </div>
+
+
+                <div id="orderItems" class="order-items">
+
+                    <!--
+                        JavaScript will insert
+                        the products here.
+                    -->
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================
+                 ORDER SUMMARY
+            ========================== -->
+
+            <div class="order-summary">
+
+                <div class="summary-row">
+
+                    <span>
+                        Subtotal
+                    </span>
+
+                    <strong id="orderSubtotal">
+                        ₹0
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        Delivery
+                    </span>
+
+                    <strong id="orderDelivery">
+                        ₹0
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-divider"></div>
+
+
+                <div class="summary-row total-row">
+
+                    <span>
+                        Total
+                    </span>
+
+                    <strong id="orderTotal">
+                        ₹0
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             NEED HELP
+        ========================== -->
+
+        <section class="track-help-section">
+
+            <div class="track-help-content">
+
+                <p class="section-eyebrow">
+                    NEED ASSISTANCE?
+                </p>
+
+                <h2>
+                    We're here to help.
+                </h2>
+
+                <p>
+                    If you have questions about your order, delivery,
+                    or anything else, our customer care team is happy to assist.
+                </p>
+
+                <a href="customer-care.html" class="help-button">
+                    Contact Customer Care
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer class="footer">
+
+        <div class="footer-container">
+
+
+            <!-- BRAND -->
+
+            <div class="footer-brand">
+
+                <img
+                    src="../images/liwi.png"
+                    alt="Liwi-Ka Finest Chocolate"
+                >
+
+                <p>
+                    Crafted for moments worth remembering.
+                </p>
+
+            </div>
+
+
+
+            <!-- SHOP -->
+
+            <div class="footer-column">
+
+                <h3>
+                    SHOP
+                </h3>
+
+                <a href="shop.html">
+                    All Chocolates
+                </a>
+
+                <a href="../new-arrivals.html">
+                    New Arrivals
+                </a>
+
+                <a href="seasonals.html">
+                    Seasonals
+                </a>
+
+            </div>
+
+
+
+            <!-- COMPANY -->
+
+            <div class="footer-column">
+
+                <h3>
+                    COMPANY
+                </h3>
+
+                <a href="../index.html#our-story">
+                    Our Story
+                </a>
+
+                <a href="customer-care.html">
+                    Customer Care
+                </a>
+
+                <a href="track-order.html">
+                    Track Order
+                </a>
+
+            </div>
+
+
+
+            <!-- SUPPORT -->
+
+            <div class="footer-column">
+
+                <h3>
+                    SUPPORT
+                </h3>
+
+                <a href="customer-care.html">
+                    Contact Us
+                </a>
+
+                <a href="cart.html">
+                    Shopping Cart
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <p>
+                © 2026 Liwi-Ka Finest Chocolate. All rights reserved.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script src="track-order.js"></script>
+
+</body>
+
+</html>
