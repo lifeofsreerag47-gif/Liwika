@@ -1,478 +1,392 @@
-// =========================================================
-// LIWI-KA — TRACK ORDER
-// Frontend tracking system
-// =========================================================
+/* =========================================
+   GET ORDERS FROM BROWSER STORAGE
+========================================= */
+
+let orders = JSON.parse(
+    localStorage.getItem("liwikaOrders")
+) || [];
 
 
-// =========================================================
-// TEST ORDER DATA
-// Temporary data for frontend testing.
-//
-// Later this will come from:
-// JavaScript → Flask API → SQL Database
-// =========================================================
+/* =========================================
+   ELEMENTS
+========================================= */
 
-const testOrders = {
+const ordersList = document.getElementById("ordersList");
+const emptyOrders = document.getElementById("emptyOrders");
 
-    "LW2026100342": {
-
-        orderNumber: "LW2026100342",
-
-        orderDate: "06 October 2026",
-
-        status: "Out for Delivery",
-
-        estimatedDelivery: "10 October 2026",
-
-        shippingMethod: "Standard Delivery",
-
-        trackingNumber: "LIWIKA458921",
-
-        items: [
-
-            {
-                name: "Dark Indulgence",
-                flavour: "Classic Dark",
-                quantity: 1,
-                price: 299,
-                image: "../images/choco1.jpg"
-            },
-
-            {
-                name: "Golden Milk",
-                flavour: "Caramel Milk",
-                quantity: 2,
-                price: 349,
-                image: "../images/choco2.jpg"
-            }
-
-        ],
-
-        subtotal: 997,
-
-        delivery: 0,
-
-        total: 997
-
-    }
-
-};
+const filterButtons = document.querySelectorAll(".filter-btn");
 
 
-// =========================================================
-// GET HTML ELEMENTS
-// =========================================================
+/* =========================================
+   DISPLAY ORDERS
+========================================= */
 
-const trackOrderForm = document.getElementById("trackOrderForm");
+function displayOrders(filter = "all") {
 
-const orderNumberInput = document.getElementById("orderNumber");
+    ordersList.innerHTML = "";
 
-const orderResult = document.getElementById("orderResult");
+    let filteredOrders = orders;
 
-const resultOrderNumber =
-    document.getElementById("resultOrderNumber");
+    if (filter !== "all") {
 
-const resultOrderDate =
-    document.getElementById("resultOrderDate");
-
-const currentStatus =
-    document.getElementById("currentStatus");
-
-const estimatedDelivery =
-    document.getElementById("estimatedDelivery");
-
-const shippingMethod =
-    document.getElementById("shippingMethod");
-
-const trackingNumber =
-    document.getElementById("trackingNumber");
-
-const orderItems =
-    document.getElementById("orderItems");
-
-const orderSubtotal =
-    document.getElementById("orderSubtotal");
-
-const orderDelivery =
-    document.getElementById("orderDelivery");
-
-const orderTotal =
-    document.getElementById("orderTotal");
-
-
-// =========================================================
-// TRACK ORDER FORM
-// =========================================================
-
-trackOrderForm.addEventListener("submit", function (event) {
-
-    event.preventDefault();
-
-
-    // Get what customer entered
-
-    const enteredOrderNumber =
-        orderNumberInput.value.trim().toUpperCase();
-
-
-    // If nothing was entered
-
-    if (enteredOrderNumber === "") {
-
-        showError("Please enter your order number.");
-
-        return;
-
-    }
-
-
-    // Look for the order
-
-    const order =
-        testOrders[enteredOrderNumber];
-
-
-    // Order does not exist
-
-    if (!order) {
-
-        showError(
-            "We couldn't find an order with that number. Please check your order number and try again."
+        filteredOrders = orders.filter(
+            order => order.status.toLowerCase() === filter
         );
 
-        return;
-
     }
 
 
-    // Order found
+    /* No orders */
 
-    displayOrder(order);
+    if (filteredOrders.length === 0) {
 
-});
+        ordersList.style.display = "none";
+        emptyOrders.style.display = "block";
 
-
-// =========================================================
-// DISPLAY ORDER
-// =========================================================
-
-function displayOrder(order) {
+        return;
+    }
 
 
-    // Remove previous error if there is one
-
-    removeError();
-
-
-    // Basic order information
-
-    resultOrderNumber.textContent =
-        `Order #${order.orderNumber}`;
-
-    resultOrderDate.textContent =
-        `Placed on ${order.orderDate}`;
+    ordersList.style.display = "flex";
+    emptyOrders.style.display = "none";
 
 
-    currentStatus.textContent =
-        order.status;
+    /* Create order cards */
+
+    filteredOrders.forEach((order, index) => {
+
+        const card = document.createElement("div");
+
+        card.className = "order-card";
 
 
-    estimatedDelivery.textContent =
-        order.estimatedDelivery;
+        card.innerHTML = `
 
+            <div class="order-top">
 
-    shippingMethod.textContent =
-        order.shippingMethod;
+                <div>
 
+                    <div class="order-number">
+                        ORDER #${order.id}
+                    </div>
 
-    trackingNumber.textContent =
-        order.trackingNumber;
+                    <div class="order-date">
+                        ${order.date}
+                    </div>
 
-
-    // Display products
-
-    displayOrderItems(order.items);
-
-
-    // Display price summary
-
-    orderSubtotal.textContent =
-        formatPrice(order.subtotal);
-
-
-    orderDelivery.textContent =
-        order.delivery === 0
-            ? "FREE"
-            : formatPrice(order.delivery);
-
-
-    orderTotal.textContent =
-        formatPrice(order.total);
-
-
-    // Show the order result
-
-    orderResult.hidden = false;
-
-
-    // Update timeline
-
-    updateTimeline(order.status);
-
-
-    // Smoothly take customer to result
-
-    setTimeout(function () {
-
-        orderResult.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-        });
-
-    }, 100);
-
-}
-
-
-// =========================================================
-// DISPLAY ORDER ITEMS
-// =========================================================
-
-function displayOrderItems(items) {
-
-
-    // Clear old items
-
-    orderItems.innerHTML = "";
-
-
-    items.forEach(function (item) {
-
-
-        const itemElement =
-            document.createElement("div");
-
-
-        itemElement.className =
-            "order-item";
-
-
-        itemElement.innerHTML = `
-
-            <img
-                src="${item.image}"
-                alt="${item.name}"
-                class="order-item-image"
-            >
-
-            <div class="order-item-details">
-
-                <p class="order-item-name">
-                    ${item.name}
-                </p>
-
-                <p class="order-item-meta">
-                    ${item.flavour} · Qty ${item.quantity}
-                </p>
+                </div>
 
             </div>
 
-            <div class="order-item-price">
-                ${formatPrice(item.price * item.quantity)}
+
+            <div class="order-body">
+
+                <div class="product-info">
+
+                    <h3>
+                        ${order.product}
+                    </h3>
+
+                    <p>
+                        Quantity: ${order.quantity}
+                    </p>
+
+                </div>
+
+
+                <div class="order-price">
+
+                    <span>TOTAL</span>
+
+                    <strong>
+                        ₹${order.total}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="order-status ${getStatusClass(order.status)}">
+
+                <span class="status-dot"></span>
+
+                ${order.status}
+
+            </div>
+
+
+            <div class="order-actions">
+
+                <button
+                    class="view-btn"
+                    onclick="viewOrder(${index})">
+
+                    VIEW ORDER
+
+                </button>
+
+
+                <button
+                    class="buy-again-btn"
+                    onclick="buyAgain(${index})">
+
+                    BUY AGAIN
+
+                </button>
+
             </div>
 
         `;
 
 
-        orderItems.appendChild(itemElement);
+        ordersList.appendChild(card);
 
     });
 
 }
 
 
-// =========================================================
-// UPDATE ORDER TIMELINE
-// =========================================================
+/* =========================================
+   STATUS CLASS
+========================================= */
 
-function updateTimeline(status) {
+function getStatusClass(status) {
 
+    status = status.toLowerCase();
 
-    const timelineSteps =
-        document.querySelectorAll(".timeline-step");
-
-
-    // Reset everything
-
-    timelineSteps.forEach(function (step) {
-
-        step.classList.remove("completed");
-        step.classList.remove("active");
-
-    });
-
-
-    // Determine current stage
-
-    let currentStep = 0;
-
-
-    if (status === "Ordered") {
-
-        currentStep = 0;
-
+    if (status === "delivered") {
+        return "status-delivered";
     }
 
-    else if (status === "Confirmed") {
-
-        currentStep = 1;
-
+    if (status === "shipped") {
+        return "status-shipped";
     }
 
-    else if (status === "Packed") {
-
-        currentStep = 2;
-
-    }
-
-    else if (status === "Shipped") {
-
-        currentStep = 3;
-
-    }
-
-    else if (status === "Out for Delivery") {
-
-        currentStep = 3;
-
-    }
-
-    else if (status === "Delivered") {
-
-        currentStep = 4;
-
-    }
+    return "status-processing";
+}
 
 
-    // Apply timeline state
+/* =========================================
+   FILTER BUTTONS
+========================================= */
 
-    timelineSteps.forEach(function (step, index) {
+filterButtons.forEach(button => {
 
+    button.addEventListener("click", function () {
 
-        if (index < currentStep) {
-
-            step.classList.add("completed");
-
-        }
-
-
-        else if (index === currentStep) {
-
-            step.classList.add("active");
-
-        }
-
-    });
-
-
-    // If delivered, everything is complete
-
-    if (status === "Delivered") {
-
-        timelineSteps.forEach(function (step) {
-
-            step.classList.remove("active");
-            step.classList.add("completed");
-
+        filterButtons.forEach(btn => {
+            btn.classList.remove("active");
         });
 
+        this.classList.add("active");
+
+        const filter = this.dataset.filter;
+
+        displayOrders(filter);
+
+    });
+
+});
+
+
+/* =========================================
+   VIEW ORDER
+========================================= */
+
+function viewOrder(index) {
+
+    const order = orders[index];
+
+    const modal = document.getElementById("orderModal");
+
+    const details = document.getElementById("orderDetails");
+
+
+    details.innerHTML = `
+
+        <h2 class="details-title">
+            Order #${order.id}
+        </h2>
+
+        <p class="details-subtitle">
+            Placed on ${order.date}
+        </p>
+
+
+        <h3 class="tracking-title">
+            Order Tracking
+        </h3>
+
+
+        <div class="tracking">
+
+            <div class="track-step completed">
+
+                <h4>Order Placed</h4>
+
+                <p>
+                    Your order has been received.
+                </p>
+
+            </div>
+
+
+            <div class="track-step ${isStepComplete(order.status, "processing")}">
+
+                <h4>Being Prepared</h4>
+
+                <p>
+                    Your chocolates are being prepared.
+                </p>
+
+            </div>
+
+
+            <div class="track-step ${isStepComplete(order.status, "shipped")}">
+
+                <h4>Shipped</h4>
+
+                <p>
+                    Your order is on its way.
+                </p>
+
+            </div>
+
+
+            <div class="track-step ${isStepComplete(order.status, "delivered")}">
+
+                <h4>Delivered</h4>
+
+                <p>
+                    Your order has been delivered.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="delivery-box">
+
+            <h3>
+                EXPECTED DELIVERY
+            </h3>
+
+            <p>
+                ${order.deliveryDate}
+            </p>
+
+        </div>
+
+
+        <div class="delivery-box">
+
+            <h3>
+                DELIVERING TO
+            </h3>
+
+            <p>
+                ${order.address}
+            </p>
+
+        </div>
+
+
+        <div class="delivery-box">
+
+            <h3>
+                ORDER TOTAL
+            </h3>
+
+            <p>
+                ₹${order.total}
+            </p>
+
+        </div>
+
+    `;
+
+
+    modal.style.display = "block";
+
+}
+
+
+/* =========================================
+   TRACKING STATUS
+========================================= */
+
+function isStepComplete(currentStatus, step) {
+
+    const statusOrder = [
+        "processing",
+        "shipped",
+        "delivered"
+    ];
+
+    const currentIndex =
+        statusOrder.indexOf(currentStatus.toLowerCase());
+
+    const stepIndex =
+        statusOrder.indexOf(step);
+
+    if (currentIndex >= stepIndex) {
+        return "completed";
     }
 
-}
-
-
-// =========================================================
-// FORMAT PRICE
-// =========================================================
-
-function formatPrice(amount) {
-
-    return new Intl.NumberFormat("en-IN", {
-
-        style: "currency",
-
-        currency: "INR",
-
-        maximumFractionDigits: 0
-
-    }).format(amount);
+    return "";
 
 }
 
 
-// =========================================================
-// SHOW ERROR
-// =========================================================
+/* =========================================
+   CLOSE MODAL
+========================================= */
 
-function showError(message) {
+function closeOrderModal() {
 
+    document.getElementById("orderModal").style.display = "none";
 
-    removeError();
-
-
-    const errorMessage =
-        document.createElement("p");
+}
 
 
-    errorMessage.id =
-        "trackOrderError";
+/* =========================================
+   BUY AGAIN
+========================================= */
 
+function buyAgain(index) {
 
-    errorMessage.textContent =
-        message;
+    const order = orders[index];
 
-
-    errorMessage.style.margin = "16px 0 0";
-
-    errorMessage.style.color = "#c98f7b";
-
-    errorMessage.style.fontFamily =
-        '"Font1", Arial, sans-serif';
-
-    errorMessage.style.fontSize =
-        "12px";
-
-    errorMessage.style.lineHeight =
-        "1.6";
-
-
-    trackOrderForm.insertAdjacentElement(
-        "afterend",
-        errorMessage
+    alert(
+        `${order.product} has been added to your cart!`
     );
 
-
-    // Hide old result if searching again
-
-    orderResult.hidden = true;
+    /* Later we will connect this to your actual cart. */
 
 }
 
 
-// =========================================================
-// REMOVE ERROR
-// =========================================================
+/* =========================================
+   CLOSE MODAL WHEN CLICKING OUTSIDE
+========================================= */
 
-function removeError() {
+window.addEventListener("click", function(event) {
 
-    const existingError =
-        document.getElementById("trackOrderError");
+    const modal = document.getElementById("orderModal");
 
+    if (event.target === modal) {
 
-    if (existingError) {
-
-        existingError.remove();
+        closeOrderModal();
 
     }
 
-}
+});
+
+
+/* =========================================
+   LOAD ORDERS
+========================================= */
+
+displayOrders();

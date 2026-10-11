@@ -5,28 +5,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Liwi-Ka | Track Your Order</title>
+    <title>Liwi-Ka | My Orders</title>
 
-    <!-- Main / Shared Styles -->
     <link rel="stylesheet" href="../style.css">
-
-    <!-- Track Order Styles -->
     <link rel="stylesheet" href="track-order.css">
+    <link rel="stylesheet" href="../responsive-mobile.css">
+    <link rel="stylesheet" href="../shared-navbar.css">
+    <link rel="stylesheet" href="../free-delivery.css">
 </head>
 
 <body>
 
     <!-- =========================
-         NAVIGATION
+         NAVBAR
     ========================== -->
 
     <header class="navbar">
 
-        <a href="../index.html" class="logo">
+        <a href="../index.html" class="logo" aria-label="Liwi-Ka Home">
             <img src="../images/liwi.png" alt="Liwi-Ka Finest Chocolate">
         </a>
 
-        <nav class="nav-links">
+        <nav class="nav-links" aria-label="Primary navigation">
 
             <a href="../index.html">Home</a>
 
@@ -44,12 +44,45 @@
 
         <div class="nav-icons">
 
-            <button aria-label="Search">⌕</button>
+            <button type="button" aria-label="Search">
+                ⌕
+            </button>
 
-            <button aria-label="My Account">♙</button>
+            <button
+                type="button"
+                class="profile-icon-button"
+                aria-label="My Account"
+            >
+                <svg
+                    class="nav-icon-svg"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                >
+                    <circle cx="12" cy="8" r="3.5"></circle>
+                    <path d="M4.5 20c.8-4 3.4-6 7.5-6s6.7 2 7.5 6"></path>
+                </svg>
+            </button>
 
-            <a href="cart.html" class="cart-nav-link" aria-label="Shopping Cart">
-                <button type="button">🛒</button>
+            <a
+                href="cart.html"
+                class="cart-nav-link"
+                aria-label="Shopping Cart"
+            >
+                <button
+                    type="button"
+                    class="cart-icon-button"
+                    aria-label="Shopping Cart"
+                >
+                    <svg
+                        class="nav-icon-svg"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                    >
+                        <path d="M4 5h2l1.7 10.2a2 2 0 0 0 2 1.7h7.8a2 2 0 0 0 1.9-1.4L21 9H7"></path>
+                        <circle cx="10" cy="20" r="1.2"></circle>
+                        <circle cx="18" cy="20" r="1.2"></circle>
+                    </svg>
+                </button>
             </a>
 
         </div>
@@ -58,375 +91,176 @@
 
 
     <!-- =========================
-         MAIN TRACK ORDER AREA
+         MAIN
     ========================== -->
 
-    <main class="track-order-page">
+    <main class="orders-page">
 
+        <!-- HERO -->
 
-        <!-- HERO / INTRO -->
-         
-        <section class="track-hero">
+        <section class="orders-hero">
 
-            <p class="track-eyebrow">
+            <p class="orders-eyebrow">
                 YOUR LIWI-KA JOURNEY
             </p>
 
             <h1>
-                Track Your Order
+                My Orders
             </h1>
 
-            <p class="track-intro">
-                From our atelier to your doorstep.
+            <p class="orders-intro">
+                Every order, every update, all in one place.
             </p>
 
         </section>
 
 
-
         <!-- =========================
-             TRACKING SEARCH
+             ORDERS AREA
         ========================== -->
 
-        <section class="track-search-section">
+        <section class="orders-section">
 
-            <div class="track-search-card">
-
-                <div class="search-card-heading">
-
-                    <p class="section-eyebrow">
-                        ORDER STATUS
-                    </p>
-
-                    <h2>
-                        Where is your order?
-                    </h2>
-
-                    <p>
-                        Enter your order number to view the latest delivery updates.
-                    </p>
-
-                </div>
-
-
-                <form id="trackOrderForm" class="track-order-form">
-
-                    <div class="form-field">
-
-                        <label for="orderNumber">
-                            Order Number
-                        </label>
-
-                        <input
-                            type="text"
-                            id="orderNumber"
-                            name="orderNumber"
-                            placeholder="e.g. LW2026100342"
-                            autocomplete="off"
-                            required
-                        >
-
-                    </div>
-
-
-                    <button type="submit" class="track-button">
-                        Track Order
-                    </button>
-
-                </form>
-
-
-                <p class="track-help-text">
-                    Your order number can be found in your order confirmation email.
-                </p>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =========================
-             ORDER RESULT
-             Hidden until JS finds order
-        ========================== -->
-
-        <section
-            class="order-result-section"
-            id="orderResult"
-            aria-live="polite"
-            hidden
-        >
-
-            <!-- ORDER HEADER -->
-
-            <div class="order-header">
+            <div class="orders-heading">
 
                 <div>
 
                     <p class="section-eyebrow">
-                        ORDER DETAILS
+                        ORDER HISTORY
                     </p>
 
-                    <h2 id="resultOrderNumber">
-                        Order #LW2026100342
+                    <h2>
+                        Your orders
                     </h2>
 
-                    <p id="resultOrderDate">
-                        Placed on 06 October 2026
-                    </p>
-
                 </div>
 
-
-                <div class="current-status">
-
-                    <span class="status-label">
-                        CURRENT STATUS
-                    </span>
-
-                    <span id="currentStatus">
-                        Out for Delivery
-                    </span>
-
-                </div>
+                <a
+                    href="shop.html"
+                    class="continue-shopping"
+                >
+                    Continue Shopping →
+                </a>
 
             </div>
 
 
-
             <!-- =========================
-                 ORDER TIMELINE
+                 LOGGED-IN CUSTOMER
             ========================== -->
 
-            <div class="order-timeline">
+            <div
+                id="ordersContainer"
+                class="orders-container"
+            >
 
-                <div class="timeline-line"></div>
-
-
-                <div class="timeline-step completed">
-
-                    <div class="timeline-dot">
-                        ✓
-                    </div>
-
-                    <p>
-                        Ordered
-                    </p>
-
-                </div>
-
-
-                <div class="timeline-step completed">
-
-                    <div class="timeline-dot">
-                        ✓
-                    </div>
-
-                    <p>
-                        Confirmed
-                    </p>
-
-                </div>
-
-
-                <div class="timeline-step completed">
-
-                    <div class="timeline-dot">
-                        ✓
-                    </div>
-
-                    <p>
-                        Packed
-                    </p>
-
-                </div>
-
-
-                <div class="timeline-step active">
-
-                    <div class="timeline-dot">
-                        ●
-                    </div>
-
-                    <p>
-                        Shipped
-                    </p>
-
-                </div>
-
-
-                <div class="timeline-step">
-
-                    <div class="timeline-dot">
-                        ○
-                    </div>
-
-                    <p>
-                        Delivered
-                    </p>
-
-                </div>
+                <!--
+                    Firebase orders will be inserted here
+                    using JavaScript.
+                -->
 
             </div>
 
 
-
             <!-- =========================
-                 DELIVERY INFORMATION
+                 EMPTY STATE
             ========================== -->
 
-            <div class="delivery-information">
+            <div
+                id="emptyOrders"
+                class="empty-orders"
+                hidden
+            >
 
-                <div class="delivery-column">
+                <p class="empty-eyebrow">
+                    NOTHING HERE YET
+                </p>
 
-                    <span class="info-label">
-                        ESTIMATED DELIVERY
-                    </span>
+                <h3>
+                    Your Liwi-Ka journey
+                    <span>starts here.</span>
+                </h3>
 
-                    <strong id="estimatedDelivery">
-                        10 October 2026
-                    </strong>
+                <p>
+                    Once you place your first order,
+                    it will appear here with its delivery
+                    updates and order details.
+                </p>
 
-                </div>
-
-
-                <div class="delivery-column">
-
-                    <span class="info-label">
-                        SHIPPING METHOD
-                    </span>
-
-                    <strong id="shippingMethod">
-                        Standard Delivery
-                    </strong>
-
-                </div>
-
-
-                <div class="delivery-column">
-
-                    <span class="info-label">
-                        TRACKING NUMBER
-                    </span>
-
-                    <strong id="trackingNumber">
-                        — 
-                    </strong>
-
-                </div>
+                <a
+                    href="shop.html"
+                    class="shop-button"
+                >
+                    Explore Chocolates
+                </a>
 
             </div>
 
 
-
             <!-- =========================
-                 ORDER ITEMS
+                 NOT LOGGED IN
             ========================== -->
 
-            <div class="order-items-section">
+            <div
+                id="loginRequired"
+                class="login-required"
+                hidden
+            >
 
-                <div class="section-heading">
+                <p class="empty-eyebrow">
+                    YOUR ORDERS
+                </p>
 
-                    <p class="section-eyebrow">
-                        YOUR SELECTION
-                    </p>
+                <h3>
+                    Your orders are
+                    <span>waiting for you.</span>
+                </h3>
 
-                    <h3>
-                        Order Items
-                    </h3>
+                <p>
+                    Sign in to view your previous orders,
+                    delivery updates and order details
+                    in one place.
+                </p>
 
-                </div>
-
-
-                <div id="orderItems" class="order-items">
-
-                    <!--
-                        JavaScript will insert
-                        the products here.
-                    -->
-
-                </div>
-
-            </div>
-
-
-
-            <!-- =========================
-                 ORDER SUMMARY
-            ========================== -->
-
-            <div class="order-summary">
-
-                <div class="summary-row">
-
-                    <span>
-                        Subtotal
-                    </span>
-
-                    <strong id="orderSubtotal">
-                        ₹0
-                    </strong>
-
-                </div>
-
-
-                <div class="summary-row">
-
-                    <span>
-                        Delivery
-                    </span>
-
-                    <strong id="orderDelivery">
-                        ₹0
-                    </strong>
-
-                </div>
-
-
-                <div class="summary-divider"></div>
-
-
-                <div class="summary-row total-row">
-
-                    <span>
-                        Total
-                    </span>
-
-                    <strong id="orderTotal">
-                        ₹0
-                    </strong>
-
-                </div>
+                <button
+                    type="button"
+                    id="loginButton"
+                    class="shop-button"
+                >
+                    Sign In
+                </button>
 
             </div>
 
         </section>
 
 
-
         <!-- =========================
-             NEED HELP
+             HELP
         ========================== -->
 
-        <section class="track-help-section">
+        <section class="orders-help">
 
-            <div class="track-help-content">
+            <div class="orders-help-content">
 
                 <p class="section-eyebrow">
                     NEED ASSISTANCE?
                 </p>
 
                 <h2>
-                    We're here to help.
+                    Something not right?
                 </h2>
 
                 <p>
-                    If you have questions about your order, delivery,
-                    or anything else, our customer care team is happy to assist.
+                    If you have a question about an order,
+                    delivery or payment, our customer care
+                    team is here to help.
                 </p>
 
-                <a href="customer-care.html" class="help-button">
+                <a
+                    href="customer-care.html"
+                    class="help-button"
+                >
                     Contact Customer Care
                 </a>
 
@@ -437,7 +271,6 @@
     </main>
 
 
-
     <!-- =========================
          FOOTER
     ========================== -->
@@ -445,9 +278,6 @@
     <footer class="footer">
 
         <div class="footer-container">
-
-
-            <!-- BRAND -->
 
             <div class="footer-brand">
 
@@ -463,14 +293,9 @@
             </div>
 
 
-
-            <!-- SHOP -->
-
             <div class="footer-column">
 
-                <h3>
-                    SHOP
-                </h3>
+                <h3>SHOP</h3>
 
                 <a href="shop.html">
                     All Chocolates
@@ -487,14 +312,9 @@
             </div>
 
 
-
-            <!-- COMPANY -->
-
             <div class="footer-column">
 
-                <h3>
-                    COMPANY
-                </h3>
+                <h3>COMPANY</h3>
 
                 <a href="../index.html#our-story">
                     Our Story
@@ -505,23 +325,22 @@
                 </a>
 
                 <a href="track-order.html">
-                    Track Order
+                    My Orders
                 </a>
 
             </div>
 
 
-
-            <!-- SUPPORT -->
-
             <div class="footer-column">
 
-                <h3>
-                    SUPPORT
-                </h3>
+                <h3>SUPPORT</h3>
 
                 <a href="customer-care.html">
                     Contact Us
+                </a>
+
+                <a href="track-order.html">
+                    Track Order
                 </a>
 
                 <a href="cart.html">
@@ -536,7 +355,8 @@
         <div class="footer-bottom">
 
             <p>
-                © 2026 Liwi-Ka Finest Chocolate. All rights reserved.
+                © 2026 Liwi-Ka Finest Chocolate.
+                All rights reserved.
             </p>
 
         </div>
@@ -544,12 +364,19 @@
     </footer>
 
 
-
     <!-- =========================
-         JAVASCRIPT
+         SCRIPTS
     ========================== -->
 
     <script src="track-order.js"></script>
+
+    <script src="../script.js"></script>
+
+    <script src="../free-delivery.js"></script>
+
+    <script src="../responsive-mobile.js"></script>
+
+    <script type="module" src="../profile-menu.js"></script>
 
 </body>
 
