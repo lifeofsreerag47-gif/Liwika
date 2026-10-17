@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Orders | Liwi-Ka</title>
+
+    <!-- Main website CSS -->
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../responsive-mobile.css">
+    <link rel="stylesheet" href="../shared-navbar.css">
+    <link rel="stylesheet" href="../free-delivery.css">
+
+    <!-- IMPORTANT: your actual filename is my-order.css -->
+    <link rel="stylesheet" href="my-order.css">
+</head>
+
+<body>
+
+    <!-- NAVBAR: uses your existing website classes -->
+    <header class="navbar">
+        <a href="index.html" class="logo" aria-label="Liwi-Ka Home">
+            <img src="
+            ../images/liwi.png" alt="Liwi-Ka Finest Chocolate">
+        </a>
+
+        <nav class="nav-links" aria-label="Primary navigation">
+            <a href="../index.html">Home</a>
+<a href="../shop.html">Shop</a>
+<a href="../new-arrivals.html">New Arrivals</a>
+<a href="../seasonals/seasonals.html">Seasonals</a>
+<a href="../index.html#our-story">Our Story</a>
+<a href="../seasonals/customer-care.html">Customer Care</a>
+        </nav>
+
+        <div class="nav-icons">
+            <button type="button" aria-label="Search">⌕</button>
+            <a href="profile.html" aria-label="My Account" class="orders-account-link">
+                <svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="12" cy="8" r="3.5"></circle>
+                    <path d="M4.5 20c.8-4 3.4-6 7.5-6s6.7 2 7.5 6"></path>
+                </svg>
+            </a>
+            <a href="cart.html" class="cart-nav-link" aria-label="Shopping Cart">
+                <button type="button" class="cart-icon-button" aria-label="Shopping Cart">
+                    <svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M4 5h2l1.7 10.2a2 2 0 0 0 2 1.7h7.8a2 2 0 0 0 1.9-1.4L21 9H7"></path>
+                        <circle cx="10" cy="20" r="1.2"></circle>
+                        <circle cx="18" cy="20" r="1.2"></circle>
+                    </svg>
+                </button>
+            </a>
+        </div>
+    </header>
+
+
+    <!-- MY ORDERS PAGE -->
+    <main class="orders-page">
+
+        <!-- HERO -->
+        <section class="orders-hero">
+            <p class="orders-eyebrow">YOUR LIWI-KA JOURNEY</p>
+
+            <h1>My <span>Orders</span></h1>
+
+            <p class="orders-intro">
+                Every little indulgence, all in one place.
+                Follow your favourite chocolates from our kitchen to your doorstep.
+            </p>
+
+            <div class="orders-hero-line"></div>
+        </section>
+
+
+        <!-- PAGE CONTENT -->
+        <section class="orders-content">
+
+            <div class="orders-heading-row">
+                <div>
+                    <p class="section-eyebrow">ORDER HISTORY</p>
+                    <h2>Your chocolate moments</h2>
+                    <p class="orders-subtitle">
+                        Review your purchases and check their delivery progress.
+                    </p>
+                </div>
+
+                <a href="shop.html" class="continue-shopping">
+                    <span>+</span> Continue Shopping
+                </a>
+            </div>
+
+
+            <!-- FILTER: visual only until JavaScript is connected -->
+            <div class="orders-toolbar">
+                <p><strong>2</strong> sample orders</p>
+
+                <label class="order-filter">
+                    <span>Filter by</span>
+                    <select name="order-status" aria-label="Filter orders by status">
+                        <option value="all">All orders</option>
+                        <option value="processing">Processing</option>
+                        <option value="shipped">Shipped</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </label>
+            </div>
+
+
+            <!-- ORDER 1 -->
+            <article class="order-card">
+
+                <div class="order-card-top">
+                    <div class="order-reference">
+                        <span class="order-label">ORDER NUMBER</span>
+                        <h3>#LK-10245</h3>
+                    </div>
+
+                    <span class="order-status status-shipped">
+                        <span class="status-dot"></span>
+                        Shipped
+                    </span>
+                </div>
+
+                <div class="order-meta">
+                    <div>
+                        <span class="meta-label">ORDERED ON</span>
+                        <p>12 October 2026</p>
+                    </div>
+
+                    <div>
+                        <span class="meta-label">TOTAL</span>
+                        <p>₹ 649.00</p>
+                    </div>
+
+                    <div>
+                        <span class="meta-label">ITEMS</span>
+                        <p>2 products</p>
+                    </div>
+                </div>
+
+                <div class="order-divider"></div>
+
+                <div class="order-products">
+                    <div class="order-product">
+                        <img src="../images/choco1.jpg" alt="Dark Indulgence">
+                        <div class="product-description">
+                            <h4>Dark Indulgence</h4>
+                            <p>Rich dark chocolate</p>
+                            <span>Qty: 1</span>
+                        </div>
+                    </div>
+
+                    <div class="order-product">
+                        <img src="../images/choco2.jpg" alt="Golden Milk">
+
+                        <div class="product-description">
+                            <h4>Golden Milk</h4>
+                            <p>Smooth and creamy chocolate</p>
+                            <span>Qty: 1</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="delivery-note">
+                    <span class="delivery-note-icon">✦</span>
+                    <div>
+                        <strong>Your chocolates are on their way</strong>
+                        <p>Estimated delivery: 18–20 October</p>
+                    </div>
+                </div>
+
+                <div class="order-card-actions">
+                    <a href="#details-LK-10245" class="button-outline">
+                        View Details
+                    </a>
+
+                    <a href="#details-LK-10245" class="button-gold">
+                        Track Order <span>→</span>
+                    </a>
+                </div>
+
+
+                <!-- DETAILS: revealed by clicking View Details / Track Order -->
+                <div class="order-details" id="details-LK-10245">
+                    <div class="details-heading">
+                        <h4>Delivery progress</h4>
+                        <span>Sample tracking timeline</span>
+                    </div>
+
+                    <div class="tracking-timeline">
+                        <div class="timeline-step completed">
+                            <span class="timeline-marker">✓</span>
+                            <div>
+                                <strong>Order confirmed</strong>
+                                <p>Your order has been received.</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-step completed">
+                            <span class="timeline-marker">✓</span>
+                            <div>
+                                <strong>Preparing your chocolates</strong>
+                                <p>Your order has been packed with care.</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-step current">
+                            <span class="timeline-marker"></span>
+                            <div>
+                                <strong>Shipped</strong>
+                                <p>Your parcel is on its way to you.</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-step">
+                            <span class="timeline-marker"></span>
+                            <div>
+                                <strong>Delivered</strong>
+                                <p>Your chocolate moment awaits.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="#" class="close-details">Close details ↑</a>
+                </div>
+
+            </article>
+
+
+            <!-- ORDER 2 -->
+            <article class="order-card">
+
+                <div class="order-card-top">
+                    <div class="order-reference">
+                        <span class="order-label">ORDER NUMBER</span>
+                        <h3>#LK-10192</h3>
+                    </div>
+
+                    <span class="order-status status-delivered">
+                        <span class="status-dot"></span>
+                        Delivered
+                    </span>
+                </div>
+
+                <div class="order-meta">
+                    <div>
+                        <span class="meta-label">ORDERED ON</span>
+                        <p>05 October 2026</p>
+                    </div>
+
+                    <div>
+                        <span class="meta-label">TOTAL</span>
+                        <p>₹ 899.00</p>
+                    </div>
+
+                    <div>
+                        <span class="meta-label">ITEMS</span>
+                        <p>1 product</p>
+                    </div>
+                </div>
+
+                <div class="order-divider"></div>
+
+                <div class="order-products">
+                    <div class="order-product">
+                        <img src="../images/choco3.jpg" alt="Signature Chocolate Box">
+
+                        <div class="product-description">
+                            <h4>Signature Chocolate Box</h4>
+                            <p>A selection of chocolate favourites</p>
+                            <span>Qty: 1</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="delivery-note delivered-note">
+                    <span class="delivery-note-icon">✓</span>
+                    <div>
+                        <strong>Delivered with love</strong>
+                        <p>Your order was marked as delivered on 08 October.</p>
+                    </div>
+                </div>
+
+                <div class="order-card-actions">
+                    <a href="#details-LK-10192" class="button-outline">
+                        View Details
+                    </a>
+
+                    <a href="shop.html" class="button-gold">
+                        Order Again <span>→</span>
+                    </a>
+                </div>
+
+                <div class="order-details" id="details-LK-10192">
+                    <div class="details-heading">
+                        <h4>Order summary</h4>
+                        <span>Sample order details</span>
+                    </div>
+
+                    <div class="tracking-timeline">
+                        <div class="timeline-step completed">
+                            <span class="timeline-marker">✓</span>
+                            <div>
+                                <strong>Order confirmed</strong>
+                                <p>Your order was received successfully.</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-step completed">
+                            <span class="timeline-marker">✓</span>
+                            <div>
+                                <strong>Prepared and packed</strong>
+                                <p>Your chocolates were carefully packed.</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-step completed">
+                            <span class="timeline-marker">✓</span>
+                            <div>
+                                <strong>Out for delivery</strong>
+                                <p>Your parcel was on its final journey.</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-step completed">
+                            <span class="timeline-marker">✓</span>
+                            <div>
+                                <strong>Delivered</strong>
+                                <p>Your order was marked as delivered on 08 October.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="#" class="close-details">Close details ↑</a>
+                </div>
+
+            </article>
+
+
+            <!-- HELP SECTION -->
+            <aside class="orders-help">
+                <div class="help-decoration" aria-hidden="true">✦</div>
+
+                <div class="help-copy">
+                    <p class="section-eyebrow">HERE FOR YOU</p>
+                    <h3>Need a little help?</h3>
+                    <p>
+                        Questions about your order? Our team is happy to help
+                        make your Liwi-Ka experience sweeter.
+                    </p>
+                </div>
+
+                <a href="../seasonals/customer-care.html" class="help-link">
+                    Contact Customer Care <span>→</span>
+                </a>
+            </aside>
+
+        </section>
+    </main>
+
+
+    <!-- FOOTER: uses your existing website classes -->
+    <footer class="footer">
+        <div class="footer-container">
+
+            <div class="footer-brand">
+                <a href="../index.html" class="footer-logo">
+    <img src="../images/liwi.png" alt="Liwi-Ka Finest Chocolate">
+</a>
+
+                <p>
+                    Crafted with passion.
+                    Created for unforgettable moments.
+                </p>
+
+                <div class="footer-socials">
+                    <a href="#">Instagram</a>
+                    <a href="#">Facebook</a>
+                    <a href="#">WhatsApp</a>
+                </div>
+            </div>
+
+            <div class="footer-column">
+                <h3>Explore</h3>
+                <a href="index.html">Home</a>
+                <a href="shop.html">Shop</a>
+                <a href="seasonals.html">Seasonals</a>
+                <a href="index.html#our-story">Our Story</a>
+            </div>
+
+            <div class="footer-column">
+                <h3>Customer Care</h3>
+                <a href="customer-care.html">Contact Us</a>
+                <a href="customer-care.html">Shipping &amp; Delivery</a>
+                <a href="customer-care.html">Returns &amp; Refunds</a>
+                <a href="customer-care.html">FAQs</a>
+            </div>
+
+            <div class="footer-newsletter">
+                <h3>Stay in the Chocolate Loop</h3>
+
+                <p>
+                    Discover new creations, seasonal collections
+                    and exclusive offers.
+                </p>
+
+                <form class="newsletter-form">
+                    <input
+                        type="email"
+                        placeholder="Your email address"
+                        aria-label="Your email address"
+                    >
+                    <button type="submit">JOIN</button>
+                </form>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2026 Liwi-Ka. All rights reserved.</p>
+
+            <div class="footer-bottom-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms &amp; Conditions</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Existing website scripts, if these files are in your project -->
+    <script src="../responsive-mobile.js"></script>
+<script src="../free-delivery.js"></script>
+<script src="../profile-menu.js"></script>
+
+</body>
+</html>
