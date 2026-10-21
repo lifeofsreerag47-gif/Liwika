@@ -1,0 +1,754 @@
+/* =========================================
+   RESET
+========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    
+    background: #0b0b0b;
+    color: #f5e8b0;
+    font-family: "Font1", sans-serif;
+}
+
+
+/* =========================================
+   FONTS
+========================================= */
+
+@font-face {
+    font-family: "Font";
+    src: url("OrangeAvenue.otf");
+    
+}
+
+@font-face {
+    font-family: "Font1";
+    src: url("Outfit-Regular.ttf");
+}
+
+
+/* ================= NAVBAR ================= */
+
+.navbar {
+    height: 90px;
+    width: 100%;
+    padding: 0 5%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: #0b0b0b;
+
+    position: relative;
+    z-index: 1000;
+}
+
+
+/* LOGO */
+
+.logo img {
+    width: 170px;
+    display: block;
+}
+
+
+/* NAVIGATION */
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 35px;
+}
+
+.nav-links a {
+    position: relative;
+
+    color: #fff7dc;
+    text-decoration: none;
+
+    font-family: Font1, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+
+    transition: 0.3s ease;
+}
+
+
+/* GOLD UNDERLINE */
+
+.nav-links a::after {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    bottom: -7px;
+
+    width: 0;
+    height: 3px;
+
+    background: #d9a441;
+
+    transition: width 0.3s ease;
+}
+
+
+.nav-links a:hover {
+    color: #d9a441;
+}
+
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+
+/* CART */
+
+.nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.nav-icons a {
+    color: #fff7dc;
+    text-decoration: none;
+    font-size: 21px;
+}
+/* =========================================
+   LOGO
+========================================= */
+
+.logo {
+    display: flex;
+    align-items: center;
+
+    width: 170px;
+}
+
+.logo img {
+    width: 100%;
+    height: auto;
+
+    display: block;
+}
+
+
+/* =========================================
+   NAVIGATION
+========================================= */
+
+.nav-links {
+    display: flex;
+
+    align-items: center;
+
+    gap: 35px;
+}
+
+.nav-links a {
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-family: "Font1";
+
+    font-size: 13px;
+
+    letter-spacing: 1.5px;
+
+    text-transform: uppercase;
+
+    position: relative;
+
+    transition: color 0.3s ease;
+}
+
+
+/* Underline */
+
+.nav-links a::after {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    bottom: -7px;
+
+    width: 0;
+    height: 1px;
+
+    background: repeating-linear-gradient(
+        90deg,
+        #83641b 0px,
+        #f7ef8a 8px,
+        #e3bf5c 16px,
+        #a9882b 24px,
+        #83641b 32px
+    );
+
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #d9a441;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+
+/* =========================================
+   CART ICON
+========================================= */
+
+.nav-icons {
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+}
+
+.nav-icons a {
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 21px;
+
+    transition:
+        color 0.3s ease,
+        transform 0.3s ease;
+}
+
+.nav-icons a:hover {
+    color: #d9a441;
+
+    transform: translateY(-2px);
+}
+
+
+/* =========================================
+   PRIVACY HERO
+========================================= */
+
+.policy-hero {
+    padding: 160px 8% 70px;
+
+    text-align: center;
+
+    background:
+        radial-gradient(
+            circle at center top,
+            rgba(217, 164, 65, 0.08),
+            transparent 55%
+        );
+
+    border-bottom: 1px solid rgba(201, 154, 61, 0.15);
+}
+
+
+/* Small heading */
+
+.policy-hero .small-heading {
+    font-family: "Font1";
+
+    color: #d9a441;
+
+    font-size: 12px;
+
+    letter-spacing: 5px;
+
+    text-transform: uppercase;
+
+    margin-bottom: 22px;
+}
+
+
+/* Main heading */
+
+.policy-hero h1 {
+    font-family: "Font";
+
+    font-size: clamp(48px, 6vw, 75px);
+
+    font-weight: 400;
+
+    line-height: 1.1;
+
+    color: #f5f0e8;
+
+    margin-bottom: 25px;
+}
+
+
+/* Gold word */
+
+.policy-hero h1 span {
+    background: repeating-linear-gradient(
+        90deg,
+        #83641b 0px,
+        #f7ef8a 8px,
+        #e3bf5c 16px,
+        #a9882b 24px,
+        #83641b 32px
+    );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+}
+
+
+/* Description */
+
+.hero-description {
+    font-family: "Font1";
+
+    max-width: 700px;
+
+    margin: 0 auto 20px;
+
+    color: #aaa39a;
+
+    font-size: 15px;
+
+    line-height: 1.7;
+
+    letter-spacing: 0.5px;
+}
+
+
+/* Updated date */
+
+.updated {
+    font-family: "Font1";
+
+    color: #77716a;
+
+    font-size: 11px;
+
+    letter-spacing: 1.5px;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================
+   POLICY CONTAINER
+========================================= */
+
+.policy-container {
+    max-width: 1050px;
+
+    margin: 0 auto;
+
+    padding: 80px 30px 120px;
+}
+
+
+/* =========================================
+   POLICY SECTION
+========================================= */
+
+.policy-section {
+    display: grid;
+
+    grid-template-columns: 70px 1fr;
+
+    gap: 35px;
+
+    padding: 50px 0;
+
+    border-bottom: 1px solid rgba(201, 154, 61, 0.12);
+}
+
+
+/* Section number */
+
+.section-number {
+    font-family: "Font1";
+
+    color: #d5a74a;
+
+    font-size: 12px;
+
+    letter-spacing: 2px;
+
+    padding-top: 6px;
+}
+
+
+/* =========================================
+   SECTION CONTENT
+========================================= */
+
+.section-content h2 {
+    font-family: "Font";
+
+    font-size: 32px;
+
+    font-weight: 400;
+
+    color: #f5f0e8;
+
+    margin-bottom: 20px;
+}
+
+.section-content p {
+    font-family: "Font1";
+
+    font-size: 14px;
+
+    line-height: 1.9;
+
+    color: #aaa39a;
+
+    margin-bottom: 18px;
+}
+
+.section-content strong {
+    color: #d5a74a;
+
+    font-weight: 600;
+}
+
+
+/* =========================================
+   LISTS
+========================================= */
+
+.section-content ul {
+    margin: 20px 0 20px 20px;
+
+    padding: 0;
+}
+
+.section-content li {
+    font-family: "Font1";
+
+    color: #aaa39a;
+
+    font-size: 14px;
+
+    line-height: 1.8;
+
+    margin-bottom: 8px;
+
+    padding-left: 8px;
+}
+
+.section-content li::marker {
+    color: #d5a74a;
+}
+
+
+/* =========================================
+   CONTACT BOX
+========================================= */
+
+.contact-box {
+    margin-top: 30px;
+
+    padding: 25px 30px;
+
+    background: #11100e;
+
+    border: 1px solid rgba(201, 154, 61, 0.2);
+
+    border-left: 3px solid #d5a74a;
+}
+
+.contact-box p {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 20px;
+
+    margin-bottom: 12px;
+
+    color: #aaa39a;
+}
+
+.contact-box p:last-child {
+    margin-bottom: 0;
+}
+
+.contact-box span {
+    min-width: 80px;
+
+    color: #d5a74a;
+
+    font-family: "Font1";
+
+    font-size: 11px;
+
+    letter-spacing: 1.5px;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.footer {
+    background: #040404;
+
+    border-top: 1px solid rgba(201, 154, 61, 0.15);
+
+    padding: 80px 8% 40px;
+
+    color: #aaa39a;
+
+    font-family: "Font1";
+}
+
+.footer-container {
+    max-width: 1250px;
+
+    margin: 0 auto 60px;
+
+    display: grid;
+
+    grid-template-columns: 1.4fr 1fr 1fr 1.3fr;
+
+    gap: 50px;
+}
+
+
+/* Footer logo */
+
+.footer-brand .footer-logo {
+    display: inline-block;
+
+    width: 140px;
+
+    margin-bottom: 20px;
+}
+
+.footer-brand .footer-logo img {
+    width: 100%;
+
+    height: auto;
+
+    display: block;
+}
+
+
+/* Footer description */
+
+.footer-brand p {
+    font-family: "Font1";
+
+    font-size: 13px;
+
+    line-height: 1.7;
+
+    color: #77716a;
+
+    max-width: 280px;
+}
+
+
+/* Footer headings */
+
+.footer-column h3 {
+    font-family: "Font";
+
+    font-size: 20px;
+
+    font-weight: 400;
+
+    color: #f5f0e8;
+
+    margin-bottom: 20px;
+}
+
+
+/* Footer links */
+
+.footer-column a {
+    display: block;
+
+    color: #77716a;
+
+    text-decoration: none;
+
+    font-family: "Font1";
+
+    font-size: 13px;
+
+    margin-bottom: 12px;
+
+    transition:
+        color 0.3s ease,
+        transform 0.3s ease;
+}
+
+.footer-column a:hover {
+    color: #d5a74a;
+
+    transform: translateX(4px);
+}
+
+
+/* =========================================
+   FOOTER BOTTOM
+========================================= */
+
+.footer-bottom {
+    max-width: 1250px;
+
+    margin: 0 auto;
+
+    padding-top: 30px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    font-family: "Font1";
+
+    font-size: 12px;
+
+    color: #55514c;
+}
+
+.footer-bottom p {
+    margin: 0;
+}
+
+.footer-bottom-links {
+    display: flex;
+
+    gap: 25px;
+}
+
+.footer-bottom-links a {
+    color: #55514c;
+
+    text-decoration: none;
+
+    font-family: "Font1";
+
+    transition: color 0.3s ease;
+}
+
+.footer-bottom-links a:hover {
+    color: #d5a74a;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 900px) {
+
+    .navbar {
+        height: 75px;
+
+        padding: 0 20px;
+    }
+
+    .logo {
+        width: 125px;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .nav-icons a {
+        font-size: 18px;
+    }
+
+    .policy-hero {
+        padding: 130px 20px 60px;
+    }
+
+    .policy-container {
+        padding: 50px 20px 80px;
+    }
+
+    .policy-section {
+        grid-template-columns: 1fr;
+
+        gap: 10px;
+
+        padding: 40px 0;
+    }
+
+    .section-number {
+        padding-top: 0;
+    }
+
+    .section-content h2 {
+        font-size: 28px;
+    }
+
+    .section-content p,
+    .section-content li {
+        font-size: 14px;
+    }
+
+    .footer-container {
+        grid-template-columns: 1fr 1fr;
+
+        gap: 35px;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+
+        gap: 15px;
+
+        text-align: center;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .footer-container {
+        grid-template-columns: 1fr;
+    }
+
+    .policy-hero h1 {
+        font-size: 45px;
+    }
+
+    .hero-description {
+        font-size: 13px;
+    }
+
+    .contact-box p {
+        flex-direction: column;
+
+        gap: 4px;
+    }
+}
