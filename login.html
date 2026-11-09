@@ -1,154 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Liwi-Ka | Login</title>
-
+    <meta name="theme-color" content="#090705">
+    <meta name="description" content="Sign in securely to your Liwi-Ka chocolate account using Google or your phone number.">
+    <title>Liwi-Ka | Sign In</title>
     <link rel="stylesheet" href="auth.css">
     <link rel="stylesheet" href="responsive-mobile.css">
     <link rel="stylesheet" href="free-delivery.css">
 </head>
-
-<body>
-
+<body class="liwika-auth-page" data-auth-mode="sign-in">
     <main class="auth-page">
+        <div class="auth-atmosphere" aria-hidden="true">
+            <span class="atmosphere-orb orb-one"></span>
+            <span class="atmosphere-orb orb-two"></span>
+            <span class="atmosphere-orb orb-three"></span>
+            <span class="sparkle sparkle-one">✦</span>
+            <span class="sparkle sparkle-two">✧</span>
+            <span class="sparkle sparkle-three">✦</span>
+        </div>
 
-        <!-- Small Logo -->
-        <a href="index.html" class="auth-logo">
-            <img src="images/liwi.png" alt="Liwi-Ka Finest Chocolate">
-        </a>
+        <div class="auth-layout">
+            <section class="auth-showcase" aria-label="Liwi-Ka chocolate">
+                <a href="index.html" class="auth-logo" aria-label="Liwi-Ka Home">
+                    <img src="images/liwi.png" alt="Liwi-Ka Finest Chocolate">
+                    <span>THE ART OF CHOCOLATE</span>
+                </a>
 
-
-        <!-- Login Card -->
-        <section class="auth-card">
-
-            <div class="gold-line"></div>
-
-            <div class="auth-heading">
-                <p class="auth-eyebrow">WELCOME BACK</p>
-
-                <h1>Sign In</h1>
-
-                <p>
-                    Enter your details to continue your Liwi-Ka journey.
-                </p>
-            </div>
-
-
-            <form class="auth-form" id="loginForm">
-
-                <!-- Email -->
-                <div class="field-group">
-
-                    <label for="loginEmail">EMAIL ADDRESS</label>
-
-                    <div class="field-wrapper">
-
-                        <span class="field-symbol">@</span>
-
-                        <input
-                            type="email"
-                            id="loginEmail"
-                            name="email"
-                            placeholder="Enter your email address"
-                            autocomplete="email"
-                            required
-                        >
-
-                    </div>
-
+                <div class="showcase-copy">
+                    <p class="showcase-kicker"><span></span> A LITTLE LUXURY, EVERY DAY</p>
+                    <h2>Make room for<br><em>something wonderful.</em></h2>
+                    <p class="showcase-description">Your favourite handcrafted moments are just a step away. Sign in and pick up where the sweetness left off.</p>
                 </div>
 
+                <div class="chocolate-stage" aria-hidden="true">
+                    <div class="stage-ring ring-one"></div>
+                    <div class="stage-ring ring-two"></div>
+                    <div class="stage-glow"></div>
+                    <div class="chocolate-shard shard-left"></div>
+                    <div class="chocolate-shard shard-right"></div>
+                    <div class="chocolate-plaque">
+                        <div class="plaque-inner">
+                            <span class="plaque-monogram">L<span>·</span>K</span>
+                            <span class="plaque-caption">FINELY CRAFTED</span>
+                        </div>
+                    </div>
+                    <span class="floating-heart heart-one">♥</span>
+                    <span class="floating-heart heart-two">♥</span>
+                    <span class="floating-heart heart-three">♥</span>
+                    <span class="stage-caption caption-left">RICH · REAL · REMEMBERED</span>
+                    <span class="stage-caption caption-right">EST. WITH LOVE</span>
+                </div>
 
-                <!-- Password -->
-                <div class="field-group">
+                <div class="showcase-bottom">
+                    <span class="showcase-rule"></span>
+                    <p>CRAFTED FOR YOUR SWEETEST MOMENTS</p>
+                    <span class="showcase-coordinate">17°41' N &nbsp; 83°13' E</span>
+                </div>
+            </section>
 
-                    <label for="loginPassword">PASSWORD</label>
+            <section class="auth-content" aria-labelledby="authTitle">
+                <div class="auth-topline">
+                    <a href="index.html" class="back-to-shop"><span aria-hidden="true">←</span> BACK TO THE SHOP</a>
+                    <span class="secure-chip"><span class="secure-dot"></span> SECURE ACCESS</span>
+                </div>
 
-                    <div class="field-wrapper password-field">
+                <section class="auth-card auth-card-modern" aria-labelledby="authTitle">
+                    <div class="card-ornament ornament-top" aria-hidden="true"></div>
+                    <div class="auth-heading">
+                        <p class="auth-eyebrow">WELCOME BACK TO LIWI-KA</p>
+                        <h1 id="authTitle">Your sweet spot.</h1>
+                        <p>Sign in to discover, order and enjoy a little more delight.</p>
+                    </div>
 
-                        <span class="field-symbol">◇</span>
-
-                        <input
-                            type="password"
-                            id="loginPassword"
-                            name="password"
-                            placeholder="Enter your password"
-                            autocomplete="current-password"
-                            required
-                        >
-
-                        <button
-                            type="button"
-                            class="password-toggle"
-                            data-target="loginPassword"
-                        >
-                            VIEW
+                    <div class="auth-methods">
+                        <button type="button" class="google-auth-button" id="googleSignInButton">
+                            <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#4285F4" d="M43.6 24.5c0-1.4-.1-2.8-.4-4.1H24v7.8h11a9.4 9.4 0 0 1-4.1 6.2v5.1h6.6c3.9-3.6 6.1-8.8 6.1-15z"/><path fill="#34A853" d="M24 44c5.5 0 10.1-1.8 13.5-4.9l-6.6-5.1c-1.8 1.2-4 1.9-6.9 1.9-5.3 0-9.8-3.6-11.4-8.4H5.8v5.3A20 20 0 0 0 24 44z"/><path fill="#FBBC05" d="M12.6 27.5a12 12 0 0 1 0-7V15H5.8a20 20 0 0 0 0 18z"/><path fill="#EA4335" d="M24 12.1c3 0 5.7 1 7.8 3.1l5.8-5.8C34.1 6.1 29.5 4 24 4A20 20 0 0 0 5.8 15l6.8 5.3c1.6-4.8 6.1-8.2 11.4-8.2z"/></svg>
+                            <span>Continue with Google</span>
+                            <span class="google-button-arrow" aria-hidden="true">↗</span>
                         </button>
 
+                        <div class="auth-divider"><span>OR CONTINUE WITH PHONE</span></div>
+
+                        <div class="field-group phone-field-group">
+                            <label for="phoneNumber">PHONE NUMBER <span>WITH COUNTRY CODE</span></label>
+                            <div class="field-wrapper">
+                                <span class="field-symbol" aria-hidden="true">+</span>
+                                <input type="tel" id="phoneNumber" name="phone" placeholder="+91 98765 43210" autocomplete="tel" inputmode="tel" maxlength="18" aria-describedby="phoneHelp" required>
+                                <span class="input-end-icon" aria-hidden="true">⌁</span>
+                            </div>
+                            <p class="phone-help" id="phoneHelp">We'll send a one-time code to verify it's really you.</p>
+                        </div>
+
+                        <button type="button" class="auth-button" id="sendPhoneCode">
+                            <span>Send secure sign-in code</span><span class="button-arrow">→</span>
+                        </button>
+
+                        <div class="otp-panel" id="otpPanel" hidden>
+                            <div class="otp-intro"><span class="otp-lock" aria-hidden="true">✳</span><span>One last step. Enter the code we sent you.</span></div>
+                            <div class="field-group">
+                                <label for="phoneOtp">SIX-DIGIT VERIFICATION CODE</label>
+                                <div class="field-wrapper">
+                                    <span class="field-symbol" aria-hidden="true">#</span>
+                                    <input type="text" id="phoneOtp" name="otp" placeholder="• • • • • •" inputmode="numeric" autocomplete="one-time-code" maxlength="6">
+                                </div>
+                            </div>
+                            <button type="button" class="auth-button" id="verifyPhoneCode"><span>Verify &amp; sign in</span><span class="button-arrow">→</span></button>
+                            <div class="otp-actions">
+                                <button type="button" id="resendPhoneCode">Resend code</button>
+                                <button type="button" id="changePhoneNumber">Change number</button>
+                            </div>
+                        </div>
+                        <div id="recaptcha-container" aria-hidden="true"></div>
                     </div>
 
-                </div>
-
-
-                <!-- Login Options -->
-                <div class="auth-options">
-
-                    <label class="remember-option">
-                        <input type="checkbox" name="remember">
-                        <span class="custom-check"></span>
-                        Remember me
-                    </label>
-
-                    <a href="#" class="auth-link" id="forgotPasswordLink">
-                        Forgot password?
-                    </a>
-
-                </div>
-
-
-                <!-- Login Button -->
-                <button type="submit" class="auth-button">
-                    <span>SIGN IN</span>
-                    <span class="button-arrow">→</span>
-                </button>
-
-            </form>
-
-
-            <!-- Signup Link -->
-            <div class="switch-auth">
-
-                <p>
-                    Don't have an account?
-                    <a id="signupSwitchLink" href="signup.html">Sign up</a>
-                </p>
-
-            </div>
-
-
-            <div class="auth-note">
-                Crafted for your sweetest moments.
-            </div>
-
-        </section>
-
-
-        <footer class="auth-footer">
-            LIWI-KA &nbsp; • &nbsp; FINEST CHOCOLATE
-        </footer>
-
+                    <p class="auth-feedback" id="authFeedback" role="status" aria-live="polite" hidden></p>
+                    <div class="auth-security-note"><span aria-hidden="true">◇</span> Your number is used only to secure your account.</div>
+                    <div class="switch-auth"><p>New to Liwi-Ka? <a id="signupSwitchLink" href="signup.html">Create an account <span aria-hidden="true">↗</span></a></p></div>
+                    <div class="auth-note">GOOD CHOCOLATE. GOOD MOMENTS. GREAT TO HAVE YOU BACK.</div>
+                    <div class="card-ornament ornament-bottom" aria-hidden="true"></div>
+                </section>
+                <footer class="auth-footer">© LIWI-KA &nbsp; · &nbsp; FINEST CHOCOLATE</footer>
+            </section>
+        </div>
     </main>
-
-
     <script type="module" src="auth.js"></script>
-
     <script src="free-delivery.js"></script>
 </body>
-
-</html><script>
-(function(){var p=new URLSearchParams(location.search),r=p.get('returnTo');if(r){var a=document.getElementById('signupSwitchLink');if(a)a.href='signup.html?returnTo='+encodeURIComponent(r);}})();
-</script>
+</html>

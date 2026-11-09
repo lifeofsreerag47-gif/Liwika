@@ -88,6 +88,11 @@ import { auth, db, persistenceReady } from './firebase-config.js';
                 </div>
             </div>
             <div class="liwika-account-divider"></div>
+            <a class="liwika-account-orders" href="${escapeHtml(getSiteUrl('videos/my-orders.html'))}">
+                <span class="liwika-orders-icon" aria-hidden="true">▤</span>
+                <span>MY ORDERS</span>
+                <span class="liwika-orders-arrow" aria-hidden="true">→</span>
+            </a>
             <button type="button" class="liwika-account-logout" id="liwikaAccountLogout">
                 <span class="liwika-logout-icon" aria-hidden="true">↗</span>
                 <span>LOG OUT</span>
@@ -113,14 +118,14 @@ import { auth, db, persistenceReady } from './firebase-config.js';
     async function loadProfile(user) {
         var stored = getStoredSession() || {};
         var name = stored.name || user.displayName || '';
-        var email = user.email || stored.email || '';
+        var email = user.email || user.phoneNumber || stored.email || ''; 
 
         try {
             var snapshot = await getDoc(doc(db, 'users', user.uid));
             if (snapshot.exists()) {
                 var data = snapshot.data() || {};
                 name = data.name || name;
-                email = data.email || email;
+                email = data.email || data.phoneNumber || email;
             }
         } catch (error) {
             // Firebase Auth data is enough to keep the account menu usable.
@@ -147,7 +152,8 @@ import { auth, db, persistenceReady } from './firebase-config.js';
         }
 
         if (!currentUser) {
-            window.location.href = getSiteUrl('login.html');
+            var returnTo = window.location.pathname + window.location.search + window.location.hash;
+            window.location.href = getSiteUrl('login.html') + '?returnTo=' + encodeURIComponent(returnTo);
             return;
         }
 

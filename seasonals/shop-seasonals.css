@@ -2295,3 +2295,14 @@ img, video {
 .shop-product * {
   -webkit-tap-highlight-color: transparent !important;
 }
+
+
+/* Shop first-paint performance: keep the hero/heading reveal, skip the grid-wide card entrance. */
+.shop-products > .shop-product {
+  animation: none !important;
+  opacity: 1 !important;
+}
+
+
+/* The mobile-row Quick Add clone is not visible on desktop. */
+.shop-product-bottom .quick-add-mobile { display: none !important; }

@@ -347,3 +347,11 @@
     font-size: 7px !important;
   }
 }
+
+
+/* Mobile cart confirmation sits just above the bottom dock rather than halfway up the screen. */
+@media (max-width: 900px) {
+  .liwika-cart-toast {
+    bottom: calc(82px + env(safe-area-inset-bottom)) !important;
+  }
+}

@@ -468,3 +468,34 @@ body .navbar .nav-icons .profile-icon-button {
     width: calc(100vw - 18px);
   }
 }
+
+
+/* My Orders is the primary destination inside the signed-in account popover. */
+.liwika-account-orders {
+  width: calc(100% - 28px);
+  min-height: 44px;
+  margin: 12px 14px 8px;
+  padding: 0 13px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(224, 180, 76, .22);
+  border-radius: 10px;
+  color: rgba(250, 241, 224, .92);
+  background: rgba(199, 153, 55, .075);
+  font-family: "Font1", sans-serif;
+  font-size: 9px;
+  letter-spacing: 1.7px;
+  text-decoration: none;
+  transition: color .2s ease, border-color .2s ease, background .2s ease, transform .2s ease;
+}
+.liwika-account-orders:hover,
+.liwika-account-orders:focus-visible {
+  color: #f4cf79;
+  border-color: rgba(231, 191, 93, .48);
+  background: rgba(199, 153, 55, .13);
+  transform: translateY(-1px);
+  outline: none;
+}
+.liwika-orders-icon { color: #e1bd72; font-size: 16px; line-height: 1; }
+.liwika-orders-arrow { margin-left: auto; color: #d8b66e; font-size: 15px; }

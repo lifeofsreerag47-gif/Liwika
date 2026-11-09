@@ -9,50 +9,38 @@
     <!-- Main website CSS -->
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="../responsive-mobile.css">
-    <link rel="stylesheet" href="../shared-navbar.css">
     <link rel="stylesheet" href="../free-delivery.css">
 
     <!-- IMPORTANT: your actual filename is my-order.css -->
     <link rel="stylesheet" href="my-order.css">
+    <link rel="stylesheet" href="../shared-navbar.css">
 </head>
 
-<body>
+<body class="orders-shell">
 
     <!-- NAVBAR: uses your existing website classes -->
     <header class="navbar">
-        <a href="index.html" class="logo" aria-label="Liwi-Ka Home">
-            <img src="
-            ../images/liwi.png" alt="Liwi-Ka Finest Chocolate">
+    <a href="../index.html" class="logo" aria-label="Liwi-Ka Home">
+        <img src="../images/liwi.png" alt="Liwi-Ka Finest Chocolate">
+    </a>
+
+    <nav class="nav-links" aria-label="Primary navigation">
+        <a href="../index.html" class="">Home</a>
+        <a href="../seasonals/shop.html" class="">Shop</a>
+        <a href="../new-arrivals.html" class="">New Arrivals</a>
+        <a href="../seasonals/seasonals.html" class="">Seasonals</a>
+        <a href="../index.html#our-story">Our Story</a>
+        <a href="../seasonals/customer-care.html" class="">Customer Care</a>
+    </nav>
+
+    <div class="nav-icons">
+        <button type="button" aria-label="Search">⌕</button>
+        <button type="button" class="profile-icon-button" aria-label="My Account"><svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"></circle><path d="M4.5 20c.8-4 3.4-6 7.5-6s6.7 2 7.5 6"></path></svg></button>
+        <a href="../seasonals/cart.html" class="cart-nav-link" aria-label="Shopping Cart">
+            <button type="button" class="cart-icon-button" aria-label="Shopping Cart"><svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h2l1.7 10.2a2 2 0 0 0 2 1.7h7.8a2 2 0 0 0 1.9-1.4L21 9H7"></path><circle cx="10" cy="20" r="1.2"></circle><circle cx="18" cy="20" r="1.2"></circle></svg></button>
         </a>
-
-        <nav class="nav-links" aria-label="Primary navigation">
-            <a href="../index.html">Home</a>
-<a href="../shop.html">Shop</a>
-<a href="../new-arrivals.html">New Arrivals</a>
-<a href="../seasonals/seasonals.html">Seasonals</a>
-<a href="../index.html#our-story">Our Story</a>
-<a href="../seasonals/customer-care.html">Customer Care</a>
-        </nav>
-
-        <div class="nav-icons">
-            <button type="button" aria-label="Search">⌕</button>
-            <a href="profile.html" aria-label="My Account" class="orders-account-link">
-                <svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true">
-                    <circle cx="12" cy="8" r="3.5"></circle>
-                    <path d="M4.5 20c.8-4 3.4-6 7.5-6s6.7 2 7.5 6"></path>
-                </svg>
-            </a>
-            <a href="cart.html" class="cart-nav-link" aria-label="Shopping Cart">
-                <button type="button" class="cart-icon-button" aria-label="Shopping Cart">
-                    <svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M4 5h2l1.7 10.2a2 2 0 0 0 2 1.7h7.8a2 2 0 0 0 1.9-1.4L21 9H7"></path>
-                        <circle cx="10" cy="20" r="1.2"></circle>
-                        <circle cx="18" cy="20" r="1.2"></circle>
-                    </svg>
-                </button>
-            </a>
-        </div>
-    </header>
+    </div>
+</header>
 
 
     <!-- MY ORDERS PAGE -->
@@ -85,7 +73,7 @@
                     </p>
                 </div>
 
-                <a href="shop.html" class="continue-shopping">
+                <a href="../seasonals/shop.html" class="continue-shopping">
                     <span>+</span> Continue Shopping
                 </a>
             </div>
@@ -288,7 +276,7 @@
                         View Details
                     </a>
 
-                    <a href="shop.html" class="button-gold">
+                    <a href="../seasonals/shop.html" class="button-gold">
                         Order Again <span>→</span>
                     </a>
                 </div>
@@ -384,18 +372,18 @@
 
             <div class="footer-column">
                 <h3>Explore</h3>
-                <a href="index.html">Home</a>
-                <a href="shop.html">Shop</a>
-                <a href="seasonals.html">Seasonals</a>
-                <a href="index.html#our-story">Our Story</a>
+                <a href="../index.html">Home</a>
+                <a href="../seasonals/shop.html">Shop</a>
+                <a href="../seasonals/seasonals.html">Seasonals</a>
+                <a href="../index.html#our-story">Our Story</a>
             </div>
 
             <div class="footer-column">
                 <h3>Customer Care</h3>
-                <a href="customer-care.html">Contact Us</a>
-                <a href="customer-care.html">Shipping &amp; Delivery</a>
-                <a href="customer-care.html">Returns &amp; Refunds</a>
-                <a href="customer-care.html">FAQs</a>
+                <a href="../seasonals/customer-care.html">Contact Us</a>
+                <a href="../seasonals/customer-care.html">Shipping &amp; Delivery</a>
+                <a href="../seasonals/customer-care.html">Returns &amp; Refunds</a>
+                <a href="../seasonals/customer-care.html">FAQs</a>
             </div>
 
             <div class="footer-newsletter">
@@ -422,16 +410,17 @@
             <p>© 2026 Liwi-Ka. All rights reserved.</p>
 
             <div class="footer-bottom-links">
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms &amp; Conditions</a>
+                <a href="../privacy-policy.html">Privacy Policy</a>
+                <a href="../terms-conditions.html">Terms &amp; Conditions</a>
             </div>
         </div>
     </footer>
 
     <!-- Existing website scripts, if these files are in your project -->
+    <script src="../cart.js"></script>
     <script src="../responsive-mobile.js"></script>
-<script src="../free-delivery.js"></script>
-<script src="../profile-menu.js"></script>
+    <script src="../free-delivery.js"></script>
+<script type="module" src="../profile-menu.js"></script>
 
 </body>
 </html>
