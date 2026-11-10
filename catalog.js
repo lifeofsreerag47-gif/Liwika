@@ -1,137 +1,183 @@
-import { auth, db } from './firebase-config.js';
-import { collection, query, where, orderBy, getDocs, getDocsFromCache, doc, getDoc, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js';
+import { db } from './firebase-config.js';
+import { collection, query, where, orderBy, getDocs, getDocsFromCache, doc, getDoc } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js';
 
 const CATALOG_ENDPOINT = 'https://asia-south1-liwika-3719e.cloudfunctions.net/publicCatalog';
-const $ = (selector, root=document) => root.querySelector(selector);
-const esc = (v='') => String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const money = n => `₹${Number(n||0).toLocaleString('en-IN',{maximumFractionDigits:0})}`;
+const $ = (selector, root = document) => root.querySelector(selector);
+const esc = (value = '') => String(value).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+const money = value => `₹${Number(value || 0).toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
 const file = location.pathname.split('/').pop().toLowerCase();
 let catalogue = [];
 let storeSettings = { storefrontOnline: true, maintenanceMode: false };
-let selectedProduct = null;
 
-// Remove old local-only sample baskets/metrics once, so customers do not carry
-// cart lines from the retired hard-coded catalogue into the Firebase catalogue.
-try {
-  if (localStorage.getItem('liwika_catalog_reset_v1') !== 'done') {
-    localStorage.removeItem('liwika_cart_items');
-    localStorage.removeItem('liwika_sales_metrics');
-    localStorage.setItem('liwika_catalog_reset_v1', 'done');
-  }
-} catch (_) {}
-
-function stateMarkup(state, message='') {
-  if (state === 'loading') return `<div class="liwika-catalog-skeletons" aria-label="Loading products">${Array.from({length:3},()=>`<div class="liwika-skeleton-card"><div class="liwika-skeleton-image"></div><div class="liwika-skeleton-line"></div><div class="liwika-skeleton-line short"></div><div class="liwika-skeleton-button"></div></div>`).join('')}</div>`;
-  if (state === 'offline') return `<div class="liwika-catalog-state liwika-offline-state"><div class="state-orbit">⌁</div><p class="state-kicker">CONNECTION INTERRUPTED</p><h3>You’re temporarily offline.</h3><p>${esc(message || 'Please check your internet connection. Your catalogue will return as soon as you are back online.')}</p><button type="button" class="liwika-state-retry" data-catalog-retry>TRY AGAIN ↻</button></div>`;
-  if (state === 'maintenance') return `<div class="liwika-catalog-state liwika-empty-state"><div class="state-orbit">✧</div><p class="state-kicker">A LITTLE PAUSE, A BETTER MOMENT</p><h3>We’ll be back shortly.</h3><p>${esc(message || 'Our chocolate atelier is being refreshed. Please visit us again soon.')}</p></div>`;
-  return `<div class="liwika-catalog-state liwika-empty-state"><div class="state-orbit">✧</div><p class="state-kicker">A LITTLE SPACE FOR SOMETHING SPECIAL</p><h3>No chocolates here just yet.</h3><p>${esc(message || 'We are preparing the collection. Check back soon for something beautifully crafted.')}</p><a class="liwika-state-retry" href="${file==='index.html'?'seasonals/shop.html':'../index.html'}">EXPLORE LIWI-KA</a></div>`;
-}
-function showState(target,state,message='') {
-  target.dataset.catalogState=state;
-  target.innerHTML=stateMarkup(state,message);
-}
 function getPlacement() {
-  if (file==='index.html') return 'best-sellers';
-  if (file==='shop.html') return 'shop';
-  if (file==='new-arrivals.html') return 'new-arrivals';
-  const key=file.replace('.html','').replaceAll(' ','-');
-  if (['birthday','anniversary','christmas','valentines','graduation','justbecause'].includes(key)) return key==='christmas'?'festivals':key==='justbecause'?'just-because':key;
+  if (file === 'index.html' || file === '') return 'best-sellers';
+  if (file === 'shop.html') return 'shop';
+  if (file === 'new-arrivals.html') return 'new-arrivals';
+  const key = file.replace('.html', '').replaceAll(' ', '-');
+  if (['birthday','anniversary','christmas','valentines','graduation','justbecause'].includes(key)) {
+    return key === 'christmas' ? 'festivals' : key === 'justbecause' ? 'just-because' : key;
+  }
   return null;
 }
-function sortProducts(products) {
-  const placement=getPlacement();
-  let result=products.filter(p=>p.isVisible!==false && p.isPublished!==false);
-  if (placement==='new-arrivals') result=result.filter(p=>p.newArrival===true||(p.placements||[]).includes('new-arrivals'));
-  else if (placement) result=result.filter(p=>(p.placements||[]).includes(placement) || (placement==='best-sellers' && (p.placements||[]).includes('shop')));
-  if(file==='index.html') result=result.slice(0,6);
-  return result;
+function stateMarkup(state, message = '') {
+  if (state === 'loading') return `<div class="liwika-catalog-skeletons" aria-label="Loading products">${Array.from({length:3},()=>`<div class="liwika-skeleton-card"><div class="liwika-skeleton-image"></div><div class="liwika-skeleton-line"></div><div class="liwika-skeleton-line short"></div><div class="liwika-skeleton-button"></div></div>`).join('')}</div>`;
+  if (state === 'offline') return `<div class="liwika-catalog-state"><div class="state-orbit">⌁</div><p class="state-kicker">CONNECTION INTERRUPTED</p><h3>You’re temporarily offline.</h3><p>${esc(message || 'Please check your internet connection and try again.')}</p><button type="button" class="liwika-state-retry" data-catalog-retry>TRY AGAIN ↻</button></div>`;
+  if (state === 'maintenance') return `<div class="liwika-catalog-state"><div class="state-orbit">✧</div><p class="state-kicker">A LITTLE PAUSE, A BETTER MOMENT</p><h3>We’ll be back shortly.</h3><p>Our chocolate atelier is being refreshed. Please visit us again soon.</p></div>`;
+  return `<div class="liwika-catalog-state"><div class="state-orbit">✧</div><p class="state-kicker">A LITTLE SPACE FOR SOMETHING SPECIAL</p><h3>No chocolates here just yet.</h3><p>We are preparing this collection. Check back soon for something beautifully crafted.</p></div>`;
 }
-function productCard(p,kind) {
-  const id=esc(p.id), name=esc(p.name||'Liwi-Ka chocolate'), image=esc(p.imageUrl||''), category=esc(p.category||'CHOCOLATE COLLECTION'), desc=esc(p.description||'A handcrafted Liwi-Ka chocolate creation.'), price=money(p.price);
-  if(kind==='shop') return `<article class="shop-product" data-catalog-product="${id}" data-product="${id}"><div class="shop-product-image"><span class="product-badge">${esc(p.badge||'LIWI-KA')}</span>${image?`<img src="${image}" alt="${name}" loading="lazy">`:`<div class="liwika-no-image">LIWI-KA</div>`}<button class="quick-add" type="button" data-catalog-add="${id}">QUICK ADD</button></div><div class="shop-product-info"><div><p class="product-category">${category}</p><h2>${name}</h2><p class="product-description">${desc}</p></div><div class="shop-product-bottom"><span class="shop-price">${price}</span><button class="shop-add" type="button" data-catalog-view="${id}">VIEW</button></div></div></article>`;
-  if(kind==='occasion') return `<article class="occasion-product" data-catalog-product="${id}" data-product="${id}"><div class="occasion-product-image">${image?`<img src="${image}" alt="${name}" loading="lazy">`:`<div class="liwika-no-image">LIWI-KA</div>`}<span class="product-badge">${esc(p.badge||'HANDCRAFTED')}</span></div><div class="occasion-product-info"><p class="product-category">${category}</p><h3>${name}</h3><p>${desc}</p><div class="occasion-product-bottom"><strong>${price}</strong><button type="button" class="add-button" data-catalog-view="${id}">EXPLORE</button></div></div></article>`;
-  if(kind==='arrival') return `<article class="product-card" data-catalog-product="${id}" data-product="${id}"><div class="product-image-wrapper">${image?`<img class="product-image" src="${image}" alt="${name}" loading="lazy">`:`<div class="liwika-no-image">LIWI-KA</div>`}<div class="product-image-overlay"><button type="button" class="view-product-btn" data-catalog-view="${id}">VIEW</button></div></div><div class="product-info"><h3 class="product-name">${name}</h3><p class="product-category">${category}</p><p class="product-price">${price}</p></div></article>`;
-  return `<article class="product-card" data-catalog-product="${id}" data-product="${id}"><div class="product-image">${image?`<img src="${image}" alt="${name}" loading="lazy">`:`<div class="liwika-no-image">LIWI-KA</div>`}</div><div class="product-info"><h3>${name}</h3><p class="product-description">${desc}</p><div class="product-bottom"><span class="price">${price}</span><button type="button" class="add-button" data-catalog-add="${id}">Add to Cart</button></div></div></article>`;
+function showState(target, state, message = '') {
+  target.dataset.catalogState = state;
+  target.innerHTML = stateMarkup(state, message);
 }
-function determineKind(target) {
-  if(target.classList.contains('shop-products')) return 'shop';
-  if(target.classList.contains('occasion-products')) return 'occasion';
-  if(target.id==='newArrivalsProducts') return 'arrival';
-  return 'home';
+function normalizeProduct(p) {
+  const image = p.imageUrl || p.image || '';
+  const flavours = Array.isArray(p.flavours) && p.flavours.length
+    ? p.flavours.map(flavour => typeof flavour === 'string' ? { name: flavour, image } : { name: flavour.name || 'Classic', image: flavour.image || image })
+    : [{ name: p.flavour || 'Classic', image }];
+  return { ...p, id: p.id, name: p.name || 'Liwi-Ka Chocolate', basePrice: Number(p.price ?? p.basePrice ?? 0), image, imageUrl: image, flavours, nutrition: p.nutrition || {}, ingredients: p.ingredients || '' };
 }
-function renderAll(products) {
-  const targets=[...document.querySelectorAll('.product-grid.cine-items,.shop-products,.occasion-products,#newArrivalsProducts')];
-  targets.forEach(target=>{
-    const kind=determineKind(target);const list=sortProducts(products);
-    if(!list.length){showState(target,'empty');return;}
-    target.dataset.catalogState='ready';target.innerHTML=list.map(p=>productCard(p,kind)).join('');
+function productsForPlacement(products) {
+  const placement = getPlacement();
+  let list = products.filter(p => p.isPublished !== false && p.isVisible !== false);
+  if (placement === 'new-arrivals') list = list.filter(p => p.newArrival === true || (p.placements || []).includes('new-arrivals'));
+  else if (placement) list = list.filter(p => (p.placements || []).includes(placement) || (placement === 'best-sellers' && (p.placements || []).includes('shop')));
+  if (placement === 'best-sellers') list = list.slice(0, 6);
+  return list;
+}
+function homeCard(p) {
+  const words = String(p.name || 'Liwi-Ka Chocolate').trim().split(/\s+/);
+  const first = words.shift() || 'Liwi-Ka';
+  const second = words.join(' ');
+  const title = `<h3><span>${esc(first)}</span>${second ? `<span>${esc(second)}</span>` : ''}</h3>`;
+  const image = p.imageUrl ? `<img src="${esc(p.imageUrl)}" alt="${esc(p.name)}" loading="lazy">` : `<div class="liwika-no-image">LIWI-KA</div>`;
+  return `<div class="product-card" data-product="${esc(p.id)}" tabindex="0" role="button" aria-label="View ${esc(p.name)}"><div class="product-image">${image}</div><div class="product-info">${title}<p class="product-description">${esc(p.description || '')}</p><div class="product-bottom"><span class="price">${money(p.price)}</span><button type="button" class="add-button">Add to Cart</button></div></div></div>`;
+}
+function categorySlug(p) {
+  const value = String(p.category || '').toLowerCase();
+  if (value.includes('dark')) return 'dark';
+  if (value.includes('milk')) return 'milk';
+  if (value.includes('nut') || value.includes('hazel')) return 'nutty';
+  return 'other';
+}
+function shopCard(p) {
+  const image = p.imageUrl ? `<img src="${esc(p.imageUrl)}" alt="${esc(p.name)} chocolate" loading="lazy">` : `<div class="liwika-no-image">LIWI-KA</div>`;
+  const cat = esc(p.category || 'CHOCOLATE');
+  return `<article class="shop-product" data-product="${esc(p.id)}" data-sales="${Number(p.salesCount || 0)}" data-weekly-sales="${Number(p.weeklySales || 0)}" data-category="${categorySlug(p)}"><div class="shop-product-image">${p.badge ? `<span class="product-badge">${esc(p.badge)}</span>` : ''}${image}<button class="quick-add" type="button">QUICK ADD</button></div><div class="shop-product-info"><div><p class="product-category">${cat}</p><h2>${esc(p.name)}</h2><p class="product-description">${esc(p.description || '')}</p></div><div class="shop-product-bottom"><span class="shop-price">${money(p.price)}</span><button class="quick-add quick-add-mobile" type="button" aria-label="Quick add product">QUICK ADD</button><button class="shop-add" type="button">ADD</button></div></div></article>`;
+}
+function occasionCard(p) {
+  const image = p.imageUrl ? `<img src="${esc(p.imageUrl)}" alt="${esc(p.name)}" loading="lazy">` : `<div class="liwika-no-image">LIWI-KA</div>`;
+  return `<article class="occasion-product" data-catalog-product="${esc(p.id)}" data-product="${esc(p.id)}"><div class="occasion-product-image">${image}${p.badge ? `<span class="product-badge">${esc(p.badge)}</span>` : ''}</div><div class="occasion-product-info"><p class="product-category">${esc(p.category || 'CHOCOLATE')}</p><h3>${esc(p.name)}</h3><p>${esc(p.description || '')}</p><div class="occasion-product-bottom"><strong>${money(p.price)}</strong><button type="button" class="add-button" data-catalog-view="${esc(p.id)}">EXPLORE</button></div></div></article>`;
+}
+function arrivalCard(p) {
+  const image = p.imageUrl ? `<img class="product-image" src="${esc(p.imageUrl)}" alt="${esc(p.name)}" loading="lazy">` : `<div class="liwika-no-image">LIWI-KA</div>`;
+  return `<article class="product-card" data-catalog-product="${esc(p.id)}" data-product="${esc(p.id)}"><div class="product-image-wrapper">${image}<div class="product-image-overlay"><button type="button" class="view-product-btn" data-catalog-view="${esc(p.id)}">VIEW</button></div></div><div class="product-info"><h3 class="product-name">${esc(p.name)}</h3><p class="product-category">${esc(p.category || 'CHOCOLATE')}</p><p class="product-price">${money(p.price)}</p></div></article>`;
+}
+function ensureNativeProductModal() {
+  let modal = $('#productModal');
+  if (modal) return modal;
+  modal = document.createElement('div');
+  modal.id = 'productModal'; modal.className = 'product-modal'; modal.setAttribute('aria-hidden','true'); modal.setAttribute('role','dialog');
+  modal.innerHTML = `<div class="modal-content"><button id="closeModal" class="close-modal" type="button" aria-label="Close modal">&times;</button><div class="modal-body"><div class="modal-image-container"><img id="modalProductImage" alt="Selected product"></div><div class="modal-details"><p id="modalProductBadge" class="modal-badge"></p><h2 id="modalProductName">Product details</h2><p id="modalProductDescription" class="modal-description"></p><div class="modal-option-group"><label class="modal-option-label">CHOOSE FLAVOUR</label><div id="flavourOptions" class="flavour-options"></div></div><div class="modal-option-group"><label class="modal-option-label">QUANTITY</label><div class="quantity-control"><button id="decreaseQuantity" type="button" class="qty-btn">-</button><span id="quantity" class="qty-display">1</span><button id="increaseQuantity" type="button" class="qty-btn">+</button></div></div><div class="modal-footer-action"><div class="modal-price-container"><span class="modal-price-label">PRICE</span><span id="modalProductPrice" class="modal-price">₹0</span></div><button id="modalAddToCart" type="button" class="modal-add-btn">ADD TO CART</button></div></div></div></div>`;
+  document.body.appendChild(modal);
+  const close = () => { modal.classList.remove('active'); modal.setAttribute('aria-hidden','true'); document.body.style.overflow=''; document.body.classList.remove('liwi-product-modal-open'); };
+  $('#closeModal',modal).addEventListener('click',close);
+  modal.addEventListener('click',e=>{if(e.target===modal)close();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('active'))close();});
+  return modal;
+}
+function openNativeProductModal(p) {
+  const modal = ensureNativeProductModal();
+  const product = normalizeProduct(p);
+  window.LiwikaActiveProductData = product;
+  const image = $('#modalProductImage',modal);
+  $('#modalProductName',modal).textContent = product.name;
+  $('#modalProductBadge',modal).textContent = product.badge || '';
+  $('#modalProductBadge',modal).hidden = !product.badge;
+  $('#modalProductDescription',modal).textContent = product.description || '';
+  if (image) { image.src = product.imageUrl || ''; image.alt = product.name; }
+  const options = $('#flavourOptions',modal); options.innerHTML = '';
+  product.flavours.forEach((flavour,index)=>{
+    const button=document.createElement('button'); button.type='button'; button.className='flavour-button'+(index===0?' selected':''); button.textContent=flavour.name;
+    button.addEventListener('click',()=>{ options.querySelectorAll('.flavour-button').forEach(x=>x.classList.remove('selected'));button.classList.add('selected');if(image)image.src=flavour.image||product.imageUrl||''; });
+    options.appendChild(button);
   });
+  $('#quantity',modal).innerHTML='<span class="qty-digit current">1</span>';
+  $('#modalProductPrice',modal).textContent=money(product.price);
+  modal.classList.add('active'); modal.setAttribute('aria-hidden','false'); document.body.classList.add('liwi-product-modal-open'); document.body.style.overflow='hidden';
+  // Product UI reads this object to display admin-entered nutrition and attach the Firestore product ID to cart lines.
 }
-
-function showModal(p) {
-  selectedProduct=p;
-  let modal=$('#liwikaFirebaseProductModal');
-  if(!modal){
-    modal=document.createElement('div');modal.id='liwikaFirebaseProductModal';modal.className='liwika-product-modal';modal.innerHTML=`<div class="liwika-product-dialog" role="dialog" aria-modal="true" aria-labelledby="liwikaModalName"><button class="liwika-modal-close" type="button" aria-label="Close">×</button><div class="liwika-modal-image"></div><div class="liwika-modal-copy"><p class="state-kicker">LIWI-KA · HANDCRAFTED</p><h2 id="liwikaModalName"></h2><p class="liwika-modal-description"></p><label class="liwika-flavour-label">FLAVOUR</label><select class="liwika-flavour"></select><div class="liwika-modal-bottom"><strong class="liwika-modal-price"></strong><button class="liwika-modal-add" type="button">ADD TO CART</button></div><form class="liwika-review-form" id="liwikaReviewForm"><div class="liwika-review-heading">SHARE YOUR EXPERIENCE</div><label>YOUR RATING<select name="rating" required><option value="5">★★★★★ · Excellent</option><option value="4">★★★★ · Very good</option><option value="3">★★★ · Good</option><option value="2">★★ · Fair</option><option value="1">★ · Needs improvement</option></select></label><label>YOUR REVIEW<textarea name="message" rows="3" maxlength="1000" placeholder="Tell us what you loved…" required></textarea></label><button class="liwika-review-submit" type="submit">SUBMIT REVIEW</button><p class="liwika-review-note" aria-live="polite"></p></form></div></div>`;document.body.appendChild(modal);
-    modal.addEventListener('click',e=>{if(e.target===modal||e.target.closest('.liwika-modal-close'))modal.classList.remove('open');if(e.target.closest('.liwika-modal-add'))addToCart(selectedProduct,$('.liwika-flavour',modal).value||'Classic');});
-    modal.addEventListener('submit', async e=>{if(e.target.id!=='liwikaReviewForm')return;e.preventDefault();const form=e.target,note=$('.liwika-review-note',form),button=$('.liwika-review-submit',form);const user=auth.currentUser;if(!user){note.textContent='Please sign in to leave a review.';return;}const rating=Number(new FormData(form).get('rating'));const message=String(new FormData(form).get('message')||'').trim();if(!Number.isInteger(rating)||rating<1||rating>5||message.length<5){note.textContent='Please choose a rating and write at least 5 characters.';return;}button.disabled=true;button.textContent='SENDING…';try{await addDoc(collection(db,'feedback'),{customerUid:user.uid,customerName:user.displayName||user.phoneNumber||'Customer',productId:selectedProduct.id,productName:selectedProduct.name||'Liwi-Ka chocolate',rating,message,createdAt:serverTimestamp(),reviewed:false,isVisible:false});form.reset();note.textContent='Thank you. Your review has been sent to the Liwi-Ka team for moderation.';}catch(error){note.textContent=error.message||'Could not send your review. Please try again.';}finally{button.disabled=false;button.textContent='SUBMIT REVIEW';}});
-    document.addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remove('open');});
-  }
-  $('.liwika-modal-image',modal).innerHTML=p.imageUrl?`<img src="${esc(p.imageUrl)}" alt="${esc(p.name)}">`:'<div class="liwika-no-image">LIWI-KA</div>';
-  $('#liwikaModalName',modal).textContent=p.name||'Liwi-Ka chocolate';
-  $('.liwika-modal-description',modal).textContent=p.description||'A handcrafted Liwi-Ka chocolate creation.';
-  $('.liwika-modal-price',modal).textContent=money(p.price);
-  const flavours=Array.isArray(p.flavours)&&p.flavours.length?p.flavours.map(f=>typeof f==='string'?f:f.name).filter(Boolean):[p.flavour||'Classic'];
-  $('.liwika-flavour',modal).innerHTML=flavours.map(f=>`<option value="${esc(f)}">${esc(f)}</option>`).join('');
-  $('.liwika-review-form',modal).hidden = !storeSettings.reviewsEnabled;
-  modal.classList.add('open');
-}
-function addToCart(p,flavour='Classic') {
-  if(!p)return;
-  if(!window.LiwikaCart?.addItem){alert('The cart is unavailable. Please refresh the page and try again.');return;}
-  const item={id:p.id,name:p.name,flavour,quantity:1,price:Number(p.price||0),image:p.imageUrl||''};
-  window.LiwikaCart.addItem(item);
-  if(typeof window.LiwikaShowCartToast==='function')window.LiwikaShowCartToast(item);
-  else {const toast=document.createElement('div');toast.className='liwika-cart-toast';toast.textContent=`${p.name} added to your cart`;document.body.appendChild(toast);setTimeout(()=>toast.remove(),2400);}
-}
-
-document.addEventListener('click',e=>{
-  const retry=e.target.closest('[data-catalog-retry]');if(retry){loadCatalog();return;}
-  const add=e.target.closest('[data-catalog-add]');if(add){e.preventDefault();const p=catalogue.find(x=>x.id===add.dataset.catalogAdd);if(p)addToCart(p,p.flavour||'Classic');return;}
-  const view=e.target.closest('[data-catalog-view]');if(view){e.preventDefault();const p=catalogue.find(x=>x.id===view.dataset.catalogView);if(p)showModal(p);return;}
-  const card=e.target.closest('[data-catalog-product]');if(card&&!e.target.closest('button')){const p=catalogue.find(x=>x.id===card.dataset.catalogProduct);if(p)showModal(p);}
-});
-
 async function getProducts() {
-  // Redis-backed Cloud Function first; direct Firestore is a safe fallback until
-  // Cloud Functions/Upstash are deployed or when the cache endpoint is unavailable.
   try {
-    const response=await fetch(CATALOG_ENDPOINT,{method:'GET',cache:'no-store'});
-    if(response.ok){const payload=await response.json();if(payload.settings && typeof payload.settings==='object'){storeSettings={storefrontOnline:payload.settings.storefrontOnline!==false,maintenanceMode:payload.settings.maintenanceMode===true,reviewsEnabled:payload.settings.reviewsEnabled!==false};}if(Array.isArray(payload.products))return payload.products;}
+    const response = await fetch(CATALOG_ENDPOINT, { method:'GET', cache:'no-store' });
+    if (response.ok) {
+      const payload = await response.json();
+      if (payload.settings && typeof payload.settings === 'object') storeSettings = { storefrontOnline: payload.settings.storefrontOnline !== false, maintenanceMode: payload.settings.maintenanceMode === true };
+      if (Array.isArray(payload.products)) return payload.products.map(normalizeProduct);
+    }
   } catch (_) {}
-  const q=query(collection(db,'products'),where('isPublished','==',true),where('isVisible','==',true),orderBy('sortOrder','asc'));
+  const q = query(collection(db,'products'), where('isPublished','==',true), where('isVisible','==',true), orderBy('sortOrder','asc'));
   try {
-    const [snap,settingsSnap]=await Promise.all([getDocs(q),getDoc(doc(db,'settings','store'))]);
-    if(settingsSnap.exists()){const v=settingsSnap.data();storeSettings={storefrontOnline:v.storefrontOnline!==false,maintenanceMode:v.maintenanceMode===true,reviewsEnabled:v.reviewsEnabled!==false};}
-    return snap.docs.map(d=>({id:d.id,...d.data()}));
-  }
-  catch(error){
-    if(!navigator.onLine){try{const snap=await getDocsFromCache(q);return snap.docs.map(d=>({id:d.id,...d.data()}));}catch(_){}}
+    const [snap, settingsSnap] = await Promise.all([getDocs(q), getDoc(doc(db,'settings','store'))]);
+    if (settingsSnap.exists()) { const value=settingsSnap.data(); storeSettings={storefrontOnline:value.storefrontOnline!==false,maintenanceMode:value.maintenanceMode===true}; }
+    return snap.docs.map(d=>normalizeProduct({id:d.id,...d.data()}));
+  } catch (error) {
+    if (!navigator.onLine) { try { const snap=await getDocsFromCache(q); return snap.docs.map(d=>normalizeProduct({id:d.id,...d.data()})); } catch (_) {} }
     throw error;
   }
 }
+function renderAll(products) {
+  const targets=[...document.querySelectorAll('.product-grid.cine-items,.shop-products,.occasion-products,#newArrivalsProducts')];
+  const pageProducts=productsForPlacement(products);
+  const homeProducts=pageProducts;
+  const shopProducts=products.filter(p=>(p.placements||[]).includes('shop'));
+  const setHome=()=>window.LiwikaSetHomeProducts?.(homeProducts);
+  if (document.readyState==='loading' && !window.LiwikaSetHomeProducts) document.addEventListener('DOMContentLoaded',setHome,{once:true}); else setHome();
+  window.LiwikaSetShopProducts?.(shopProducts);
+  const map=Object.fromEntries(products.map(p=>[p.id,p]));
+  window.occasionProducts=map;
+  targets.forEach(target=>{
+    let list=pageProducts; let renderer=occasionCard;
+    if(target.classList.contains('cine-items')) { list=homeProducts; renderer=homeCard; }
+    else if(target.classList.contains('shop-products')) { list=shopProducts; renderer=shopCard; }
+    else if(target.id==='newArrivalsProducts') { list=products.filter(p=>p.newArrival===true||(p.placements||[]).includes('new-arrivals')); renderer=arrivalCard; }
+    if(!list.length){showState(target,'empty');return;}
+    target.dataset.catalogState='ready'; target.innerHTML=list.map(renderer).join('');
+  });
+}
+function bindCatalogInteractions() {
+  document.addEventListener('click',event=>{
+    const retry=event.target.closest('[data-catalog-retry]'); if(retry){loadCatalog();return;}
+    const card=event.target.closest('[data-catalog-product]');
+    const view=event.target.closest('[data-catalog-view]');
+    if(!card&&!view)return;
+    const id=(view?.dataset.catalogView)||(card?.dataset.catalogProduct);
+    const product=catalogue.find(item=>item.id===id); if(!product)return;
+    event.preventDefault();
+    // The homepage and shop use their original page controllers and original modal.
+    if(document.body.classList.contains('home-page') || file==='shop.html') return;
+    openNativeProductModal(product);
+  });
+  document.addEventListener('keydown',event=>{
+    if(event.key!=='Enter'&&event.key!==' ')return;
+    const card=event.target.closest('.product-grid.cine-items .product-card[data-product]');
+    if(card){event.preventDefault();window.LiwikaOpenHomeProductModal?.(card.dataset.product);}
+  });
+}
 async function loadCatalog() {
   const targets=[...document.querySelectorAll('.product-grid.cine-items,.shop-products,.occasion-products,#newArrivalsProducts')];
-  targets.forEach(t=>showState(t,'loading'));
-  if(!navigator.onLine){targets.forEach(t=>showState(t,'offline'));return;}
+  targets.forEach(target=>showState(target,'loading'));
+  if(!navigator.onLine){targets.forEach(target=>showState(target,'offline'));return;}
   try {
     catalogue=await getProducts();
-    if(storeSettings.maintenanceMode || storeSettings.storefrontOnline===false){targets.forEach(t=>showState(t,'maintenance'));return;}
+    if(storeSettings.maintenanceMode || storeSettings.storefrontOnline===false){targets.forEach(target=>showState(target,'maintenance'));return;}
     renderAll(catalogue);
+  } catch(error) {
+    console.error('Liwi-Ka catalogue could not load',error);
+    targets.forEach(target=>showState(target,'offline','We could not reach the product catalogue. Check your connection and try again.'));
   }
-  catch(error){console.error('Liwi-Ka catalogue could not load',error);targets.forEach(t=>showState(t,'offline','We could not reach the product catalogue. Check your connection and try again.'));}
 }
-window.addEventListener('offline',()=>{document.querySelectorAll('.product-grid.cine-items,.shop-products,.occasion-products,#newArrivalsProducts').forEach(t=>showState(t,'offline'));});
+window.addEventListener('offline',()=>document.querySelectorAll('.product-grid.cine-items,.shop-products,.occasion-products,#newArrivalsProducts').forEach(target=>showState(target,'offline')));
 window.addEventListener('online',loadCatalog);
 window.addEventListener('focus',()=>{if(navigator.onLine)loadCatalog();});
+bindCatalogInteractions();
 loadCatalog();

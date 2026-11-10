@@ -9,20 +9,23 @@
 (function (window, document) {
   'use strict';
 
-  // No demo product nutrition is shipped with the storefront. Product-specific
-  // details should come from the live Firestore product record.
-  const FALLBACK = {};
+  const FALLBACK = {}; // Details are supplied by the admin product editor.
 
   function resolveNutrition(name) {
+    const active = window.LiwikaActiveProductData;
+    if (active && active.name === name) {
+      const nutrition = active.nutrition && typeof active.nutrition === 'object' ? active.nutrition : {};
+      const ingredients = active.ingredients || nutrition.ingredients || '';
+      const hasDetails = Object.values(nutrition).some(value => String(value || '').trim()) || String(ingredients).trim();
+      return hasDetails ? { ...nutrition, ingredients } : null;
+    }
     const pageProducts = window.occasionProducts || {};
     const match = Object.values(pageProducts).find(item => item && item.name === name);
-    if (match?.nutrition) {
-      return {
-        ...match.nutrition,
-        ingredients: match.ingredients || FALLBACK[name]?.ingredients || 'Cocoa solids, sugar, cocoa butter, milk solids, natural vanilla flavour'
-      };
-    }
-    return FALLBACK[name] || null;
+    if (!match) return null;
+    const nutrition = match.nutrition && typeof match.nutrition === 'object' ? match.nutrition : {};
+    const ingredients = match.ingredients || nutrition.ingredients || '';
+    const hasDetails = Object.values(nutrition).some(value => String(value || '').trim()) || String(ingredients).trim();
+    return hasDetails ? { ...nutrition, ingredients } : null;
   }
 
   function ensureNutrition(modal) {
@@ -65,11 +68,13 @@
     const name = (modal.querySelector('#modalProductName')?.textContent || '').trim();
     const data = resolveNutrition(name);
     const section = ensureNutrition(modal);
-    if (!section || !data) return;
+    if (!section) return;
+    section.hidden = !data;
+    if (!data) return;
 
-    Object.entries(data).forEach(([key, value]) => {
-      const el = section.querySelector(`[data-nutrition="${key}"]`);
-      if (el) el.textContent = value || '—';
+    section.querySelectorAll('[data-nutrition]').forEach(el => {
+      const key = el.dataset.nutrition;
+      el.textContent = data[key] ? String(data[key]) : '—';
     });
   }
 
@@ -511,8 +516,10 @@
           return;
         }
 
+        const activeProduct = window.LiwikaActiveProductData || {};
         const item = {
-          id: name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''),
+          id: activeProduct.id || name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''),
+          productId: activeProduct.id || '',
           name,
           flavour: selected ? selected.textContent.trim() : 'Classic',
           quantity: state.quantity,

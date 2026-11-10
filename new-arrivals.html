@@ -16,6 +16,8 @@
 <link rel="stylesheet" href="shared-navbar.css">
     <link rel="stylesheet" href="free-delivery.css">
     <link rel="stylesheet" href="product-system.css">
+    <link rel="stylesheet" href="product-system.css">
+    <link rel="stylesheet" href="product-window.css">
     <link rel="stylesheet" href="catalog.css">
 </head>
 
@@ -368,6 +370,10 @@
     <script src="responsive-mobile.js"></script>
     <script type="module" src="profile-menu.js"></script>
     <script type="module" src="catalog.js"></script>
+
+<div id="productModal" class="product-modal" aria-hidden="true" role="dialog"><div class="modal-content"><button id="closeModal" class="close-modal" type="button" aria-label="Close modal">&times;</button><div class="modal-body"><div class="modal-image-container"><img id="modalProductImage" alt="Selected product"></div><div class="modal-details"><p id="modalProductBadge" class="modal-badge"></p><h2 id="modalProductName">Product details</h2><p id="modalProductDescription" class="modal-description"></p><div class="modal-option-group"><label class="modal-option-label">CHOOSE FLAVOUR</label><div id="flavourOptions" class="flavour-options"></div></div><div class="modal-option-group"><label class="modal-option-label">QUANTITY</label><div class="quantity-control"><button id="decreaseQuantity" type="button" class="qty-btn">-</button><span id="quantity" class="qty-display">1</span><button id="increaseQuantity" type="button" class="qty-btn">+</button></div></div><div class="modal-footer-action"><div class="modal-price-container"><span class="modal-price-label">PRICE</span><span id="modalProductPrice" class="modal-price">₹0</span></div><button id="modalAddToCart" type="button" class="modal-add-btn">ADD TO CART</button></div></div></div></div></div>
+<script src="cart.js"></script>
+<script src="product-ui.js"></script>
 </body>
 
 </html>

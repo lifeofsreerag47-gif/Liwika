@@ -2536,10 +2536,10 @@ button, input, select, textarea {
    All rules in this block are mobile-only unless noted.
 ========================================================= */
 @media (max-width: 900px) {
-  /* Six evenly-sized destinations for the current mobile navigation. */
+  /* Seven evenly-sized destinations, including the new About Us page. */
   .mobile-bottom-nav {
-    --nav-item-count: 6;
-    grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+    --nav-item-count: 7;
+    grid-template-columns: repeat(var(--nav-item-count), minmax(0, 1fr)) !important;
     transition: opacity .22s ease, transform .28s cubic-bezier(.16,1,.3,1), visibility .22s ease !important;
   }
   .mobile-bottom-nav .mobile-bottom-label {

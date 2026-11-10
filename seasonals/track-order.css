@@ -1,0 +1,819 @@
+/* =========================================================
+   LIWI-KA — TRACK ORDER
+   Professional E-commerce Tracking Page
+========================================================= */
+
+
+/* =========================================================
+   PAGE FOUNDATION
+========================================================= */
+
+.track-order-page {
+    min-height: 100vh;
+    padding-top: 120px;
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(201, 164, 91, 0.07),
+            transparent 32%
+        ),
+        #080604;
+    color: #f2ece3;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.track-hero {
+    width: min(900px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: 55px 0 45px;
+    text-align: center;
+}
+
+.track-eyebrow,
+.section-eyebrow {
+    margin: 0 0 14px;
+    color: #c9a45b;
+    font-family: "Font1", Arial, sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    line-height: 1.4;
+    text-transform: uppercase;
+}
+
+.track-hero h1 {
+    margin: 0;
+    color: #f4efe7;
+    font-family: "Font", Georgia, serif;
+    font-size: clamp(42px, 6vw, 68px);
+    font-weight: 400;
+    line-height: 1;
+}
+
+.track-intro {
+    margin: 20px 0 0;
+    color: #a9a199;
+    font-family: "Font1", Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   TRACK SEARCH SECTION
+========================================================= */
+
+.track-search-section {
+    width: min(850px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: 20px 0 80px;
+}
+
+.track-search-card {
+    padding: 48px;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.025),
+            rgba(255, 255, 255, 0.008)
+        );
+    border: 1px solid rgba(201, 164, 91, 0.22);
+    box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.35);
+}
+
+.search-card-heading {
+    margin-bottom: 32px;
+}
+
+.search-card-heading h2 {
+    margin: 0 0 12px;
+    color: #f2ece3;
+    font-family: "Font", Georgia, serif;
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 1.15;
+}
+
+.search-card-heading > p:last-child {
+    max-width: 570px;
+    margin: 0;
+    color: #9e9790;
+    font-family: "Font1", Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   SEARCH FORM
+========================================================= */
+
+.track-order-form {
+    display: flex;
+    align-items: flex-end;
+    gap: 14px;
+}
+
+.form-field {
+    flex: 1;
+}
+
+.form-field label {
+    display: block;
+    margin-bottom: 9px;
+    color: #d6cec4;
+    font-family: "Font1", Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+.form-field input {
+    width: 100%;
+    height: 52px;
+    padding: 0 16px;
+    background: #0d0a08;
+    border: 1px solid rgba(201, 164, 91, 0.28);
+    border-radius: 0;
+    outline: none;
+    color: #f2ece3;
+    font-family: "Font1", Arial, sans-serif;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition:
+        border-color 0.25s ease,
+        background 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.form-field input::placeholder {
+    color: #5f5953;
+}
+
+.form-field input:hover {
+    border-color: rgba(201, 164, 91, 0.5);
+}
+
+.form-field input:focus {
+    background: #100c09;
+    border-color: #c9a45b;
+    box-shadow: 0 0 0 3px rgba(201, 164, 91, 0.08);
+}
+
+
+/* =========================================================
+   TRACK BUTTON
+========================================================= */
+
+.track-button {
+    height: 52px;
+    min-width: 155px;
+    padding: 0 25px;
+    border: 1px solid #c9a45b;
+    background: #c9a45b;
+    color: #100b07;
+    font-family: "Font1", Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition:
+        background 0.25s ease,
+        color 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.track-button:hover {
+    background: #d7b873;
+    border-color: #d7b873;
+    color: #100b07;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(201, 164, 91, 0.16);
+}
+
+.track-button:active {
+    transform: translateY(0);
+}
+
+.track-button:focus-visible {
+    outline: 2px solid #f0d48a;
+    outline-offset: 3px;
+}
+
+
+/* =========================================================
+   SEARCH HELP TEXT
+========================================================= */
+
+.track-help-text {
+    margin: 15px 0 0;
+    color: #706963;
+    font-family: "Font1", Arial, sans-serif;
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   ORDER RESULT
+========================================================= */
+
+.order-result-section {
+    width: min(1050px, calc(100% - 40px));
+    margin: 0 auto 100px;
+    padding: 50px;
+    background: #0d0a08;
+    border: 1px solid rgba(201, 164, 91, 0.18);
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   ORDER HEADER
+========================================================= */
+
+.order-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 30px;
+    padding-bottom: 35px;
+    border-bottom: 1px solid rgba(201, 164, 91, 0.13);
+}
+
+.order-header h2 {
+    margin: 0 0 8px;
+    color: #f2ece3;
+    font-family: "Font", Georgia, serif;
+    font-size: 30px;
+    font-weight: 400;
+}
+
+.order-header p:last-child {
+    margin: 0;
+    color: #777069;
+    font-family: "Font1", Arial, sans-serif;
+    font-size: 12px;
+}
+
+.current-status {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 7px;
+    text-align: right;
+}
+
+.status-label {
+    color: #777069;
+    font-family: "Font1", Arial, sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+#currentStatus {
+    color: #c9a45b;
+    font-family: "Font1", Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   ORDER TIMELINE
+========================================================= */
+
+.order-timeline {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    margin: 55px 0 65px;
+}
+
+.timeline-line {
+    position: absolute;
+    top: 15px;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: rgba(201, 164, 91, 0.18);
+}
+
+.timeline-step {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 13px;
+    text-align: center;
+}
+
+.timeline-dot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background: #0d0a08;
+    border: 1px solid rgba(201, 164, 91, 0.25);
+    border-radius: 50%;
+    color: #615b55;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    box-sizing: border-box;
+}
+
+.timeline-step.completed .timeline-dot {
+    background: #c9a45b;
+    border-color: #c9a45b;
+    color: #100b07;
+}
+
+.timeline-step.active .timeline-dot {
+    background: #0d0a08;
+    border-color: #c9a45b;
+    color: #c9a45b;
+    box-shadow: 0 0 0 5px rgba(201, 164, 91, 0.08);
+}
+
+.timeline-step p {
+    margin: 0;
+    color: #777069;
+    font-family: "Font1", Arial, sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+
+.timeline-step.completed p,
+.timeline-step.active p {
+    color: #d5cec5;
+}
+
+
+/* =========================================================
+   DELIVERY INFORMATION
+========================================================= */
+
+.delivery-information {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-bottom: 65px;
+    border-top: 1px solid rgba(201, 164, 91, 0.13);
+    border-bottom: 1px solid rgba(201, 164, 91, 0.13);
+}
+
+.delivery-column {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 24px;
+    border-right: 1px solid rgba(201, 164, 91, 0.13);
+}
+
+.delivery-column:last-child {
+    border-right: none;
+}
+
+.info-label {
+    color: #706963;
+    font-family: "Font1", Arial, sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1.7px;
+    text-transform: uppercase;
+}
+
+.delivery-column strong {
+    color: #e9e2d9;
+    font-family: "Font1", Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   ORDER ITEMS
+========================================================= */
+
+.order-items-section {
+    position: relative;
+    clear: both;
+    display: block;
+    width: 100%;
+    margin-top: 65px;
+    margin-bottom: 45px;
+}
+
+
+/* Keep this section heading in normal document flow */
+
+.order-items-section .section-heading {
+    position: static !important;
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0 0 25px;
+    padding: 0;
+    text-align: left;
+    box-sizing: border-box;
+}
+
+
+.order-items-section .section-heading .section-eyebrow {
+    position: static;
+    display: block;
+    margin: 0 0 10px;
+}
+
+
+.order-items-section .section-heading h3 {
+    position: static !important;
+    display: block;
+    margin: 0;
+    padding: 0;
+    color: #f2ece3;
+    font-family: "Font", Georgia, serif;
+    font-size: 27px;
+    font-weight: 400;
+    line-height: 1.15;
+}
+.section-heading h3 {
+    margin: 0;
+    color: #f2ece3;
+    font-family: "Font", Georgia, serif;
+    font-size: 27px;
+    font-weight: 400;
+}
+
+.order-items {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid rgba(201, 164, 91, 0.13);
+}
+
+
+/* JS-generated item structure */
+
+.order-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(201, 164, 91, 0.10);
+}
+
+.order-item-image {
+    width: 75px;
+    height: 75px;
+    flex-shrink: 0;
+    background: #120c09;
+    object-fit: contain;
+}
+
+.order-item-details {
+    flex: 1;
+}
+
+.order-item-name {
+    margin: 0 0 6px;
+    color: #eee7dc;
+    font-family: "Font1", Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.order-item-meta {
+    margin: 0;
+    color: #777069;
+    font-family: "Font1", Arial, sans-serif;
+    font-size: 11px;
+}
+
+.order-item-price {
+    color: #d8cfc4;
+    font-family: "Font1", Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   ORDER SUMMARY
+========================================================= */
+
+.order-summary {
+    width: min(430px, 100%);
+    margin-left: auto;
+    padding-top: 25px;
+    border-top: 1px solid rgba(201, 164, 91, 0.18);
+}
+
+.summary-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 8px 0;
+}
+
+.summary-row span {
+    color: #777069;
+    font-family: "Font1", Arial, sans-serif;
+    font-size: 12px;
+}
+
+.summary-row strong {
+    color: #d8cfc4;
+    font-family: "Font1", Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.summary-divider {
+    height: 1px;
+    margin: 12px 0;
+    background: rgba(201, 164, 91, 0.13);
+}
+
+.summary-row.total-row {
+    padding-top: 14px;
+}
+
+.total-row span {
+    color: #eee7dc;
+    font-size: 13px;
+}
+
+.total-row strong {
+    color: #f0d48a;
+    font-family: "Font", Georgia, serif;
+    font-size: 24px;
+    font-weight: 400;
+}
+
+
+/* =========================================================
+   HELP SECTION
+========================================================= */
+
+.track-help-section {
+    width: min(850px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: 10px 0 100px;
+    text-align: center;
+}
+
+.track-help-content {
+    padding: 55px 35px;
+    border-top: 1px solid rgba(201, 164, 91, 0.18);
+    border-bottom: 1px solid rgba(201, 164, 91, 0.18);
+}
+
+.track-help-content h2 {
+    margin: 0 0 14px;
+    color: #f2ece3;
+    font-family: "Font", Georgia, serif;
+    font-size: 35px;
+    font-weight: 400;
+}
+
+.track-help-content > p:not(.section-eyebrow) {
+    max-width: 570px;
+    margin: 0 auto 28px;
+    color: #8e8780;
+    font-family: "Font1", Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.75;
+}
+
+
+/* =========================================================
+   HELP BUTTON
+========================================================= */
+
+.help-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 45px;
+    padding: 0 24px;
+    border: 1px solid rgba(201, 164, 91, 0.5);
+    color: #c9a45b;
+    font-family: "Font1", Arial, sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.7px;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition:
+        background 0.25s ease,
+        color 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.25s ease;
+}
+
+.help-button:hover {
+    background: #c9a45b;
+    border-color: #c9a45b;
+    color: #100b07;
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+.track-order-page a:focus-visible,
+.track-order-page button:focus-visible,
+.track-order-page input:focus-visible {
+    outline: 2px solid #f0d48a;
+    outline-offset: 3px;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .track-order-page {
+        padding-top: 105px;
+    }
+
+    .track-search-card {
+        padding: 38px;
+    }
+
+    .order-result-section {
+        padding: 38px;
+    }
+
+    .order-header {
+        flex-direction: column;
+    }
+
+    .current-status {
+        align-items: flex-start;
+        text-align: left;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+
+    .track-order-page {
+        padding-top: 95px;
+    }
+
+
+    .track-hero {
+        width: calc(100% - 30px);
+        padding: 35px 0 30px;
+    }
+
+    .track-hero h1 {
+        font-size: 43px;
+        line-height: 1.05;
+    }
+
+    .track-intro {
+        font-size: 13px;
+    }
+
+
+    .track-search-section,
+    .track-help-section {
+        width: calc(100% - 30px);
+    }
+
+    .track-search-section {
+        padding-bottom: 55px;
+    }
+
+
+    .track-search-card {
+        padding: 28px 22px;
+    }
+
+    .search-card-heading h2 {
+        font-size: 27px;
+    }
+
+
+    .track-order-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .track-button {
+        width: 100%;
+    }
+
+
+    .order-result-section {
+        width: calc(100% - 30px);
+        padding: 28px 20px;
+        margin-bottom: 65px;
+    }
+
+
+    .order-header h2 {
+        font-size: 25px;
+    }
+
+
+    /* Mobile timeline */
+
+    .order-timeline {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        margin: 40px 0 45px;
+        padding-left: 8px;
+    }
+
+    .timeline-line {
+        top: 15px;
+        bottom: 15px;
+        left: 22px;
+        right: auto;
+        width: 1px;
+        height: auto;
+    }
+
+    .timeline-step {
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 15px;
+        text-align: left;
+    }
+
+    .timeline-step p {
+        font-size: 10px;
+    }
+
+
+    /* Delivery information */
+
+    .delivery-information {
+        grid-template-columns: 1fr;
+    }
+
+    .delivery-column {
+        padding: 18px 0;
+        border-right: none;
+        border-bottom: 1px solid rgba(201, 164, 91, 0.10);
+    }
+
+    .delivery-column:last-child {
+        border-bottom: none;
+    }
+
+
+    /* Order item */
+
+    .order-item {
+        gap: 13px;
+    }
+
+    .order-item-image {
+        width: 60px;
+        height: 60px;
+    }
+
+    .order-item-name {
+        font-size: 13px;
+    }
+
+
+    /* Help */
+
+    .track-help-content {
+        padding: 45px 15px;
+    }
+
+    .track-help-content h2 {
+        font-size: 29px;
+    }
+
+}

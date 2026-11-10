@@ -1739,57 +1739,6 @@ body {
     letter-spacing: 0.5px;
 }
 
-/* Direct access to order history from the shopping cart. */
-.cart-my-orders-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 11px;
-    min-height: 44px;
-    margin-top: 22px;
-    padding: 0 20px;
-    border: 1px solid rgba(217, 164, 65, .58);
-    border-radius: 2px;
-    color: #e7c477;
-    background: linear-gradient(135deg, rgba(217, 164, 65, .12), rgba(217, 164, 65, .035));
-    font-family: "Font1", sans-serif;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-decoration: none;
-    transition: color .25s ease, border-color .25s ease, background .25s ease, transform .25s ease, box-shadow .25s ease;
-}
-
-.cart-my-orders-btn:hover,
-.cart-my-orders-btn:focus-visible {
-    color: #080706;
-    border-color: #d9a441;
-    background: linear-gradient(110deg, #b78932, #f0d28a, #b78932);
-    box-shadow: 0 8px 24px rgba(217, 164, 65, .18);
-    transform: translateY(-2px);
-    outline: none;
-}
-
-.cart-my-orders-icon {
-    font-size: 15px;
-    line-height: 1;
-}
-
-.cart-my-orders-arrow {
-    margin-left: 5px;
-    font-size: 15px;
-    line-height: 1;
-}
-
-@media (max-width: 550px) {
-    .cart-my-orders-btn {
-        min-height: 42px;
-        margin-top: 18px;
-        padding: 0 17px;
-        font-size: 9px;
-    }
-}
-
 .cart-layout {
     display: grid;
     grid-template-columns: 1.6fr 1fr;

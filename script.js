@@ -127,7 +127,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const decreaseQuantity = document.getElementById("decreaseQuantity");
     const modalAddToCart = document.getElementById("modalAddToCart");
 
-    const homeProducts = {};
+    let homeProducts = {};
+
 
     let currentProduct = null;
     let currentFlavour = null;
@@ -351,6 +352,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!homeProducts[productId]) return;
 
         currentProduct = homeProducts[productId];
+        window.LiwikaActiveProductData = currentProduct;
         currentQuantity = 1;
         currentFlavour = currentProduct.flavours[0];
         currentPrice = currentProduct.basePrice;
@@ -371,6 +373,27 @@ document.addEventListener("DOMContentLoaded", () => {
         productModal.setAttribute("aria-hidden", "false");
         document.body.style.overflow = "hidden";
     }
+
+    // Firebase catalog adapter: preserve the original home cards and modal UI.
+    window.LiwikaSetHomeProducts = function (products) {
+        homeProducts = {};
+        (products || []).forEach((product) => {
+            const image = product.imageUrl || product.image || "";
+            const flavours = Array.isArray(product.flavours) && product.flavours.length
+                ? product.flavours.map((flavour) => typeof flavour === "string"
+                    ? { name: flavour, image }
+                    : { name: flavour.name || "Classic", image: flavour.image || image })
+                : [{ name: product.flavour || "Classic", image }];
+            homeProducts[product.id] = {
+                ...product, id: product.id, name: product.name || "Liwi-Ka Chocolate",
+                badge: product.badge || "", description: product.description || "",
+                basePrice: Number(product.price ?? product.basePrice ?? 0),
+                image, flavours, nutrition: product.nutrition || {},
+                ingredients: product.ingredients || ""
+            };
+        });
+    };
+    window.LiwikaOpenHomeProductModal = openProductModal;
 
     function closeProductModal() {
         productModal.classList.remove("active");
@@ -412,24 +435,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Attach click events to card and card "Add to Cart" buttons
-    const productCards = document.querySelectorAll(".product-card");
-    productCards.forEach(card => {
-        card.style.cursor = "pointer";
-        card.addEventListener("click", (e) => {
-            const pid = card.dataset.product;
-            if (pid) openProductModal(pid);
-        });
-
-        const addBtn = card.querySelector(".add-button");
-        if (addBtn) {
-            addBtn.addEventListener("click", (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                const pid = card.dataset.product;
-                if (pid) openProductModal(pid);
-            });
-        }
+    // Delegate clicks because Firebase product cards are inserted after the first render.
+    document.addEventListener("click", (e) => {
+        if (!document.body.classList.contains("home-page")) return;
+        const card = e.target.closest(".product-grid.cine-items .product-card[data-product]");
+        if (!card) return;
+        e.preventDefault();
+        e.stopPropagation();
+        openProductModal(card.dataset.product);
     });
 
     if (modalAddToCart) {
@@ -437,7 +450,8 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!currentProduct || !currentFlavour) return;
 
             const cartItem = {
-                id: currentProduct.name ? currentProduct.name.toLowerCase().replace(/\s+/g, '-') : 'prod',
+                id: currentProduct.id || (currentProduct.name ? currentProduct.name.toLowerCase().replace(/\s+/g, '-') : 'prod'),
+                productId: currentProduct.id || '',
                 name: currentProduct.name,
                 flavour: currentFlavour.name,
                 quantity: currentQuantity,

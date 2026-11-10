@@ -2,7 +2,11 @@
    SHOP PRODUCTS DATA
 ========================================= */
 
-const shopProducts = {};
+let shopProducts = {};
+window.LiwikaSetShopProducts = function (products) {
+    shopProducts = {};
+    (products || []).forEach(product => { shopProducts[product.id] = product; });
+};
 
 /* =========================================
    MODAL ELEMENTS
@@ -232,6 +236,7 @@ function openProductModal(productId) {
 
     const product = shopProducts[productId];
     currentProduct = product;
+    window.LiwikaActiveProductData = product;
     currentQuantity = 1;
     currentFlavour = product.flavours?.[0] || { name: "Classic", image: product.image };
     currentPrice = Number(product.basePrice) || 0;
@@ -319,7 +324,8 @@ if (shopProductGrid) {
             event.stopPropagation();
             const flavour = product.flavours?.[0];
             const cartItem = {
-                id: product.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''),
+                id: product.id || product.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''),
+                productId: product.id || '',
                 name: product.name,
                 flavour: flavour?.name || "Classic",
                 quantity: 1,
@@ -468,6 +474,7 @@ if (modalAddToCart) {
 const filterButtons = document.querySelectorAll(".filter-button");
 const sortSelect = document.querySelector(".shop-sort select");
 const productGrid = document.querySelector(".shop-products");
+const getShopProductCards = () => productGrid ? Array.from(productGrid.querySelectorAll('.shop-product')) : [];
 
 if (filterButtons.length && productGrid) {
     filterButtons.forEach(btn => {
@@ -476,7 +483,7 @@ if (filterButtons.length && productGrid) {
             btn.classList.add("active");
 
             const filterType = btn.textContent.trim().toLowerCase();
-            shopProductCards.forEach(card => {
+            getShopProductCards().forEach(card => {
                 const category = (card.dataset.category || "").toLowerCase();
                 if (filterType === "all" || category === filterType) {
                     card.style.display = "";
@@ -491,7 +498,7 @@ if (filterButtons.length && productGrid) {
 if (sortSelect && productGrid) {
     sortSelect.addEventListener("change", () => {
         const val = sortSelect.value.trim().toLowerCase();
-        const cardsArr = Array.from(shopProductCards);
+        const cardsArr = getShopProductCards();
 
         if (val.includes("low to high")) {
             cardsArr.sort((a, b) => {
