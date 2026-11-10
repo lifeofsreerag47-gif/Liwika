@@ -89,24 +89,75 @@
   <div class="confirm-inner">
     <div class="mark">✓</div>
     <p class="eyebrow">LIWI-KA</p>
-    <h1>Order confirmed.</h1>
-    <p class="muted">Thank you. Your sweetest moment is now on its way, delivering within Visakhapatnam.</p>
-    <div class="order-pill" id="order"></div>
+    <h1 id="confirmationTitle">Placing your order…</h1>
+    <p class="muted" id="confirmationMessage">We are securely validating your order and reserving your chocolates.</p>
+    <div class="order-pill" id="order">PLEASE WAIT</div>
+    <p class="muted" id="paymentState" style="margin-top:4px"></p>
     <br>
-    <a class="home-btn" href="index.html">BACK TO HOME</a>
+    <a class="home-btn" id="confirmationAction" href="index.html">BACK TO HOME</a>
+    <p class="muted" id="confirmationError" role="alert" style="color:#d9a5a0;margin-top:14px"></p>
   </div>
 </section>
-<script>
-(function(){
-  const complete=sessionStorage.getItem('liwika_payment_complete');
-  if(complete!=='1'){location.href='seasonals/cart.html';return}
-  let order=sessionStorage.getItem('liwika_current_order_number');
-  if(!order){order='LK-'+String(Date.now()%90000+10000);sessionStorage.setItem('liwika_current_order_number',order)}
-  document.getElementById('order').textContent='Order '+order;
-  try{localStorage.setItem('liwika_last_order',JSON.stringify({orderNumber:order,email:(JSON.parse(localStorage.getItem('liwika_auth_session')||'{}').email||''),createdAt:new Date().toISOString()}))}catch(e){}
-  if(window.LiwikaCart){window.LiwikaCart.clearCart&&window.LiwikaCart.clearCart()}
-})();
-</script>
+<script src="cart.js"></script>
 <script src="free-delivery.js"></script>
+<script type="module">
+  import { auth, db, persistenceReady } from './firebase-config.js';
+  import { getFunctions, httpsCallable } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-functions.js';
+  import { doc, getDoc } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js';
+  const $ = id => document.getElementById(id);
+  const fail = (message) => {
+    $('confirmationTitle').textContent = 'We could not place your order.';
+    $('confirmationMessage').textContent = 'Your cart has been kept safe. Please review your details and try again.';
+    $('order').textContent = 'ORDER NOT PLACED';
+    $('confirmationError').textContent = message || 'Please try again.';
+    $('confirmationAction').href = 'seasonals/cart.html';
+    $('confirmationAction').textContent = 'RETURN TO CART';
+    sessionStorage.removeItem('liwika_payment_complete');
+    sessionStorage.removeItem('liwika_order_submit_started');
+  };
+  async function placeOrder() {
+    if (sessionStorage.getItem('liwika_payment_complete') !== '1') { location.replace('seasonals/cart.html'); return; }
+    const details = JSON.parse(sessionStorage.getItem('liwika_checkout_details') || 'null');
+    const intent = sessionStorage.getItem('liwika_checkout_intent');
+    const method = sessionStorage.getItem('liwika_payment_method') || 'Cash on Delivery';
+    const items = window.LiwikaCart?.getItems?.() || [];
+    if (!details || !intent || !items.length) { fail('Your checkout session is incomplete. Please return to your cart.'); return; }
+    if (sessionStorage.getItem('liwika_order_submit_started') === '1') {
+      // A reload may occur while a previous request is resolving. The server
+      // uses the same intent ID to make retries idempotent, so retry is safe.
+    }
+    sessionStorage.setItem('liwika_order_submit_started', '1');
+    try {
+      await persistenceReady;
+      const user = auth.currentUser;
+      if (!user) { location.replace('login.html?returnTo=' + encodeURIComponent('checkout.html')); return; }
+      const functions = getFunctions(undefined, 'asia-south1');
+      const createOrder = httpsCallable(functions, 'createCustomerOrder');
+      const result = await createOrder({
+        checkoutIntentId: intent,
+        items: items.map(item => ({ productId: item.id, quantity: item.quantity, flavour: item.flavour || 'Classic' })),
+        shippingAddress: details,
+        paymentMethod: method,
+        email: user.email || ''
+      });
+      const order = result.data || {};
+      $('confirmationTitle').textContent = 'Your order is placed.';
+      $('confirmationMessage').textContent = method === 'Cash on Delivery'
+        ? 'Thank you. Your order has been recorded. Payment will be collected on delivery within Visakhapatnam.'
+        : 'Thank you. Your order is recorded, but online payment has not been processed yet. The payment status is pending verification.';
+      $('order').textContent = 'Order ' + (order.orderNumber || order.orderId);
+      $('paymentState').textContent = 'Payment status: ' + (order.paymentStatus || 'pending');
+      $('confirmationAction').href = 'index.html';
+      $('confirmationAction').textContent = 'BACK TO HOME';
+      try { localStorage.setItem('liwika_last_order', JSON.stringify({ orderId: order.orderId, orderNumber: order.orderNumber, email: user.email || '', createdAt: new Date().toISOString() })); } catch (_) {}
+      window.LiwikaCart?.clearCart?.();
+      ['liwika_checkout_details','liwika_checkout_total','liwika_payment_method','liwika_payment_complete','liwika_checkout_intent','liwika_order_submit_started'].forEach(key => sessionStorage.removeItem(key));
+    } catch (error) {
+      console.error('Order placement failed:', error);
+      fail(error?.message || 'We could not connect to the order service. Your cart has not been cleared.');
+    }
+  }
+  placeOrder();
+</script>
 </body>
 </html>

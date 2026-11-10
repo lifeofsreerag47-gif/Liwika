@@ -9,32 +9,9 @@
 (function (window, document) {
   'use strict';
 
-  const FALLBACK = {
-    'Dark Indulgence': {
-      energy: '520 kcal', fat: '32 g', saturatedFat: '20 g', carbohydrates: '52 g', sugars: '38 g', protein: '7 g',
-      ingredients: 'Cocoa solids, sugar, cocoa butter, milk solids, natural vanilla flavour'
-    },
-    'Golden Milk': {
-      energy: '545 kcal', fat: '34 g', saturatedFat: '21 g', carbohydrates: '54 g', sugars: '45 g', protein: '8 g',
-      ingredients: 'Sugar, milk solids, cocoa butter, cocoa solids, natural vanilla flavour'
-    },
-    'Hazelnut Bliss': {
-      energy: '560 kcal', fat: '37 g', saturatedFat: '18 g', carbohydrates: '51 g', sugars: '39 g', protein: '8 g',
-      ingredients: 'Cocoa solids, sugar, cocoa butter, milk solids, roasted hazelnuts, natural vanilla flavour'
-    },
-    'Midnight Cacao': {
-      energy: '510 kcal', fat: '31 g', saturatedFat: '19 g', carbohydrates: '50 g', sugars: '32 g', protein: '8 g',
-      ingredients: 'Cocoa solids, cocoa butter, sugar, natural vanilla flavour, espresso extract'
-    },
-    'Velvet Cream': {
-      energy: '535 kcal', fat: '34 g', saturatedFat: '21 g', carbohydrates: '55 g', sugars: '46 g', protein: '8 g',
-      ingredients: 'Milk solids, sugar, cocoa butter, cocoa solids, natural vanilla flavour'
-    },
-    'Roasted Hazelnut': {
-      energy: '570 kcal', fat: '39 g', saturatedFat: '19 g', carbohydrates: '49 g', sugars: '35 g', protein: '9 g',
-      ingredients: 'Cocoa solids, sugar, cocoa butter, milk solids, roasted hazelnuts, hazelnut praline, natural vanilla flavour'
-    }
-  };
+  // No demo product nutrition is shipped with the storefront. Product-specific
+  // details should come from the live Firestore product record.
+  const FALLBACK = {};
 
   function resolveNutrition(name) {
     const pageProducts = window.occasionProducts || {};

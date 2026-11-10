@@ -134,8 +134,8 @@
 <main class="payment-wrap">
   <div class="payment-intro">
     <p class="eyebrow">LIWI-KA • YOUR SWEETEST MOMENT</p>
-    <h1>Complete your <span>payment.</span></h1>
-    <p>Choose how you'd like to pay to finish your Liwi-Ka order.</p>
+    <h1>Complete your <span>order.</span></h1>
+    <p>Choose your preferred payment method to place your Liwi-Ka order.</p>
   </div>
   <div class="checkout-progress"><span>Account</span><span class="dot"></span><span>Delivery</span><span class="dot"></span><span class="active">Payment</span></div>
   <section class="payment-card">
@@ -149,8 +149,9 @@
         <label class="method"><input type="radio" name="method" value="Cash on Delivery"> Cash on Delivery</label>
       </div>
       <div class="pay-summary"><span>Order total</span><strong id="total">₹0</strong></div>
-      <button class="checkout-btn" id="pay">PAY NOW →</button>
-      <div class="secure-note">🔒 SECURE CHECKOUT</div>
+      <p class="muted" style="font-size:11px;line-height:1.7;margin:0 0 16px">Online payment is not yet processed by a payment gateway. Choosing UPI, card or net banking will place the order as <strong>Pending verification</strong>. Cash on Delivery remains available.</p>
+      <button class="checkout-btn" id="pay">PLACE ORDER →</button>
+      <div class="secure-note">🔒 ORDER DETAILS VALIDATED SECURELY</div>
     </div>
   </section>
   <div class="payment-footer">LIWI-KA &nbsp; • &nbsp; FINEST CHOCOLATE</div>
@@ -168,8 +169,11 @@
     document.querySelectorAll('.method').forEach(x=>x.classList.remove('selected'));
     m.classList.add('selected');m.querySelector('input').checked=true;
   }));
-  document.getElementById('pay').addEventListener('click',()=>{
+  const placeOrder=document.getElementById('pay');
+  placeOrder.addEventListener('click',()=>{
     const method=document.querySelector('input[name=method]:checked').value;
+    if(!sessionStorage.getItem('liwika_checkout_intent')){location.href='checkout.html';return;}
+    placeOrder.disabled=true;placeOrder.textContent='CREATING YOUR ORDER…';
     sessionStorage.setItem('liwika_payment_method',method);
     sessionStorage.setItem('liwika_payment_complete','1');
     location.href='order-confirmation.html';

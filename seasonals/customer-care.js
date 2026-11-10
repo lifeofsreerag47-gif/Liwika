@@ -23,14 +23,3 @@ const observer = new IntersectionObserver(entries => {
 }, { threshold: 0.12 });
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-const form = document.getElementById('careForm');
-const formNote = document.getElementById('formNote');
-if (form) {
-    form.addEventListener('submit', e => {
-        e.preventDefault();
-        formNote.textContent = 'Thanks — your message is ready to be sent. We’ll get back to you soon.';
-        formNote.style.color = '#d9a441';
-        form.reset();
-    });
-}

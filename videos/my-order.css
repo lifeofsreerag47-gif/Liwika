@@ -511,3 +511,5 @@ body .footer-bottom { border-top-color: rgba(210,173,104,.13) !important; }
 @media (prefers-reduced-motion: reduce) {
     .order-card, .continue-shopping, .button-outline, .button-gold { transition: none !important; }
 }
+
+.order-status.status-pending{color:#8a642f;border-color:#ead9b7;background:#fff8e9}.order-status.status-processing{color:#8a642f;border-color:#ead9b7;background:#fff8e9}.order-status.status-cancelled{color:#a34e46;border-color:#efd6d3;background:#fff5f3}.orders-offline p{margin:7px 0 0;font-size:11px}

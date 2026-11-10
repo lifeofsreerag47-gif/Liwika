@@ -127,44 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const decreaseQuantity = document.getElementById("decreaseQuantity");
     const modalAddToCart = document.getElementById("modalAddToCart");
 
-    const homeProducts = {
-        "dark-indulgence": {
-            name: "Dark Indulgence",
-            badge: "BESTSELLER",
-            description: "Rich dark chocolate crafted for true chocolate lovers with single-origin cocoa.",
-            basePrice: 49,
-            image: "./images/choco1.jpg",
-            flavours: [
-                { name: "Classic Dark", image: "./images/choco1.jpg" },
-                { name: "Orange Dark", image: "./images/choco1.jpg" },
-                { name: "Sea Salt Dark", image: "./images/choco1.jpg" }
-            ]
-        },
-        "golden-milk": {
-            name: "Golden Milk",
-            badge: "SIGNATURE",
-            description: "Smooth, creamy chocolate with a luxurious finish and velvety richness.",
-            basePrice: 59,
-            image: "./images/choco2.jpg",
-            flavours: [
-                { name: "Classic Milk", image: "./images/choco2.jpg" },
-                { name: "Caramel Milk", image: "./images/choco2.jpg" },
-                { name: "Vanilla Milk", image: "./images/choco2.jpg" }
-            ]
-        },
-        "hazelnut-bliss": {
-            name: "Hazelnut Bliss",
-            badge: "POPULAR",
-            description: "Velvety chocolate paired with slow-roasted Mediterranean hazelnuts.",
-            basePrice: 69,
-            image: "./images/choco3.jpg",
-            flavours: [
-                { name: "Classic Hazelnut", image: "./images/choco3.jpg" },
-                { name: "Roasted Hazelnut", image: "./images/choco3.jpg" },
-                { name: "Hazelnut Crunch", image: "./images/choco3.jpg" }
-            ]
-        }
-    };
+    const homeProducts = {};
 
     let currentProduct = null;
     let currentFlavour = null;

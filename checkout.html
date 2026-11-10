@@ -577,7 +577,13 @@
       lng:pinnedLatLng?pinnedLatLng.lng:null,
       locationLabel:pinnedLatLng?pinnedLatLng.label:''
     };
-    sessionStorage.setItem('liwika_checkout_details',JSON.stringify(details));sessionStorage.setItem('liwika_checkout_total',String(total));location.href='payment.html';
+    sessionStorage.setItem('liwika_checkout_details',JSON.stringify(details));
+    sessionStorage.setItem('liwika_checkout_total',String(total));
+    if(!sessionStorage.getItem('liwika_checkout_intent')){
+      const intent=(window.crypto&&crypto.randomUUID)?crypto.randomUUID():('lk-'+Date.now()+'-'+Math.random().toString(16).slice(2));
+      sessionStorage.setItem('liwika_checkout_intent',intent);
+    }
+    location.href='payment.html';
   });
 })();
 </script>
