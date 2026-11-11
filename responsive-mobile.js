@@ -23,7 +23,8 @@
         new: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 1.9 5.7 5.8 1.8-5.8 1.9L12 18l-1.9-5.6-5.8-1.9 5.8-1.8z"/><path d="m18.2 15.4.8 2.3 2.3.8-2.3.8-.8 2.3-.8-2.3-2.3-.8 2.3-.8z"/></svg>',
         seasonal: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20c-4.5-2.2-7.5-5.6-7.5-9.5C4.5 7.7 6.8 5 10 5c1 0 1.9.4 2.6 1.1C13.3 5.4 14.1 5 15.1 5c3.2 0 5.4 2.7 5.4 5.5C20.5 14.4 17.1 17.8 12 20z"/><path d="M12 6c-1.8 2.3-2 5.1-.8 7.5"/></svg>',
         care: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a8 8 0 0 1-8 8 8.7 8.7 0 0 1-3.8-.9L4 20l1.4-3.7A8 8 0 1 1 20 11.5z"/><path d="M8.2 10h.01M15.8 10h.01M8.8 14.2c1.9 1.3 4.5 1.3 6.4 0"/></svg>',
-        cart: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h2l1.7 10.2a2 2 0 0 0 2 1.7h7.8a2 2 0 0 0 1.9-1.4L21 9H7"/><circle cx="10" cy="20" r="1.2"/><circle cx="18" cy="20" r="1.2"/></svg>'
+        cart: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h2l1.7 10.2a2 2 0 0 0 2 1.7h7.8a2 2 0 0 0 1.9-1.4L21 9H7"/><circle cx="10" cy="20" r="1.2"/><circle cx="18" cy="20" r="1.2"/></svg>',
+        about: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 10.5v6M12 7.3h.01"/></svg>'
     };
 
     function getNavLink(nav, label) {
@@ -40,6 +41,12 @@
                 var text = link.textContent.trim().toLowerCase();
                 var href = (link.getAttribute("href") || "").toLowerCase();
                 return text.indexOf("cart") !== -1 || href.indexOf("cart") !== -1;
+            });
+        }
+        // Several legacy pages call the same destination "Our Story".
+        if (label === "About Us") {
+            return links.find(function (link) {
+                return link.textContent.trim().toLowerCase() === "our story";
             });
         }
         return null;
@@ -63,6 +70,7 @@
             ["Shop", "shop", "Shop"],
             ["New Arrivals", "new", "New"],
             ["Seasonals", "seasonal", "Seasonals"],
+            ["About Us", "about", "About"],
             ["Customer Care", "care", "Care"],
             ["Shopping Cart", "cart", "Cart"]
         ];
@@ -73,16 +81,16 @@
 
         definitions.forEach(function (definition) {
             var source = getNavLink(desktopNav, definition[0]);
-            /* Cart is intentionally not part of the desktop text navigation.
-               Its real desktop link lives separately in the navbar. */
+            var sourceHref = "";
+            /* Cart is not part of the desktop text navigation. */
             if (!source && definition[1] === "cart") {
                 source = navbar.querySelector('.cart-nav-link, .cart-icon, a[aria-label="Shopping Cart"], a[href*="cart"]');
             }
             if (!source) return;
+            sourceHref = source.getAttribute("href") || "cart.html";
 
             var item = document.createElement("a");
             item.className = "mobile-bottom-item";
-            var sourceHref = source.getAttribute("href") || "cart.html";
             try {
                 item.href = new URL(sourceHref, window.location.href).href;
             } catch (e) {
@@ -115,7 +123,7 @@
                 targetPath = new URL(item.href, window.location.href).pathname.replace(/\/$/, "");
             } catch (e) {}
 
-            if (source.classList.contains("active") ||
+            if ((source && source.classList.contains("active")) ||
                 targetPath === currentPath ||
                 (definition[1] === "seasonal" && /\/occassions\//i.test(window.location.pathname))) {
                 item.classList.add("active");
@@ -276,8 +284,6 @@
 
         window.addEventListener("message", function (event) {
             if (!event.data || event.data.type !== "LIWIKA_MODAL_STATE") return;
-            var hud = document.querySelector('.liwika-free-delivery');
-            if (!hud) return;
             if (event.data.open) document.body.classList.add('liwi-product-modal-open');
             else document.body.classList.remove('liwi-product-modal-open');
         });

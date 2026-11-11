@@ -395,3 +395,41 @@ html.cine-on .cine.is-zooming .hero-overlay,
 html.cine-on .cine.is-zooming .hero-content {
     will-change: auto;
 }
+
+
+/* FIREBASE CATALOGUE HOME CARDS — center the live product count without
+   changing the original desktop card art, hover tilt, or card proportions. */
+@media (min-width: 901px) {
+  html.cine-on .cine-bests .product-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 310px), 340px)) !important;
+    justify-content: center !important;
+    justify-items: stretch !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+@media (max-width: 900px) {
+  html.cine-on .cine-bests .product-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    justify-content: center !important;
+    justify-items: stretch !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: min(100%, 720px) !important;
+  }
+  html.cine-on .cine-bests .product-card:only-child {
+    grid-column: 1 / -1 !important;
+    justify-self: center !important;
+    width: min(100%, 245px) !important;
+  }
+}
+
+@media (max-width: 900px) {
+  html.cine-on .cine-bests .product-grid > .product-card:last-child:nth-child(odd) {
+    grid-column: 1 / -1 !important;
+    justify-self: center !important;
+    width: min(100%, 245px) !important;
+  }
+}

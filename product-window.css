@@ -1090,3 +1090,184 @@ body.liwi-product-modal-open > .mobile-bottom-nav {
     object-position: center center !important;
   }
 }
+
+
+/* =========================================================
+   MULTI-IMAGE GALLERY + BOTTOM-ALIGNED PURCHASE ACTIONS
+========================================================= */
+.product-modal .modal-details {
+  display: flex !important;
+  flex-direction: column !important;
+}
+.product-modal .modal-footer-action {
+  margin-top: auto !important;
+  position: sticky !important;
+  bottom: 0 !important;
+  z-index: 12 !important;
+  flex: 0 0 auto !important;
+  padding: 15px 0 8px !important;
+  background: linear-gradient(180deg, rgba(13,10,8,0), rgba(13,10,8,.96) 22%, #0d0a08 100%) !important;
+  border-top: 1px solid rgba(224,181,88,.12) !important;
+}
+.product-modal .modal-image-container.has-multiple-images {
+  padding-bottom: 88px !important;
+}
+.product-modal .modal-image-container #modalProductImage {
+  cursor: zoom-in !important;
+}
+.liwika-gallery-arrow {
+  position: absolute !important;
+  z-index: 8 !important;
+  top: 44% !important;
+  display: grid !important;
+  place-items: center !important;
+  width: 42px !important;
+  height: 42px !important;
+  border: 1px solid rgba(232,199,123,.42) !important;
+  border-radius: 50% !important;
+  background: rgba(9,7,5,.72) !important;
+  color: #f4d98b !important;
+  font: 300 30px/1 Arial,sans-serif !important;
+  cursor: pointer !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,.35) !important;
+  backdrop-filter: blur(10px) !important;
+}
+.liwika-gallery-arrow[hidden] { display: none !important; }
+.liwika-gallery-prev { left: 12px !important; }
+.liwika-gallery-next { right: 12px !important; }
+.liwika-gallery-count {
+  position: absolute !important;
+  top: 14px !important;
+  left: 14px !important;
+  z-index: 8 !important;
+  padding: 6px 9px !important;
+  border: 1px solid rgba(230,191,99,.22) !important;
+  border-radius: 999px !important;
+  background: rgba(5,4,3,.58) !important;
+  color: #e8d5a4 !important;
+  font: 500 9px/1 Outfit,Arial,sans-serif !important;
+  letter-spacing: .8px !important;
+}
+.liwika-gallery-thumbnails {
+  position: absolute !important;
+  z-index: 8 !important;
+  left: 50% !important;
+  bottom: 13px !important;
+  transform: translateX(-50%) !important;
+  width: min(92%, 440px) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  overflow-x: auto !important;
+  padding: 5px 3px !important;
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(217,173,85,.4) transparent !important;
+}
+.liwika-gallery-thumbnails[hidden] { display: none !important; }
+.liwika-gallery-thumb {
+  flex: 0 0 58px !important;
+  width: 58px !important;
+  height: 58px !important;
+  padding: 3px !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(230,191,99,.22) !important;
+  border-radius: 10px !important;
+  background: rgba(5,4,3,.75) !important;
+  opacity: .65 !important;
+  cursor: pointer !important;
+  transition: opacity .2s ease,border-color .2s ease,transform .2s ease !important;
+}
+.liwika-gallery-thumb img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  border-radius: 6px !important;
+}
+.liwika-gallery-thumb.is-active {
+  opacity: 1 !important;
+  border-color: #e5c16b !important;
+  box-shadow: 0 0 0 1px rgba(229,193,107,.24),0 0 18px rgba(229,193,107,.13) !important;
+  transform: translateY(-2px) !important;
+}
+.liwika-image-viewer[hidden] { display: none !important; }
+.liwika-image-viewer {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 2147483647 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 56px 62px !important;
+  background: rgba(2,2,2,.97) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+}
+.liwika-image-viewer-image,
+.liwika-viewer-image {
+  display: block !important;
+  width: min(100%, 1300px) !important;
+  height: min(100%, 92dvh) !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  user-select: none !important;
+  -webkit-user-drag: none !important;
+}
+.liwika-viewer-close,
+.liwika-viewer-arrow {
+  position: absolute !important;
+  z-index: 2 !important;
+  display: grid !important;
+  place-items: center !important;
+  border: 1px solid rgba(231,190,99,.34) !important;
+  background: rgba(12,10,8,.86) !important;
+  color: #f3d98d !important;
+  cursor: pointer !important;
+}
+.liwika-viewer-close {
+  top: max(18px,env(safe-area-inset-top)) !important;
+  right: max(18px,env(safe-area-inset-right)) !important;
+  width: 46px !important;
+  height: 46px !important;
+  border-radius: 50% !important;
+  font: 300 29px/1 Arial,sans-serif !important;
+}
+.liwika-viewer-arrow {
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 50% !important;
+  font: 300 34px/1 Arial,sans-serif !important;
+}
+.liwika-viewer-arrow[hidden] { display:none !important; }
+.liwika-viewer-prev { left: 14px !important; }
+.liwika-viewer-next { right: 14px !important; }
+.liwika-viewer-count {
+  position: absolute !important;
+  bottom: max(18px,env(safe-area-inset-bottom)) !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  color: #d8c59a !important;
+  font: 500 11px/1 Outfit,Arial,sans-serif !important;
+  letter-spacing: 1px !important;
+}
+body.liwika-image-viewer-open { overflow: hidden !important; }
+
+@media (max-width: 900px) {
+  .product-modal .modal-footer-action {
+    padding: 12px 0 max(12px,env(safe-area-inset-bottom)) !important;
+  }
+  .liwika-gallery-arrow { width: 36px !important; height: 36px !important; font-size: 26px !important; }
+  .liwika-gallery-prev { left: 7px !important; }
+  .liwika-gallery-next { right: 7px !important; }
+  .liwika-gallery-thumb { flex-basis: 49px !important; width: 49px !important; height: 49px !important; border-radius: 8px !important; }
+  .liwika-gallery-thumbnails { bottom: 8px !important; gap: 6px !important; }
+  .liwika-image-viewer { padding: 58px 10px 48px !important; }
+  .liwika-viewer-image { width: 100% !important; height: 100% !important; max-height: 100% !important; }
+  .liwika-viewer-close { top: max(12px,env(safe-area-inset-top)) !important; right: 12px !important; width: 42px !important; height: 42px !important; }
+  .liwika-viewer-arrow { width: 38px !important; height: 38px !important; font-size: 27px !important; }
+  .liwika-viewer-prev { left: 8px !important; }
+  .liwika-viewer-next { right: 8px !important; }
+}

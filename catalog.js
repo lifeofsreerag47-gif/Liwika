@@ -34,7 +34,11 @@ function normalizeProduct(p) {
   const flavours = Array.isArray(p.flavours) && p.flavours.length
     ? p.flavours.map(flavour => typeof flavour === 'string' ? { name: flavour, image } : { name: flavour.name || 'Classic', image: flavour.image || image })
     : [{ name: p.flavour || 'Classic', image }];
-  return { ...p, id: p.id, name: p.name || 'Liwi-Ka Chocolate', basePrice: Number(p.price ?? p.basePrice ?? 0), image, imageUrl: image, flavours, nutrition: p.nutrition || {}, ingredients: p.ingredients || '' };
+  const images = (Array.isArray(p.images) ? p.images : Array.isArray(p.imageUrls) ? p.imageUrls : [])
+    .map(item => typeof item === 'string' ? item : (item?.url || item?.imageUrl || item?.downloadURL || ''))
+    .filter(Boolean);
+  if (image && !images.includes(image)) images.unshift(image);
+  return { ...p, id: p.id, name: p.name || 'Liwi-Ka Chocolate', basePrice: Number(p.price ?? p.basePrice ?? 0), image, imageUrl: image, images, flavours, nutrition: p.nutrition || {}, ingredients: p.ingredients || '' };
 }
 function productsForPlacement(products) {
   const placement = getPlacement();
@@ -44,13 +48,37 @@ function productsForPlacement(products) {
   if (placement === 'best-sellers') list = list.slice(0, 6);
   return list;
 }
+function bindDesktopBestsellerTilt(target) {
+  const finePointer = window.matchMedia?.('(hover: hover) and (pointer: fine)');
+  if (!finePointer?.matches) return;
+  target.querySelectorAll('.product-card').forEach(card => {
+    if (card.dataset.liwikaTiltBound === '1') return;
+    card.dataset.liwikaTiltBound = '1';
+    const reset = () => {
+      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0) scale(1)';
+    };
+    card.addEventListener('pointermove', event => {
+      if (event.pointerType !== 'mouse') return;
+      const rect = card.getBoundingClientRect();
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      if (!centerX || !centerY) return;
+      const rotateX = ((event.clientY - rect.top - centerY) / centerY) * -6;
+      const rotateY = ((event.clientX - rect.left - centerX) / centerX) * 6;
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px) scale(1.02)`;
+    });
+    card.addEventListener('pointerleave', reset);
+    card.addEventListener('pointercancel', reset);
+  });
+}
+
 function homeCard(p) {
   const words = String(p.name || 'Liwi-Ka Chocolate').trim().split(/\s+/);
   const first = words.shift() || 'Liwi-Ka';
   const second = words.join(' ');
   const title = `<h3><span>${esc(first)}</span>${second ? `<span>${esc(second)}</span>` : ''}</h3>`;
   const image = p.imageUrl ? `<img src="${esc(p.imageUrl)}" alt="${esc(p.name)}" loading="lazy">` : `<div class="liwika-no-image">LIWI-KA</div>`;
-  return `<div class="product-card" data-product="${esc(p.id)}" tabindex="0" role="button" aria-label="View ${esc(p.name)}"><div class="product-image">${image}</div><div class="product-info">${title}<p class="product-description">${esc(p.description || '')}</p><div class="product-bottom"><span class="price">${money(p.price)}</span><button type="button" class="add-button">Add to Cart</button></div></div></div>`;
+  return `<div class="product-card" data-product="${esc(p.id)}" tabindex="0" role="button" aria-label="View ${esc(p.name)}"><div class="product-image">${image}</div><div class="product-info">${title}<p class="product-description">${esc(p.description || '')}</p><div class="product-bottom"><span class="price">${money(p.price)}</span><button type="button" class="add-button">Add to Cart</button></div></div><span class="card-corner-name" aria-hidden="true">${esc(first)}${second ? `<br>${esc(second)}` : ''}</span></div>`;
 }
 function categorySlug(p) {
   const value = String(p.category || '').toLowerCase();
@@ -95,10 +123,11 @@ function openNativeProductModal(p) {
   $('#modalProductBadge',modal).hidden = !product.badge;
   $('#modalProductDescription',modal).textContent = product.description || '';
   if (image) { image.src = product.imageUrl || ''; image.alt = product.name; }
+  window.LiwikaRenderProductGallery?.(product, product.imageUrl);
   const options = $('#flavourOptions',modal); options.innerHTML = '';
   product.flavours.forEach((flavour,index)=>{
     const button=document.createElement('button'); button.type='button'; button.className='flavour-button'+(index===0?' selected':''); button.textContent=flavour.name;
-    button.addEventListener('click',()=>{ options.querySelectorAll('.flavour-button').forEach(x=>x.classList.remove('selected'));button.classList.add('selected');if(image)image.src=flavour.image||product.imageUrl||''; });
+    button.addEventListener('click',()=>{ options.querySelectorAll('.flavour-button').forEach(x=>x.classList.remove('selected'));button.classList.add('selected');if(image)image.src=flavour.image||product.imageUrl||'';window.LiwikaSetProductGalleryImage?.(flavour.image||product.imageUrl||''); });
     options.appendChild(button);
   });
   $('#quantity',modal).innerHTML='<span class="qty-digit current">1</span>';
@@ -142,6 +171,7 @@ function renderAll(products) {
     else if(target.id==='newArrivalsProducts') { list=products.filter(p=>p.newArrival===true||(p.placements||[]).includes('new-arrivals')); renderer=arrivalCard; }
     if(!list.length){showState(target,'empty');return;}
     target.dataset.catalogState='ready'; target.innerHTML=list.map(renderer).join('');
+    if (target.classList.contains('cine-items')) bindDesktopBestsellerTilt(target);
   });
 }
 function bindCatalogInteractions() {

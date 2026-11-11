@@ -253,6 +253,7 @@ function openProductModal(productId) {
         modalProductImage.src = currentFlavour.image || product.image;
         modalProductImage.alt = product.name || "Selected chocolate";
     }
+    window.LiwikaRenderProductGallery?.(product, currentFlavour.image || product.image);
 
     setQuantityDisplay(1, false);
     displayFlavours();
@@ -288,8 +289,9 @@ function displayFlavours() {
             currentFlavour = flavour;
 
             if (modalProductImage) {
-                modalProductImage.src = flavour.image;
+                modalProductImage.src = flavour.image || currentProduct.image || "";
             }
+            window.LiwikaSetProductGalleryImage?.(flavour.image || currentProduct.image || "");
 
             document.querySelectorAll(".flavour-button").forEach(btn => {
                 btn.classList.remove("selected");

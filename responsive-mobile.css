@@ -2719,3 +2719,303 @@ button, input, select, textarea {
     transition: bottom .36s cubic-bezier(.16,1,.3,1), opacity .34s ease, transform .62s cubic-bezier(.16,1,.3,1) !important;
   }
 }
+
+
+/* =========================================================
+   LIWI-KA MOBILE REPAIR — bottom dock, shop cards and full-screen modal
+========================================================= */
+@media (max-width: 900px) {
+  body.liwi-product-modal-open > .liwika-free-delivery {
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: translateY(18px) !important;
+  }
+  .mobile-bottom-nav {
+    --nav-item-count: 7 !important;
+    position: fixed !important;
+    left: 50% !important;
+    right: auto !important;
+    bottom: max(8px, env(safe-area-inset-bottom)) !important;
+    width: calc(100vw - 16px) !important;
+    max-width: 620px !important;
+    height: 66px !important;
+    min-height: 66px !important;
+    padding: 5px !important;
+    display: grid !important;
+    grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+    grid-template-rows: 1fr !important;
+    gap: 2px !important;
+    align-items: stretch !important;
+    transform: translateX(-50%) !important;
+    border-radius: 21px !important;
+    z-index: 2147483000 !important;
+    box-sizing: border-box !important;
+  }
+  .mobile-bottom-nav .mobile-bottom-item {
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 54px !important;
+    min-height: 0 !important;
+    padding: 4px 1px !important;
+    gap: 3px !important;
+    overflow: hidden !important;
+    border-radius: 14px !important;
+    transform: none !important;
+  }
+  .mobile-bottom-nav .mobile-bottom-icon,
+  .mobile-bottom-nav .mobile-bottom-icon svg {
+    width: 17px !important;
+    height: 17px !important;
+    flex: 0 0 17px !important;
+  }
+  .mobile-bottom-nav .mobile-bottom-label {
+    display: block !important;
+    width: 100% !important;
+    overflow: hidden !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    text-overflow: clip !important;
+    font-size: clamp(6px,1.65vw,7.5px) !important;
+    line-height: 1 !important;
+    letter-spacing: .1px !important;
+  }
+  .mobile-bottom-nav .liwika-cart-badge { top: 2px !important; right: 4px !important; }
+  body:has(> .liwi-mobile-frame) { overflow: hidden !important; }
+  body:has(> .liwi-mobile-frame) > .liwi-mobile-frame {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    border: 0 !important;
+  }
+
+  /* Home bestsellers: centered two-column layout; no mobile 3D transforms. */
+  html.cine-on .cine-bests .product-grid {
+    grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+    justify-content: center !important;
+    justify-items: stretch !important;
+    width: min(100%,720px) !important;
+    margin-inline: auto !important;
+    gap: 12px !important;
+  }
+  html.cine-on .cine-bests .product-card {
+    transform: none !important;
+    transform-style: flat !important;
+    transition: box-shadow .25s ease,border-color .25s ease !important;
+  }
+  html.cine-on .cine-bests .product-card:only-child {
+    grid-column: 1 / -1 !important;
+    justify-self: center !important;
+    width: min(100%,245px) !important;
+  }
+
+  /* Shop product cards: editorial two-column cards with clear actions. */
+  body.shop-page .shop-products {
+    display: grid !important;
+    grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+    width: 100% !important;
+    max-width: 760px !important;
+    margin: 0 auto !important;
+    padding: 16px 11px calc(110px + env(safe-area-inset-bottom)) !important;
+    gap: 13px !important;
+    justify-content: center !important;
+    align-items: stretch !important;
+  }
+  body.shop-page .shop-product {
+    display: flex !important;
+    min-width: 0 !important;
+    width: 100% !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(216,174,91,.20) !important;
+    border-radius: 17px !important;
+    background: linear-gradient(150deg,rgba(35,27,18,.95),rgba(11,10,8,.98)) !important;
+    box-shadow: 0 12px 28px rgba(0,0,0,.30), inset 0 1px 0 rgba(255,255,255,.035) !important;
+    transform: none !important;
+    transition: border-color .2s ease,box-shadow .2s ease !important;
+  }
+  body.shop-page .shop-product:active { border-color: rgba(231,192,108,.5) !important; }
+  body.shop-page .shop-product-image {
+    position: relative !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    aspect-ratio: 1 / 1.04 !important;
+    padding: 10px !important;
+    display: grid !important;
+    place-items: center !important;
+    overflow: hidden !important;
+    background: radial-gradient(circle at 50% 45%,rgba(203,158,73,.13),transparent 68%),linear-gradient(145deg,#18140f,#0b0a08) !important;
+  }
+  body.shop-page .shop-product-image img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-height: none !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    transform: none !important;
+    filter: drop-shadow(0 10px 14px rgba(0,0,0,.38)) !important;
+  }
+  body.shop-page .shop-product-info {
+    display: flex !important;
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    padding: 11px 10px 10px !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    gap: 11px !important;
+    background: linear-gradient(180deg,rgba(22,18,13,.96),rgba(10,9,7,.99)) !important;
+  }
+  body.shop-page .shop-product-info .product-category {
+    margin: 0 0 5px !important;
+    color: #c8a45e !important;
+    font-size: 7px !important;
+    line-height: 1.2 !important;
+    letter-spacing: 1.2px !important;
+  }
+  body.shop-page .shop-product-info h2 {
+    margin: 0 0 6px !important;
+    color: #f4ecda !important;
+    font-size: clamp(13px,3.7vw,16px) !important;
+    line-height: 1.15 !important;
+    letter-spacing: -.15px !important;
+  }
+  body.shop-page .shop-product-info .product-description {
+    display: -webkit-box !important;
+    -webkit-box-orient: vertical !important;
+    -webkit-line-clamp: 2 !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    color: rgba(234,224,203,.65) !important;
+    font-size: 8.5px !important;
+    line-height: 1.45 !important;
+  }
+  body.shop-page .shop-product-bottom {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    flex-wrap: nowrap !important;
+    gap: 6px !important;
+    margin: 0 !important;
+    padding: 9px 0 0 !important;
+    border-top: 1px solid rgba(220,183,105,.13) !important;
+  }
+  body.shop-page .shop-product-bottom .shop-price {
+    min-width: 0 !important;
+    color: #f0d58e !important;
+    font-size: clamp(13px,3.5vw,16px) !important;
+    font-weight: 600 !important;
+    white-space: nowrap !important;
+  }
+  body.shop-page .shop-product-bottom .shop-add,
+  body.shop-page .shop-product-bottom .quick-add-mobile {
+    display: inline-flex !important;
+    flex: 0 0 auto !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 0 !important;
+    width: auto !important;
+    min-height: 30px !important;
+    padding: 0 9px !important;
+    border: 1px solid rgba(220,183,105,.46) !important;
+    border-radius: 999px !important;
+    background: linear-gradient(110deg,rgba(166,122,44,.18),rgba(235,205,132,.08)) !important;
+    color: #efd58e !important;
+    font-size: 7px !important;
+    font-weight: 600 !important;
+    letter-spacing: .45px !important;
+    white-space: nowrap !important;
+  }
+  body.shop-page .shop-product-image > .quick-add { display: none !important; }
+
+  /* The parent shell hides the bottom dock while this full-screen modal is open. */
+  body.mobile-liwi-frame .product-modal {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    align-items: stretch !important;
+    justify-content: stretch !important;
+    overflow: hidden !important;
+  }
+  body.mobile-liwi-frame .product-modal .modal-content {
+    width: 100vw !important;
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    max-height: 100dvh !important;
+    max-width: none !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    overflow: hidden !important;
+  }
+  body.mobile-liwi-frame .product-modal .modal-body {
+    display: grid !important;
+    grid-template-columns: minmax(0,1fr) !important;
+    grid-template-rows: minmax(220px,38dvh) minmax(0,1fr) !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+  }
+  body.mobile-liwi-frame .product-modal .modal-image-container {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    padding: 18px 20px !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid rgba(224,181,88,.13) !important;
+    overflow: hidden !important;
+  }
+  body.mobile-liwi-frame .product-modal .modal-image-container.has-multiple-images {
+    padding-bottom: 72px !important;
+  }
+  body.mobile-liwi-frame .product-modal .modal-image-container #modalProductImage {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+  }
+  body.mobile-liwi-frame .product-modal .modal-details {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    min-height: 0 !important;
+    height: auto !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding: 14px 16px max(14px,env(safe-area-inset-bottom)) !important;
+  }
+  body.mobile-liwi-frame .product-modal .modal-details h2,
+  body.mobile-liwi-frame .product-modal #modalProductName { font-size: clamp(22px,6.4vw,29px) !important; }
+  body.mobile-liwi-frame .product-modal .modal-footer-action {
+    position: sticky !important;
+    bottom: calc(-1 * max(14px,env(safe-area-inset-bottom))) !important;
+    margin-top: auto !important;
+    padding: 12px 0 max(14px,env(safe-area-inset-bottom)) !important;
+    background: linear-gradient(180deg,rgba(13,10,8,.90),#0d0a08 18%) !important;
+  }
+  body.mobile-liwi-frame .product-modal .close-modal {
+    top: max(12px,env(safe-area-inset-top)) !important;
+    right: 12px !important;
+    z-index: 40 !important;
+  }
+}
+
+@media (max-width: 380px) {
+  body.shop-page .shop-products { gap: 9px !important; padding-left: 8px !important; padding-right: 8px !important; }
+  body.shop-page .shop-product-info { padding: 9px 8px !important; }
+  body.shop-page .shop-product-bottom .shop-add,
+  body.shop-page .shop-product-bottom .quick-add-mobile { padding-inline: 7px !important; font-size: 6.5px !important; }
+}

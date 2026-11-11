@@ -340,6 +340,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 e.stopPropagation();
                 currentFlavour = flavour;
                 if (modalProductImage) modalProductImage.src = flavour.image;
+                window.LiwikaSetProductGalleryImage?.(flavour.image);
                 document.querySelectorAll(".flavour-button").forEach(b => b.classList.remove("selected"));
                 button.classList.add("selected");
             });
@@ -361,9 +362,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (modalProductBadge) modalProductBadge.textContent = currentProduct.badge;
         if (modalProductDescription) modalProductDescription.textContent = currentProduct.description;
         if (modalProductImage) {
-            modalProductImage.src = currentFlavour.image;
+            modalProductImage.src = currentFlavour.image || currentProduct.image;
             modalProductImage.alt = currentProduct.name;
         }
+        window.LiwikaRenderProductGallery?.(currentProduct, currentFlavour.image || currentProduct.image);
 
         setQuantityDisplay(currentQuantity, false);
         displayFlavours();
@@ -388,7 +390,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 ...product, id: product.id, name: product.name || "Liwi-Ka Chocolate",
                 badge: product.badge || "", description: product.description || "",
                 basePrice: Number(product.price ?? product.basePrice ?? 0),
-                image, flavours, nutrition: product.nutrition || {},
+                image, images: Array.isArray(product.images) ? product.images : [], flavours, nutrition: product.nutrition || {},
                 ingredients: product.ingredients || ""
             };
         });
