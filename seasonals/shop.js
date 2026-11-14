@@ -14,6 +14,16 @@ window.LiwikaSetShopProducts = function (products) {
 
 const productModal = document.getElementById("productModal");
 const closeModal = document.getElementById("closeModal");
+
+// Keep the fixed dialog at the document root. If a future page template nests
+// it inside a transformed/overflow-clipped wrapper, move it out before opening.
+if (productModal && productModal.parentElement !== document.body) {
+    document.body.appendChild(productModal);
+}
+if (productModal) {
+    productModal.setAttribute("aria-modal", "true");
+    if (!productModal.hasAttribute("tabindex")) productModal.setAttribute("tabindex", "-1");
+}
 const modalProductImage = document.getElementById("modalProductImage");
 const modalProductName = document.getElementById("modalProductName");
 const modalProductBadge = document.getElementById("modalProductBadge");
@@ -33,6 +43,7 @@ let currentProduct = null;
 let currentFlavour = null;
 let currentQuantity = 1;
 let currentPrice = 0;
+let modalScrollSnapshot = null;
 let qtyAnimationTimeout = null;
 let qtyAnimationRaf = null;
 let qtyAnimationRevision = 0;
@@ -228,11 +239,47 @@ function setPriceDisplay(newPrice, animate = false, direction = "up") {
 }
 
 /* =========================================
+   PAGE SCROLL LOCK — preserve the exact scroll position behind the dialog
+========================================= */
+
+function lockShopPageScroll() {
+    if (modalScrollSnapshot) return;
+    const body = document.body;
+    const root = document.documentElement;
+    modalScrollSnapshot = {
+        x: window.scrollX || window.pageXOffset || 0,
+        y: window.scrollY || window.pageYOffset || 0,
+        bodyOverflow: body.style.overflow,
+        rootOverflow: root.style.overflow
+    };
+
+    // Do not fix-position the body or alter the Shop main: either can move or
+    // clip fixed descendants on phones. Lock only the scroll roots.
+    body.style.overflow = 'hidden';
+    root.style.overflow = 'hidden';
+}
+
+function unlockShopPageScroll() {
+    if (!modalScrollSnapshot) return;
+    const snapshot = modalScrollSnapshot;
+    const body = document.body;
+    const root = document.documentElement;
+    body.style.overflow = snapshot.bodyOverflow;
+    root.style.overflow = snapshot.rootOverflow;
+    modalScrollSnapshot = null;
+    // The scroll position should not change while the modal is open, but restore
+    // it defensively in case the browser changed it during focus/viewport resize.
+    window.scrollTo(snapshot.x, snapshot.y);
+}
+
+/* =========================================
    OPEN MODAL
 ========================================= */
 
 function openProductModal(productId) {
     if (!productModal || !shopProducts[productId]) return;
+    // A page layout/animation wrapper must never become the fixed modal's containing block.
+    if (productModal.parentElement !== document.body) document.body.appendChild(productModal);
 
     const product = shopProducts[productId];
     currentProduct = product;
@@ -259,12 +306,18 @@ function openProductModal(productId) {
     displayFlavours();
     setPriceDisplay(currentPrice, false);
 
+    lockShopPageScroll();
     productModal.classList.add("active");
     productModal.setAttribute("aria-hidden", "false");
+    productModal.setAttribute("aria-modal", "true");
     document.body.classList.add("liwi-product-modal-open");
-    document.body.style.overflow = "hidden";
-    closeModal?.focus({ preventScroll: true });
+    document.documentElement.classList.add("liwi-product-modal-open");
+    // The modal is a fixed viewport sibling of the page, not a card/page-flow child.
+    productModal.scrollTop = 0;
 }
+
+// Used by catalog.js as a fallback for dynamically injected Shop cards.
+window.LiwikaOpenShopProductModal = openProductModal;
 
 /* =========================================
    DISPLAY FLAVOURS
@@ -311,9 +364,18 @@ function displayFlavours() {
 const shopProductGrid = document.querySelector(".shop-products");
 
 if (shopProductGrid) {
+    shopProductGrid.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        const card = event.target.closest(".shop-product");
+        if (!card || !shopProductGrid.contains(card)) return;
+        // A focused nested action button keeps its own native keyboard behavior.
+        if (event.target.closest("button, a, input, select, textarea")) return;
+        event.preventDefault();
+        openProductModal(card.dataset.product);
+    });
+
     shopProductGrid.addEventListener("click", (event) => {
         const quickAdd = event.target.closest(".quick-add");
-        const addButton = event.target.closest(".shop-add");
         const card = event.target.closest(".shop-product");
         if (!card || !shopProductGrid.contains(card)) return;
 
@@ -343,11 +405,9 @@ if (shopProductGrid) {
             return;
         }
 
-        if (addButton) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
-
+        event.preventDefault();
+        event.stopPropagation();
+        event.__liwikaShopModalHandled = true;
         openProductModal(productId);
     });
 }
@@ -395,8 +455,9 @@ function closeProductModal() {
     if (!productModal) return;
     productModal.classList.remove("active");
     productModal.setAttribute("aria-hidden", "true");
-    document.body.style.overflow = "";
     document.body.classList.remove("liwi-product-modal-open");
+    document.documentElement.classList.remove("liwi-product-modal-open");
+    unlockShopPageScroll();
     currentProduct = null;
     currentQuantity = 1;
 
@@ -474,7 +535,6 @@ if (modalAddToCart) {
 ========================================= */
 
 const filterButtons = document.querySelectorAll(".filter-button");
-const sortSelect = document.querySelector(".shop-sort select");
 const productGrid = document.querySelector(".shop-products");
 const getShopProductCards = () => productGrid ? Array.from(productGrid.querySelectorAll('.shop-product')) : [];
 
@@ -497,25 +557,3 @@ if (filterButtons.length && productGrid) {
     });
 }
 
-if (sortSelect && productGrid) {
-    sortSelect.addEventListener("change", () => {
-        const val = sortSelect.value.trim().toLowerCase();
-        const cardsArr = getShopProductCards();
-
-        if (val.includes("low to high")) {
-            cardsArr.sort((a, b) => {
-                const priceA = shopProducts[a.dataset.product]?.basePrice || 0;
-                const priceB = shopProducts[b.dataset.product]?.basePrice || 0;
-                return priceA - priceB;
-            });
-        } else if (val.includes("high to low")) {
-            cardsArr.sort((a, b) => {
-                const priceA = shopProducts[a.dataset.product]?.basePrice || 0;
-                const priceB = shopProducts[b.dataset.product]?.basePrice || 0;
-                return priceB - priceA;
-            });
-        }
-
-        cardsArr.forEach(card => productGrid.appendChild(card));
-    });
-}

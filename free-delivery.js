@@ -46,6 +46,10 @@
     el = document.createElement('aside');
     el.id = 'liwika-free-delivery';
     el.className = 'liwika-free-delivery';
+    el.setAttribute('role', 'link');
+    el.setAttribute('tabindex', '0');
+    el.setAttribute('aria-label', 'Continue shopping at Liwi-Ka');
+    el.setAttribute('title', 'Tap to explore chocolates');
     el.setAttribute('aria-live', 'polite');
     el.innerHTML = `
       <div class="lfd-card">
@@ -233,18 +237,36 @@
     if (!event.key || event.key === STORAGE_KEY) { update(false); syncBadges(); }
   });
 
-  function getCartDestination() {
+  function getShopDestination() {
     const path = window.location.pathname;
-    if (path.includes('/occassions/')) return '../cart.html';
-    if (path.includes('/seasonals/')) return 'cart.html';
-    return 'seasonals/cart.html';
+    if (path.includes('/occassions/')) return '../shop.html';
+    if (path.includes('/seasonals/')) return 'shop.html';
+    return 'seasonals/shop.html';
+  }
+
+  function goToShop() {
+    const destination = new URL(getShopDestination(), window.location.href).href;
+    if (typeof window.__liwiNavigate === 'function') {
+      window.__liwiNavigate(destination, true);
+    } else {
+      window.location.href = destination;
+    }
   }
 
   document.addEventListener('click', function (event) {
     const hud = event.target.closest('#liwika-free-delivery');
     if (!hud || !hud.classList.contains('is-visible')) return;
-    if (document.querySelector('.product-modal.active')) return;
-    window.location.href = getCartDestination();
+    if (document.querySelector('.product-modal.active') || document.body.classList.contains('liwi-product-modal-open')) return;
+    event.preventDefault();
+    goToShop();
+  });
+
+  document.addEventListener('keydown', function (event) {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    const hud = event.target.closest('#liwika-free-delivery');
+    if (!hud || !hud.classList.contains('is-visible')) return;
+    event.preventDefault();
+    goToShop();
   });
 
   function init() {

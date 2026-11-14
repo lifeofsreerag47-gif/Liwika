@@ -433,3 +433,266 @@ html.cine-on .cine.is-zooming .hero-content {
     width: min(100%, 245px) !important;
   }
 }
+
+
+/* =========================================================
+   LIWI-KA FINAL BESTSELLERS FIX
+   These styles intentionally do not depend on html.cine-on.
+   The Firebase catalogue renders cards after the static page
+   has loaded, so the page-scoped rules must work in both the
+   animated and static-fallback layouts.
+========================================================= */
+.home-page .cine-bests .cine-items-wrap,
+.home-page .cine-bests .cine-rail {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+@media (min-width: 901px) {
+  .home-page .cine-bests .product-grid {
+    display: flex !important;
+    flex-flow: row wrap !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    justify-items: unset !important;
+    gap: clamp(24px, 2.2vw, 34px) !important;
+    width: min(1440px, 94vw) !important;
+    max-width: none !important;
+    margin: 0 auto !important;
+    padding: 8px 0 !important;
+  }
+
+  .home-page .cine-bests .product-grid > .product-card {
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex: 0 0 320px !important;
+    flex-direction: column !important;
+    width: 320px !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: auto !important;
+    overflow: hidden !important;
+  }
+
+  /* A true fixed image viewport. Uploaded image proportions can never
+     change card height; the image always fills the same 360px frame. */
+  .home-page .cine-bests .product-card > .product-image {
+    position: relative !important;
+    inset: auto !important;
+    flex: 0 0 360px !important;
+    display: block !important;
+    width: 100% !important;
+    height: 360px !important;
+    min-height: 360px !important;
+    max-height: 360px !important;
+    aspect-ratio: auto !important;
+    overflow: hidden !important;
+    background: #15130f !important;
+  }
+
+  .home-page .cine-bests .product-card > .product-image img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 100% !important;
+    max-height: 100% !important;
+    object-fit: cover !important;
+    object-position: center center !important;
+  }
+
+  .home-page .cine-bests .product-card .product-info {
+    position: relative !important;
+    inset: auto !important;
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 20px 22px 22px !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    clip: auto !important;
+    clip-path: none !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    background: linear-gradient(180deg, rgba(21,15,11,.98), #0d0a08) !important;
+  }
+
+  .home-page .cine-bests .product-card .card-corner-name {
+    left: 22px !important;
+    right: 22px !important;
+    /* Keep the overlay aligned to the bottom of the fixed 360px photo,
+       even though the product information panel continues below it. */
+    bottom: calc(100% - 360px + 24px) !important;
+    max-width: calc(100% - 44px) !important;
+    font-size: clamp(36px, 3.3vw, 48px) !important;
+    line-height: .98 !important;
+    z-index: 8 !important;
+  }
+
+  .home-page .cine-bests .product-card::after {
+    height: 34% !important;
+    z-index: 5 !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .home-page .cine-bests .product-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    align-items: stretch !important;
+    justify-content: center !important;
+    justify-items: stretch !important;
+    gap: 12px !important;
+    width: min(100%, 720px) !important;
+    max-width: 720px !important;
+    margin: 0 auto !important;
+    padding: 0 12px !important;
+    box-sizing: border-box !important;
+  }
+
+  .home-page .cine-bests .product-grid > .product-card {
+    position: relative !important;
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: 0.88 / 1 !important;
+    overflow: hidden !important;
+    transform: none !important;
+    transform-style: flat !important;
+    transition: border-color .22s ease, box-shadow .22s ease !important;
+  }
+
+  .home-page .cine-bests .product-card > .product-image {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    aspect-ratio: auto !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+  }
+
+  .home-page .cine-bests .product-card > .product-image img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    object-fit: cover !important;
+    object-position: center center !important;
+    transform: none !important;
+    filter: none !important;
+  }
+
+  /* Phones show only the product photograph and the corner-name overlay. */
+  .home-page .cine-bests .product-card .product-info {
+    display: none !important;
+  }
+
+  .home-page .cine-bests .product-card .card-corner-name {
+    position: absolute !important;
+    left: 13px !important;
+    right: 13px !important;
+    bottom: 13px !important;
+    top: auto !important;
+    display: block !important;
+    width: auto !important;
+    max-width: calc(100% - 26px) !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 0 .08em !important;
+    z-index: 8 !important;
+    font-size: clamp(20px, 6vw, 30px) !important;
+    line-height: .98 !important;
+    white-space: normal !important;
+    pointer-events: none !important;
+  }
+
+  .home-page .cine-bests .product-card::after {
+    height: 48% !important;
+    z-index: 5 !important;
+    pointer-events: none !important;
+  }
+
+  /* Keep an odd final card centered instead of stretching it across the row. */
+  .home-page .cine-bests .product-grid > .product-card:last-child:nth-child(odd) {
+    grid-column: 1 / -1 !important;
+    justify-self: center !important;
+    width: min(100%, 245px) !important;
+  }
+}
+
+
+/* =========================================================
+   NOV 14 FINAL BESTSELLER MOBILE + DESKTOP GUARANTEE
+   Mobile cards are image/name only. Desktop cards use a fixed image frame
+   and flex-wrap centering so every row is centered for every product count.
+========================================================= */
+@media (min-width: 901px) {
+  .home-page #bestsellers .cine-items {
+    display: flex !important;
+    flex-flow: row wrap !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    gap: clamp(24px, 2.2vw, 34px) !important;
+    width: min(1440px, 94vw) !important;
+    max-width: none !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .home-page #bestsellers .cine-items > .product-card {
+    flex: 0 0 320px !important;
+    width: 320px !important;
+    max-width: 320px !important;
+  }
+  .home-page #bestsellers .cine-items > .product-card > .product-image {
+    flex: 0 0 360px !important;
+    width: 320px !important;
+    height: 360px !important;
+    min-height: 360px !important;
+    max-height: 360px !important;
+    overflow: hidden !important;
+  }
+  .home-page #bestsellers .cine-items > .product-card > .product-image img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center center !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .home-page #bestsellers .cine-items > .product-card > .product-info,
+  .home-page #bestsellers .cine-items > .product-card > .product-info > h3,
+  .home-page #bestsellers .cine-items > .product-card > .product-info > .product-description,
+  .home-page #bestsellers .cine-items > .product-card > .product-info > .product-bottom,
+  .home-page #bestsellers .cine-items > .product-card .price,
+  .home-page #bestsellers .cine-items > .product-card .add-button {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+  .home-page #bestsellers .cine-items > .product-card > .product-image {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+  .home-page #bestsellers .cine-items > .product-card > .product-image img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center center !important;
+  }
+  .home-page #bestsellers .cine-items > .product-card > .card-corner-name {
+    display: block !important;
+    visibility: visible !important;
+    pointer-events: none !important;
+  }
+}

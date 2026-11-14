@@ -17,3 +17,7 @@ Deploy the backend rules, indexes and Functions from the separate backend ZIP be
 
 - Best Seller cards retain the original reference CSS, corner product-name treatment and desktop tilt effect; touch/mobile devices do not receive the 3D tilt.
 - The mobile navigation retains its seven intended destinations, including About Us, Customer Care and Cart. The cart page keeps its MY ORDERS link.
+
+
+## Latest customer UI fixes
+See `UI-FIXES-2026-11-14.md` for the Best Sellers alignment/mobile cleanup, Shop dialog stacking/scroll-lock fixes, single filter/sort handlers, clickable free-delivery HUD and static validation results.

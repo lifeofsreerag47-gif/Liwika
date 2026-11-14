@@ -543,12 +543,22 @@ body:has(.product-modal.active) > .liwika-free-delivery {
   pointer-events: none !important;
 }
 
+/* The phone shell's dock lives outside the iframe. It must slide away while
+   the iframe's full-screen product dialog is active, not sit over the dialog. */
 body:has(.product-modal.active) > .mobile-bottom-nav,
 body.liwi-product-modal-open > .mobile-bottom-nav {
-  z-index: 2147483647 !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  pointer-events: auto !important;
+  z-index: 8000 !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translate3d(-50%, 18px, 0) !important;
+}
+body:has(.product-modal.active) > .liwika-free-delivery,
+body.liwi-product-modal-open > .liwika-free-delivery {
+  z-index: 8000 !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
 /* ---------- mobile: image first + one scrollable window ---------- */
@@ -1051,14 +1061,39 @@ body.liwi-product-modal-open > .mobile-bottom-nav {
   }
 }
 
-/* The shell hides the nav and gives the product window a little more room. */
+/* In the persistent phone iframe, the parent dock is hidden while the
+   product dialog is open. The dialog itself must therefore use the ENTIRE
+   iframe viewport: no reserved bottom-nav padding and no shortened panel. */
 @media (max-width: 900px) {
   body.mobile-liwi-frame:has(.product-modal.active) .product-modal {
-    padding-bottom: calc(82px + env(safe-area-inset-bottom)) !important;
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    max-height: 100dvh !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: stretch !important;
+    justify-content: stretch !important;
+    overflow: hidden !important;
+    background: rgba(3,2,1,.82) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    backdrop-filter: blur(8px) !important;
+    z-index: 2147483500 !important;
   }
   body.mobile-liwi-frame:has(.product-modal.active) .product-modal .modal-content {
-    height: min(calc(100svh - 92px - env(safe-area-inset-bottom)), 760px) !important;
-    max-height: calc(100svh - 92px - env(safe-area-inset-bottom)) !important;
+    position: relative !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    max-height: 100dvh !important;
+    max-width: none !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    transform: none !important;
+    transition: none !important;
   }
 }
 
@@ -1270,4 +1305,164 @@ body.liwika-image-viewer-open { overflow: hidden !important; }
   .liwika-viewer-arrow { width: 38px !important; height: 38px !important; font-size: 27px !important; }
   .liwika-viewer-prev { left: 8px !important; }
   .liwika-viewer-next { right: 8px !important; }
+}
+
+
+/* FINAL SHOP + MOBILE DIALOG COMPOSITING OVERRIDE.
+   The dialog is always a viewport layer, never part of the Shop scroll flow. */
+.product-modal {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100dvh !important;
+  margin: 0 !important;
+  background: rgba(3,2,1,.80) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  backdrop-filter: blur(12px) !important;
+  z-index: 2147483500 !important;
+}
+.product-modal:not(.active) {
+  pointer-events: none !important;
+}
+.product-modal.active {
+  pointer-events: auto !important;
+}
+@media (max-width: 900px) {
+  body.mobile-liwi-frame .product-modal.active,
+  body.mobile-liwi-frame:has(.product-modal.active) .product-modal {
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    max-height: 100dvh !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    align-items: stretch !important;
+    justify-content: stretch !important;
+    overflow: hidden !important;
+    background: rgba(3,2,1,.84) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    backdrop-filter: blur(8px) !important;
+  }
+  body.mobile-liwi-frame .product-modal .modal-content,
+  body.mobile-liwi-frame:has(.product-modal.active) .product-modal .modal-content {
+    width: 100vw !important;
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    max-height: 100dvh !important;
+    max-width: none !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+
+/* FINAL SHOP DIALOG POSITIONING: viewport-root overlay with real backdrop blur.
+   The Shop modal is hoisted to document.body by shop.js, outside the animated
+   .shop-page main so it cannot inherit the main page's entrance transform. */
+html.liwi-product-modal-open,
+body.liwi-product-modal-open {
+  overscroll-behavior: none !important;
+}
+body.liwi-product-modal-open > .product-modal {
+  position: fixed !important;
+  inset: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  margin: 0 !important;
+  padding: 24px !important;
+  background: rgba(3,2,1,.80) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(110%) !important;
+  backdrop-filter: blur(14px) saturate(110%) !important;
+  z-index: 2147483500 !important;
+}
+body.liwi-product-modal-open > .product-modal .modal-content {
+  position: relative !important;
+  margin: auto !important;
+}
+@media (max-width: 900px) {
+  body.mobile-liwi-frame.liwi-product-modal-open > .product-modal {
+    align-items: stretch !important;
+    justify-content: stretch !important;
+    padding: 0 !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+  }
+  body.mobile-liwi-frame.liwi-product-modal-open > .product-modal .modal-content {
+    width: 100vw !important;
+    max-width: none !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    max-height: none !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    transform: none !important;
+  }
+}
+
+
+/* SHOP MODAL FINAL SAFETY: keep the document scroll-locked without moving body.
+   The modal remains a direct body child and is fixed to the viewport, so its
+   blurred backdrop cannot inherit the Shop main's entrance/transform context. */
+html.liwi-product-modal-open,
+body.liwi-product-modal-open {
+  overflow: hidden !important;
+}
+body.liwi-product-modal-open > .product-modal {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  min-width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  min-height: 100vh !important;
+  min-height: 100dvh !important;
+  margin: 0 !important;
+  padding: 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  background: rgba(3,2,1,.80) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(110%) !important;
+  backdrop-filter: blur(14px) saturate(110%) !important;
+  z-index: 2147483500 !important;
+}
+body.liwi-product-modal-open > .product-modal > .modal-content {
+  position: relative !important;
+  flex: 0 1 auto !important;
+  margin: auto !important;
+}
+@media (max-width: 900px) {
+  body.mobile-liwi-frame.liwi-product-modal-open > .product-modal {
+    align-items: stretch !important;
+    justify-content: stretch !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
+  body.mobile-liwi-frame.liwi-product-modal-open > .product-modal > .modal-content {
+    flex: 1 1 auto !important;
+    width: 100vw !important;
+    max-width: none !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+    max-height: none !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    transform: none !important;
+  }
 }

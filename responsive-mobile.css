@@ -2812,7 +2812,7 @@ button, input, select, textarea {
   }
 
   /* Shop product cards: editorial two-column cards with clear actions. */
-  body.shop-page .shop-products {
+  body.shop-page-body .shop-products {
     display: grid !important;
     grid-template-columns: repeat(2,minmax(0,1fr)) !important;
     width: 100% !important;
@@ -2823,7 +2823,7 @@ button, input, select, textarea {
     justify-content: center !important;
     align-items: stretch !important;
   }
-  body.shop-page .shop-product {
+  body.shop-page-body .shop-product {
     display: flex !important;
     min-width: 0 !important;
     width: 100% !important;
@@ -2836,8 +2836,8 @@ button, input, select, textarea {
     transform: none !important;
     transition: border-color .2s ease,box-shadow .2s ease !important;
   }
-  body.shop-page .shop-product:active { border-color: rgba(231,192,108,.5) !important; }
-  body.shop-page .shop-product-image {
+  body.shop-page-body .shop-product:active { border-color: rgba(231,192,108,.5) !important; }
+  body.shop-page-body .shop-product-image {
     position: relative !important;
     width: 100% !important;
     height: auto !important;
@@ -2850,7 +2850,7 @@ button, input, select, textarea {
     overflow: hidden !important;
     background: radial-gradient(circle at 50% 45%,rgba(203,158,73,.13),transparent 68%),linear-gradient(145deg,#18140f,#0b0a08) !important;
   }
-  body.shop-page .shop-product-image img {
+  body.shop-page-body .shop-product-image img {
     display: block !important;
     width: 100% !important;
     height: 100% !important;
@@ -2860,7 +2860,7 @@ button, input, select, textarea {
     transform: none !important;
     filter: drop-shadow(0 10px 14px rgba(0,0,0,.38)) !important;
   }
-  body.shop-page .shop-product-info {
+  body.shop-page-body .shop-product-info {
     display: flex !important;
     flex: 1 1 auto !important;
     min-height: 0 !important;
@@ -2870,21 +2870,21 @@ button, input, select, textarea {
     gap: 11px !important;
     background: linear-gradient(180deg,rgba(22,18,13,.96),rgba(10,9,7,.99)) !important;
   }
-  body.shop-page .shop-product-info .product-category {
+  body.shop-page-body .shop-product-info .product-category {
     margin: 0 0 5px !important;
     color: #c8a45e !important;
     font-size: 7px !important;
     line-height: 1.2 !important;
     letter-spacing: 1.2px !important;
   }
-  body.shop-page .shop-product-info h2 {
+  body.shop-page-body .shop-product-info h2 {
     margin: 0 0 6px !important;
     color: #f4ecda !important;
     font-size: clamp(13px,3.7vw,16px) !important;
     line-height: 1.15 !important;
     letter-spacing: -.15px !important;
   }
-  body.shop-page .shop-product-info .product-description {
+  body.shop-page-body .shop-product-info .product-description {
     display: -webkit-box !important;
     -webkit-box-orient: vertical !important;
     -webkit-line-clamp: 2 !important;
@@ -2894,7 +2894,7 @@ button, input, select, textarea {
     font-size: 8.5px !important;
     line-height: 1.45 !important;
   }
-  body.shop-page .shop-product-bottom {
+  body.shop-page-body .shop-product-bottom {
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
@@ -2904,15 +2904,15 @@ button, input, select, textarea {
     padding: 9px 0 0 !important;
     border-top: 1px solid rgba(220,183,105,.13) !important;
   }
-  body.shop-page .shop-product-bottom .shop-price {
+  body.shop-page-body .shop-product-bottom .shop-price {
     min-width: 0 !important;
     color: #f0d58e !important;
     font-size: clamp(13px,3.5vw,16px) !important;
     font-weight: 600 !important;
     white-space: nowrap !important;
   }
-  body.shop-page .shop-product-bottom .shop-add,
-  body.shop-page .shop-product-bottom .quick-add-mobile {
+  body.shop-page-body .shop-product-bottom .shop-add,
+  body.shop-page-body .shop-product-bottom .quick-add-mobile {
     display: inline-flex !important;
     flex: 0 0 auto !important;
     align-items: center !important;
@@ -2930,7 +2930,7 @@ button, input, select, textarea {
     letter-spacing: .45px !important;
     white-space: nowrap !important;
   }
-  body.shop-page .shop-product-image > .quick-add { display: none !important; }
+  body.shop-page-body .shop-product-image > .quick-add { display: none !important; }
 
   /* The parent shell hides the bottom dock while this full-screen modal is open. */
   body.mobile-liwi-frame .product-modal {
@@ -3014,8 +3014,8 @@ button, input, select, textarea {
 }
 
 @media (max-width: 380px) {
-  body.shop-page .shop-products { gap: 9px !important; padding-left: 8px !important; padding-right: 8px !important; }
-  body.shop-page .shop-product-info { padding: 9px 8px !important; }
-  body.shop-page .shop-product-bottom .shop-add,
-  body.shop-page .shop-product-bottom .quick-add-mobile { padding-inline: 7px !important; font-size: 6.5px !important; }
+  body.shop-page-body .shop-products { gap: 9px !important; padding-left: 8px !important; padding-right: 8px !important; }
+  body.shop-page-body .shop-product-info { padding: 9px 8px !important; }
+  body.shop-page-body .shop-product-bottom .shop-add,
+  body.shop-page-body .shop-product-bottom .quick-add-mobile { padding-inline: 7px !important; font-size: 6.5px !important; }
 }

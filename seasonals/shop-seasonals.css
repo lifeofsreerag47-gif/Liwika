@@ -2061,6 +2061,7 @@ body {
 }
 
 .shop-product {
+    cursor: pointer !important;
     transform-style: preserve-3d !important;
     transform-origin: center center;
     will-change: transform;

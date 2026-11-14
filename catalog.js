@@ -90,7 +90,7 @@ function categorySlug(p) {
 function shopCard(p) {
   const image = p.imageUrl ? `<img src="${esc(p.imageUrl)}" alt="${esc(p.name)} chocolate" loading="lazy">` : `<div class="liwika-no-image">LIWI-KA</div>`;
   const cat = esc(p.category || 'CHOCOLATE');
-  return `<article class="shop-product" data-product="${esc(p.id)}" data-sales="${Number(p.salesCount || 0)}" data-weekly-sales="${Number(p.weeklySales || 0)}" data-category="${categorySlug(p)}"><div class="shop-product-image">${p.badge ? `<span class="product-badge">${esc(p.badge)}</span>` : ''}${image}<button class="quick-add" type="button">QUICK ADD</button></div><div class="shop-product-info"><div><p class="product-category">${cat}</p><h2>${esc(p.name)}</h2><p class="product-description">${esc(p.description || '')}</p></div><div class="shop-product-bottom"><span class="shop-price">${money(p.price)}</span><button class="quick-add quick-add-mobile" type="button" aria-label="Quick add product">QUICK ADD</button><button class="shop-add" type="button">ADD</button></div></div></article>`;
+  return `<article class="shop-product" data-product="${esc(p.id)}" data-catalog-product="${esc(p.id)}" data-sales="${Number(p.salesCount || 0)}" data-weekly-sales="${Number(p.weeklySales || 0)}" data-category="${categorySlug(p)}" tabindex="0" role="button" aria-haspopup="dialog" aria-label="View ${esc(p.name)} details"><div class="shop-product-image">${p.badge ? `<span class="product-badge">${esc(p.badge)}</span>` : ''}${image}<button class="quick-add" type="button">QUICK ADD</button></div><div class="shop-product-info"><div><p class="product-category">${cat}</p><h2>${esc(p.name)}</h2><p class="product-description">${esc(p.description || '')}</p></div><div class="shop-product-bottom"><span class="shop-price">${money(p.price)}</span><button class="quick-add quick-add-mobile" type="button" aria-label="Quick add product">QUICK ADD</button><button class="shop-add" type="button">ADD</button></div></div></article>`;
 }
 function occasionCard(p) {
   const image = p.imageUrl ? `<img src="${esc(p.imageUrl)}" alt="${esc(p.name)}" loading="lazy">` : `<div class="liwika-no-image">LIWI-KA</div>`;
@@ -183,8 +183,13 @@ function bindCatalogInteractions() {
     const id=(view?.dataset.catalogView)||(card?.dataset.catalogProduct);
     const product=catalogue.find(item=>item.id===id); if(!product)return;
     event.preventDefault();
-    // The homepage and shop use their original page controllers and original modal.
-    if(document.body.classList.contains('home-page') || file==='shop.html') return;
+    // The homepage keeps its original controller. Shop cards use their Shop modal;
+    // this document-level route is a fallback if a page's grid listener is absent.
+    if(document.body.classList.contains('home-page')) return;
+    if(file==='shop.html') {
+      if(!event.__liwikaShopModalHandled) window.LiwikaOpenShopProductModal?.(id);
+      return;
+    }
     openNativeProductModal(product);
   });
   document.addEventListener('keydown',event=>{

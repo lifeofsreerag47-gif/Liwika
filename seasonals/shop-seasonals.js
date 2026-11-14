@@ -10,8 +10,9 @@
        Same style as the Home product-card hover.
        The festival card is dynamic, so it is handled by delegation.
        --------------------------------------------------------- */
+    const finePointer = !!window.matchMedia?.("(hover: hover) and (pointer: fine)").matches;
     const addTilt = (card) => {
-        if (!card || card.dataset.tiltReady === "true") return;
+        if (!finePointer || !card || card.dataset.tiltReady === "true") return;
         card.dataset.tiltReady = "true";
 
         /* CSS entrance animation can otherwise keep control of transform. */
@@ -47,8 +48,9 @@
 
     /* Dynamic festival cards are inserted after page load. */
     const observeDynamicCards = () => {
+        // Firebase injects Shop products after this script has executed.
         document
-            .querySelectorAll(".dynamic-festival-card")
+            .querySelectorAll(".shop-product, .occasion-card, .gift-box, .dynamic-festival-card")
             .forEach(addTilt);
     };
 
@@ -65,40 +67,9 @@
             card.style.animationDelay = `${index * 0.08}s`;
         });
 
-    /* ---------------------------------------------------------
-       SHOP FILTER
-       --------------------------------------------------------- */
-    const filterButtons = document.querySelectorAll(".filter-button");
-    const products = document.querySelectorAll(".shop-product");
-
-    filterButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-            filterButtons.forEach((btn) => btn.classList.remove("active"));
-            button.classList.add("active");
-
-            const filter = button.textContent.trim().toLowerCase();
-
-            products.forEach((product) => {
-                const category = (product.dataset.category || "").toLowerCase();
-                const visible = filter === "all" || category === filter;
-
-                if (visible) {
-                    product.style.display = "";
-                    product.style.opacity = "1";
-                    product.style.transform = "";
-                    addTilt(product);
-                } else {
-                    product.style.opacity = "0";
-                    product.style.transform = "translateY(20px) scale(.97)";
-                    setTimeout(() => {
-                        if (product.style.opacity === "0") {
-                            product.style.display = "none";
-                        }
-                    }, 250);
-                }
-            });
-        });
-    });
+    /* Category filters are owned by shop.js. It queries the live Firebase-rendered
+       cards at click time, avoiding duplicate/conflicting listeners here. */
+    const getShopProducts = () => Array.from(document.querySelectorAll(".shop-product"));
 
     /* ---------------------------------------------------------
        SHOP SORT
@@ -161,7 +132,7 @@
        PAGE SHOW RESET
        --------------------------------------------------------- */
     window.addEventListener("pageshow", () => {
-        products.forEach((product) => {
+        getShopProducts().forEach((product) => {
             product.style.opacity = "";
             product.style.transform = "";
             product.style.display = "";

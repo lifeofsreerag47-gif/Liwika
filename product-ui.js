@@ -719,13 +719,7 @@
     passive: true
   });
 
-  // Free-delivery HUD remains behind the modal; when visible and clicked,
-  // it navigates to the correct cart for the current page.
-  document.addEventListener('click', event => {
-    const hud = event.target.closest('#liwika-free-delivery');
-    if (!hud || document.querySelector('.product-modal.active')) return;
-    const path = window.location.pathname;
-    const cart = path.includes('/occassions/') ? '../cart.html' : (path.includes('/seasonals/') ? 'cart.html' : 'seasonals/cart.html');
-    window.location.href = cart;
-  });
+  // Free-delivery navigation is owned by free-delivery.js. Keeping a second
+  // click handler here caused a race: one listener sent customers to Cart
+  // while the other sent them to Shop.
 })(window, document);
