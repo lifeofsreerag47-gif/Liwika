@@ -194,3 +194,14 @@
 ========================================================= */
 
     
+
+/* Category label above the product name (catalogue cards): give it breathing room. */
+.occasion-product-info .product-category {
+    margin: 0 0 8px !important;
+    color: #b99a58 !important;
+    font-size: 10px !important;
+    letter-spacing: 2px !important;
+    text-transform: uppercase;
+    line-height: 1.3 !important;
+}
+.occasion-product-info .product-category + h3 { margin-top: 0 !important; }

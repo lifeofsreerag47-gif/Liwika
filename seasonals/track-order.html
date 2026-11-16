@@ -12,6 +12,9 @@
 
     <!-- Track Order Styles -->
     <link rel="stylesheet" href="track-order.css">
+    <link rel="stylesheet" href="../responsive-mobile.css">
+    <link rel="stylesheet" href="../shared-navbar.css">
+    <link rel="stylesheet" href="../free-delivery.css">
 </head>
 
 <body>
@@ -22,39 +25,28 @@
 
     <header class="navbar">
 
-        <a href="../index.html" class="logo">
-            <img src="../images/liwi.png" alt="Liwi-Ka Finest Chocolate">
+    <a href="../index.html" class="logo" aria-label="Liwi-Ka Home">
+        <img src="../images/liwi.png" alt="Liwi-Ka Finest Chocolate">
+    </a>
+
+    <nav class="nav-links" aria-label="Primary navigation">
+        <a href="../index.html" class="">Home</a>
+        <a href="shop.html" class="">Shop</a>
+        <a href="../new-arrivals.html" class="">New Arrivals</a>
+        <a href="seasonals.html" class="">Seasonals</a>
+        <a href="../about-us.html">About Us</a>
+        <a href="customer-care.html" class="">Customer Care</a>
+    </nav>
+
+    <div class="nav-icons">
+        <button type="button" aria-label="Search">⌕</button>
+        <button type="button" class="profile-icon-button" aria-label="My Account"><svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"></circle><path d="M4.5 20c.8-4 3.4-6 7.5-6s6.7 2 7.5 6"></path></svg></button>
+        <a href="cart.html" class="cart-nav-link" aria-label="Shopping Cart">
+            <button type="button" class="cart-icon-button" aria-label="Shopping Cart"><svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h2l1.7 10.2a2 2 0 0 0 2 1.7h7.8a2 2 0 0 0 1.9-1.4L21 9H7"></path><circle cx="10" cy="20" r="1.2"></circle><circle cx="18" cy="20" r="1.2"></circle></svg></button>
         </a>
+    </div>
 
-        <nav class="nav-links">
-
-            <a href="../index.html">Home</a>
-
-            <a href="shop.html">Shop</a>
-
-            <a href="../new-arrivals.html">New Arrivals</a>
-
-            <a href="seasonals.html">Seasonals</a>
-
-            <a href="../about-us.html">About Us</a>
-
-            <a href="customer-care.html">Customer Care</a>
-
-        </nav>
-
-        <div class="nav-icons">
-
-            <button aria-label="Search">⌕</button>
-
-            <button aria-label="My Account">♙</button>
-
-            <a href="cart.html" class="cart-nav-link" aria-label="Shopping Cart">
-                <button type="button">🛒</button>
-            </a>
-
-        </div>
-
-    </header>
+</header>
 
 
     <!-- =========================
@@ -552,6 +544,9 @@
     ========================== -->
 
     <script src="track-order.js"></script>
+    <script src="../free-delivery.js"></script>
+    <script src="../responsive-mobile.js"></script>
+    <script type="module" src="../profile-menu.js"></script>
 
 </body>
 

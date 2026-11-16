@@ -25,9 +25,32 @@ function stateMarkup(state, message = '') {
   if (state === 'maintenance') return `<div class="liwika-catalog-state"><div class="state-orbit">✧</div><p class="state-kicker">A LITTLE PAUSE, A BETTER MOMENT</p><h3>We’ll be back shortly.</h3><p>Our chocolate atelier is being refreshed. Please visit us again soon.</p></div>`;
   return `<div class="liwika-catalog-state"><div class="state-orbit">✧</div><p class="state-kicker">A LITTLE SPACE FOR SOMETHING SPECIAL</p><h3>No chocolates here just yet.</h3><p>We are preparing this collection. Check back soon for something beautifully crafted.</p></div>`;
 }
+/* New Arrivals page: its hero, "coming soon" panel and product section must follow the catalogue state.
+   (Previously the cards rendered but the section stayed hidden and "coming soon" never went away.) */
+const arrivalsDefaults = {};
+function syncArrivalsPage(target, state) {
+  if (target.id !== 'newArrivalsProducts') return;
+  const section = document.getElementById('newArrivalsSection'), empty = document.getElementById('emptyState');
+  if (!section || !empty) return;
+  const hasProducts = state === 'ready';
+  const showEmpty = state === 'empty';
+  section.classList.toggle('is-hidden', showEmpty);
+  section.hidden = showEmpty;
+  empty.classList.toggle('is-hidden', !showEmpty);
+  empty.hidden = !showEmpty;
+  empty.style.display = showEmpty ? '' : 'none';
+  const one = document.getElementById('titleLineOne'), two = document.getElementById('titleLineTwo'), desc = document.getElementById('newArrivalsDescription');
+  if (one && !('one' in arrivalsDefaults)) { arrivalsDefaults.one = one.textContent; arrivalsDefaults.two = two?.textContent; arrivalsDefaults.desc = desc?.textContent; }
+  if (one && two) {
+    one.textContent = hasProducts ? 'Fresh from our' : arrivalsDefaults.one;
+    two.textContent = hasProducts ? 'chocolatiers.' : arrivalsDefaults.two;
+  }
+  if (desc && arrivalsDefaults.desc !== undefined) desc.textContent = hasProducts ? 'Discover the latest creations from Liwi-Ka.' : arrivalsDefaults.desc;
+}
 function showState(target, state, message = '') {
   target.dataset.catalogState = state;
   target.innerHTML = stateMarkup(state, message);
+  syncArrivalsPage(target, state);
 }
 function normalizeProduct(p) {
   const image = p.imageUrl || p.image || '';
@@ -117,21 +140,26 @@ function openNativeProductModal(p) {
   const modal = ensureNativeProductModal();
   const product = normalizeProduct(p);
   window.LiwikaActiveProductData = product;
+  // Every lookup is null-safe: each page's own modal markup differs slightly (some have no badge element).
+  const setText = (selector, value) => { const el = $(selector, modal); if (el) el.textContent = value; return el; };
   const image = $('#modalProductImage',modal);
-  $('#modalProductName',modal).textContent = product.name;
-  $('#modalProductBadge',modal).textContent = product.badge || '';
-  $('#modalProductBadge',modal).hidden = !product.badge;
-  $('#modalProductDescription',modal).textContent = product.description || '';
+  setText('#modalProductName', product.name);
+  const badge = setText('#modalProductBadge', product.badge || '');
+  if (badge) badge.hidden = !product.badge;
+  setText('#modalProductDescription', product.description || '');
   if (image) { image.src = product.imageUrl || ''; image.alt = product.name; }
   window.LiwikaRenderProductGallery?.(product, product.imageUrl);
-  const options = $('#flavourOptions',modal); options.innerHTML = '';
-  product.flavours.forEach((flavour,index)=>{
-    const button=document.createElement('button'); button.type='button'; button.className='flavour-button'+(index===0?' selected':''); button.textContent=flavour.name;
-    button.addEventListener('click',()=>{ options.querySelectorAll('.flavour-button').forEach(x=>x.classList.remove('selected'));button.classList.add('selected');if(image)image.src=flavour.image||product.imageUrl||'';window.LiwikaSetProductGalleryImage?.(flavour.image||product.imageUrl||''); });
-    options.appendChild(button);
-  });
-  $('#quantity',modal).innerHTML='<span class="qty-digit current">1</span>';
-  $('#modalProductPrice',modal).textContent=money(product.price);
+  const options = $('#flavourOptions',modal);
+  if (options) {
+    options.innerHTML = '';
+    product.flavours.forEach((flavour,index)=>{
+      const button=document.createElement('button'); button.type='button'; button.className='flavour-button'+(index===0?' selected':''); button.textContent=flavour.name;
+      button.addEventListener('click',()=>{ options.querySelectorAll('.flavour-button').forEach(x=>x.classList.remove('selected'));button.classList.add('selected');if(image)image.src=flavour.image||product.imageUrl||'';window.LiwikaSetProductGalleryImage?.(flavour.image||product.imageUrl||''); });
+      options.appendChild(button);
+    });
+  }
+  const qty = $('#quantity',modal); if (qty) qty.innerHTML='<span class="qty-digit current">1</span>';
+  setText('#modalProductPrice', money(product.price ?? product.basePrice));
   modal.classList.add('active'); modal.setAttribute('aria-hidden','false'); document.body.classList.add('liwi-product-modal-open'); document.body.style.overflow='hidden';
   // Product UI reads this object to display admin-entered nutrition and attach the Firestore product ID to cart lines.
 }
@@ -170,13 +198,13 @@ function renderAll(products) {
     else if(target.classList.contains('shop-products')) { list=shopProducts; renderer=shopCard; }
     else if(target.id==='newArrivalsProducts') { list=products.filter(p=>p.newArrival===true||(p.placements||[]).includes('new-arrivals')); renderer=arrivalCard; }
     if(!list.length){showState(target,'empty');return;}
-    target.dataset.catalogState='ready'; target.innerHTML=list.map(renderer).join('');
+    target.dataset.catalogState='ready'; target.innerHTML=list.map(renderer).join(''); syncArrivalsPage(target,'ready');
     if (target.classList.contains('cine-items')) bindDesktopBestsellerTilt(target);
   });
 }
 function bindCatalogInteractions() {
   document.addEventListener('click',event=>{
-    const retry=event.target.closest('[data-catalog-retry]'); if(retry){loadCatalog();return;}
+    const retry=event.target.closest('[data-catalog-retry]'); if(retry){firstLoadDone=false;loadCatalog();return;}
     const card=event.target.closest('[data-catalog-product]');
     const view=event.target.closest('[data-catalog-view]');
     if(!card&&!view)return;
@@ -198,21 +226,40 @@ function bindCatalogInteractions() {
     if(card){event.preventDefault();window.LiwikaOpenHomeProductModal?.(card.dataset.product);}
   });
 }
-async function loadCatalog() {
-  const targets=[...document.querySelectorAll('.product-grid.cine-items,.shop-products,.occasion-products,#newArrivalsProducts')];
-  targets.forEach(target=>showState(target,'loading'));
-  if(!navigator.onLine){targets.forEach(target=>showState(target,'offline'));return;}
+/* ---- catalogue refresh -------------------------------------------------------
+   Skeletons are shown ONLY for the very first load. Later refreshes (tab focus, coming
+   back online, iframe focus on the phone shell) are silent: they never blank the grid,
+   so a customer's tap is never lost and the page never jumps. The grid is re-rendered
+   only when the catalogue actually changed. */
+let firstLoadDone = false, loading = false, lastLoadAt = 0, lastSignature = '';
+const REFRESH_AFTER_MS = 60000;
+const gridTargets = () => [...document.querySelectorAll('.product-grid.cine-items,.shop-products,.occasion-products,#newArrivalsProducts')];
+const signatureOf = list => JSON.stringify((list || []).map(p => [p.id, p.name, p.price ?? p.basePrice, p.imageUrl, p.updatedAt?.seconds ?? p.updatedAt ?? '', (p.placements || []).join(','), p.sortOrder, p.isPublished, p.isVisible, p.newArrival]));
+
+async function loadCatalog({ silent = false } = {}) {
+  if (loading) return;
+  const targets = gridTargets();
+  if (!targets.length) return;
+  if (!silent) targets.forEach(target => showState(target, 'loading'));
+  if (!navigator.onLine) { if (!silent || !firstLoadDone) targets.forEach(target => showState(target, 'offline')); return; }
+  loading = true;
   try {
-    catalogue=await getProducts();
-    if(storeSettings.maintenanceMode || storeSettings.storefrontOnline===false){targets.forEach(target=>showState(target,'maintenance'));return;}
-    renderAll(catalogue);
-  } catch(error) {
-    console.error('Liwi-Ka catalogue could not load',error);
-    targets.forEach(target=>showState(target,'offline','We could not reach the product catalogue. Check your connection and try again.'));
-  }
+    const fresh = await getProducts();
+    if (storeSettings.maintenanceMode || storeSettings.storefrontOnline === false) { targets.forEach(target => showState(target, 'maintenance')); firstLoadDone = false; return; }
+    const sig = signatureOf(fresh);
+    const needsRender = !silent || !firstLoadDone || sig !== lastSignature || targets.some(t => t.dataset.catalogState !== 'ready' && t.dataset.catalogState !== 'empty');
+    catalogue = fresh;
+    if (needsRender) { renderAll(catalogue); lastSignature = sig; }
+    firstLoadDone = true; lastLoadAt = Date.now();
+  } catch (error) {
+    console.error('Liwi-Ka catalogue could not load', error);
+    if (!silent || !firstLoadDone) targets.forEach(target => showState(target, 'offline', 'We could not reach the product catalogue. Check your connection and try again.'));
+  } finally { loading = false; }
 }
-window.addEventListener('offline',()=>document.querySelectorAll('.product-grid.cine-items,.shop-products,.occasion-products,#newArrivalsProducts').forEach(target=>showState(target,'offline')));
-window.addEventListener('online',loadCatalog);
-window.addEventListener('focus',()=>{if(navigator.onLine)loadCatalog();});
+const refreshQuietly = () => { if (navigator.onLine && firstLoadDone && Date.now() - lastLoadAt > REFRESH_AFTER_MS) loadCatalog({ silent: true }); };
+window.addEventListener('offline', () => { if (!firstLoadDone) gridTargets().forEach(target => showState(target, 'offline')); });
+window.addEventListener('online', () => loadCatalog({ silent: true }));
+window.addEventListener('focus', refreshQuietly);
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') refreshQuietly(); });
 bindCatalogInteractions();
 loadCatalog();

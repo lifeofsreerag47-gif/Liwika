@@ -513,3 +513,47 @@ body .footer-bottom { border-top-color: rgba(210,173,104,.13) !important; }
 }
 
 .order-status.status-pending{color:#8a642f;border-color:#ead9b7;background:#fff8e9}.order-status.status-processing{color:#8a642f;border-color:#ead9b7;background:#fff8e9}.order-status.status-cancelled{color:#a34e46;border-color:#efd6d3;background:#fff5f3}.orders-offline p{margin:7px 0 0;font-size:11px}
+
+
+/* =========================================================
+   FIXES — search field, mobile toolbar, order item lines
+========================================================= */
+/* The search box was an unstyled white browser input on the dark theme. */
+.orders-toolbar .order-filter input[type="search"] {
+    min-width: 210px;
+    min-height: 36px;
+    padding: 0 12px !important;
+    border: 1px solid rgba(210, 173, 104, .22) !important;
+    border-radius: 7px !important;
+    outline: none;
+    color: #f1e5d1 !important;
+    background: #17110c !important;
+    font: 11px "Font1", sans-serif;
+    -webkit-appearance: none;
+    appearance: none;
+}
+.orders-toolbar .order-filter input[type="search"]::placeholder { color: #8f8472; opacity: 1; }
+.orders-toolbar .order-filter input[type="search"]::-webkit-search-cancel-button { filter: invert(.7) sepia(.6); }
+.orders-toolbar .order-filter input[type="search"]:focus { border-color: #c79d55 !important; box-shadow: 0 0 0 3px rgba(199, 157, 85, .13); }
+
+/* The item text reuses the storefront's .product-description class, whose mobile rule
+   clamps text to one line ("Classic…") and hid the quantity and price. */
+.order-product .product-description {
+    display: block !important;
+    max-height: none !important;
+    overflow: visible !important;
+    -webkit-line-clamp: unset !important;
+    line-clamp: unset !important;
+    text-overflow: clip !important;
+    white-space: normal !important;
+}
+.order-product .product-description p,
+.order-product .product-description span { display: block; overflow: visible; white-space: normal; }
+
+@media (max-width: 520px) {
+    .orders-toolbar > div { width: 100%; flex-direction: column; align-items: stretch !important; gap: 10px !important; }
+    .order-filter { width: 100%; justify-content: space-between; }
+    .orders-toolbar .order-filter input[type="search"],
+    .order-filter select { flex: 1; width: 100%; min-width: 0; max-width: none; min-height: 44px; font-size: 14px !important; }
+    .order-filter > span { flex: 0 0 74px; }
+}
