@@ -52,7 +52,7 @@
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
                 window.dispatchEvent(new CustomEvent('cartUpdated', { detail: { items, item: addedItem || null } }));
                 if (window.parent && window.parent !== window) {
-                    window.parent.postMessage({ type: 'LIWIKA_CART_UPDATED', item: addedItem || null }, '*');
+                    window.parent.postMessage({ type: 'LIWIKA_CART_UPDATED', item: addedItem || null }, window.location.origin);
                 }
             } catch (err) {
                 console.error('Failed to save cart to localStorage:', err);

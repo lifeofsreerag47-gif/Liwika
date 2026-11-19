@@ -6,6 +6,7 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.19.0/fireba
 import { getAuth, browserLocalPersistence, setPersistence } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js';
 import { initializeFirestore, persistentLocalCache, persistentMultipleTabManager } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js';
 import { getStorage } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-storage.js';
+import { getFunctions } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-functions.js';
 
 const firebaseConfig = {
     apiKey: 'AIzaSyCZyZWxse33ll5t6lffJ4lIUKYx8lRe1T4',
@@ -23,9 +24,22 @@ const db = initializeFirestore(app, {
     localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() })
 });
 const storage = getStorage(app);
+// All order, payment, OTP and profile actions run in trusted Cloud Functions (asia-south1).
+const functions = getFunctions(app, 'asia-south1');
+
+// Optional App Check (blocks bots/scripts that are not your real website).
+// 1) Firebase Console > App Check > register this web app with reCAPTCHA Enterprise
+// 2) Paste the site key below, deploy, then set ENFORCE_APP_CHECK=true in functions/.env
+const APP_CHECK_SITE_KEY = '';
+if (APP_CHECK_SITE_KEY) {
+    try {
+        const ac = await import('https://www.gstatic.com/firebasejs/12.19.0/firebase-app-check.js');
+        ac.initializeAppCheck(app, { provider: new ac.ReCaptchaEnterpriseProvider(APP_CHECK_SITE_KEY), isTokenAutoRefreshEnabled: true });
+    } catch (error) { console.warn('App Check could not start', error); }
+}
 
 // Keep the Firebase login persistent in this browser, similar to the old
 // Liwi-Ka "Remember me" behaviour.
 const persistenceReady = setPersistence(auth, browserLocalPersistence);
 
-export { app, auth, db, storage, persistenceReady };
+export { app, auth, db, storage, functions, persistenceReady };

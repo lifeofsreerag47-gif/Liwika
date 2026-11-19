@@ -341,7 +341,7 @@ html.cine-on .cine-bloom {
     html.cine-on .cine-bests .product-card .product-image img {
         width: 100% !important;
         height: 100% !important;
-        object-fit: cover !important;
+        object-fit: contain !important;
         display: block;
     }
     /* details stay in the DOM (modal reads them) but are not painted on the card */

@@ -16,9 +16,9 @@
 <link rel="stylesheet" href="shared-navbar.css">
     <link rel="stylesheet" href="free-delivery.css">
     <link rel="stylesheet" href="product-system.css">
-    <link rel="stylesheet" href="product-system.css">
     <link rel="stylesheet" href="product-window.css">
     <link rel="stylesheet" href="catalog.css">
+    <link rel="stylesheet" href="seasonals/shop-seasonals.css">
 </head>
 
 
@@ -230,7 +230,7 @@
 
             <div
                 id="newArrivalsProducts"
-                class="products-grid"
+                class="products-grid shop-products"
             >
 
                 <!-- Products will appear here using JavaScript -->
@@ -352,7 +352,7 @@
         </div>
 
     
-        <nav class="liwika-legal-links" aria-label="Legal policies" style="display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin:12px auto 0;font-size:10px;letter-spacing:.7px;line-height:1.5"><a href="privacy-policy.html" style="text-decoration:underline;text-underline-offset:3px;opacity:.8">Privacy Policy</a><a href="terms-conditions.html" style="text-decoration:underline;text-underline-offset:3px;opacity:.8">Terms &amp; Conditions</a></nav>
+        <nav class="liwika-legal-links" aria-label="Legal policies" style="display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin:12px auto 0;font-size:10px;letter-spacing:.7px;line-height:1.5"><a href="privacy-policy.html" style="text-decoration:underline;text-underline-offset:3px;opacity:.8">Privacy Policy</a><a href="terms-conditions.html" style="text-decoration:underline;text-underline-offset:3px;opacity:.8">Terms &amp; Conditions</a><a href="shipping-refund-policy.html">Shipping &amp; Refunds</a></nav>
 </footer>
 
 
@@ -373,8 +373,85 @@
     <script type="module" src="profile-menu.js"></script>
     <script type="module" src="catalog.js"></script>
 
-<div id="productModal" class="product-modal" aria-hidden="true" role="dialog"><div class="modal-content"><button id="closeModal" class="close-modal" type="button" aria-label="Close modal">&times;</button><div class="modal-body"><div class="modal-image-container"><img id="modalProductImage" alt="Selected product"></div><div class="modal-details"><p id="modalProductBadge" class="modal-badge"></p><h2 id="modalProductName">Product details</h2><p id="modalProductDescription" class="modal-description"></p><div class="modal-option-group"><label class="modal-option-label">CHOOSE FLAVOUR</label><div id="flavourOptions" class="flavour-options"></div></div><div class="modal-option-group"><label class="modal-option-label">QUANTITY</label><div class="quantity-control"><button id="decreaseQuantity" type="button" class="qty-btn">-</button><span id="quantity" class="qty-display">1</span><button id="increaseQuantity" type="button" class="qty-btn">+</button></div></div><div class="modal-footer-action"><div class="modal-price-container"><span class="modal-price-label">PRICE</span><span id="modalProductPrice" class="modal-price">₹0</span></div><button id="modalAddToCart" type="button" class="modal-add-btn">ADD TO CART</button></div></div></div></div></div>
+<div id="productModal" class="product-modal" aria-hidden="true" role="dialog">
+
+        <div class="modal-content">
+
+            <button id="closeModal" class="close-modal" aria-label="Close modal">&times;</button>
+
+            <div class="modal-body">
+
+                <div class="modal-image-container">
+
+                    <img id="modalProductImage" src="images/choco1.jpg" alt="Selected Product">
+
+                </div>
+
+                <div class="modal-details">
+
+                    <p id="modalProductBadge" class="modal-badge">BESTSELLER</p>
+
+                    <h2 id="modalProductName">Dark Indulgence</h2>
+
+                    <p id="modalProductDescription" class="modal-description">
+                        Rich dark chocolate with deep, sophisticated cocoa notes.
+                    </p>
+
+                    <!-- Flavour Selection -->
+                    <div class="modal-option-group">
+
+                        <label class="modal-option-label">CHOOSE FLAVOUR</label>
+
+                        <div id="flavourOptions" class="flavour-options">
+                            <!-- Injected by shop.js -->
+                        </div>
+
+                    </div>
+
+                    <!-- Quantity Selection -->
+                    <div class="modal-option-group">
+
+                        <label class="modal-option-label">QUANTITY</label>
+
+                        <div class="quantity-control">
+
+                            <button id="decreaseQuantity" type="button" class="qty-btn" aria-label="Decrease quantity">-</button>
+
+                            <span id="quantity" class="qty-display">1</span>
+
+                            <button id="increaseQuantity" type="button" class="qty-btn" aria-label="Increase quantity">+</button>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Price & Add Button -->
+                    <div class="modal-footer-action">
+
+                        <div class="modal-price-container">
+
+                            <span class="modal-price-label">PRICE</span>
+
+                            <span id="modalProductPrice" class="modal-price">₹49</span>
+
+                        </div>
+
+                        <button id="modalAddToCart" type="button" class="modal-add-btn">
+                            ADD TO CART
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 <script src="cart.js"></script>
+<script src="seasonals/shop.js"></script>
+<script src="seasonals/shop-seasonals.js"></script>
 <script src="product-ui.js"></script>
     <script src="product-gallery.js"></script>
 </body>

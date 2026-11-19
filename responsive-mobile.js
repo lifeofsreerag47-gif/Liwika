@@ -283,13 +283,13 @@
         });
 
         window.addEventListener("message", function (event) {
-            if (!event.data || event.data.type !== "LIWIKA_MODAL_STATE") return;
+            if (event.origin !== window.location.origin || !event.data || event.data.type !== "LIWIKA_MODAL_STATE") return;
             if (event.data.open) document.body.classList.add('liwi-product-modal-open');
             else document.body.classList.remove('liwi-product-modal-open');
         });
 
         window.addEventListener("message", function (event) {
-            if (!event.data || event.data.type !== "LIWIKA_CART_UPDATED") return;
+            if (event.origin !== window.location.origin || !event.data || event.data.type !== "LIWIKA_CART_UPDATED") return;
             if (window.LiwikaUpdateFreeDeliveryHUD) window.LiwikaUpdateFreeDeliveryHUD(true);
             if (window.LiwikaUpdateCartBadges) window.LiwikaUpdateCartBadges();
             if (event.data.item && window.LiwikaShowCartToast) window.LiwikaShowCartToast(event.data.item);

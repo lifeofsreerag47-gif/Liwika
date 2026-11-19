@@ -209,6 +209,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function setPriceDisplay(newPrice, animate = false, direction = "up") {
         if (!modalProductPrice) return;
+    modalProductPrice.dataset.value = String(Number(newPrice) || 0); // keep shared product-ui.js in sync (stale value caused wrong prices)
 
         priceAnimationTimeouts.forEach(t => clearTimeout(t));
         priceAnimationTimeouts = [];

@@ -15,14 +15,14 @@ import {
     updateProfile
 } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js';
 
-import {
-    doc,
-    getDoc,
-    setDoc,
-    serverTimestamp
-} from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js';
+import { doc, getDoc } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js';
+import { httpsCallable } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-functions.js';
 
-import { auth, db, persistenceReady } from './firebase-config.js';
+import { auth, db, functions, persistenceReady } from './firebase-config.js';
+import { createOtpField } from './otp-input.js';
+import { mountEmailVerifier } from './email-verify.js';
+
+const registerCustomer = httpsCallable(functions, 'registerCustomer');
 
 (function () {
     'use strict';
@@ -34,7 +34,14 @@ import { auth, db, persistenceReady } from './firebase-config.js';
     const phoneNameInput = document.getElementById('phoneName');
     const sendCodeButton = document.getElementById('sendPhoneCode');
     const otpPanel = document.getElementById('otpPanel');
-    const otpInput = document.getElementById('phoneOtp');
+    const signupEmailInput = document.getElementById('signupEmail');
+    const emailMount = document.getElementById('emailVerifyMount');
+    const methods = document.querySelector('.auth-methods');
+    const otpField = createOtpField({
+        mount: document.getElementById('phoneOtpMount'),
+        label: 'Phone verification code',
+        onComplete: function () { if (verifyCodeButton && !verifyCodeButton.disabled) verifyCodeButton.click(); }
+    });
     const verifyCodeButton = document.getElementById('verifyPhoneCode');
     const changeNumberButton = document.getElementById('changePhoneNumber');
     const resendCodeButton = document.getElementById('resendPhoneCode');
@@ -112,6 +119,11 @@ import { auth, db, persistenceReady } from './firebase-config.js';
             if (phoneNameInput) phoneNameInput.focus();
             return false;
         }
+        if (requirePhoneName && signupEmailInput && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(signupEmailInput.value.trim())) {
+            setFeedback('Please enter a valid email address — we send your order updates and delivery OTP there.', 'error');
+            signupEmailInput.focus();
+            return false;
+        }
         if (!hasAcceptedTerms()) {
             setFeedback('Please tick the agreement checkbox before creating your account.', 'error');
             if (termsAgreement) termsAgreement.focus();
@@ -134,51 +146,58 @@ import { auth, db, persistenceReady } from './firebase-config.js';
         }
     }
 
+    // Profile creation now happens in a trusted Cloud Function: identity fields come from
+    // Firebase Auth, never from the browser, so nobody can mark their own email "verified".
     async function saveCustomerProfile(user, suppliedName) {
         const nameFromInput = (suppliedName || '').trim();
-        let previous = {};
-
-        try {
-            const snapshot = await getDoc(doc(db, 'users', user.uid));
-            if (snapshot.exists()) previous = snapshot.data() || {};
-        } catch (error) {
-            console.warn('Liwi-Ka profile lookup skipped:', error);
-        }
-
-        const finalName = nameFromInput || user.displayName || previous.name || 'Liwi-Ka Customer';
         if (nameFromInput && user.displayName !== nameFromInput) {
-            try {
-                await updateProfile(user, { displayName: nameFromInput });
-            } catch (error) {
-                console.warn('Liwi-Ka display name update skipped:', error);
-            }
+            try { await updateProfile(user, { displayName: nameFromInput }); }
+            catch (error) { console.warn('Liwi-Ka display name update skipped:', error); }
         }
-
-        // Phone-only Firebase users intentionally have no synthetic email address.
-        const profileEmail = user.email || (user.phoneNumber ? '' : (previous.email || ''));
-
+        let result = { name: nameFromInput || user.displayName || '', email: user.email || '', emailVerified: false };
         try {
-            await setDoc(doc(db, 'users', user.uid), {
-                uid: user.uid,
-                name: finalName,
-                email: profileEmail,
-                phoneNumber: user.phoneNumber || previous.phoneNumber || '',
-                emailVerified: Boolean(user.emailVerified),
-                providers: (user.providerData || []).map(function (provider) { return provider.providerId; }),
-                createdAt: previous.createdAt || serverTimestamp(),
-                lastLoginAt: serverTimestamp()
-            }, { merge: true });
+            result = (await registerCustomer({ name: nameFromInput })).data;
         } catch (error) {
-            console.warn('Liwi-Ka customer profile could not be saved:', error);
+            console.error('Liwi-Ka customer profile could not be saved:', error);
+            throw error;
         }
-
-        rememberFirebaseUser(user, finalName);
-        return finalName;
+        rememberFirebaseUser(user, result.name || nameFromInput);
+        return result;
     }
 
-    async function finishAuthentication(user, suppliedName) {
-        await saveCustomerProfile(user, suppliedName);
-        redirectAfterAuth();
+    function showEmailStep(profile, emailHint) {
+        if (!emailMount) { redirectAfterAuth(); return; }
+        if (methods) methods.hidden = true;
+        emailMount.hidden = false;
+        setFeedback('', 'info');
+        const verifier = mountEmailVerifier(emailMount, {
+            email: emailHint || profile.email || '',
+            heading: isSignUp ? 'Last step — verify your email' : 'Add your email to continue',
+            sub: 'We email you a 6-digit code. Your delivery OTP, order confirmation and receipts are sent to this address.',
+            onVerified: function () {
+                setFeedback('Email verified. Welcome to Liwi-Ka!', 'success');
+                setTimeout(redirectAfterAuth, 1100);
+            }
+        });
+        if (!isSignUp) {
+            const skip = document.createElement('button');
+            skip.type = 'button';
+            skip.className = 'lk-link';
+            skip.style.cssText = 'display:block;margin:10px auto 0';
+            skip.textContent = 'Skip for now (you will need it before checkout)';
+            skip.addEventListener('click', redirectAfterAuth);
+            emailMount.appendChild(skip);
+        }
+        if (emailHint && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(emailHint)) {
+            const send = emailMount.querySelector('[data-send]');
+            if (send) setTimeout(function () { send.click(); }, 150);
+        } else { verifier.focus(); }
+    }
+
+    async function finishAuthentication(user, suppliedName, emailHint) {
+        const profile = await saveCustomerProfile(user, suppliedName);
+        if (profile.emailVerified) { redirectAfterAuth(); return; }
+        showEmailStep(profile, emailHint);
     }
 
     function authErrorMessage(error) {
@@ -194,6 +213,7 @@ import { auth, db, persistenceReady } from './firebase-config.js';
             'auth/invalid-phone-number': 'Enter a valid phone number in international format, for example +919876543210.',
             'auth/missing-phone-number': 'Enter your phone number, including the country code.',
             'auth/invalid-verification-code': 'That verification code is incorrect. Check the SMS and try again.',
+            'functions/unauthenticated': 'Your session expired. Please sign in again.',
             'auth/code-expired': 'That verification code has expired. Request a new code.',
             'auth/captcha-check-failed': 'The security check could not be completed. Please try again.',
             'auth/quota-exceeded': 'The SMS limit for this project has been reached. Try again later.',
@@ -248,10 +268,8 @@ import { auth, db, persistenceReady } from './firebase-config.js';
                 void otpPanel.offsetWidth;
                 otpPanel.classList.add('otp-reveal');
             }
-            if (otpInput) {
-                otpInput.value = '';
-                otpInput.focus();
-            }
+            otpField.clear();
+            otpField.focus();
             setFeedback('A one-time verification code has been sent to ' + requestedPhoneNumber + '.', 'success');
         } catch (error) {
             if (recaptchaVerifier) {
@@ -286,7 +304,7 @@ import { auth, db, persistenceReady } from './firebase-config.js';
                 recaptchaVerifier = null;
             }
             if (otpPanel) otpPanel.hidden = true;
-            if (otpInput) otpInput.value = '';
+            otpField.clear();
             setButtonLabel(sendCodeButton, isSignUp ? 'Create account with phone' : 'Send secure sign-in code');
             setFeedback('Update your details and request a fresh code.', 'info');
             if (isSignUp && phoneNameInput) phoneNameInput.focus();
@@ -297,14 +315,14 @@ import { auth, db, persistenceReady } from './firebase-config.js';
     if (verifyCodeButton) {
         verifyCodeButton.addEventListener('click', async function () {
             if (!validateCreateAccountDetails(true)) return;
-            const code = otpInput ? otpInput.value.trim().replace(/\s/g, '') : '';
+            const code = otpField.getValue();
             if (!phoneConfirmation) {
                 setFeedback('Request a verification code first.', 'error');
                 return;
             }
             if (!/^\d{6}$/.test(code)) {
-                setFeedback('Enter the six-digit code sent to your phone.', 'error');
-                if (otpInput) otpInput.focus();
+                otpField.error('Enter all six digits from the SMS.');
+                otpField.focus();
                 return;
             }
 
@@ -364,23 +382,23 @@ import { auth, db, persistenceReady } from './firebase-config.js';
                 }
 
                 const suppliedName = isSignUp && phoneNameInput ? phoneNameInput.value.trim() : '';
-                await finishAuthentication(verifiedUser, suppliedName);
+                await finishAuthentication(verifiedUser, suppliedName, signupEmailInput ? signupEmailInput.value.trim().toLowerCase() : '');
             } catch (error) {
-                showAuthError(error, 'We could not verify that code. Please try again.');
+                if (error && (error.code === 'auth/invalid-verification-code' || error.code === 'auth/code-expired')) {
+                    otpField.error(authErrorMessage(error));
+                    otpField.setValue('');
+                    otpField.focus();
+                    setFeedback('', 'info');
+                } else {
+                    showAuthError(error, 'We could not verify that code. Please try again.');
+                }
             } finally {
                 setBusy(verifyCodeButton, false);
             }
         });
     }
 
-    if (otpInput) {
-        otpInput.addEventListener('keydown', function (event) {
-            if (event.key === 'Enter' && verifyCodeButton) verifyCodeButton.click();
-        });
-        otpInput.addEventListener('input', function () {
-            otpInput.value = otpInput.value.replace(/\D/g, '').slice(0, 6);
-        });
-    }
+    document.addEventListener('otp-enter', function () { if (verifyCodeButton && !verifyCodeButton.disabled) verifyCodeButton.click(); });
 
     if (googleButton) {
         googleButton.addEventListener('click', async function () {

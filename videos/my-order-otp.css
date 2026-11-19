@@ -1,0 +1,21 @@
+.otp-card,.pay-bar{margin:16px 0 4px;padding:18px;border-radius:14px;background:linear-gradient(160deg,#1b130c,#0e0a07);color:#f5efe4;border:1px solid rgba(217,164,65,.35)}
+.otp-hot{border-color:#d9a441;box-shadow:0 0 0 3px rgba(217,164,65,.18),0 14px 34px rgba(0,0,0,.25);animation:otpGlow 2.4s ease-in-out infinite}
+@keyframes otpGlow{50%{box-shadow:0 0 0 6px rgba(217,164,65,.1),0 14px 34px rgba(0,0,0,.25)}}
+.otp-card-head{display:flex;gap:12px;align-items:flex-start}.otp-shield{color:#d9a441;font-size:22px}
+.otp-card-head strong,.pay-bar strong{font:400 22px "Font",Georgia,serif;color:#f6dc92}
+.otp-card-head p,.pay-bar p{margin:4px 0 0;font-size:11.5px;line-height:1.7;color:#b9ae9d}
+.otp-digits{display:flex;gap:8px;justify-content:center;margin:16px 0 10px}
+.otp-digits b{width:42px;height:52px;display:grid;place-items:center;border-radius:10px;font:600 24px "Font1",sans-serif;background:#050403;border:1px solid rgba(217,164,65,.4);color:#6b6258}
+.otp-digits.shown b{color:#f6dc92;border-color:#d9a441;animation:otpPop .4s both}.otp-digits.shown b:nth-child(2){animation-delay:.05s}.otp-digits.shown b:nth-child(3){animation-delay:.1s}.otp-digits.shown b:nth-child(4){animation-delay:.15s}.otp-digits.shown b:nth-child(5){animation-delay:.2s}.otp-digits.shown b:nth-child(6){animation-delay:.25s}
+@keyframes otpPop{from{transform:translateY(8px) scale(.8);opacity:0}}
+.otp-actions-row,.pay-bar-actions{display:flex;gap:10px;flex-wrap:wrap}
+.otp-btn{flex:1;min-height:42px;padding:0 16px;border-radius:9px;border:1px solid #d9a441;background:linear-gradient(100deg,#8e631c,#d8aa4a 50%,#9b6d20);color:#100d08;font:700 10.5px "Font1",sans-serif;letter-spacing:1.8px;cursor:pointer}
+.otp-btn.ghost{background:transparent;color:#d9a441}.otp-btn:disabled{opacity:.5;cursor:not-allowed}
+.otp-msg{min-height:16px;margin:10px 0 0!important;font-size:11.5px;color:#b9ae9d}.otp-msg[data-kind=err]{color:#f0a29b}.otp-msg[data-kind=ok]{color:#8fd19b}
+.otp-warn{margin:8px 0;padding:9px 12px;border-radius:8px;font-size:11.5px;background:rgba(240,162,155,.1);color:#f0b4ad;border:1px solid rgba(240,162,155,.3)}
+.otp-cod{text-align:center;margin:0 0 10px;font-size:12px;color:#e2bf69}
+.pay-bar{border-color:#c9564b}.pay-bar-actions{margin-top:12px}
+.delivered-banner{display:flex;flex-direction:column;gap:3px;margin:14px 0 0;padding:14px 16px;border-radius:12px;background:#eef8f0;border:1px solid #b6dcbd;color:#256b36;font-size:12px}
+.order-new{animation:orderNew 2.4s ease 1;outline:2px solid #d9a441;outline-offset:3px}@keyframes orderNew{from{box-shadow:0 0 0 14px rgba(217,164,65,.35)}}
+@media(max-width:420px){.otp-digits b{width:36px;height:46px;font-size:20px}}
+@media(prefers-reduced-motion:reduce){.otp-hot,.order-new,.otp-digits.shown b{animation:none}}

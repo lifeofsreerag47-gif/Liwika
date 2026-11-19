@@ -114,6 +114,29 @@
   .payment-intro h1{font-size:38px}
   .payment-inner{padding:19px 16px}
 }
+
+.methods{display:grid;gap:12px;margin:0 0 20px}
+.method{position:relative;display:flex!important;align-items:center;gap:14px;padding:16px 16px;border-radius:14px;cursor:pointer;
+  border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.025);transition:border-color .2s,background .2s,transform .2s}
+.method:hover{transform:translateY(-1px);border-color:rgba(217,164,65,.4)}
+.method.selected{border-color:#d9a441;background:linear-gradient(120deg,rgba(217,164,65,.13),rgba(217,164,65,.03));box-shadow:0 0 0 3px rgba(217,164,65,.1)}
+.method input{position:absolute;opacity:0;pointer-events:none}
+.method .m-ico{flex:none;width:42px;height:42px;display:grid;place-items:center;border-radius:12px;font:600 20px "Font",Georgia,serif;color:#1a1208;background:linear-gradient(140deg,#e7c36f,#b98524)}
+.method .m-copy{display:flex;flex-direction:column;gap:3px;min-width:0}
+.method .m-copy b{font:600 15px "Font1",sans-serif;color:#f5efe4;letter-spacing:.3px}
+.method .m-copy small{font:11.5px/1.5 "Font1",sans-serif;color:#8f877d}
+.method .m-tag{margin-left:auto;flex:none;font:8.5px "Font1",sans-serif;letter-spacing:1.6px;color:#d9a441;border:1px solid rgba(217,164,65,.35);padding:5px 8px;border-radius:99px}
+.method.selected::after{content:"✓";position:absolute;top:-9px;right:14px;width:22px;height:22px;display:grid;place-items:center;border-radius:50%;background:#d9a441;color:#120d06;font-size:12px;font-weight:700}
+.pay-info{margin:0 0 14px;padding:12px 14px;border-radius:12px;background:rgba(255,255,255,.03);border:1px dashed rgba(217,164,65,.25);font:12px/1.7 "Font1",sans-serif;color:#b8afa2}
+.otp-note{display:flex;gap:12px;margin:0 0 14px;padding:12px 14px;border-radius:12px;background:rgba(127,195,138,.07);border:1px solid rgba(127,195,138,.25)}
+.otp-note>span{color:#8fd19b;font-size:18px;line-height:1.3}.otp-note p{margin:0;font:11.5px/1.7 "Font1",sans-serif;color:#b9cfbd}.otp-note b{color:#d6efd9}
+.consent-line{margin:0 0 14px;font:10.5px/1.7 "Font1",sans-serif;color:#7d756a;text-align:center}.consent-line a{color:#c9a15b}
+.pay-error{margin:0 0 14px;padding:11px 14px;border-radius:10px;background:rgba(217,119,111,.1);border:1px solid rgba(217,119,111,.4);color:#f0b4ad;font:12.5px/1.6 "Font1",sans-serif}
+.pay-overlay{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:rgba(7,6,5,.9);backdrop-filter:blur(6px);color:#f5efe4;text-align:center;padding:24px}
+.pay-overlay[hidden]{display:none}.pay-overlay p{margin:0;font:400 24px "Font",Georgia,serif}.pay-overlay small{color:#8f877d;font:12px "Font1",sans-serif}
+.pay-spinner{width:54px;height:54px;border-radius:50%;border:3px solid rgba(217,164,65,.2);border-top-color:#d9a441;animation:paySpin .9s linear infinite}
+@keyframes paySpin{to{transform:rotate(360deg)}}
+@media (max-width:520px){.method .m-tag{display:none}.payment-wrap{width:calc(100% - 32px)}}
 </style>
 <link rel="stylesheet" href="shared-navbar.css">
 <link rel="stylesheet" href="free-delivery.css">
@@ -135,53 +158,44 @@
   <div class="payment-intro">
     <p class="eyebrow">LIWI-KA • YOUR SWEETEST MOMENT</p>
     <h1>Complete your <span>order.</span></h1>
-    <p>Choose your preferred payment method to place your Liwi-Ka order.</p>
+    <p>Pay securely with UPI, or choose Cash on Delivery.</p>
   </div>
   <div class="checkout-progress"><span>Account</span><span class="dot"></span><span>Delivery</span><span class="dot"></span><span class="active">Payment</span></div>
   <section class="payment-card">
     <div class="payment-inner">
       <h2>Payment method</h2>
       <p class="muted">Deliveries are confirmed within Visakhapatnam only.</p>
-      <div class="methods">
-        <label class="method selected"><input type="radio" name="method" value="UPI / GPay" checked> UPI / GPay</label>
-        <label class="method"><input type="radio" name="method" value="Credit Card"> Credit Card</label>
-        <label class="method"><input type="radio" name="method" value="Net Banking"> Net Banking</label>
-        <label class="method"><input type="radio" name="method" value="Cash on Delivery"> Cash on Delivery</label>
+      <div class="methods" role="radiogroup" aria-label="Payment method">
+        <label class="method selected" data-method="UPI">
+          <input type="radio" name="method" value="UPI" checked>
+          <span class="m-ico" aria-hidden="true">₹</span>
+          <span class="m-copy"><b>UPI</b><small>Pay instantly with GPay, PhonePe, Paytm, BHIM or any UPI app</small></span>
+          <span class="m-tag">SECURED BY CASHFREE</span>
+        </label>
+        <label class="method" data-method="Cash on Delivery">
+          <input type="radio" name="method" value="Cash on Delivery">
+          <span class="m-ico" aria-hidden="true">✦</span>
+          <span class="m-copy"><b>Cash on Delivery</b><small>Pay when your chocolates arrive (up to ₹5,000)</small></span>
+        </label>
       </div>
       <div class="pay-summary"><span>Order total</span><strong id="total">₹0</strong></div>
-      <p class="muted" style="font-size:11px;line-height:1.7;margin:0 0 16px">Online payment is not yet processed by a payment gateway. Choosing UPI, card or net banking will place the order as <strong>Pending verification</strong>. Cash on Delivery remains available.</p>
-      <button class="checkout-btn" id="pay">PLACE ORDER →</button>
-      <div class="secure-note">🔒 ORDER DETAILS VALIDATED SECURELY</div>
+      <div class="pay-info" id="payInfo"></div>
+      <div class="otp-note"><span aria-hidden="true">✳</span><p><b>Delivery OTP protection.</b> After you order, we email you a 6-digit OTP and show it in <em>My Orders</em>. Share it with our delivery partner only when your parcel is in your hands.</p></div>
+      <p class="consent-line">By placing your order you agree to our <a href="terms-conditions.html" target="_blank" rel="noopener">Terms</a>, <a href="privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a> and <a href="shipping-refund-policy.html" target="_blank" rel="noopener">Shipping &amp; Refund Policy</a>.</p>
+      <p class="pay-error" id="payError" role="alert" hidden></p>
+      <button class="checkout-btn" id="pay" type="button">PLACE ORDER →</button>
+      <div class="secure-note">🔒 256-BIT ENCRYPTED · WE NEVER SEE YOUR UPI PIN</div>
     </div>
   </section>
   <div class="payment-footer">LIWI-KA &nbsp; • &nbsp; FINEST CHOCOLATE
         <nav class="liwika-legal-links" aria-label="Legal policies" style="display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin:12px auto 0;font-size:10px;letter-spacing:.7px;line-height:1.5"><a href="privacy-policy.html" style="text-decoration:underline;text-underline-offset:3px;opacity:.8">Privacy Policy</a><a href="terms-conditions.html" style="text-decoration:underline;text-underline-offset:3px;opacity:.8">Terms &amp; Conditions</a></nav>
 </div>
 </main>
+<script src="cart.js"></script>
 <script src="free-delivery.js"></script>
 <script src="responsive-mobile.js"></script>
-<script>
-(function(){
-  const s=JSON.parse(sessionStorage.getItem('liwika_checkout_details')||'null');
-  const total=Number(sessionStorage.getItem('liwika_checkout_total')||0);
-  const auth=localStorage.getItem('liwika_auth_session');
-  if(!auth||!s||!total){location.href='checkout.html';return}
-  document.getElementById('total').textContent='₹'+total.toLocaleString('en-IN');
-  document.querySelectorAll('.method').forEach(m=>m.addEventListener('click',()=>{
-    document.querySelectorAll('.method').forEach(x=>x.classList.remove('selected'));
-    m.classList.add('selected');m.querySelector('input').checked=true;
-  }));
-  const placeOrder=document.getElementById('pay');
-  placeOrder.addEventListener('click',()=>{
-    const method=document.querySelector('input[name=method]:checked').value;
-    if(!sessionStorage.getItem('liwika_checkout_intent')){location.href='checkout.html';return;}
-    placeOrder.disabled=true;placeOrder.textContent='CREATING YOUR ORDER…';
-    sessionStorage.setItem('liwika_payment_method',method);
-    sessionStorage.setItem('liwika_payment_complete','1');
-    location.href='order-confirmation.html';
-  });
-})();
-</script>
+<script type="module" src="payment.js"></script>
 <script type="module" src="profile-menu.js"></script>
+<div class="pay-overlay" id="payOverlay" hidden role="alert" aria-live="assertive"><div class="pay-spinner"></div><p id="payOverlayText">Securing your order…</p><small>Please don't close or refresh this page.</small></div>
 </body>
 </html>

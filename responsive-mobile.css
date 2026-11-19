@@ -286,7 +286,7 @@ button, input, select, textarea {
     .occasion-product-image img {
         width: 100% !important;
         height: 100% !important;
-        object-fit: cover;
+        object-fit: contain;
         display: block;
     }
 
@@ -545,7 +545,7 @@ button, input, select, textarea {
     .modal-image-container img {
         width: 100% !important;
         height: 100% !important;
-        object-fit: cover;
+        object-fit: contain;
     }
 
     .modal-details {
@@ -2496,7 +2496,7 @@ button, input, select, textarea {
     html.cine-on .cine-bests .product-card .product-image img {
         width: 100% !important;
         height: 100% !important;
-        object-fit: cover !important;
+        object-fit: contain !important;
         display: block !important;
     }
 

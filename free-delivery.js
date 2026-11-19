@@ -48,8 +48,8 @@
     el.className = 'liwika-free-delivery';
     el.setAttribute('role', 'link');
     el.setAttribute('tabindex', '0');
-    el.setAttribute('aria-label', 'Continue shopping at Liwi-Ka');
-    el.setAttribute('title', 'Tap to explore chocolates');
+    el.setAttribute('aria-label', 'Go to your cart');
+    el.setAttribute('title', 'Tap to view your cart');
     el.setAttribute('aria-live', 'polite');
     el.innerHTML = `
       <div class="lfd-card">
@@ -225,7 +225,7 @@
 
   // The persistent mobile shell receives cart changes from its iframe.
   window.addEventListener('message', function (event) {
-    if (event.data && event.data.type === 'LIWIKA_CART_UPDATED') {
+    if (event.origin === window.location.origin && event.data && event.data.type === 'LIWIKA_CART_UPDATED') {
       update(true, false);
       syncBadges();
       if (event.data.item) showCartToast(event.data.item);
@@ -237,15 +237,17 @@
     if (!event.key || event.key === STORAGE_KEY) { update(false); syncBadges(); }
   });
 
-  function getShopDestination() {
+  function getCartDestination() {
     const path = window.location.pathname;
-    if (path.includes('/occassions/')) return '../shop.html';
-    if (path.includes('/seasonals/')) return 'shop.html';
-    return 'seasonals/shop.html';
+    if (path.includes('/occassions/')) return '../cart.html';
+    if (path.includes('/seasonals/')) return 'cart.html';
+    if (path.includes('/videos/')) return '../seasonals/cart.html';
+    return 'seasonals/cart.html';
   }
 
-  function goToShop() {
-    const destination = new URL(getShopDestination(), window.location.href).href;
+  function goToCart() {
+    if (/\/seasonals\/cart(\.html)?$/.test(window.location.pathname)) return; // already there
+    const destination = new URL(getCartDestination(), window.location.href).href;
     if (typeof window.__liwiNavigate === 'function') {
       window.__liwiNavigate(destination, true);
     } else {
@@ -258,7 +260,7 @@
     if (!hud || !hud.classList.contains('is-visible')) return;
     if (document.querySelector('.product-modal.active') || document.body.classList.contains('liwi-product-modal-open')) return;
     event.preventDefault();
-    goToShop();
+    goToCart();
   });
 
   document.addEventListener('keydown', function (event) {
@@ -266,7 +268,7 @@
     const hud = event.target.closest('#liwika-free-delivery');
     if (!hud || !hud.classList.contains('is-visible')) return;
     event.preventDefault();
-    goToShop();
+    goToCart();
   });
 
   function init() {

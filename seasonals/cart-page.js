@@ -1,3 +1,4 @@
+const escH = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 /* =====================================================
    LIWI-KA CART PAGE CONTROLLER
    Renders product cards with rapid-click-safe rolling animations,
@@ -79,23 +80,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const itemTotal = item.price * item.quantity;
             const itemOccasion = item.occasion || '';
-            const itemKey = `${item.id}_${item.flavour}_${itemOccasion}`;
+            const itemKey = `${escH(item.id)}_${escH(item.flavour)}_${escH(itemOccasion)}`;
 
             const occasionBadgeHtml = itemOccasion 
-                ? `<div class="cart-item-occasion-tag">✦ Occasion: ${itemOccasion}</div>` 
+                ? `<div class="cart-item-occasion-tag">✦ Occasion: ${escH(itemOccasion)}</div>` 
                 : '';
 
             itemsHtml += `
-                <div class="cart-item-card" data-key="${itemKey}" data-id="${item.id}" data-flavour="${item.flavour}" data-occasion="${itemOccasion}">
+                <div class="cart-item-card" data-key="${escH(itemKey)}" data-id="${escH(item.id)}" data-flavour="${escH(item.flavour)}" data-occasion="${escH(itemOccasion)}">
                     <div class="cart-item-image">
-                        <img src="${imgSrc}" alt="${item.name}">
+                        <img src="${escH(imgSrc)}" alt="${escH(item.name)}">
                     </div>
 
                     <div class="cart-item-details">
                         <div class="cart-item-top">
                             <div>
-                                <h3>${item.name}</h3>
-                                <p class="cart-item-flavour">${item.flavour}</p>
+                                <h3>${escH(item.name)}</h3>
+                                <p class="cart-item-flavour">${escH(item.flavour)}</p>
                                 ${occasionBadgeHtml}
                             </div>
                             <button class="cart-item-remove" type="button" aria-label="Remove item" title="Remove item">
@@ -127,12 +128,12 @@ document.addEventListener("DOMContentLoaded", () => {
         let billRowsHtml = "";
         items.forEach(item => {
             const itemOccasion = item.occasion || '';
-            const itemKey = `${item.id}_${item.flavour}_${itemOccasion}`;
+            const itemKey = `${escH(item.id)}_${escH(item.flavour)}_${escH(itemOccasion)}`;
             billRowsHtml += `
-                <div class="bill-row item-line" data-bill-key="${itemKey}">
+                <div class="bill-row item-line" data-bill-key="${escH(itemKey)}">
                     <div class="bill-item-name">
-                        <span class="bill-item-title">${item.name} × ${item.quantity}</span>
-                        <span class="bill-item-flavour">${item.flavour}${itemOccasion ? ' (' + itemOccasion + ')' : ''}</span>
+                        <span class="bill-item-title">${escH(item.name)} × ${item.quantity}</span>
+                        <span class="bill-item-flavour">${escH(item.flavour)}${itemOccasion ? ' (' + itemOccasion + ')' : ''}</span>
                     </div>
                     <span class="bill-item-sub">₹${item.price * item.quantity}</span>
                 </div>

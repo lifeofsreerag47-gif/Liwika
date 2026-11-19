@@ -189,14 +189,14 @@ function renderAll(products) {
   const shopProducts=products.filter(p=>(p.placements||[]).includes('shop'));
   const setHome=()=>window.LiwikaSetHomeProducts?.(homeProducts);
   if (document.readyState==='loading' && !window.LiwikaSetHomeProducts) document.addEventListener('DOMContentLoaded',setHome,{once:true}); else setHome();
-  window.LiwikaSetShopProducts?.(shopProducts);
+  window.LiwikaSetShopProducts?.(file==='new-arrivals.html'?products.filter(p=>p.newArrival===true||(p.placements||[]).includes('new-arrivals')):shopProducts);
   const map=Object.fromEntries(products.map(p=>[p.id,p]));
   window.occasionProducts=map;
   targets.forEach(target=>{
     let list=pageProducts; let renderer=occasionCard;
     if(target.classList.contains('cine-items')) { list=homeProducts; renderer=homeCard; }
+    else if(target.id==='newArrivalsProducts') { list=products.filter(p=>p.newArrival===true||(p.placements||[]).includes('new-arrivals')); renderer=shopCard; }
     else if(target.classList.contains('shop-products')) { list=shopProducts; renderer=shopCard; }
-    else if(target.id==='newArrivalsProducts') { list=products.filter(p=>p.newArrival===true||(p.placements||[]).includes('new-arrivals')); renderer=arrivalCard; }
     if(!list.length){showState(target,'empty');return;}
     target.dataset.catalogState='ready'; target.innerHTML=list.map(renderer).join(''); syncArrivalsPage(target,'ready');
     if (target.classList.contains('cine-items')) bindDesktopBestsellerTilt(target);
@@ -214,6 +214,7 @@ function bindCatalogInteractions() {
     // The homepage keeps its original controller. Shop cards use their Shop modal;
     // this document-level route is a fallback if a page's grid listener is absent.
     if(document.body.classList.contains('home-page')) return;
+    if(file==='new-arrivals.html') return; // shop.js owns the card + product window here
     if(file==='shop.html') {
       if(!event.__liwikaShopModalHandled) window.LiwikaOpenShopProductModal?.(id);
       return;

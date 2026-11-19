@@ -7,6 +7,7 @@
     <meta name="description" content="Create your Liwi-Ka chocolate account using secure phone verification or Google sign-in.">
     <title>Liwi-Ka | Create Account</title>
     <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="otp-input.css">
     <link rel="stylesheet" href="responsive-mobile.css">
     <link rel="stylesheet" href="free-delivery.css">
 </head>
@@ -91,14 +92,24 @@
                                 <input type="tel" id="phoneNumber" name="phone" placeholder="+91 98765 43210" autocomplete="tel" inputmode="tel" maxlength="18" aria-describedby="phoneHelp" required>
                                 <span class="input-end-icon" aria-hidden="true">⌁</span>
                             </div>
-                            <p class="phone-help" id="phoneHelp">We'll send a one-time code. No password or email address needed.</p>
+                            <p class="phone-help" id="phoneHelp">We'll text a one-time code to verify your number.</p>
+                        </div>
+
+                        <div class="field-group email-field-group">
+                            <label for="signupEmail">EMAIL ADDRESS <span>VERIFIED BY CODE</span></label>
+                            <div class="field-wrapper">
+                                <span class="field-symbol" aria-hidden="true">@</span>
+                                <input type="email" id="signupEmail" name="email" placeholder="you@example.com" autocomplete="email" inputmode="email" maxlength="254" required>
+                                <span class="input-end-icon" aria-hidden="true">✉</span>
+                            </div>
+                            <p class="phone-help">Your order confirmation, delivery OTP and receipts are emailed here. We'll verify it with a second code.</p>
                         </div>
 
                         <div class="auth-consent" id="authConsentBlock">
                             <label class="auth-consent-label" for="termsAgreement">
                                 <input type="checkbox" id="termsAgreement" name="termsAgreement" required>
                                 <span class="auth-consent-box" aria-hidden="true"></span>
-                                <span class="auth-consent-copy">I agree to the <a href="terms-conditions.html" target="_blank" rel="noopener">Terms &amp; Conditions</a> and <a href="privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a>.</span>
+                                <span class="auth-consent-copy">I agree to the <a href="terms-conditions.html" target="_blank" rel="noopener">Terms &amp; Conditions</a><a href="shipping-refund-policy.html">Shipping &amp; Refunds</a> and <a href="privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a>.</span>
                             </label>
                         </div>
 
@@ -108,13 +119,7 @@
 
                         <div class="otp-panel" id="otpPanel" hidden>
                             <div class="otp-intro"><span class="otp-lock" aria-hidden="true">✳</span><span>Code sent. Let's verify your number.</span></div>
-                            <div class="field-group">
-                                <label for="phoneOtp">SIX-DIGIT VERIFICATION CODE</label>
-                                <div class="field-wrapper">
-                                    <span class="field-symbol" aria-hidden="true">#</span>
-                                    <input type="text" id="phoneOtp" name="otp" placeholder="• • • • • •" inputmode="numeric" autocomplete="one-time-code" maxlength="6">
-                                </div>
-                            </div>
+                            <div class="field-group"><label>SIX-DIGIT VERIFICATION CODE</label><div id="phoneOtpMount"></div></div>
                             <button type="button" class="auth-button" id="verifyPhoneCode"><span>Verify &amp; create account</span><span class="button-arrow">→</span></button>
                             <div class="otp-actions">
                                 <button type="button" id="resendPhoneCode">Resend code</button>
@@ -131,6 +136,7 @@
                         <div id="recaptcha-container" aria-hidden="true"></div>
                     </div>
 
+                    <div id="emailVerifyMount" hidden></div>
                     <p class="auth-feedback" id="authFeedback" role="status" aria-live="polite" hidden></p>
                     <div class="auth-security-note"><span aria-hidden="true">◇</span> Your details stay connected to your verified account.</div>
                     <div class="switch-auth"><p>Already part of Liwi-Ka? <a id="loginSwitchLink" href="login.html">Sign in <span aria-hidden="true">↗</span></a></p></div>

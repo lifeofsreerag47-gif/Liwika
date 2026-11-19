@@ -817,7 +817,7 @@ body {
 
     height: 100%;
 
-    object-fit: cover;
+    object-fit: contain;
 
     display: block;
 
@@ -1366,7 +1366,7 @@ body {
 .new-arrivals-page .product-card{position:relative;background:linear-gradient(150deg,#17120d,#0d0b09);border:1px solid rgba(210,163,68,.15);overflow:hidden;transform-style:preserve-3d;transition:transform .18s ease,border-color .35s ease,box-shadow .35s ease;box-shadow:0 20px 45px rgba(0,0,0,.25)}
 .new-arrivals-page .product-card:hover{border-color:rgba(229,186,91,.55);box-shadow:0 30px 70px rgba(0,0,0,.55),0 0 0 1px rgba(229,186,91,.08)}
 .new-arrivals-page .product-image-wrapper{position:relative;height:390px;overflow:hidden;background:#14100c}
-.new-arrivals-page .product-image{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.2,.7,.2,1),filter .5s ease}
+.new-arrivals-page .product-image{width:100%;height:100%;object-fit:contain;transition:transform .7s cubic-bezier(.2,.7,.2,1),filter .5s ease}
 .new-arrivals-page .product-card:hover .product-image{transform:scale(1.065);filter:saturate(1.04) contrast(1.03)}
 .new-arrivals-page .product-image-overlay{position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(180deg,transparent 35%,rgba(0,0,0,.65));opacity:0;transition:opacity .4s ease}
 .new-arrivals-page .product-card:hover .product-image-overlay{opacity:1}

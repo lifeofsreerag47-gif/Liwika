@@ -1,7 +1,7 @@
-import { auth, persistenceReady } from '../firebase-config.js';
+import { auth, functions, persistenceReady } from '../firebase-config.js';
 import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js';
-import { collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js';
-import { db } from '../firebase-config.js';
+import { httpsCallable } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-functions.js';
+const submitSupportMessage = httpsCallable(functions, 'submitSupportMessage');
 
 const form = document.getElementById('careForm');
 const note = document.getElementById('formNote');
@@ -27,22 +27,15 @@ if (form && note) {
         note.textContent = 'Please sign in to send a message. Your details are still here.';
         return;
       }
-      await addDoc(collection(db, 'support_messages'), {
-        customerUid: user.uid,
-        name: name.slice(0, 100),
-        email: email.slice(0, 180),
-        orderNumber: orderNumber.slice(0, 40),
-        message: message.slice(0, 3000),
-        status: 'open',
-        createdAt: serverTimestamp()
-      });
+      await submitSupportMessage({ name, email, orderNumber, message, website: String(data.get('website') || '') });
       note.textContent = 'Thank you. Your message has been sent to the Liwi-Ka team.';
       note.style.color = '#d9a441';
       form.reset();
     } catch (error) {
       console.error('Customer Care message failed:', error);
-      note.textContent = error?.code === 'permission-denied'
+      note.textContent = error?.code === 'functions/unauthenticated'
         ? 'Please sign in before sending a message.'
+        : error?.code === 'functions/invalid-argument' || error?.code === 'functions/resource-exhausted' ? (error.message || 'Please check your details.')
         : 'We could not send your message. Please check your connection and try again.';
       note.style.color = '#e3a09a';
     } finally {

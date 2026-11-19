@@ -13,6 +13,7 @@
 
     <!-- IMPORTANT: your actual filename is my-order.css -->
     <link rel="stylesheet" href="my-order.css">
+    <link rel="stylesheet" href="my-order-otp.css">
     <link rel="stylesheet" href="../shared-navbar.css">
     <style>.orders-empty{padding:55px 20px;text-align:center;border:1px solid var(--order-line);border-radius:16px;background:#fffdfa;animation:orderFade .4s ease}.orders-empty[hidden]{display:none}.orders-empty h3{margin:8px 0;color:var(--order-ink);font:400 34px "Font",Georgia,serif}.orders-empty p:not(.section-eyebrow){color:var(--order-muted);font-size:12px;line-height:1.7}.orders-empty-mark{color:var(--order-gold);font-size:32px}.orders-loading{display:grid;grid-template-columns:1fr;gap:12px}.orders-loading span{height:70px;border-radius:12px;background:linear-gradient(90deg,#f4eee3 25%,#fffdfa 45%,#f4eee3 65%);background-size:200% 100%;animation:orderShimmer 1.3s linear infinite}.orders-loading p{text-align:center;color:var(--order-muted);font-size:12px}.orders-offline{padding:22px;text-align:center;border:1px solid #e6d9c4;border-radius:12px;background:#fffaf1;color:#72572e}.order-search-empty{padding:26px;text-align:center;color:var(--order-muted);font-size:12px}@keyframes orderShimmer{to{background-position:-200% 0}}@keyframes orderFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}@media(prefers-reduced-motion:reduce){.orders-loading span{animation:none}}</style>
 </head>
@@ -77,7 +78,7 @@
                 <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
                     <label class="order-filter"><span>Search</span><input id="orderSearch" type="search" placeholder="Order number or product" aria-label="Search orders" style="min-height:36px;padding:0 11px;border:1px solid var(--order-line);border-radius:7px;background:#fffdfa;color:var(--order-ink);font:11px 'Font1',sans-serif"></label>
                     <label class="order-filter"><span>Filter by</span><select id="statusFilter" name="order-status" aria-label="Filter orders by status">
-                        <option value="all">All orders</option><option value="pending">Order received</option><option value="processing">Processing</option><option value="shipped">Shipped</option><option value="delivered">Delivered</option><option value="cancelled">Cancelled</option>
+                        <option value="all">All orders</option><option value="awaiting_payment">Awaiting payment</option><option value="pending">Order received</option><option value="processing">Preparing</option><option value="shipped">Out for delivery</option><option value="delivered">Delivered</option><option value="cancelled">Cancelled</option>
                     </select></label>
                 </div>
             </div>
@@ -151,7 +152,7 @@
 
             <div class="footer-bottom-links">
                 <a href="../privacy-policy.html">Privacy Policy</a>
-                <a href="../terms-conditions.html">Terms &amp; Conditions</a>
+                <a href="../terms-conditions.html">Terms &amp; Conditions</a><a href="../shipping-refund-policy.html">Shipping &amp; Refunds</a>
             </div>
         </div>
     </footer>

@@ -220,7 +220,7 @@ body .navbar {
     flex: 0 0 58px;
     width: 58px;
     height: 58px;
-    object-fit: cover;
+    object-fit: contain;
     border: 1px solid #eee5d8;
     border-radius: 9px;
     background: #f2eee7;
