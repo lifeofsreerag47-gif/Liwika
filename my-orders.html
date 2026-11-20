@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="css/liwika-loader.css">
+    <script src="js/liwika-loader.js"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Orders | Liwi-Ka</title>
+
+    <!-- Main website CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive-mobile.css">
+    <link rel="stylesheet" href="css/free-delivery.css">
+
+    <!-- IMPORTANT: your actual filename is my-order.css -->
+    <link rel="stylesheet" href="css/my-order.css">
+    <link rel="stylesheet" href="css/my-order-otp.css">
+    <link rel="stylesheet" href="css/shared-navbar.css">
+    <style>.orders-empty{padding:55px 20px;text-align:center;border:1px solid var(--order-line);border-radius:16px;background:#fffdfa;animation:orderFade .4s ease}.orders-empty[hidden]{display:none}.orders-empty h3{margin:8px 0;color:var(--order-ink);font:400 34px "Font",Georgia,serif}.orders-empty p:not(.section-eyebrow){color:var(--order-muted);font-size:12px;line-height:1.7}.orders-empty-mark{color:var(--order-gold);font-size:32px}.orders-loading{display:grid;grid-template-columns:1fr;gap:12px}.orders-loading span{height:70px;border-radius:12px;background:linear-gradient(90deg,#f4eee3 25%,#fffdfa 45%,#f4eee3 65%);background-size:200% 100%;animation:orderShimmer 1.3s linear infinite}.orders-loading p{text-align:center;color:var(--order-muted);font-size:12px}.orders-offline{padding:22px;text-align:center;border:1px solid #e6d9c4;border-radius:12px;background:#fffaf1;color:#72572e}.order-search-empty{padding:26px;text-align:center;color:var(--order-muted);font-size:12px}@keyframes orderShimmer{to{background-position:-200% 0}}@keyframes orderFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}@media(prefers-reduced-motion:reduce){.orders-loading span{animation:none}}</style>
+</head>
+
+<body class="orders-shell">
+
+    <!-- NAVBAR: uses your existing website classes -->
+    <header class="navbar">
+    <a href="index.html" class="logo" aria-label="Liwi-Ka Home">
+        <img src="images/liwi.png" alt="Liwi-Ka Finest Chocolate">
+    </a>
+
+    <nav class="nav-links" aria-label="Primary navigation">
+        <a href="index.html" class="">Home</a>
+        <a href="seasonals/shop.html" class="">Shop</a>
+        <a href="new-arrivals.html" class="">New Arrivals</a>
+        <a href="seasonals/seasonals.html" class="">Seasonals</a>
+        <a href="about-us.html">About Us</a>
+        <a href="seasonals/customer-care.html" class="">Customer Care</a>
+    </nav>
+
+    <div class="nav-icons">
+        <button type="button" class="profile-icon-button" aria-label="My Account"><svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"></circle><path d="M4.5 20c.8-4 3.4-6 7.5-6s6.7 2 7.5 6"></path></svg></button>
+        <a href="seasonals/cart.html" class="cart-nav-link" aria-label="Shopping Cart">
+            <button type="button" class="cart-icon-button" aria-label="Shopping Cart"><svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h2l1.7 10.2a2 2 0 0 0 2 1.7h7.8a2 2 0 0 0 1.9-1.4L21 9H7"></path><circle cx="10" cy="20" r="1.2"></circle><circle cx="18" cy="20" r="1.2"></circle></svg></button>
+        </a>
+    </div>
+</header>
+
+
+    <!-- MY ORDERS PAGE -->
+    <main class="orders-page">
+
+        <!-- HERO -->
+        <section class="orders-hero">
+            <p class="orders-eyebrow">YOUR LIWI-KA JOURNEY</p>
+
+            <h1>My <span>Orders</span></h1>
+
+            <p class="orders-intro">
+                Every little indulgence, all in one place.
+                Follow your favourite chocolates from our kitchen to your doorstep.
+            </p>
+
+            <div class="orders-hero-line"></div>
+        </section>
+
+
+        <!-- LIVE ORDER HISTORY -->
+        <section class="orders-content">
+            <div class="orders-heading-row">
+                <div>
+                    <p class="section-eyebrow">ORDER HISTORY</p>
+                    <h2>Your chocolate moments</h2>
+                    <p class="orders-subtitle">Review your purchases and check their delivery progress.</p>
+                </div>
+                <a href="seasonals/shop.html" class="continue-shopping"><span>+</span> Continue Shopping</a>
+            </div>
+            <div class="orders-toolbar">
+                <p id="orderCount"><strong>—</strong> orders</p>
+                <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+                    <label class="order-filter"><span>Search</span><input id="orderSearch" type="search" placeholder="Order number or product" aria-label="Search orders" style="min-height:36px;padding:0 11px;border:1px solid var(--order-line);border-radius:7px;background:#fffdfa;color:var(--order-ink);font:11px 'Font1',sans-serif"></label>
+                    <label class="order-filter"><span>Filter by</span><select id="statusFilter" name="order-status" aria-label="Filter orders by status">
+                        <option value="all">All orders</option><option value="awaiting_payment">Awaiting payment</option><option value="pending">Order received</option><option value="processing">Preparing</option><option value="shipped">Out for delivery</option><option value="delivered">Delivered</option><option value="cancelled">Cancelled</option>
+                    </select></label>
+                </div>
+            </div>
+            <div id="ordersList" aria-live="polite"><div class="orders-loading"><span></span><span></span><span></span><p>Loading your order history…</p></div></div>
+            <div id="emptyOrders" class="orders-empty" hidden>
+                <div class="orders-empty-mark">✧</div><p class="section-eyebrow">A NEW CHOCOLATE MOMENT AWAITS</p><h3>No orders yet.</h3><p>Your Liwi-Ka orders will appear here once you place your first order.</p><a href="seasonals/shop.html" class="button-gold">EXPLORE THE COLLECTION →</a>
+            </div>
+        </section>
+    </main>
+
+
+    <!-- FOOTER: uses your existing website classes -->
+    <footer class="footer">
+        <div class="footer-container">
+
+            <div class="footer-brand">
+                <a href="index.html" class="footer-logo">
+    <img src="images/liwi.png" alt="Liwi-Ka Finest Chocolate">
+</a>
+
+                <p>
+                    Crafted with passion.
+                    Created for unforgettable moments.
+                </p>
+
+                <div class="footer-socials">
+                    <a href="#">Instagram</a>
+                    <a href="#">Facebook</a>
+                    <a href="#">WhatsApp</a>
+                </div>
+            </div>
+
+            <div class="footer-column">
+                <h3>Explore</h3>
+                <a href="index.html">Home</a>
+                <a href="seasonals/shop.html">Shop</a>
+                <a href="seasonals/seasonals.html">Seasonals</a>
+                <a href="about-us.html">About Us</a>
+            </div>
+
+            <div class="footer-column">
+                <h3>Customer Care</h3>
+                <a href="seasonals/customer-care.html">Contact Us</a>
+                <a href="seasonals/customer-care.html">Shipping &amp; Delivery</a>
+                <a href="seasonals/customer-care.html">Returns &amp; Refunds</a>
+                <a href="seasonals/customer-care.html">FAQs</a>
+            </div>
+
+            <div class="footer-newsletter">
+                <h3>Stay in the Chocolate Loop</h3>
+
+                <p>
+                    Discover new creations, seasonal collections
+                    and exclusive offers.
+                </p>
+
+                <form class="newsletter-form">
+                    <input
+                        type="email"
+                        placeholder="Your email address"
+                        aria-label="Your email address"
+                    >
+                    <button type="submit">JOIN</button>
+                </form>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2026 Liwi-Ka. All rights reserved.</p>
+
+            <div class="footer-bottom-links">
+                <a href="privacy-policy.html">Privacy Policy</a>
+                <a href="terms-conditions.html">Terms &amp; Conditions</a><a href="shipping-refund-policy.html">Shipping &amp; Refunds</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Existing website scripts, if these files are in your project -->
+    <script src="js/cart.js"></script>
+    <script src="js/responsive-mobile.js"></script>
+    <script src="js/free-delivery.js"></script>
+<script type="module" src="js/profile-menu.js"></script>
+<script type="module" src="js/my-orders.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,126 @@
+/* LIWI-KA — sign in / create account redesign (loaded after auth.css, otp-input.css, responsive-mobile.css).
+   Desktop: aurora + gold dust, parallax plaque, animated gold card edge, staggered entrance.
+   Mobile (<=820px): app-style compact hero + bottom-sheet card, big touch targets, no scrolling to reach the form. */
+@property --lk-a { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+
+:root:root body.liwika-auth-page { background: #070504; }
+
+/* ---------- aurora + gold dust ---------- */
+.lk-aurora { position: fixed; inset: 0; z-index: -2; overflow: hidden; pointer-events: none; background: radial-gradient(120% 90% at 20% 0%, #1a110a 0%, #090605 55%, #050403 100%); }
+.lk-aurora i { position: absolute; border-radius: 50%; will-change: transform; mix-blend-mode: screen; }
+.lk-aurora i:nth-child(1) { width: 60vmax; height: 60vmax; left: -18vmax; top: -22vmax; background: radial-gradient(circle, rgba(196,140,62,.30), transparent 62%); animation: lkDrift1 22s ease-in-out infinite alternate; }
+.lk-aurora i:nth-child(2) { width: 52vmax; height: 52vmax; right: -16vmax; bottom: -20vmax; background: radial-gradient(circle, rgba(120,60,28,.34), transparent 62%); animation: lkDrift2 26s ease-in-out infinite alternate; }
+.lk-aurora i:nth-child(3) { width: 34vmax; height: 34vmax; left: 38%; top: 30%; background: radial-gradient(circle, rgba(232,196,120,.10), transparent 65%); animation: lkDrift3 30s ease-in-out infinite alternate; }
+.lk-dust { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+.lk-dust span { position: absolute; bottom: -12px; width: var(--s); height: var(--s); border-radius: 50%; background: radial-gradient(circle, #ffe9b8, rgba(226,186,110,.0) 70%); opacity: 0; animation: lkRise var(--d) linear var(--t) infinite; }
+@keyframes lkDrift1 { to { transform: translate3d(9vmax, 7vmax, 0) scale(1.12); } }
+@keyframes lkDrift2 { to { transform: translate3d(-8vmax, -6vmax, 0) scale(1.1); } }
+@keyframes lkDrift3 { to { transform: translate3d(-10vmax, 6vmax, 0) scale(.85); } }
+@keyframes lkRise { 0% { transform: translate3d(0,0,0); opacity: 0; } 12% { opacity: .85; } 100% { transform: translate3d(var(--x), -105vh, 0); opacity: 0; } }
+.auth-atmosphere { display: none !important; }
+body.liwika-auth-page::before, body.liwika-auth-page::after { opacity: .5; }
+
+/* ---------- desktop showcase ---------- */
+.auth-showcase .showcase-copy h2 { background: linear-gradient(100deg, #f7ecd6 0%, #f0cf8a 30%, #fff6dd 50%, #d9a85a 72%, #f7ecd6 100%); background-size: 220% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: lkShimmer 7s ease-in-out infinite; }
+.auth-showcase .showcase-copy h2 em { -webkit-text-fill-color: transparent; }
+@keyframes lkShimmer { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+.chocolate-stage .chocolate-plaque { will-change: transform; }
+.chocolate-stage { --px: 0; --py: 0; }
+.chocolate-stage .stage-glow, .chocolate-stage .stage-ring { translate: calc(var(--px) * -10px) calc(var(--py) * -8px); transition: translate .25s ease-out; }
+.chocolate-stage .chocolate-plaque { translate: calc(var(--px) * 16px) calc(var(--py) * 12px); transition: translate .25s ease-out; }
+.chocolate-stage .chocolate-shard { translate: calc(var(--px) * 26px) calc(var(--py) * 18px); transition: translate .25s ease-out; }
+
+/* ---------- card: animated gold edge ---------- */
+.auth-card.auth-card-modern { border-color: transparent; background-clip: padding-box; isolation: isolate; }
+.auth-card.auth-card-modern::after { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; padding: 1.2px; pointer-events: none;
+    background: conic-gradient(from var(--lk-a), rgba(222,186,118,.08), rgba(247,221,160,.95) 12%, rgba(222,186,118,.08) 30%, rgba(222,186,118,.08) 60%, rgba(214,160,80,.8) 78%, rgba(222,186,118,.08));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; animation: lkSpin 7s linear infinite; }
+@keyframes lkSpin { to { --lk-a: 360deg; } }
+.auth-card .auth-heading h1 { background: linear-gradient(100deg, #fbf1dc, #f1cf8c 45%, #fff3d3 60%, #f6ecdc); background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: lkShimmer 8s ease-in-out infinite; }
+
+/* staggered entrance for card contents */
+.auth-card .auth-heading, .auth-card .auth-methods > *, .auth-card .switch-auth, .auth-card .auth-security-note { animation: lkIn .7s cubic-bezier(.2,.75,.2,1) both; }
+.auth-card .auth-heading { animation-delay: .25s; }
+.auth-card .auth-methods > :nth-child(1) { animation-delay: .34s; } .auth-card .auth-methods > :nth-child(2) { animation-delay: .40s; }
+.auth-card .auth-methods > :nth-child(3) { animation-delay: .46s; } .auth-card .auth-methods > :nth-child(4) { animation-delay: .52s; }
+.auth-card .auth-methods > :nth-child(5) { animation-delay: .58s; } .auth-card .auth-methods > :nth-child(6) { animation-delay: .64s; }
+.auth-card .switch-auth { animation-delay: .70s; } .auth-card .auth-security-note { animation-delay: .76s; }
+@keyframes lkIn { from { opacity: 0; transform: translate3d(0,16px,0); } to { opacity: 1; transform: none; } }
+
+/* inputs + buttons feel */
+.auth-card .field-wrapper input { transition: border-color .25s, box-shadow .25s, background .25s, transform .25s; }
+.auth-card .field-wrapper input:focus { transform: translateY(-1px); box-shadow: 0 0 0 4px rgba(205,164,91,.12), 0 10px 30px rgba(185,128,55,.14); }
+.auth-card .auth-button { letter-spacing: .6px; }
+.auth-card .auth-button:not(:disabled) { animation: lkPulse 3.2s ease-in-out 2s infinite; }
+@keyframes lkPulse { 0%,100% { box-shadow: 0 8px 22px rgba(170,119,46,.18); } 50% { box-shadow: 0 10px 34px rgba(222,183,106,.34); } }
+.otp-panel:not([hidden]) { animation: lkIn .55s cubic-bezier(.2,.75,.2,1) both; }
+
+/* ============================ MOBILE ============================ */
+@media (max-width: 820px) {
+  :root:root body.liwika-auth-page { min-height: 100dvh; overflow-x: hidden; }
+  :root:root body.liwika-auth-page .auth-page { padding: 0 !important; min-height: 100dvh; display: block; }
+  :root:root body.liwika-auth-page .auth-layout { display: flex !important; flex-direction: column; min-height: 100dvh; width: 100%; max-width: none; gap: 0; padding: 0; }
+
+  /* compact hero */
+  :root:root body.liwika-auth-page .auth-showcase { order: 0; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; min-height: 0; height: clamp(150px, 25dvh, 215px); padding: 0 20px 26px; margin: 0; background: radial-gradient(70% 90% at 50% 100%, rgba(214,160,80,.30), transparent 70%); animation: none; }
+  :root:root body.liwika-auth-page .auth-showcase .showcase-copy,
+  :root:root body.liwika-auth-page .auth-showcase .showcase-bottom,
+  :root:root body.liwika-auth-page .auth-showcase .chocolate-stage { display: none !important; }
+  :root:root body.liwika-auth-page .auth-logo { display: flex; flex-direction: column; align-items: center; gap: 9px; margin: 0; }
+  :root:root body.liwika-auth-page .auth-logo img { height: clamp(46px, 8dvh, 64px); width: auto; filter: drop-shadow(0 6px 18px rgba(214,160,80,.35)); }
+  :root:root body.liwika-auth-page .auth-logo span { font-size: 8px; letter-spacing: 3.4px; color: rgba(236,212,166,.62); }
+  :root:root body.liwika-auth-page .auth-showcase::after { content: ""; position: absolute; left: 50%; bottom: 0; width: 120px; height: 1px; transform: translateX(-50%); background: linear-gradient(90deg, transparent, rgba(232,196,120,.7), transparent); }
+
+  /* top bar floats over the hero */
+  :root:root body.liwika-auth-page .auth-content { display: contents; }
+  :root:root body.liwika-auth-page .auth-topline { position: absolute; z-index: 5; top: max(12px, env(safe-area-inset-top)); left: 14px; right: 14px; margin: 0; }
+  :root:root body.liwika-auth-page .back-to-shop { font-size: 0; gap: 0; width: 40px; height: 40px; justify-content: center; border-radius: 50%; background: rgba(255,255,255,.06); border: 1px solid rgba(232,196,120,.22); backdrop-filter: blur(8px); }
+  :root:root body.liwika-auth-page .back-to-shop span { font-size: 19px; line-height: 1; }
+  :root:root body.liwika-auth-page .secure-chip { font-size: 8px; padding: 8px 11px; background: rgba(255,255,255,.05); backdrop-filter: blur(8px); }
+
+  /* bottom-sheet card */
+  :root:root body.liwika-auth-page .auth-card.auth-card-modern { order: 1; flex: 1 0 auto; width: 100%; max-width: none; margin: 0; border-radius: 28px 28px 0 0; padding: 26px 20px calc(22px + env(safe-area-inset-bottom)); border: 0; border-top: 1px solid rgba(232,196,120,.34);
+      background: linear-gradient(180deg, rgba(34,24,16,.97), rgba(12,9,7,.99) 40%); box-shadow: 0 -22px 60px rgba(0,0,0,.55), 0 -1px 0 rgba(255,236,196,.08) inset; animation: lkSheet .75s cubic-bezier(.2,.8,.2,1) both; }
+  :root:root body.liwika-auth-page .auth-card.auth-card-modern::after { display: none; }
+  .auth-card.auth-card-modern::before { opacity: .12; }
+  :root:root body.liwika-auth-page .auth-card .card-ornament, :root:root body.liwika-auth-page .auth-note { display: none; }
+  :root:root body.liwika-auth-page .auth-card::marker { content: none; }
+  :root:root body.liwika-auth-page .auth-heading { margin: 0 0 18px; text-align: center; }
+  :root:root body.liwika-auth-page .auth-eyebrow { margin: 0 0 8px; font-size: 8px; letter-spacing: 2.4px; }
+  :root:root body.liwika-auth-page .auth-heading h1 { font-size: 34px; margin: 0 0 6px; }
+  :root:root body.liwika-auth-page .auth-heading > p:last-child { margin: 0 auto; max-width: 300px; font-size: 12px; line-height: 1.55; }
+  :root:root body.liwika-auth-page .auth-methods { gap: 13px; }
+  :root:root body.liwika-auth-page .auth-card .field-group label { font-size: 9px; letter-spacing: 1.5px; }
+  :root:root body.liwika-auth-page .auth-card .field-wrapper input { height: 54px; font-size: 16px; border-radius: 14px; padding-left: 40px; }
+  :root:root body.liwika-auth-page .auth-card .field-symbol { left: 15px; font-size: 15px; }
+  :root:root body.liwika-auth-page .phone-help { font-size: 10.5px; }
+  :root:root body.liwika-auth-page .auth-button, :root:root body.liwika-auth-page .google-auth-button { min-height: 56px; border-radius: 16px; font-size: 13px; }
+  :root:root body.liwika-auth-page .google-auth-button { font-size: 13px; }
+  :root:root body.liwika-auth-page .auth-consent { border-radius: 14px; padding: 13px 14px; }
+  :root:root body.liwika-auth-page .auth-consent-label { font-size: 11.5px; }
+  :root:root body.liwika-auth-page .auth-consent-box { flex-basis: 20px; width: 20px; height: 20px; border-radius: 6px; }
+  :root:root body.liwika-auth-page .auth-consent-label input:checked + .auth-consent-box::after { left: 6px; top: 2px; width: 5px; height: 9px; }
+  :root:root body.liwika-auth-page .switch-auth { margin-top: 16px; padding-top: 14px; }
+  :root:root body.liwika-auth-page .switch-auth p { font-size: 12.5px; }
+  :root:root body.liwika-auth-page .auth-security-note { margin-top: 12px; font-size: 10px; }
+  :root:root body.liwika-auth-page .auth-footer { order: 2; margin: 0; padding: 4px 14px calc(14px + env(safe-area-inset-bottom)); background: #0b0806; }
+  :root:root body.liwika-auth-page .otp-actions button { font-size: 12px; padding: 10px 8px; }
+  :root:root body.liwika-auth-page .lk-otp { gap: 6px; }
+  :root:root body.liwika-auth-page .lk-otp-box { width: 0; flex: 1 1 0; min-width: 0; max-width: 52px; height: 56px; font-size: 22px; }
+  .lk-aurora i { animation-duration: 40s; }
+  .auth-card .auth-button:not(:disabled) { animation: none; }
+}
+@keyframes lkSheet { from { opacity: 0; transform: translate3d(0,46px,0); } to { opacity: 1; transform: none; } }
+@media (max-width: 820px) and (max-height: 700px) {
+  :root:root body.liwika-auth-page .auth-showcase { height: 120px; padding-bottom: 16px; }
+  :root:root body.liwika-auth-page .auth-logo span { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lk-aurora i, .lk-dust span, .auth-card.auth-card-modern::after, .auth-card *, .auth-showcase .showcase-copy h2 { animation: none !important; }
+  .lk-dust { display: none; }
+}
+
+/* legal links in the footer use the gold palette, not browser blue */
+.auth-footer a, .liwika-legal-links a { color: rgba(231,210,173,.62) !important; text-decoration: underline; text-underline-offset: 3px; transition: color .2s; }
+.auth-footer a:hover, .liwika-legal-links a:hover { color: #f3d99a !important; }
+#identSymbol { transition: transform .14s ease, color .25s; font-size: 16px; }

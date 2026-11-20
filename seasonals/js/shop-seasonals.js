@@ -1,0 +1,159 @@
+/* =========================================================
+   LIWI-KA — SHOP + SEASONALS INTERACTIONS
+   ========================================================= */
+
+(() => {
+    "use strict";
+
+    /* ---------------------------------------------------------
+       3D MOUSE TILT
+       Same style as the Home product-card hover.
+       The festival card is dynamic, so it is handled by delegation.
+       --------------------------------------------------------- */
+    const finePointer = !!window.matchMedia?.("(hover: hover) and (pointer: fine)").matches;
+    const addTilt = (card) => {
+        if (!finePointer || !card || card.dataset.tiltReady === "true") return;
+        card.dataset.tiltReady = "true";
+
+        /* CSS entrance animation can otherwise keep control of transform. */
+        setTimeout(() => {
+            card.style.animation = "none";
+        }, 1100);
+
+        let tiltFrame = 0, lastEvent = null;
+        card.addEventListener("mousemove", (e) => {
+            lastEvent = e;
+            if (tiltFrame) return;
+            tiltFrame = requestAnimationFrame(() => { tiltFrame = 0; applyTilt(lastEvent); });
+        });
+        const applyTilt = (e) => {
+            if (!e) return;
+            const rect = card.getBoundingClientRect();
+            if (!rect.width || !rect.height) return;
+
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            const rotateX = ((y - centerY) / centerY) * -6;
+            const rotateY = ((x - centerX) / centerX) * 6;
+
+            card.style.transform =
+                `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px) scale(1.02)`;
+        };
+
+        card.addEventListener("mouseleave", () => {
+            card.style.transform =
+                "perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0) scale(1)";
+        });
+    };
+
+    document
+        .querySelectorAll(".shop-product, .occasion-card, .gift-box")
+        .forEach(addTilt);
+
+    /* Dynamic festival cards are inserted after page load. */
+    const observeDynamicCards = () => {
+        // Firebase injects Shop products after this script has executed.
+        document
+            .querySelectorAll(".shop-product, .occasion-card, .gift-box, .dynamic-festival-card")
+            .forEach(addTilt);
+    };
+
+    let observeQueued = false;
+    const observer = new MutationObserver(() => {
+        if (observeQueued) return;
+        observeQueued = true;
+        requestAnimationFrame(() => { observeQueued = false; observeDynamicCards(); });
+    });
+    document.querySelectorAll(".shop-products, .occasion-grid, .festival-grid, .dynamic-festival-grid, main")
+        .forEach((node) => observer.observe(node, { childList: true }));
+    observeDynamicCards();
+
+    /* ---------------------------------------------------------
+       STAGGERED ENTRANCE
+       --------------------------------------------------------- */
+    document
+        .querySelectorAll(".shop-product, .occasion-card, .flow-step")
+        .forEach((card, index) => {
+            card.style.animationDelay = `${Math.min(index, 9) * 0.06}s`;
+        });
+
+    /* Category filters are owned by shop.js. It queries the live Firebase-rendered
+       cards at click time, avoiding duplicate/conflicting listeners here. */
+    const getShopProducts = () => Array.from(document.querySelectorAll(".shop-product"));
+
+    /* ---------------------------------------------------------
+       SHOP SORT
+       --------------------------------------------------------- */
+    const sortSelect = document.querySelector(".shop-sort select");
+    const grid = document.querySelector(".shop-products");
+
+    if (sortSelect && grid) {
+        sortSelect.addEventListener("change", () => {
+            const items = [...grid.querySelectorAll(".shop-product")];
+            const value = sortSelect.value;
+
+            if (value === "Price: Low to High" || value === "Price: High to Low") {
+                items.sort((a, b) => {
+                    const priceA = parseInt(
+                        a.querySelector(".shop-price")?.textContent.replace(/[^\d]/g, "") || "0",
+                        10
+                    );
+                    const priceB = parseInt(
+                        b.querySelector(".shop-price")?.textContent.replace(/[^\d]/g, "") || "0",
+                        10
+                    );
+                    return value === "Price: Low to High"
+                        ? priceA - priceB
+                        : priceB - priceA;
+                });
+            } else if (value === "Best Sellers" || value === "Weekly Selling") {
+                const metricKey = value === "Best Sellers" ? "sales" : "weeklySales";
+                const ledger = window.LiwikaSales && window.LiwikaSales.getMetrics
+                    ? window.LiwikaSales.getMetrics()
+                    : {};
+                items.sort((a, b) => {
+                    const idA = a.dataset.product || "";
+                    const idB = b.dataset.product || "";
+                    const fallbackA = Number(a.dataset[metricKey === "weeklySales" ? "weeklySales" : "sales"] || 0);
+                    const fallbackB = Number(b.dataset[metricKey === "weeklySales" ? "weeklySales" : "sales"] || 0);
+                    const metricA = Number(ledger[idA]?.[metricKey] ?? fallbackA);
+                    const metricB = Number(ledger[idB]?.[metricKey] ?? fallbackB);
+                    return metricB - metricA;
+                });
+            }
+
+            items.forEach((item) => grid.appendChild(item));
+        });
+    }
+
+    /* ---------------------------------------------------------
+       CURSOR LIGHT
+       --------------------------------------------------------- */
+    let lightFrame = 0, lightEvent = null;
+    if (finePointer) document.addEventListener("mousemove", (e) => {
+        lightEvent = e;
+        if (lightFrame) return;
+        lightFrame = requestAnimationFrame(() => {
+            lightFrame = 0;
+            const card = lightEvent.target.closest && lightEvent.target.closest(".shop-product, .occasion-card");
+            if (!card) return;
+            const rect = card.getBoundingClientRect();
+            card.style.setProperty("--mouse-x", `${lightEvent.clientX - rect.left}px`);
+            card.style.setProperty("--mouse-y", `${lightEvent.clientY - rect.top}px`);
+        });
+    }, { passive: true });
+
+    /* ---------------------------------------------------------
+       PAGE SHOW RESET
+       --------------------------------------------------------- */
+    window.addEventListener("pageshow", () => {
+        getShopProducts().forEach((product) => {
+            product.style.opacity = "";
+            product.style.transform = "";
+            product.style.display = "";
+        });
+    });
+})();

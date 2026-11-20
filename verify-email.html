@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="css/liwika-loader.css">
+    <script src="js/liwika-loader.js"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Liwi-Ka | Verify Email</title>
+
+    <link rel="stylesheet" href="css/auth.css">
+
+    <style>
+        /* Liwi-Ka verification-page additions.
+           The existing auth.css supplies the same fonts, background,
+           card, logo, gold details and responsive behavior as signup/login. */
+
+        .verification-card {
+            text-align: center;
+            padding-top: 48px;
+            padding-bottom: 35px;
+        }
+
+        .verification-icon {
+            width: 66px;
+            height: 66px;
+            margin: 0 auto 25px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 1px solid rgba(218, 174, 78, 0.45);
+            border-radius: 50%;
+
+            color: #e4c16c;
+            font-size: 25px;
+            font-family: "Font1", sans-serif;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(190, 143, 47, 0.14),
+                    rgba(255, 255, 255, 0.015) 68%
+                );
+
+            box-shadow:
+                0 0 28px rgba(190, 140, 43, 0.10),
+                inset 0 0 20px rgba(210, 166, 70, 0.035);
+
+            transition:
+                transform 0.4s ease,
+                box-shadow 0.4s ease;
+        }
+
+        .verification-card.verified .verification-icon {
+            transform: scale(1.05);
+            box-shadow:
+                0 0 35px rgba(210, 166, 70, 0.20),
+                inset 0 0 20px rgba(210, 166, 70, 0.05);
+        }
+
+        .verification-card.error .verification-icon {
+            color: #c8a65a;
+        }
+
+        .verification-copy {
+            max-width: 340px;
+            margin: 0 auto;
+        }
+
+        .verification-copy p {
+            color: rgba(255, 255, 255, 0.48);
+            font-size: 12px;
+            line-height: 1.75;
+            letter-spacing: 0.25px;
+        }
+
+        .verification-email {
+            display: none;
+            margin: 16px auto 0;
+            max-width: 100%;
+            overflow-wrap: anywhere;
+
+            color: #d7b765;
+            font-size: 11px;
+            letter-spacing: 0.4px;
+        }
+
+        .verification-actions {
+            margin-top: 30px;
+        }
+
+        .verification-actions .auth-button {
+            width: 100%;
+        }
+
+        .verification-secondary {
+            display: inline-block;
+            margin-top: 19px;
+
+            color: rgba(255, 255, 255, 0.36);
+            font-family: "Font1", sans-serif;
+            font-size: 10px;
+            letter-spacing: 0.3px;
+            text-decoration: none;
+
+            transition:
+                color 0.25s ease,
+                text-shadow 0.25s ease;
+        }
+
+        .verification-secondary:hover {
+            color: #e0bf69;
+            text-shadow: 0 0 9px rgba(218, 174, 71, 0.4);
+        }
+
+        .verification-status {
+            display: none;
+        }
+
+        .verification-card.is-ready .verification-status.ready,
+        .verification-card.is-success .verification-status.success,
+        .verification-card.is-error .verification-status.error {
+            display: block;
+        }
+
+        .verification-card.is-ready .verification-icon::before {
+            content: "✉";
+        }
+
+        .verification-card.is-success .verification-icon::before {
+            content: "✓";
+        }
+
+        .verification-card.is-error .verification-icon::before {
+            content: "!";
+        }
+
+        .verification-card.is-ready .verification-actions,
+        .verification-card.is-error .verification-actions {
+            display: none;
+        }
+
+        .verification-card.is-success .verification-actions {
+            display: block;
+        }
+
+        .verification-card.is-loading .verification-icon::before {
+            content: "…";
+        }
+
+        .verification-card.is-loading .verification-copy .verification-status {
+            display: block;
+        }
+
+        .verification-card.is-loading .verification-copy .verification-status:not(.ready) {
+            display: none;
+        }
+
+        @media (max-width: 550px) {
+            .verification-card {
+                padding-top: 39px;
+                padding-bottom: 30px;
+            }
+
+            .verification-icon {
+                width: 58px;
+                height: 58px;
+                margin-bottom: 21px;
+                font-size: 22px;
+            }
+
+            .verification-copy p {
+                font-size: 11px;
+            }
+
+            .verification-actions {
+                margin-top: 26px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="auth-page">
+
+        <!-- Same Liwi-Ka logo treatment used on signup/login -->
+        <a href="index.html" class="auth-logo" aria-label="Back to Liwi-Ka home">
+            <img src="images/liwi.png" alt="Liwi-Ka Finest Chocolate">
+        </a>
+
+        <section class="auth-card verification-card is-loading" id="verificationCard">
+
+            <div class="gold-line"></div>
+
+            <div class="verification-icon" aria-hidden="true"></div>
+
+            <div class="auth-heading">
+                <p class="auth-eyebrow">LIWI-KA EMAIL VERIFICATION</p>
+
+                <h1 id="verificationTitle">Verifying Email</h1>
+
+                <div class="verification-copy">
+
+                    <div class="verification-status ready">
+                        <p>
+                            We're verifying your email address.<br>
+                            Please wait a moment.
+                        </p>
+                    </div>
+
+                    <div class="verification-status success">
+                        <p>
+                            Your email has been successfully verified.
+                            Your Liwi-Ka account is ready to use.
+                        </p>
+
+                        <p class="verification-email" id="verifiedEmail"></p>
+                    </div>
+
+                    <div class="verification-status error">
+                        <p id="verificationError">
+                            This verification link is invalid or has expired.
+                            Please request a new verification email and try again.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="verification-actions">
+
+                <a href="login.html" class="auth-button" style="text-decoration:none;">
+                    <span>CONTINUE TO SIGN IN</span>
+                    <span class="button-arrow">→</span>
+                </a>
+
+            </div>
+
+            <a href="index.html" class="verification-secondary">
+                Return to Liwi-Ka
+            </a>
+
+            <div class="auth-note">
+                Crafted for your sweetest moments.
+            </div>
+
+        </section>
+
+        <footer class="auth-footer">
+            LIWI-KA &nbsp; • &nbsp; FINEST CHOCOLATE
+        
+        <nav class="liwika-legal-links" aria-label="Legal policies" style="display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin:12px auto 0;font-size:10px;letter-spacing:.7px;line-height:1.5"><a href="privacy-policy.html" style="text-decoration:underline;text-underline-offset:3px;opacity:.8">Privacy Policy</a><a href="terms-conditions.html" style="text-decoration:underline;text-underline-offset:3px;opacity:.8">Terms &amp; Conditions</a><a href="shipping-refund-policy.html">Shipping &amp; Refunds</a></nav>
+</footer>
+
+    </main>
+
+    <script type="module" src="js/verify-email.js"></script>
+
+</body>
+</html>

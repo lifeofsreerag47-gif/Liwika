@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="css/liwika-loader.css">
+    <script src="js/liwika-loader.js"></script>
+
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Liwi-Ka | New Arrivals</title>
+
+    <!-- New Arrivals CSS -->
+    <link rel="stylesheet" href="css/new-arrivals.css">
+
+    <link rel="stylesheet" href="css/responsive-mobile.css">
+<link rel="stylesheet" href="css/shared-navbar.css">
+    <link rel="stylesheet" href="css/free-delivery.css">
+    <link rel="stylesheet" href="css/product-system.css">
+    <link rel="stylesheet" href="css/product-window.css">
+    <link rel="stylesheet" href="css/catalog.css">
+    <link rel="stylesheet" href="seasonals/css/shop-seasonals.css">
+    <link rel="stylesheet" href="css/product-window-mobile.css">
+</head>
+
+
+<body class="new-arrivals-page">
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <header class="navbar">
+
+    <a href="index.html" class="logo" aria-label="Liwi-Ka Home">
+        <img src="images/liwi.png" alt="Liwi-Ka Finest Chocolate">
+    </a>
+
+    <nav class="nav-links" aria-label="Primary navigation">
+        <a href="index.html" class="">Home</a>
+        <a href="seasonals/shop.html" class="">Shop</a>
+        <a href="new-arrivals.html" class="active">New Arrivals</a>
+        <a href="seasonals/seasonals.html" class="">Seasonals</a>
+        <a href="about-us.html">About Us</a>
+        <a href="seasonals/customer-care.html" class="">Customer Care</a>
+    </nav>
+
+    <div class="nav-icons">
+        <button type="button" class="profile-icon-button" aria-label="My Account"><svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"></circle><path d="M4.5 20c.8-4 3.4-6 7.5-6s6.7 2 7.5 6"></path></svg></button>
+        <a href="seasonals/cart.html" class="cart-nav-link" aria-label="Shopping Cart">
+            <button type="button" class="cart-icon-button" aria-label="Shopping Cart"><svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h2l1.7 10.2a2 2 0 0 0 2 1.7h7.8a2 2 0 0 0 1.9-1.4L21 9H7"></path><circle cx="10" cy="20" r="1.2"></circle><circle cx="18" cy="20" r="1.2"></circle></svg></button>
+        </a>
+    </div>
+
+</header>
+
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main>
+
+
+        <!-- =================================================
+             HERO / INTRO SECTION
+        ================================================== -->
+
+        <section class="new-arrivals-hero">
+
+
+            <!-- Background overlay -->
+            <div class="hero-overlay"></div>
+
+
+            <!-- Decorative light -->
+            <div class="hero-glow"></div>
+
+
+            <div class="hero-content">
+
+
+                <!-- Small gold heading -->
+                <div class="section-label">
+
+                    <span class="label-line"></span>
+
+                    <span>NEW ARRIVALS</span>
+
+                    <span class="label-line"></span>
+
+                </div>
+
+
+                <!--
+                    IMPORTANT:
+
+                    JavaScript will change this heading
+                    when products are available.
+                -->
+
+                <h1 id="newArrivalsTitle">
+
+                    <span id="titleLineOne">
+                        Something new is
+                    </span>
+
+                    <span
+                        id="titleLineTwo"
+                        class="gold-italic"
+                    >
+                        coming soon.
+                    </span>
+
+                </h1>
+
+
+                <!-- Description -->
+
+                <p
+                    id="newArrivalsDescription"
+                    class="hero-description"
+                >
+                    Our chocolatiers are crafting something special.
+                    <br>
+                    Stay tuned for the next Liwi-Ka creation.
+                </p>
+
+
+                <!-- Decorative heart -->
+
+                <div class="hero-decoration">
+
+                    <span></span>
+
+                    <div class="heart">
+                        ♡
+                    </div>
+
+                    <span></span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             EMPTY STATE
+             
+             THIS IS SHOWN WHEN THERE ARE NO NEW ARRIVALS.
+             
+             JavaScript will hide this when products exist.
+        ================================================== -->
+
+        <section
+            id="emptyState"
+            class="empty-state"
+        >
+
+            <div class="empty-state-inner">
+
+                <p class="small-gold-text">
+                    THE LIWI-KA COLLECTION
+                </p>
+
+                <h2>
+                    A little more
+                    <span>magic</span>
+                    is on its way.
+                </h2>
+
+                <p>
+                    We're carefully creating our next collection.
+                    <br>
+                    Check back soon for something extraordinary.
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             PRODUCTS SECTION
+             
+             HIDDEN INITIALLY.
+             
+             JavaScript will display this section when
+             New Arrival products are available.
+        ================================================== -->
+
+        <section
+            id="newArrivalsSection"
+            class="products-section is-hidden"
+        >
+
+
+            <!-- Section heading -->
+
+            <div class="products-heading">
+
+                <p class="small-gold-text">
+                    FRESH FROM LIWI-KA
+                </p>
+
+                <h2>
+                    Latest
+                    <span>Creations</span>
+                </h2>
+
+                <p>
+                    Discover the newest additions to our
+                    chocolate collection.
+                </p>
+
+            </div>
+
+
+
+            <!--
+                PRODUCT GRID
+
+                JavaScript will insert products inside this.
+            -->
+
+            <div
+                id="newArrivalsProducts"
+                class="products-grid shop-products"
+            >
+
+                <!-- Products will appear here using JavaScript -->
+
+            </div>
+
+
+
+            <!--
+                PRODUCT CARD TEMPLATE
+
+                JavaScript will clone this template
+                for every New Arrival product.
+            -->
+
+            <template id="productCardTemplate">
+
+                <article class="product-card">
+
+
+                    <!-- Product Image -->
+
+                    <div class="product-image-wrapper">
+
+                        <img
+                            class="product-image"
+                            src=""
+                            alt=""
+                        >
+
+                        <div class="product-image-overlay">
+
+                            <button
+                                type="button"
+                                class="view-product-btn"
+                            >
+                                View
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Product Information -->
+
+                    <div class="product-info">
+
+                        <h3 class="product-name">
+                            Product Name
+                        </h3>
+
+                        <p class="product-category">
+                            Chocolate Collection
+                        </p>
+
+                        <p class="product-price">
+                            ₹49
+                        </p>
+
+                    </div>
+
+                </article>
+
+            </template>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             BACK TO HOME
+        ================================================== -->
+
+        <section class="back-home">
+
+            <p>
+                EXPLORE MORE FROM LIWI-KA
+            </p>
+
+            <a href="index.html">
+
+                <span>←</span>
+
+                Back to Home
+
+            </a>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer class="footer">
+
+        <div class="footer-content">
+
+            <img
+                src="images/liwi.png"
+                alt="Liwi-Ka"
+                class="footer-logo"
+            >
+
+            <p>
+                Finest chocolate, crafted with intention.
+            </p>
+
+            <p class="copyright">
+                © 2026 Liwi-Ka. All rights reserved.
+            </p>
+
+        </div>
+
+    
+        <nav class="liwika-legal-links" aria-label="Legal policies" style="display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin:12px auto 0;font-size:10px;letter-spacing:.7px;line-height:1.5"><a href="privacy-policy.html" style="text-decoration:underline;text-underline-offset:3px;opacity:.8">Privacy Policy</a><a href="terms-conditions.html" style="text-decoration:underline;text-underline-offset:3px;opacity:.8">Terms &amp; Conditions</a><a href="shipping-refund-policy.html">Shipping &amp; Refunds</a></nav>
+</footer>
+
+
+
+    <!--
+        JAVASCRIPT WILL BE CONNECTED LATER.
+
+        DO NOT CREATE IT YET IF WE ARE STILL
+        FINISHING HTML + CSS.
+    -->
+
+    <!--
+    
+    -->
+
+    <script src="js/free-delivery.js"></script>
+    <script src="js/responsive-mobile.js"></script>
+    <script type="module" src="js/profile-menu.js"></script>
+    <script type="module" src="js/catalog.js"></script>
+
+<div id="productModal" class="product-modal" aria-hidden="true" role="dialog">
+
+        <div class="modal-content">
+
+            <button id="closeModal" class="close-modal" aria-label="Close modal">&times;</button>
+
+            <div class="modal-body">
+
+                <div class="modal-image-container">
+
+                    <img id="modalProductImage" src="images/choco1.jpg" alt="Selected Product">
+
+                </div>
+
+                <div class="modal-details">
+
+                    <p id="modalProductBadge" class="modal-badge">BESTSELLER</p>
+
+                    <h2 id="modalProductName">Dark Indulgence</h2>
+
+                    <p id="modalProductDescription" class="modal-description">
+                        Rich dark chocolate with deep, sophisticated cocoa notes.
+                    </p>
+
+                    <!-- Flavour Selection -->
+                    <div class="modal-option-group">
+
+                        <label class="modal-option-label">CHOOSE FLAVOUR</label>
+
+                        <div id="flavourOptions" class="flavour-options">
+                            <!-- Injected by shop.js -->
+                        </div>
+
+                    </div>
+
+                    <!-- Quantity Selection -->
+                    <div class="modal-option-group">
+
+                        <label class="modal-option-label">QUANTITY</label>
+
+                        <div class="quantity-control">
+
+                            <button id="decreaseQuantity" type="button" class="qty-btn" aria-label="Decrease quantity">-</button>
+
+                            <span id="quantity" class="qty-display">1</span>
+
+                            <button id="increaseQuantity" type="button" class="qty-btn" aria-label="Increase quantity">+</button>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Price & Add Button -->
+                    <div class="modal-footer-action">
+
+                        <div class="modal-price-container">
+
+                            <span class="modal-price-label">PRICE</span>
+
+                            <span id="modalProductPrice" class="modal-price">₹49</span>
+
+                        </div>
+
+                        <button id="modalAddToCart" type="button" class="modal-add-btn">
+                            ADD TO CART
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+<script src="js/cart.js"></script>
+<script src="seasonals/js/shop.js"></script>
+<script src="seasonals/js/shop-seasonals.js"></script>
+<script src="js/product-ui.js"></script>
+    <script src="js/product-gallery.js"></script>
+    <script src="js/product-window-mobile.js"></script>
+</body>
+
+</html>

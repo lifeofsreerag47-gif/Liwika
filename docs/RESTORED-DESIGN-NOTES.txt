@@ -1,0 +1,4 @@
+Liwi-Ka Firebase customer package rebuilt from the supplied Liwika-updated.zip design baseline.
+Preserved original product card classes/markup, homepage product modal, product-window.css, product-system.css, and core visual CSS.
+Firebase catalogue data populates the original product card presentation. No customer-side rating/review widget is included.
+Admin product editor stores nutrition under nutrition.* and ingredients as a product field.
