@@ -1,9 +1,0 @@
-/* Privacy Policy shares the Liwi-Ka legal editorial design. */
-@import url("terms-conditions.css");
-
-.policy-hero { padding-bottom: 72px; }
-.policy-container { padding-top: 10px; }
-.policy-section .section-content h2 { max-width: 760px; }
-@media (max-width: 560px) {
-    .policy-hero { padding-bottom: 46px; }
-}
